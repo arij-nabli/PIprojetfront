@@ -2,16 +2,72 @@ import{ React,useState} from "react";
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
 
 export default function Register() {
+  const [firstName, setFirstName] = useState('');
+  const [role, setRole] = useState('');
   const [country, setCountry] = useState('');
   const [region, setRegion] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordError, setPasswordError] = useState([]);
+  const [passwordMatchError, setPasswordMatchError] = useState(''); // Add this line
 
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+
+    // Simple validation for email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(event.target.value)) {
+      setEmailError('Invalid email format');
+    } else {
+      setEmailError('');
+    }
+  };
   const selectCountry = (value) => {
     setCountry(value);
   };
 
   const selectRegion = (value) => {
     setRegion(value);
+  };
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  
+    const errors = [];
+    if (event.target.value.length < 6) {
+      errors.push('Password must contain at least 6 characters');
+    }
+    if (!/[A-Z]/.test(event.target.value)) {
+      errors.push('Password must contain an uppercase letter');
+    }
+    if (!/\d/.test(event.target.value)) {
+      errors.push('Password must contain a number');
+    }
+  
+    setPasswordError(errors);
+  };
+
+  const handleConfirmPasswordChange = (event) => {
+    setConfirmPassword(event.target.value);
+
+    if (event.target.value !== password) {
+      setPasswordMatchError('Passwords do not match');
+    } else {
+      setPasswordMatchError(''); 
+    }
+  };
+  const handleFirstNameChange = (event) => {
+    setFirstName(event.target.value);
+  };
+  
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
+  };
+  
+  const isFormValid = () => {
+    return email && !emailError && password && passwordError.length === 0 && confirmPassword && !passwordMatchError&&  firstName && role && country && region ;
   };
   return (
     <>
@@ -65,66 +121,78 @@ export default function Register() {
                         {'  '} Full name
                     </label>
                     <input
-                      
+                        onChange={handleFirstNameChange} // Add this line
+
                       className="border-0 px-3 py-3   rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150 "
                     
                     />
                   </div>
 
                   <div className="relative w-full mb-3">
-                  <label
-                      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                      htmlFor="grid-password"
-                    >
-                      <i class="fa-solid fa-envelope"></i>
-                        {'  '} Email
-                    </label>
-                    <input
-                      type="email"
-                      className="border-0 px-3 py-3   rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150 "
-                    
-                    />
-                  </div>
-
-                  <div className="relative w-full mb-3">
-                    <div className="flex justify-between w-[80%]">
-                  <div className="flex flex-col">
-                  <div className="relative">
-                        <label
-                          className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                          htmlFor="grid-password"
-                        >
-                          <i className="fa-solid fa-key"></i>
-                          {'  '} Password
-                        </label>
-                        <div className="relative flex items-center">
-                        <input
-                          type={passwordVisible ? "text" : "password"}
-                          className="border-0 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
-                        />
-                        <i 
+      <label
+        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+        htmlFor="grid-password"
+      >
+        <i className="fa-solid fa-envelope"></i>
+        {'  '} Email
+      </label>
+      <input
+        type="email"
+        value={email}
+        onChange={handleEmailChange}
+        className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+      />
+      {emailError && <p className="text-red-500 text-xs mt-2">{emailError}</p>}
+    </div>
+    
+    <div className="relative w-full mb-2">
+      <label
+        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+        htmlFor="grid-password"
+      >
+        <i className="fa-solid fa-key"></i>
+        {'  '} Password
+      </label>
+      <div className="relative">
+      <input
+        type={passwordVisible ? "text" : "password"}
+        value={password}
+        onChange={handlePasswordChange}
+        className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+      />
+   
+   
+    <i 
                           onClick={() => setPasswordVisible(!passwordVisible)}
                           className={`fa-solid ${passwordVisible ? 'fa-eye-slash' : 'fa-eye'} absolute mr-3 right-3 top-1/2 transform -translate-y-1/2 cursor-pointer `}
                         />
                         </div>
-                      </div>
-                                          </div>
-                    <div className="flex flex-col">
-                     <label
-                      className=" uppercase text-blueGray-600 text-xs font-bold mb-2"
-                      htmlFor="grid-password"
-                    >
-                      <i class="fa-solid fa-lock"></i>
-                        {'  '}Confirm Password
-                    </label>
-                      <input
-                      type="password"
-                      className="border-0 px-3 py-3  rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red  focus:ring w-full ease-linear transition-all duration-150 "
-                    
-                    />
-                    </div>
-                    </div>
-                  </div>
+                        {passwordError.length > 0 && (
+  <div className="text-red-500 text-xs mt-2">
+    {passwordError.map((error, index) => (
+      <p key={index}>{error}</p>
+    ))}
+  </div>
+)}
+                        </div>
+
+    <div className="relative  w-full mb-2">
+      <label
+        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+        htmlFor="grid-password"
+      >
+        <i className="fa-solid fa-lock"></i>
+        {'  '} Confirm Password
+      </label>
+      <input
+        type="password"
+        value={confirmPassword}
+        onChange={handleConfirmPasswordChange}
+        className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+      />
+      {passwordMatchError && <p className="text-red-500 text-xs mt-2">{passwordMatchError}</p>} 
+    </div>
+    
                     <div className="relative  mt-4 mb-3">
 
                       <label
@@ -138,8 +206,12 @@ export default function Register() {
                       </label>
                       <select
                         id="grid-role"
+                        onChange={handleRoleChange} // Add this line
+                        defaultValue=""
                         className="border-0 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
                       >
+                          <option value="">Select role</option> 
+
                         <option value="student">Student</option>
                         <option value="alumni">Alumni</option>
                         <option value="staff">Staff</option>
@@ -196,6 +268,8 @@ export default function Register() {
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
+                      disabled={!isFormValid()}
+                      onClick={() => alert('Form submitted')}
                     >
                       Create Account
                     </button>
