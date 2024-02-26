@@ -17,7 +17,6 @@ export default function Register() {
   const [showModal, setShowModal] = useState(false);
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
-
     // Simple validation for email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(event.target.value)) {
