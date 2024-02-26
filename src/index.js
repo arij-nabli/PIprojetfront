@@ -12,8 +12,11 @@ import Auth from "layouts/Auth.js";
 import Landing from "views/Landing.js";
 import Profile from "views/Profile.js";
 import Index from "views/Index.js";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
+  <GoogleOAuthProvider clientId="305919606485-hj7u2mmjvcoaa7blqet64uglmpu3e6aa.apps.googleusercontent.com">
+
   <BrowserRouter>
     <Routes>
       {/* add routes with layouts */}
@@ -27,6 +30,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route path="*" element={<Navigate to="/" />} />
 
     </Routes>
-  </BrowserRouter>,
+  </BrowserRouter>
+      </GoogleOAuthProvider>,
+
  
 );
