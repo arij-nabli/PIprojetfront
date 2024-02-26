@@ -14,7 +14,7 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordError, setPasswordError] = useState([]);
   const [passwordMatchError, setPasswordMatchError] = useState(''); // Add this line
-
+  const [showModal, setShowModal] = useState(false);
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
 
@@ -76,6 +76,8 @@ export default function Register() {
 const errorMessage = (error) => {
     console.log("error",error);
 };
+const handleClose = () => setShowModal(false);
+const handleShow = () => setShowModal(true);
   return (
     <>
       <div className="container mx-auto px-4 h-full">
@@ -245,7 +247,7 @@ const errorMessage = (error) => {
                         <a
                           href="#pablo"
                           className="text-lightBlue-500"
-                          onClick={(e) => e.preventDefault()}
+                          onClick={handleShow}
                         >
                           Privacy Policy
                         </a>
@@ -269,6 +271,47 @@ const errorMessage = (error) => {
           </div>
         </div>
       </div>
+      {showModal ? (
+  <div className="fixed z-10 inset-0 overflow-y-auto">
+    <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+        <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+      </div>
+      <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+      <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div className="sm:flex sm:items-start">
+            <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+              <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                Privacy Policy for Our Website
+              </h3>
+              <div className="mt-2 text-left text-sm text-gray-500">
+                <h4 className="font-bold">1. Introduction</h4>
+                <p>Welcome to our website. If you continue to browse and use this website, you are agreeing to comply with our privacy policy, which together with our terms of service govern [Your Name]'s relationship with you in relation to this website.</p>
+
+                <h4 className="font-bold mt-4">2. Information We Collect</h4>
+                <p>We may collect the following information:</p>
+                <ul className="list-disc list-inside">
+                  <li>Name and job title</li>
+                  <li>Contact information including email address</li>
+                  <li>Demographic information such as postcode, preferences and interests</li>
+                  <li>Other information relevant to customer surveys and/or offers</li>
+                </ul>
+
+                {/* Add the rest of your privacy policy sections here */}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          <button onClick={handleClose} type="button" className="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+) : null}
     </>
   );
 }
