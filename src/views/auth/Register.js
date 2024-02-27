@@ -2,7 +2,7 @@ import{ React,useState} from "react";
 import { CountryDropdown, RegionDropdown,  } from 'react-country-region-selector';
 import parsePhoneNumber from 'libphonenumber-js';
 export default function Register() {
-  const [country, setCountry] = useState('');
+  const [ descreption, setdescreption] = useState('');
  
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [logo, setLogo] = useState(null);
@@ -18,8 +18,8 @@ export default function Register() {
   const [telephone, setTelephone] = useState('');
 const [telephoneError, setTelephoneError] = useState('');
 
-  const selectCountry = (value) => {
-    setCountry(value);
+  const  handlesetdescreption= (value) => {
+    setdescreption(value);
   };
 
   const handleAdresseChange = (event) => {
@@ -107,7 +107,7 @@ const [telephoneError, setTelephoneError] = useState('');
       !passwordMatchError &&
       nomEntreprise &&
       secteurActivite &&
-      country &&
+      descreption &&
       adresse &&
       telephone
     );
@@ -254,11 +254,12 @@ IT / Telecoms</option>
                     >
                       <i class="fa-solid fa-earth-africa"></i>
                         {'  '} 
-Country
+                        Descreption
                     </label>
-                    <CountryDropdown
-                      value={country}
-                      onChange={(val) => selectCountry(val)} 
+                    <input
+                    
+                      type="descreption"
+                      onChange={handlesetdescreption} 
                       className="border-0 mb-3 mt-2 px-3 py-3 mr-3  rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red  focus:ring w-full ease-linear transition-all duration-150 "
                       />
                         
