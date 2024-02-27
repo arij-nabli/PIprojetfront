@@ -30,6 +30,10 @@ export default function Register() {
     setCountry(value);
   };
   const signUp = () => {
+    if(!isFormValid()){
+      setErrorMessage('Please fill in all fields');
+      return;
+    }
     const userData = {
       username:userName,
       role,
@@ -41,6 +45,7 @@ export default function Register() {
     axios.post('http://localhost:5000/auth/register', userData)
       .then(response => {
         console.log(response.data);
+        setErrorMessage("User registered successfully! Please check your email to verify your account.")
       })
       .catch(error => {
         if (error.response && error.response.data && error.response.data.message) {
@@ -270,7 +275,8 @@ const handleShow = () => setShowModal(true);
                         <option value="staff">Staff</option>
                       </select>
                     </div>
-                  <div>
+                  <div className="flex justify-between">
+                    <div className="w-1/3">
                   <label
                       className=" uppercase text-blueGray-600 text-xs font-bold mb-2"
                       htmlFor="grid-password"
@@ -283,6 +289,8 @@ const handleShow = () => setShowModal(true);
                       onChange={(val) => selectCountry(val)} 
                       className="border-0 mb-3 mt-2 px-3 py-3 mr-3  rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red  focus:ring w-full ease-linear transition-all duration-150 "
                       />
+                      </div>
+                      <div className="w-1/2 ">
                          <label
                       className=" uppercase text-blueGray-600 text-xs font-bold mb-4"
                       htmlFor="grid-password"
@@ -296,6 +304,7 @@ const handleShow = () => setShowModal(true);
                       onChange={(val) => selectRegion(val)}
                       className="border-0 mb-3 mt-2 px-3 py-3 mr-3  rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red  focus:ring w-full ease-linear transition-all duration-150 "
                       />
+                      </div>
                   </div>
                   <div>
                     <label className="inline-flex items-center cursor-pointer">
@@ -321,15 +330,20 @@ const handleShow = () => setShowModal(true);
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
-                      disabled={!isFormValid()}
+                      
                       onClick={() => signUp()}
                     >
                       Create Account
                     </button>
                   </div>
-                 {errorMessage?<div class="p-4 mb-4 flex justify-center relative text-sm text-red-800 rounded-lg bg-red-200 mt-5  dark:text-red-400" role="alert">
-  <span class="font-medium"> <p style={{ color: 'red' }}>{errorMessage}</p></span>
+                 {errorMessage && errorMessage != "User registered successfully! Please check your email to verify your account."?<div class="p-4 mb-4 flex justify-center relative text-sm text-red-800 rounded-lg bg-red-200 mt-5  dark:text-red-400" role="alert">
+  <span class="font-medium"> <p style={{  color: 'red' }}>{errorMessage}</p></span>
 </div>            : null   }
+                      {errorMessage == "User registered successfully! Please check your email to verify your account." ?
+                       <div class="p-4 mt-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 bg-green-200 dark:text-green-700" role="alert">
+                       <span class="font-medium">{errorMessage}</span> 
+                     </div> :
+                        null}
                 </form>
               </div>
             </div>
