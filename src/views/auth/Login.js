@@ -21,13 +21,12 @@ export default function Login() {
   };
 
   const validateEmail = (email) => {
-    return /\S+@\S+\.\S+/.test(email); // Basic email validation regex
+    return /\S+@\S+\.\S+/.test(email); 
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (isValidEmail && isValidPassword) {
-      // Perform login or further actions
       console.log("Form submitted with valid data");
     } else {
       console.log("Form submission failed. Please check your inputs.");
