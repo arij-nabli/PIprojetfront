@@ -1,7 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [isValidPassword, setIsValidPassword] = useState(true);
+
+  const handleEmailChange = (event) => {
+    const emailValue = event.target.value;
+    setEmail(emailValue);
+    setIsValidEmail(validateEmail(emailValue));
+  };
+
+  const handlePasswordChange = (event) => {
+    const passwordValue = event.target.value;
+    setPassword(passwordValue);
+    setIsValidPassword(passwordValue.length > 0);
+  };
+
+  const validateEmail = (email) => {
+    return /\S+@\S+\.\S+/.test(email); // Basic email validation regex
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (isValidEmail && isValidPassword) {
+      // Perform login or further actions
+      console.log("Form submitted with valid data");
+    } else {
+      console.log("Form submission failed. Please check your inputs.");
+    }
+  };
+
   return (
     <>
       <div className="container mx-auto px-4 h-full">
@@ -44,34 +76,65 @@ export default function Login() {
                 <div className="text-blueGray-400 text-center mb-3 font-bold">
                   <small>Or sign in with credentials</small>
                 </div>
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                      htmlFor="grid-password"
+                      htmlFor="email-input"
                     >
-                      Email
+                      <i className="fa-solid fa-envelope"></i>
+                      {"  "} Email
                     </label>
                     <input
                       type="email"
-                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Email"
+                      id="email-input"
+                      name="email"
+                      value={email}
+                      onChange={handleEmailChange}
+                      className={`border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150 ${
+                        isValidEmail ? "" : "border-red-500"
+                      }`}
                     />
+                    {!isValidEmail && (
+                      <div className="text-red-500 text-xs mt-1">
+                        Please enter a valid email address.
+                      </div>
+                    )}
                   </div>
 
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                      htmlFor="grid-password"
+                      htmlFor="password-input"
                     >
-                      Password
+                      <i className="fa-solid fa-key"></i>
+                      {"  "} Password
                     </label>
-                    <input
-                      type="password"
-                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Password"
-                    />
+                    <div className="relative flex items-center">
+                      <input
+                        type={passwordVisible ? "text" : "password"}
+                        id="password-input"
+                        name="password"
+                        value={password}
+                        onChange={handlePasswordChange}
+                        className={`border-0 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150 ${
+                          isValidPassword ? "" : "border-red-500"
+                        }`}
+                      />
+                      <i
+                        onClick={() => setPasswordVisible(!passwordVisible)}
+                        className={`fa-solid ${
+                          passwordVisible ? "fa-eye-slash" : "fa-eye"
+                        } absolute mr-3 right-3 top-1/2 transform -translate-y-1/2 cursor-pointer `}
+                      />
+                    </div>
+                    {!isValidPassword && (
+                      <div className="text-red-500 text-xs mt-1">
+                        Please enter a valid password.
+                      </div>
+                    )}
                   </div>
+
                   <div>
                     <label className="inline-flex items-center cursor-pointer">
                       <input
@@ -88,7 +151,7 @@ export default function Login() {
                   <div className="text-center mt-6">
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                      type="button"
+                      type="submit"
                     >
                       Sign In
                     </button>
