@@ -1,9 +1,8 @@
 import{ React,useState} from "react";
-import { CountryDropdown, RegionDropdown,  } from 'react-country-region-selector';
-import parsePhoneNumber from 'libphonenumber-js';
+import axios from "axios";
 export default function Register() {
   const [ descreption, setdescreption] = useState('');
- 
+  const [errorMessage, setErrorMessage] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [logo, setLogo] = useState(null);
   const [email, setEmail] = useState('');
@@ -18,8 +17,38 @@ export default function Register() {
   const [telephone, setTelephone] = useState('');
 const [telephoneError, setTelephoneError] = useState('');
 
-  const  handlesetdescreption= (value) => {
-    setdescreption(value);
+const signUp = () => {
+  const companyData = {
+    username:nomEntreprise,
+    email:email,
+   
+    password:password,
+    role:"company",
+    industry:secteurActivite,
+    description:descreption,
+     phone:telephone,
+     location:adresse
+  };
+  console.log("Company Data:", companyData);
+  axios.post('http://localhost:5000/auth/register', JSON.stringify(companyData), {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+    console.log(error)
+    });
+};
+
+
+
+
+
+  const  handlesetdescreption= (event) => {
+    setdescreption(event.target.value);
   };
 
   const handleAdresseChange = (event) => {
@@ -61,7 +90,7 @@ const [telephoneError, setTelephoneError] = useState('');
 
     setPasswordError(errors);
   };
-
+  
   const handleConfirmPasswordChange = (event) => {
     setConfirmPassword(event.target.value);
 
@@ -82,19 +111,7 @@ const [telephoneError, setTelephoneError] = useState('');
   
     // Update the state with the numeric value
     setTelephone(numericValue);
-  };
-  const getCountryCallingCode = () => {
-    // Check if both country and telephone are present
-    if (country && telephone) {
-      // Add the plus sign to the telephone number
-      const phoneNumber = parsePhoneNumber(`+${telephone}`, country);
-      
-      // Obtain the country calling code based on the parsed phone number
-      return phoneNumber ? phoneNumber.countryCallingCode : '';
-    }
-  
-    return '';
-  };
+  }
 
 
   const isFormValid = () => {
@@ -238,7 +255,7 @@ IT / Telecoms</option>
 
                                             {'  '}
                                             Location (Address)
-                     
+                    
                       </label>
                       <input
                       onchange={handleAdresseChange}
@@ -273,7 +290,7 @@ IT / Telecoms</option>
                     {'  '}Téléphone
                   </label>
                   <div className="flex items-center">
-                    <div className="pr-2">
+                    <div >
                     
                     </div>
                     <input
@@ -327,8 +344,7 @@ IT / Telecoms</option>
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
-                      disabled={!isFormValid()}
-                      onClick={() => alert('Form submitted')}
+                      onClick={() => signUp()}
                     >
                       Save
                       </button>
