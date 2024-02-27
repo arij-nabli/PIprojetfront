@@ -1,6 +1,6 @@
-import{ React,useState} from "react";
+import{ React,useState,useEffect} from "react";
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
-import { GoogleLogin } from '@react-oauth/google';
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import axios from "axios";
 export default function Register() {
   const [userName, setuserName] = useState('');
@@ -92,6 +92,40 @@ export default function Register() {
   const responseMessage = (response) => {
     console.log(response);
 };
+const [ user, setUser ] = useState([]);
+const [ profile, setProfile ] = useState([]);
+
+    const login = useGoogleLogin({
+        onSuccess: (codeResponse) => setUser(codeResponse),
+        onError: (error) => console.log('Login Failed:', error)
+    });
+
+    useEffect(
+        () => {
+            if (user) {
+                axios
+                    .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+                        headers: {
+                            Authorization: `Bearer ${user.access_token}`,
+                            Accept: 'application/json'
+                        }
+                    })
+                    .then((res) => {
+                        
+                        setProfile(res.data);
+                        console.log(profile);
+                    })
+                    .catch((err) => console.log(err));
+            }
+        },
+        [ user ]
+    );
+
+    // log out function to log the user out of google and set the profile array to null
+    const logOut = () => {
+        googleLogout();
+        setProfile(null);
+    };
 
 const handleClose = () => setShowModal(false);
 const handleShow = () => setShowModal(true);
@@ -110,7 +144,18 @@ const handleShow = () => setShowModal(true);
                 <div className="btn-wrapper text-center flex justify-center">
                  
                
-                  <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
+                <button
+                    className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => login()}
+                  >
+                    <img
+                      alt="..."
+                      className="w-5 mr-1"
+                      src={require("assets/img/google.svg").default}
+                    />
+                    Google
+                  </button>
 
                 </div>
                 <hr className="border-b-1 border-blueGray-300" />
@@ -282,10 +327,9 @@ const handleShow = () => setShowModal(true);
                       Create Account
                     </button>
                   </div>
-                  <div class="p-4 mb-4 flex justify-center relative text-sm text-red-800 rounded-lg bg-red-200 mt-5  dark:text-red-400" role="alert">
-  <span class="font-medium">{errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}</span>
-</div>
-                  
+                 {errorMessage?<div class="p-4 mb-4 flex justify-center relative text-sm text-red-800 rounded-lg bg-red-200 mt-5  dark:text-red-400" role="alert">
+  <span class="font-medium"> <p style={{ color: 'red' }}>{errorMessage}</p></span>
+</div>            : null   }
                 </form>
               </div>
             </div>
