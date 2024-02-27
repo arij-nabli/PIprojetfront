@@ -60,8 +60,7 @@ export default function Login() {
     console.log(response);
 };
 
-const handleClose = () => setShowModal(false);
-const handleShow = () => setShowModal(true);
+
   return (
     <>
     <div className="container mx-auto px-4 h-full">
