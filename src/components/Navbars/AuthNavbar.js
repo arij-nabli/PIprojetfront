@@ -1,7 +1,7 @@
 /*eslint-disable*/
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../../assets/img/logo-esprit.png";
+import logo from "../../assets/img/espritcompas-removebg-preview.png";
 // components
 
 import PagesDropdown from "components/Dropdowns/PagesDropdown.js";
@@ -10,14 +10,14 @@ export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   return (
     <>
-      <nav className="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-custom-gray">
+      <nav className="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-blueGray-200">
         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
             <Link
               className="text-white text-sm font-bold leading-relaxed inline-block mr-4 py-0 whitespace-nowrap uppercase"
               to="/"
             >
-            <img src={logo} alt="logo" width={75}/>
+            <img src={logo} alt="logo" width={85}/>
 
             </Link>
             <button
@@ -47,7 +47,7 @@ export default function Navbar(props) {
               </li>
               <li className="flex items-center">
                 <Link
-                to={"/auth/register/user"}
+                to={"/auth/register"}
                   className="lg:text-blueGray-700 lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 >
                   Sign Up
