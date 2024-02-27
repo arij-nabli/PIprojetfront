@@ -1,6 +1,9 @@
-import{ React,useState} from "react";
+// Importez useState depuis react
+
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+
 export default function Login() {
   const [role, setRole] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -8,9 +11,10 @@ export default function Login() {
   const [emailError, setEmailError] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+  // Fonction de gestion du changement d'email
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
-    // Simple validation for email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(event.target.value)) {
       setEmailError('Invalid email format');
@@ -18,53 +22,47 @@ export default function Login() {
       setEmailError('');
     }
   };
-  
+
+  // Fonction pour l'authentification
   const signIn = async () => {
     const userData = {
-      username:email,
+      username: email,
       password,
     };
-    await axios.post('http://localhost:5000/auth/login', userData)
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-          console.log(error)
-      });
+    try {
+      const response = await axios.post('http://localhost:5000/auth/login', userData);
+      console.log(response.data);
+      // Si l'authentification réussit, vous pouvez effectuer des actions supplémentaires ici
+    } catch (error) {
+      console.error(error.response.data);
+      if (error.response.status === 401) {
+        setErrorMessage("Mot de passe incorrect");
+      } else if (error.response.status === 404) {
+        setErrorMessage("User Not Found");
+      } else {
+        setErrorMessage("Une erreur s'est produite lors de la tentative de connexion");
+      }
+    }
   };
 
+  // Fonction de gestion du changement de mot de passe
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-  
-    const errors = [];
-    if (event.target.value.length < 6) {
-      errors.push('Password must contain at least 6 characters');
-    }
-    if (!/[A-Z]/.test(event.target.value)) {
-      errors.push('Password must contain an uppercase letter');
-    }
-    if (!/\d/.test(event.target.value)) {
-      errors.push('Password must contain a number');
-    }
-  
   };
 
+  // Fonction de gestion du changement de rôle
   const handleRoleChange = (event) => {
     setRole(event.target.value);
   };
-  
-  const isFormValid = () => {
-    return email && !emailError && password ;
-  };
-  const responseMessage = (response) => {
-    console.log(response);
-};
 
-const handleClose = () => setShowModal(false);
-const handleShow = () => setShowModal(true);
+  // Vérifie si le formulaire est valide
+  const isFormValid = () => {
+    return email && !emailError && password;
+  };
+
   return (
     <>
-    <div className="container mx-auto px-4 h-full">
+      <div className="container mx-auto px-4 h-full">
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-4/12 px-4">
             <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
@@ -79,22 +77,12 @@ const handleShow = () => setShowModal(true);
                     className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
                   >
-                    <img
-                      alt="..."
-                      className="w-5 mr-1"
-                      src={require("assets/img/github.svg").default}
-                    />
                     Github
                   </button>
                   <button
                     className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
                   >
-                    <img
-                      alt="..."
-                      className="w-5 mr-1"
-                      src={require("assets/img/google.svg").default}
-                    />
                     Google
                   </button>
                 </div>
@@ -105,65 +93,46 @@ const handleShow = () => setShowModal(true);
                   <small>Or sign in with credentials</small>
                 </div>
                 <form>
-                  
-
+                  {/* Champ Email */}
                   <div className="relative w-full mb-3">
-      <label
-        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-        htmlFor="grid-password"
-      >
-        <i className="fa-solid fa-envelope"></i>
-        {'  '} Email
-      </label>
-      <input
-        type="email"
-        value={email}
-        onChange={handleEmailChange}
-        className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
-      />
-      {emailError && <p className="text-red-500 text-xs mt-2">{emailError}</p>}
-    </div>
-    
-    <div className="relative w-full mb-2">
-      <label
-        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-        htmlFor="grid-password"
-      >
-        <i className="fa-solid fa-key"></i>
-        {'  '} Password
-      </label>
-      <div className="relative">
-      <input
-        type={passwordVisible ? "text" : "password"}
-        value={password}
-        onChange={handlePasswordChange}
-        className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
-      />
-   
-   
-    <i 
-                          onClick={() => setPasswordVisible(!passwordVisible)}
-                          className={`fa-solid ${passwordVisible ? 'fa-eye-slash' : 'fa-eye'} absolute mr-3 right-3 top-1/2 transform -translate-y-1/2 cursor-pointer `}
-                        />
-                        </div>
-
-                        </div>
-    
-                  
-                    <div>
-                    <label className="inline-flex items-center cursor-pointer">
-                      <input
-                        id="customCheckLogin"
-                        type="checkbox"
-                        className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                      />
-                      <span className="ml-2 text-sm font-semibold text-blueGray-600">
-                        Remember me
-                      </span>
+                    <label
+                      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                      htmlFor="grid-password"
+                    >
+                      Email
                     </label>
+                    <input
+                      type="email"
+                      value={email}
+                      required
+                      onChange={handleEmailChange}
+                      className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+                    />
+                    {emailError && <div className="text-red-500 text-xs mt-2">{emailError}</div>}
                   </div>
-                  
-
+                  {/* Champ Mot de passe */}
+                  <div className="relative w-full mb-2">
+                    <label
+                      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                      htmlFor="grid-password"
+                    >
+                      Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={passwordVisible ? "text" : "password"}
+                        value={password}
+                        required
+                        onChange={handlePasswordChange}
+                        className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+                      />
+                      <i 
+                        onClick={() => setPasswordVisible(!passwordVisible)}
+                        className={`fa-solid ${passwordVisible ? 'fa-eye-slash' : 'fa-eye'} absolute mr-3 right-3 top-1/2 transform -translate-y-1/2 cursor-pointer `}
+                      />
+                    </div>
+                  </div>
+                  {/* Bouton Se connecter */}
                   <div className="text-center mt-6">
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
@@ -173,7 +142,8 @@ const handleShow = () => setShowModal(true);
                       Login
                     </button>
                   </div>
-                
+                  {/* Affichage du message d'erreur */}
+                  {errorMessage && <div className="text-red-500 text-xs mt-2">{errorMessage}</div>}
                 </form>
               </div>
             </div>
@@ -196,7 +166,6 @@ const handleShow = () => setShowModal(true);
           </div>
         </div>
       </div>
-
     </>
   );
 }
