@@ -47,10 +47,18 @@ export default function Navbar(props) {
               </li>
               <li className="flex items-center">
                 <Link
-                to={"/auth/register"}
+                to={"/auth/register/user"}
                   className="lg:text-blueGray-700 lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 >
                   Sign Up
+                </Link>
+              </li>
+              <li className="flex items-center">
+                <Link
+                to={"/auth/register/company"}
+                  className="lg:text-blueGray-700 lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                >
+                  Join as company
                 </Link>
               </li>
               <li className="flex items-center">

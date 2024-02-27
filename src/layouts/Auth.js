@@ -5,7 +5,7 @@ import FooterSmall from "components/Footers/FooterSmall.js";
 import Login from "views/auth/Login.js";
 import Register from "views/auth/Register.js";
 import colors, { red } from "tailwindcss/colors";
-
+import CompanyRegister from "views/auth/CompanyRegister";
 export default function Auth() {
   return (
     <>
@@ -21,7 +21,8 @@ export default function Auth() {
           ></div>
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register/user" element={<Register />} />*
+            <Route path="/register/company" element={<CompanyRegister/>} />
             <Route path="/auth" element={<Navigate to="/auth/login" />} />
           </Routes>
           <FooterSmall absolute />
