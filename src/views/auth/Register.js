@@ -1,9 +1,9 @@
 import{ React,useState} from "react";
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
 import { GoogleLogin } from '@react-oauth/google';
-
+import axios from "axios";
 export default function Register() {
-  const [firstName, setFirstName] = useState('');
+  const [userName, setuserName] = useState('');
   const [role, setRole] = useState('');
   const [country, setCountry] = useState('');
   const [region, setRegion] = useState('');
@@ -15,6 +15,7 @@ export default function Register() {
   const [passwordError, setPasswordError] = useState([]);
   const [passwordMatchError, setPasswordMatchError] = useState(''); // Add this line
   const [showModal, setShowModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
     // Simple validation for email format
@@ -28,7 +29,26 @@ export default function Register() {
   const selectCountry = (value) => {
     setCountry(value);
   };
-
+  const signUp = () => {
+    const userData = {
+      username:userName,
+      role,
+      country,
+      region,
+      email,
+      password,
+    };
+    axios.post('http://localhost:5000/auth/register', userData)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        if (error.response && error.response.data && error.response.data.message) {
+          setErrorMessage(error.response.data.message);
+        }
+      });
+  };
+  
   const selectRegion = (value) => {
     setRegion(value);
   };
@@ -58,8 +78,8 @@ export default function Register() {
       setPasswordMatchError(''); 
     }
   };
-  const handleFirstNameChange = (event) => {
-    setFirstName(event.target.value);
+  const handleuserNameChange = (event) => {
+    setuserName(event.target.value);
   };
   
   const handleRoleChange = (event) => {
@@ -67,14 +87,12 @@ export default function Register() {
   };
   
   const isFormValid = () => {
-    return email && !emailError && password && passwordError.length === 0 && confirmPassword && !passwordMatchError&&  firstName && role && country && region ;
+    return email && !emailError && password && passwordError.length === 0 && confirmPassword && !passwordMatchError&&  userName && role && country && region ;
   };
   const responseMessage = (response) => {
     console.log(response);
 };
-const errorMessage = (error) => {
-    console.log("error",error);
-};
+
 const handleClose = () => setShowModal(false);
 const handleShow = () => setShowModal(true);
   return (
@@ -111,7 +129,7 @@ const handleShow = () => setShowModal(true);
                         {'  '} Full name
                     </label>
                     <input
-                        onChange={handleFirstNameChange} // Add this line
+                        onChange={handleuserNameChange} // Add this line
 
                       className="border-0 px-3 py-3   rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150 "
                     
@@ -259,11 +277,15 @@ const handleShow = () => setShowModal(true);
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
                       disabled={!isFormValid()}
-                      onClick={() => alert('Form submitted')}
+                      onClick={() => signUp()}
                     >
                       Create Account
                     </button>
                   </div>
+                  <div class="p-4 mb-4 flex justify-center relative text-sm text-red-800 rounded-lg bg-red-200 mt-5  dark:text-red-400" role="alert">
+  <span class="font-medium">{errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}</span>
+</div>
+                  
                 </form>
               </div>
             </div>
