@@ -17,7 +17,7 @@ export default function Navbar(props) {
               className="text-white text-sm font-bold leading-relaxed inline-block mr-4 py-0 whitespace-nowrap uppercase"
               to="/"
             >
-            <img src={logo} alt="logo" width={75}/>
+            <img src={logo} alt="logo" width={85}/>
 
             </Link>
             <button
