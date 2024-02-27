@@ -10,16 +10,14 @@ export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   return (
     <>
-      <nav className="top-0 absolute z-50 w-full flex flex-wrap items-center  justify-between px-2 py-3 navbar-expand-lg "
-     >
-
+      <nav className="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-custom-gray">
         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
             <Link
-              className="text-white text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
+              className="text-white text-sm font-bold leading-relaxed inline-block mr-4 py-0 whitespace-nowrap uppercase"
               to="/"
             >
-            <img src={logo} alt="logo" width={110}/>
+            <img src={logo} alt="logo" width={75}/>
 
             </Link>
             <button
@@ -42,7 +40,7 @@ export default function Navbar(props) {
             <li className="flex items-center">
                 <Link
                 to={"/auth/login"}
-                  className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                  className="lg:text-blueGray-700 lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 >
                   Sign In
                 </Link>
@@ -50,7 +48,7 @@ export default function Navbar(props) {
               <li className="flex items-center">
                 <Link
                 to={"/auth/register"}
-                  className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                  className="lg:text-blueGray-700 lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 >
                   Sign Up
                 </Link>
@@ -58,12 +56,12 @@ export default function Navbar(props) {
               <li className="flex items-center">
                 <Link
                 to={"/"}
-                  className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                  className="lg:text-blueGray-700 lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 >
                   Home
                 </Link>
               </li>
-              <li className="flex items-center">
+              <li className="flex items-center ">
                 <PagesDropdown />
               </li>
              
@@ -71,7 +69,6 @@ export default function Navbar(props) {
           </div>
         </div>
       </nav>
-
     </>
   );
 }
