@@ -5,23 +5,24 @@ import FooterSmall from "components/Footers/FooterSmall.js";
 import Login from "views/auth/Login.js";
 import Register from "views/auth/Register.js";
 import colors, { red } from "tailwindcss/colors";
-
+import CompanyRegister from "views/auth/CompanyRegister";
 export default function Auth() {
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <main>
         <section className="relative w-full h-full py-40 min-h-screen">
           <div
             className="absolute top-0 w-full h-full bg-custom-red bg-no-repeat bg-full"
             style={{
-              backgroundImage: `url(${require("assets/img/register_bg_2.png").default})`,
-              backgroundColor : colors.custom-red,
+              backgroundImage: `radial-gradient(circle, rgba(239,201,209,1) 0%, rgba(189,44,67,1) 37%, rgba(111,16,61,1) 88%)`,
+              backgroundColor: 'rgb(239,201,209)',
             }}
           ></div>
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register/user" element={<Register />} />*
+            <Route path="/register/company" element={<CompanyRegister/>} />
             <Route path="/auth" element={<Navigate to="/auth/login" />} />
           </Routes>
           <FooterSmall absolute />
