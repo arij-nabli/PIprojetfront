@@ -200,8 +200,14 @@ const handleShow = () => setShowModal(true);
         onChange={handleEmailChange}
         className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
       />
-      {emailError && <p className="text-red-500 text-xs mt-2">{emailError}</p>}
-    </div>
+{emailError && 
+  <div className="flex items-center text-red-500 text-base mt-2">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5 mr-2">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+    </svg>
+    <p>{emailError}</p>
+  </div>
+}    </div>
     
     <div className="relative w-full mb-2">
       <label
@@ -226,11 +232,16 @@ const handleShow = () => setShowModal(true);
                         />
                         </div>
                         {passwordError.length > 0 && (
-  <div className="text-red-500 text-xs mt-2">
-    {passwordError.map((error, index) => (
-      <p key={index}>{error}</p>
-    ))}
-  </div>
+ <div className="text-red-500 text-base mt-2 space-y-2">
+ {passwordError.map((error, index) => (
+   <div key={index} className="flex items-center">
+     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5 mr-2">
+       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+     </svg>
+     <p>{error}</p>
+   </div>
+ ))}
+</div>
 )}
                         </div>
 
@@ -248,8 +259,14 @@ const handleShow = () => setShowModal(true);
         onChange={handleConfirmPasswordChange}
         className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
       />
-      {passwordMatchError && <p className="text-red-500 text-xs mt-2">{passwordMatchError}</p>} 
-    </div>
+{passwordMatchError && 
+  <div className="flex items-center text-red-500 text-base mt-2">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5 mr-2">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+    </svg>
+    <p>{passwordMatchError}</p>
+  </div>
+}    </div>
     
                     <div className="relative  mt-4 mb-3">
 
@@ -276,7 +293,7 @@ const handleShow = () => setShowModal(true);
                       </select>
                     </div>
                   <div className="flex justify-between">
-                    <div className="w-1/3">
+                    <div className="w-1/2 mr-3">
                   <label
                       className=" uppercase text-blueGray-600 text-xs font-bold mb-2"
                       htmlFor="grid-password"
@@ -290,7 +307,7 @@ const handleShow = () => setShowModal(true);
                       className="border-0 mb-3 mt-2 px-3 py-3 mr-3  rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red  focus:ring w-full ease-linear transition-all duration-150 "
                       />
                       </div>
-                      <div className="w-1/2 ">
+                      <div className="w-1/2 ml-3">
                          <label
                       className=" uppercase text-blueGray-600 text-xs font-bold mb-4"
                       htmlFor="grid-password"
@@ -340,8 +357,8 @@ const handleShow = () => setShowModal(true);
   <span class="font-medium"> <p style={{  color: 'red' }}>{errorMessage}</p></span>
 </div>            : null   }
                       {errorMessage == "User registered successfully! Please check your email to verify your account." ?
-                       <div class="p-4 mt-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 bg-green-200 dark:text-green-700" role="alert">
-                       <span class="font-medium">{errorMessage}</span> 
+                       <div class="p-4 mt-4 mb-4 text-sm text-center text-green-800 rounded-lg bg-green-50 bg-green-200 dark:text-green-700" role="alert">
+                       <span class="font-medium ">{errorMessage}</span> 
                      </div> :
                         null}
                 </form>
