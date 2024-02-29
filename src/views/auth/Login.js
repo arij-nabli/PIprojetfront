@@ -1,7 +1,65 @@
-import React from "react";
+// Importez useState depuis react
+
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function Login() {
+  const [role, setRole] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // Fonction de gestion du changement d'email
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(event.target.value)) {
+      setEmailError('Invalid email format');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  // Fonction pour l'authentification
+  const signIn = async () => {
+    const userData = {
+      username: email,
+      password,
+    };
+    try {
+      const response = await axios.post('http://localhost:5000/auth/login', userData);
+      console.log(response);
+      // Si l'authentification réussit, vous pouvez effectuer des actions supplémentaires ici
+    } catch (error) {
+      console.error(error.response.data);
+      if (error.response.status === 401) {
+        setErrorMessage("Mot de passe incorrect");
+      } else if (error.response.status === 404) {
+        setErrorMessage("User Not Found");
+      } else {
+        setErrorMessage("Une erreur s'est produite lors de la tentative de connexion");
+      }
+    }
+  };
+
+  // Fonction de gestion du changement de mot de passe
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  // Fonction de gestion du changement de rôle
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
+  };
+
+  // Vérifie si le formulaire est valide
+  const isFormValid = () => {
+    return email && !emailError && password;
+  };
+
   return (
     <>
       <div className="container mx-auto px-4 h-full">
@@ -19,32 +77,23 @@ export default function Login() {
                     className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
                   >
-                    <img
-                      alt="..."
-                      className="w-5 mr-1"
-                      src={require("assets/img/github.svg").default}
-                    />
                     Github
                   </button>
                   <button
                     className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
                   >
-                    <img
-                      alt="..."
-                      className="w-5 mr-1"
-                      src={require("assets/img/google.svg").default}
-                    />
                     Google
                   </button>
                 </div>
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
               </div>
               <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-                <div className="text-blueGray-400 text-center mb-3 font-bold">
+                <div className=" text-center mb-3 font-bold">
                   <small>Or sign in with credentials</small>
                 </div>
                 <form>
+                  {/* Champ Email */}
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -54,45 +103,47 @@ export default function Login() {
                     </label>
                     <input
                       type="email"
-                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Email"
+                      value={email}
+                      required
+                      onChange={handleEmailChange}
+                      className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
                     />
+                    {emailError && <div className="text-red-500 text-xs mt-2">{emailError}</div>}
                   </div>
-
-                  <div className="relative w-full mb-3">
+                  {/* Champ Mot de passe */}
+                  <div className="relative w-full mb-2">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                       htmlFor="grid-password"
                     >
                       Password
                     </label>
-                    <input
-                      type="password"
-                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Password"
-                    />
-                  </div>
-                  <div>
-                    <label className="inline-flex items-center cursor-pointer">
+                    <div className="relative">
                       <input
-                        id="customCheckLogin"
-                        type="checkbox"
-                        className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
+                        type={passwordVisible ? "text" : "password"}
+                        value={password}
+                        required
+                        onChange={handlePasswordChange}
+                        className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
                       />
-                      <span className="ml-2 text-sm font-semibold text-blueGray-600">
-                        Remember me
-                      </span>
-                    </label>
+                      <i 
+                        onClick={() => setPasswordVisible(!passwordVisible)}
+                        className={`fa-solid ${passwordVisible ? 'fa-eye-slash' : 'fa-eye'} absolute mr-3 right-3 top-1/2 transform -translate-y-1/2 cursor-pointer `}
+                      />
+                    </div>
                   </div>
-
+                  {/* Bouton Se connecter */}
                   <div className="text-center mt-6">
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
+                      onClick={() => signIn()}
                     >
-                      Sign In
+                      Login
                     </button>
                   </div>
+                  {/* Affichage du message d'erreur */}
+                  {errorMessage && <div className="text-red-500 text-xs mt-2">{errorMessage}</div>}
                 </form>
               </div>
             </div>
