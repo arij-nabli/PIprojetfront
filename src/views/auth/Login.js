@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import HashLoader from "react-spinners/HashLoader";
 
 export default function Login() {
   const [role, setRole] = useState('');
@@ -11,8 +12,10 @@ export default function Login() {
   const [emailError, setEmailError] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [color, setColor] = useState("#BD2C43");
+  const [emailSent, setEmailSent] = useState(false);
 
-  // Fonction de gestion du changement d'email
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -25,23 +28,30 @@ export default function Login() {
 
   // Fonction pour l'authentification
   const signIn = async () => {
+    if (!email || !password) {
+      setErrorMessage('Please fill in all fields correctly');
+      return;
+    }
     const userData = {
-      username: email,
+      email,
       password,
     };
     try {
       const response = await axios.post('http://localhost:5000/auth/login', userData);
+      setIsLoading(true)
       console.log(response);
       // Si l'authentification réussit, vous pouvez effectuer des actions supplémentaires ici
     } catch (error) {
       console.error(error.response.data);
       if (error.response.status === 401) {
-        setErrorMessage("Mot de passe incorrect");
+        setErrorMessage("Incorrect Password");
       } else if (error.response.status === 404) {
         setErrorMessage("User Not Found");
-      } else {
-        setErrorMessage("Une erreur s'est produite lors de la tentative de connexion");
+      } 
+      if(error.response.status === 403) {
+        setErrorMessage("Please verify");
       }
+    
     }
   };
 
@@ -54,6 +64,21 @@ export default function Login() {
   const handleRoleChange = (event) => {
     setRole(event.target.value);
   };
+const handleForgotPassword = async () => {
+  if(!email){
+    setErrorMessage('Please type your email address');
+    return
+  }
+  
+  try {
+    const response = await axios.post('http://localhost:5000/auth/forgot-password', { email: email });
+    console.log(response.data);
+    setEmailSent(true);
+  } catch (error) {
+    console.error(error);
+    setErrorMessage(error.response.data.message);
+  }
+};
 
   // Vérifie si le formulaire est valide
   const isFormValid = () => {
@@ -61,11 +86,24 @@ export default function Login() {
   };
 
   return (
+
     <>
+    {isLoading ? (
+     <div style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+     <HashLoader
+       color={color}
+       loading={isLoading}
+       size={150}
+       aria-label="Loading Spinner"
+       data-testid="loader"
+     />
+   </div>
+    ) : (
+      <>
       <div className="container mx-auto px-4 h-full">
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-4/12 px-4">
-            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
+            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-custom-gray border-0">
               <div className="rounded-t mb-0 px-6 py-6">
                 <div className="text-center mb-3">
                   <h6 className="text-blueGray-500 text-sm font-bold">
@@ -97,7 +135,7 @@ export default function Login() {
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                      htmlFor="grid-password"
+                      htmlFor="Hash-password"
                     >
                       Email
                     </label>
@@ -108,13 +146,18 @@ export default function Login() {
                       onChange={handleEmailChange}
                       className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
                     />
-                    {emailError && <div className="text-red-500 text-xs mt-2">{emailError}</div>}
+                     { emailError && <div className="flex items-center text-red-500 text-base mt-2">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5 mr-2">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+    </svg>
+    <p>{emailError}</p>
+  </div>}
                   </div>
                   {/* Champ Mot de passe */}
                   <div className="relative w-full mb-2">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                      htmlFor="grid-password"
+                      htmlFor="Hash-password"
                     >
                       Password
                     </label>
@@ -135,7 +178,7 @@ export default function Login() {
                   {/* Bouton Se connecter */}
                   <div className="text-center mt-6">
                     <button
-                      className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                      className=" bg-blueGray-800 text-white  text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
                       onClick={() => signIn()}
                     >
@@ -143,7 +186,12 @@ export default function Login() {
                     </button>
                   </div>
                   {/* Affichage du message d'erreur */}
-                  {errorMessage && <div className="text-red-500 text-xs mt-2">{errorMessage}</div>}
+                  {errorMessage && !emailSent && <div class="p-4 mb-4 flex justify-center  relative text-sm text-red-800 rounded-lg bg-red-200 mt-5  dark:text-red-400" role="alert">
+  <span class="font-medium"> <p style={{  color: 'red' }}>{errorMessage}</p></span>
+</div>          }
+                {emailSent && <div class="p-4 mb-4 flex justify-center  relative text-sm text-green-800 rounded-lg bg-green-200 mt-5  dark:text-green-400" role="alert">
+                <span class="font-medium"> <p style={{  color: 'green' }}>A recovery email has been sent </p></span>
+                    </div>}
                 </form>
               </div>
             </div>
@@ -151,7 +199,7 @@ export default function Login() {
               <div className="w-1/2">
                 <a
                   href="#pablo"
-                  onClick={(e) => e.preventDefault()}
+                  onClick={() =>handleForgotPassword()}
                   className="text-blueGray-200"
                 >
                   <small>Forgot password?</small>
@@ -167,5 +215,8 @@ export default function Login() {
         </div>
       </div>
     </>
+    )}
+  </>
+  
   );
 }

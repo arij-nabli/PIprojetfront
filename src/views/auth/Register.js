@@ -61,19 +61,24 @@ export default function Register() {
     setPassword(event.target.value);
   
     const errors = [];
-    if (event.target.value.length < 6) {
-      errors.push('Password must contain at least 6 characters');
+    if (event.target.value.length < 8) {
+      errors.push('Password must contain at least 8 characters');
     }
     if (!/[A-Z]/.test(event.target.value)) {
       errors.push('Password must contain an uppercase letter');
     }
+    if (!/[a-z]/.test(event.target.value)) {
+      errors.push('Password must contain a lowercase letter');
+    }
     if (!/\d/.test(event.target.value)) {
       errors.push('Password must contain a number');
+    }
+    if (!/[!@#$%^&*]/.test(event.target.value)) {
+      errors.push('Password must contain a special character');
     }
   
     setPasswordError(errors);
   };
-
   const handleConfirmPasswordChange = (event) => {
     setConfirmPassword(event.target.value);
 
