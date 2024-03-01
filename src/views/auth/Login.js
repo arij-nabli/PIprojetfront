@@ -100,7 +100,7 @@ const handleForgotPassword = async () => {
    </div>
     ) : (
       <>
-      <div className="container mx-auto px-4 h-full ">
+      <div className="container mx-auto px-4 h-full mt-10 ">
         <div className="flex content-center items-center justify-center  h-full">
           <div className="w-full lg:w-4/12 px-4 ">
             <div className="relative flex bg-gray-200 flex-col min-w-0 break-words w-full mb-2 shadow-lg rounded-lg  border-0">
