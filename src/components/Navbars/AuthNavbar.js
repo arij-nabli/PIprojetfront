@@ -10,7 +10,7 @@ export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   return (
     <>
-      <nav className="top-0 shadow-2xl absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-custom-gray">
+      <nav className="top-0 shadow-2xl absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-white">
         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
             <Link
@@ -40,7 +40,7 @@ export default function Navbar(props) {
             <li className="flex items-center">
                 <Link
                 to={"/auth/login"}
-                  className="lg:text-blueGray-700 lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                  className=" text-black lg:hover:text-blueGray-200 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 >
                   Sign In
                 </Link>
@@ -48,7 +48,7 @@ export default function Navbar(props) {
               <li className="flex items-center">
                 <Link
                 to={"/auth/register/user"}
-                  className="lg:text-blueGray-700 lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                  className="text-black lg:hover:text-blueGray-200  px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 >
                   Sign Up
                 </Link>
@@ -56,7 +56,7 @@ export default function Navbar(props) {
               <li className="flex items-center">
                 <Link
                 to={"/auth/register/company"}
-                  className="lg:text-blueGray-700 lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                  className="text-black lg:hover:text-blueGray-200 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 >
                   Join as company
                 </Link>
@@ -64,7 +64,7 @@ export default function Navbar(props) {
               <li className="flex items-center">
                 <Link
                 to={"/"}
-                  className="lg:text-blueGray-700 lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                  className="text-black lg:hover:text-blueGray-200  px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 >
                   Home
                 </Link>
