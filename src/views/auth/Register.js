@@ -1,6 +1,14 @@
-import{ React,useState,useEffect} from "react";
-import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
+import{ React, useRef  ,useState,useEffect} from "react";
+//import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
+//import {ReactFlagsSelect} from "react-flags-select";
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import ReactFlagsSelect from 'react-flags-select';
+import ReCAPTCHA from "react-google-recaptcha";
+//import css module
+
+//OR import sass module
+//import 'react-flags-select/scss/react-flags-select.scss';
+
 import axios from "axios";
 export default function Register() {
   const [userName, setuserName] = useState('');
@@ -16,6 +24,9 @@ export default function Register() {
   const [passwordMatchError, setPasswordMatchError] = useState(''); // Add this line
   const [showModal, setShowModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [selected, setSelected] = useState("");
+  
+
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
     // Simple validation for email format
@@ -26,9 +37,16 @@ export default function Register() {
       setEmailError('');
     }
   };
-  const selectCountry = (value) => {
-    setCountry(value);
+  
+ 
+  const onRecaptchaChange = (value) => {
+    console.log(value)
+    if(value){
+       // send to backend for validation
+    }
   };
+
+
   const signUp = () => {
     if(!isFormValid()){
       setErrorMessage('Please fill in all fields');
@@ -38,7 +56,6 @@ export default function Register() {
       username:userName,
       role,
       country,
-      region,
       email,
       password,
     };
@@ -52,6 +69,9 @@ export default function Register() {
           setErrorMessage(error.response.data.message);
         }
       });
+  };
+  const selectCountry = (value) => {
+    setCountry(value);
   };
   
   const selectRegion = (value) => {
@@ -91,6 +111,7 @@ export default function Register() {
     setRole(event.target.value);
   };
   
+  
   const isFormValid = () => {
     return email && !emailError && password && passwordError.length === 0 && confirmPassword && !passwordMatchError&&  userName && role && country && region ;
   };
@@ -107,13 +128,22 @@ const [ profile, setProfile ] = useState([]);
 
     useEffect(
         () => {
-            if (user) {
+          if (user) {
+            // Load Google Recaptcha script asynchronously
+            const script = document.createElement('script');
+            script.src = 'https://www.google.com/recaptcha/api.js';
+            script.async = true;
+            script.defer = true;
+            document.body.appendChild(script);
+    
                 axios
                     .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
                         headers: {
                             Authorization: `Bearer ${user.access_token}`,
-                            Accept: 'application/json'
-                        }
+                            Accept: 'application/json',
+                            
+                        },
+                        
                     })
                     .then((res) => {
                         
@@ -134,8 +164,10 @@ const [ profile, setProfile ] = useState([]);
 
 const handleClose = () => setShowModal(false);
 const handleShow = () => setShowModal(true);
+//const reCaptchaRef = useRef();
   return (
     <>
+  
       <div className="container mx-auto px-4 h-full">
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-6/12 px-4">
@@ -150,7 +182,7 @@ const handleShow = () => setShowModal(true);
                  
                
                 <button
-                    className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                    className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center text-xs ease-linear transition-all duration-150"
                     type="button"
                     onClick={() => login()}
                   >
@@ -169,7 +201,7 @@ const handleShow = () => setShowModal(true);
                 <div className=" text-center mb-3 font-bold">
                   <small>Or sign up with credentials</small>
                 </div>
-                <form>
+                <form >
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -300,29 +332,20 @@ const handleShow = () => setShowModal(true);
                     >
                       <i class="fa-solid fa-earth-africa"></i>
                         {'  '}Select your country
-                    </label>
-                    <CountryDropdown
-                      value={country}
-                      onChange={(val) => selectCountry(val)} 
-                      className="border-0 mb-3 mt-2 px-3 py-3 mr-3  rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red  focus:ring w-full ease-linear transition-all duration-150 "
-                      />
-                      </div>
-                      <div className="w-1/2 ml-3">
-                         <label
-                      className=" uppercase text-blueGray-600 text-xs font-bold mb-4"
-                      htmlFor="grid-password"
-                    >
-                      <i class="fa-solid fa-mountain-sun"></i>
-                        {'  '}Select your region
-                    </label>
-                    <RegionDropdown
-                      country={country}
-                      value={region}
-                      onChange={(val) => selectRegion(val)}
-                      className="border-0 mb-3 mt-2 px-3 py-3 mr-3  rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red  focus:ring w-full ease-linear transition-all duration-150 "
-                      />
-                      </div>
+                    </label>    
+
+                    <ReactFlagsSelect  
+                    className="bg-white h-11 rounded mb-4"
+                    selected={selected}
+                    onSelect={(code) => setSelected(code)}
+                    elected={selected}
+                  />
+  
                   </div>
+                      
+                  </div>
+                  
+                  
                   <div>
                     <label className="inline-flex items-center cursor-pointer">
                       <input
@@ -344,9 +367,13 @@ const handleShow = () => setShowModal(true);
                   </div>
 
                   <div className="text-center mt-6">
+                  <ReCAPTCHA
+                      sitekey="6Ldrc4kpAAAAAMtAXLvqZSR6xz4UQpGKP9HI4md4"
+                      onChange={onRecaptchaChange}
+                    />
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                      type="button"
+                      type="submit"
                       
                       onClick={() => signUp()}
                     >
@@ -357,12 +384,27 @@ const handleShow = () => setShowModal(true);
   <span class="font-medium"> <p style={{  color: 'red' }}>{errorMessage}</p></span>
 </div>            : null   }
                       {errorMessage == "User registered successfully! Please check your email to verify your account." ?
-                       <div class="p-4 mt-4 mb-4 text-sm text-center text-green-800 rounded-lg bg-green-50 bg-green-200 dark:text-green-700" role="alert">
+                       <div class="p-4 mt-4 mb-4 text-sm text-center text-green-800 rounded-lg bg-green-50 dark:text-green-700" role="alert">
                        <span class="font-medium ">{errorMessage}</span> 
                      </div> :
                         null}
                 </form>
               </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             </div>
           </div>
         </div>

@@ -2,9 +2,9 @@ import{ React,useState} from "react";
 import axios from "axios";
 export default function CompanyRegister() {
   const [ descreption, setdescreption] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  //const [errorMessage, setErrorMessage] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [logo, setLogo] = useState(null);
+  const [setLogo] = useState(null);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [password, setPassword] = useState('');

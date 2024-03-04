@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function Login() {
-  const [role, setRole] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -26,7 +25,7 @@ export default function Login() {
   // Fonction pour l'authentification
   const signIn = async () => {
     const userData = {
-      username: email,
+      email,
       password,
     };
     try {
