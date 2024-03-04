@@ -49,11 +49,11 @@ export default function Login() {
     setPassword(event.target.value);
   };
 
-  // Fonction de gestion du changement de rôle
+  /* Fonction de gestion du changement de rôle
   const handleRoleChange = (event) => {
     setRole(event.target.value);
   };
-
+*/
   // Vérifie si le formulaire est valide
   const isFormValid = () => {
     return email && !emailError && password;

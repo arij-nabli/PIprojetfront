@@ -1,5 +1,4 @@
-import{ React, useRef  ,useState,useEffect} from "react";
-//import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
+import{ React ,useState,useEffect} from "react";
 //import {ReactFlagsSelect} from "react-flags-select";
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import ReactFlagsSelect from 'react-flags-select';
@@ -10,11 +9,10 @@ import ReCAPTCHA from "react-google-recaptcha";
 //import 'react-flags-select/scss/react-flags-select.scss';
 
 import axios from "axios";
-export default function Register() {
+export default function Register(){
   const [userName, setuserName] = useState('');
   const [role, setRole] = useState('');
   const [country, setCountry] = useState('');
-  const [region, setRegion] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -25,7 +23,10 @@ export default function Register() {
   const [showModal, setShowModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [selected, setSelected] = useState("");
-  
+  const [graduationDate, setGraduationDate] = useState('');
+  const [currentPosition, setCurrentPosition] = useState('');
+  const [job_title, setjob_title] = useState('');
+
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -40,18 +41,29 @@ export default function Register() {
   
  
   const onRecaptchaChange = (value) => {
-    console.log(value)
-    if(value){
-       // send to backend for validation
+    console.log(value);
+    if (value) {
+        // Send reCAPTCHA value to backend for validation
+        axios.post('http://localhost:5000/auth/submit', { recaptchaToken: value })
+            .then(response => {
+                console.log(response.data);
+                // Handle response from backend (optional)
+            })
+            .catch(error => {
+                console.error('Error submitting reCAPTCHA:', error);
+                // Handle error (optional)
+            });
     }
-  };
+};
 
 
-  const signUp = () => {
+  const signUp = (e) => {
+    e.preventDefault()
+    
     if(!isFormValid()){
       setErrorMessage('Please fill in all fields');
       return;
-    }
+    }   
     const userData = {
       username:userName,
       role,
@@ -65,6 +77,7 @@ export default function Register() {
         setErrorMessage("User registered successfully! Please check your email to verify your account.")
       })
       .catch(error => {
+        console.log(error)
         if (error.response && error.response.data && error.response.data.message) {
           setErrorMessage(error.response.data.message);
         }
@@ -74,9 +87,6 @@ export default function Register() {
     setCountry(value);
   };
   
-  const selectRegion = (value) => {
-    setRegion(value);
-  };
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   
@@ -113,7 +123,13 @@ export default function Register() {
   
   
   const isFormValid = () => {
-    return email && !emailError && password && passwordError.length === 0 && confirmPassword && !passwordMatchError&&  userName && role && country && region ;
+    console.log(email)
+    console.log(password)
+    console.log(confirmPassword)
+    console.log(userName)
+    console.log(role)
+    console.log(country)
+    return email && !emailError && password && passwordError.length === 0 && confirmPassword && !passwordMatchError&&  userName && role && country ;
   };
   const responseMessage = (response) => {
     console.log(response);
@@ -128,13 +144,14 @@ const [ profile, setProfile ] = useState([]);
 
     useEffect(
         () => {
-          if (user) {
-            // Load Google Recaptcha script asynchronously
-            const script = document.createElement('script');
+          const script = document.createElement('script');
             script.src = 'https://www.google.com/recaptcha/api.js';
             script.async = true;
             script.defer = true;
             document.body.appendChild(script);
+          if (user) {
+            // Load Google Recaptcha script asynchronously
+            
     
                 axios
                     .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
@@ -164,8 +181,7 @@ const [ profile, setProfile ] = useState([]);
 
 const handleClose = () => setShowModal(false);
 const handleShow = () => setShowModal(true);
-//const reCaptchaRef = useRef();
-  return (
+  return(
     <>
   
       <div className="container mx-auto px-4 h-full">
@@ -302,28 +318,78 @@ const handleShow = () => setShowModal(true);
     
                     <div className="relative  mt-4 mb-3">
 
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-role"
-                      >
-                                            <i class="fa-solid fa-graduation-cap"></i>
+                      
+                      <div className="relative w-full mb-3">
+  <label
+    className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+    htmlFor="grid-role"
+  >
+    <i class="fa-solid fa-graduation-cap"></i>
+    {'  '}Role
+  </label>
+  <select
+    id="grid-role"
+    onChange={handleRoleChange} // Add this line
+    defaultValue=""
+    className="border-0 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+  >
+    <option value="">Select role</option> 
+    <option value="student">Student</option>
+    <option value="alumni">Alumni</option>
+    <option value="staff">Staff</option>
+  </select>
+</div>
 
-                                            {'  '}Role
-                     
-                      </label>
-                      <select
-                        id="grid-role"
-                        onChange={handleRoleChange} // Add this line
-                        defaultValue=""
-                        className="border-0 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
-                      >
-                          <option value="">Select role</option> 
+{role === 'alumni' && (
+  <div className="relative w-full mb-3">
+    <label
+      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+      htmlFor="grid-graduation-date"
+    >
+      Graduation Date
+    </label>
+    <input
+      type="date"
+      id="grid-graduation-date"
+      value={graduationDate}
+      onChange={(e) => setGraduationDate(e.target.value)}
+      className="border-0 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+    />
+    <label
+      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+      htmlFor="grid-current-position"
+    >
+      Current Position
+    </label>
+    <input
+      type="text"
+      id="grid-current-position"
+      value={currentPosition}
+      onChange={(e) => setCurrentPosition(e.target.value)}
+      className="border-0 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+    />
+  </div>
+)}
 
-                        <option value="student">Student</option>
-                        <option value="alumni">Alumni</option>
-                        <option value="staff">Staff</option>
-                      </select>
-                    </div>
+{role === 'staff' && (
+  <div className="relative w-full mb-3">
+    <label
+      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+      htmlFor="grid-current-position"
+    >
+      Job
+    </label>
+    <input
+      type="text"
+      id="grid-current-position"
+      value={job_title}
+      onChange={(e) => setjob_title(e.target.value)}
+      className="border-0 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+    />
+  </div>
+)}
+
+                    
                   <div className="flex justify-between">
                     <div className="w-1/2 mr-3">
                   <label
@@ -334,13 +400,13 @@ const handleShow = () => setShowModal(true);
                         {'  '}Select your country
                     </label>    
 
-                    <ReactFlagsSelect  
+                    
+                  <ReactFlagsSelect  
                     className="bg-white h-11 rounded mb-4"
-                    selected={selected}
-                    onSelect={(code) => setSelected(code)}
-                    elected={selected}
+                    onSelect={(code) => selectCountry(code)} 
+                    selected={country}
                   />
-  
+                      
                   </div>
                       
                   </div>
@@ -357,7 +423,7 @@ const handleShow = () => setShowModal(true);
                         I agree with the{" "}
                         <a
                           href="#pablo"
-                          className="text-lightBlue-500"
+                          className="text-lightBlue-500 "
                           onClick={handleShow}
                         >
                           Privacy Policy
@@ -366,16 +432,17 @@ const handleShow = () => setShowModal(true);
                     </label>
                   </div>
 
-                  <div className="text-center mt-6">
+                  <div className="text-center mt-5">
                   <ReCAPTCHA
+                      className="mb-4 center"
                       sitekey="6Ldrc4kpAAAAAMtAXLvqZSR6xz4UQpGKP9HI4md4"
-                      onChange={onRecaptchaChange}
+                      onChange={(value)=>onRecaptchaChange(value)}
                     />
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="submit"
                       
-                      onClick={() => signUp()}
+                      onClick={(e) => signUp(e)}
                     >
                       Create Account
                     </button>
@@ -388,6 +455,8 @@ const handleShow = () => setShowModal(true);
                        <span class="font-medium ">{errorMessage}</span> 
                      </div> :
                         null}
+                        </div>
+                        
                 </form>
               </div>
 
