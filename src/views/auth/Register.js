@@ -1,7 +1,9 @@
 import{ React,useState,useEffect} from "react";
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
 export default function Register() {
   const [userName, setuserName] = useState('');
   const [role, setRole] = useState('');
@@ -16,6 +18,12 @@ export default function Register() {
   const [passwordMatchError, setPasswordMatchError] = useState(''); // Add this line
   const [showModal, setShowModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const GITHUB_CLIENT_ID = '075cb9a7d1740345dd4c';
+const GITHUB_CLIENT_SECRET = '4997f777e54b2af5531dc4dc6716a1e4a11cbb2d';
+const GITHUB_CALLBACK_URL = 'http://localhost:3000/auth/register/user';
+const githubOAuthURL = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=user`;
+  const navigate = useNavigate();
+
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
     // Simple validation for email format
@@ -109,23 +117,70 @@ const [ profile, setProfile ] = useState([]);
         onSuccess: (codeResponse) => setUser(codeResponse),
         onError: (error) => console.log('Login Failed:', error)
     });
-
+    
+    const handleLogin = async (code) => {
+      try {
+        // Exchange the code for an access token
+        const data = await fetch('https://localhost:5000/auth/github-cors-by-pass', {
+              
+              method: 'post',
+              body: ({
+             
+                code,
+            }),
+              headers: {
+                    'Content-Type': 'application/json',
+                    
+              }
+        }).then((response) => response.json());
+  
+        const accessToken = data.access_token;
+  
+        // Fetch the user's GitHub profile
+        const userProfile = await fetch('https://api.github.com/user', {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+           
+          }
+        });
+  
+        // Handle the user profile data (e.g., store it in your database and log the user in)
+        console.log(`Welcome, ${userProfile.data.name}!`);
+      } catch (error) {
+        console.error("github error",error);
+      } 
+    }
+    const handleGitHubCallback = () => {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const code = urlParams.get('code');
+      
+      if (code) {
+        handleLogin(code);
+      }
+    };
     useEffect(
         () => {
+          handleGitHubCallback();
             if (user) {
                 axios
                     .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
                         headers: {
                             Authorization: `Bearer ${user.access_token}`,
-                            Accept: 'application/json'
+                            Accept: 'application/json',
+                        
                         }
                     })
                     .then((res) => {
-                        
-                        setProfile(res.data);
+                      console.log(res.data)
+                      navigate('/auth/register-other/user',{state:  res.data });
+                        if(res.data)
+                       { setProfile(res.data);
                         console.log(profile);
+                       
+                      }
                     })
-                    .catch((err) => console.log(err));
+                    .catch((err) => console.log("google error",err));
             }
         },
         [ user ]
@@ -153,7 +208,7 @@ const handleShow = () => setShowModal(true);
                 </div>
                 <div className="btn-wrapper text-center flex justify-center">
                  
-               
+                <a href={githubOAuthURL}>Sign in with GitHub</a>
                 <button
                     className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"

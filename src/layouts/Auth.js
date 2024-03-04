@@ -7,6 +7,7 @@ import Register from "views/auth/Register.js";
 import colors, { red } from "tailwindcss/colors";
 import CompanyRegister from "views/auth/CompanyRegister";
 import ForgotPassword from "views/auth/ForgotPassword";
+import SignUpOther from "views/auth/SignUpOther";
 export default function Auth() {
   return (
     <>
@@ -25,6 +26,7 @@ export default function Auth() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register/user" element={<Register />} />
+            <Route path="/register-other/user" element={<SignUpOther />} />
             <Route path="/register/company" element={<CompanyRegister/>} />
             <Route path="/reset-password" element={<ForgotPassword />} /> 
             <Route path="/auth" element={<Navigate to="/auth/login" />} />
