@@ -25,6 +25,7 @@ export default function Dashboard() {
         <div className="w-full xl:w-4/12 px-4">
           <CardSocialTraffic />
         </div>
+        
       </div>
     </>
   );
