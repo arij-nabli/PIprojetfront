@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import { Axios } from "axios";
+import axios from "axios";
+
 
 export default function Modal({user}) {
   const [showModal, setShowModal] = React.useState(true);
@@ -9,33 +10,38 @@ export default function Modal({user}) {
    const [role, setRole] = useState(user.role);
    const [error, setError] = useState(null);
 
-    const handleRoleChange = (event) => {
-      setRole(event.target.value);
+
+    const handleRoleChange = (selectedRole) => {
+      setRole(selectedRole);
     };
 
-    const handleEditUser = async (userId) => {
-      try {
-        const response = await Axios.post(`/api/users/${userId}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            username,
-            email,
-            role,
-          }),
-        });
+   const editUser = async (userId, username, email, role) => {
+  try {
+    // Validate input fields (optional but recommended)
+    // ... (implement validation as needed)
 
-        if (response.ok) {
-          // Handle successful update (e.g., close modal, display success message)
-          console.log("User updated successfully!");
-          // Call your logic to close the modal after successful update
-        } else {
-          setError("Error updating user. Please try again.");
-        }
-      } catch (error) {
-        setError("An error occurred. Please try again.");
-      }
+    // Create a properly formatted request body
+    const formData = {
+      username,
+      email,
+      role,
     };
+
+    const response = await axios.put(`http://localhost:5000/admin/edituser/${userId}`, formData, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (response.status === 200) {
+      return true;
+    } else {
+      // Handle error response (e.g., display an error message)
+      throw new Error(`Error updating user: ${response.data.message}`);
+    }
+  } catch (error) {
+    // Handle unexpected errors
+    throw error; // Re-throw the error to be handled by a higher-level error handler
+  }
+};
   return (
     <>
       {showModal ? (
@@ -81,11 +87,13 @@ export default function Modal({user}) {
                     <label className="mr-4">Role:</label>
                     <select
                       className="p-auto text-sm font-semibold inline-block px-4 rounded-full uppercase last:mr-0 mr-1"
+                      defaultValuevalue={user.role}
                       onChange={(e) => handleRoleChange(e.target.value)}
                     >
-                      role :<option>{user.role}</option>
-                      <option className="px-3">company</option>
-                      <option className="px-3">Student</option>
+                      <option value="alumni">Alumni</option>
+                      <option value="admin">Admin</option>
+                      <option value="company">Company</option>
+                      <option value="student">Student</option>
                     </select>
                   </div>
                 </div>
@@ -101,7 +109,10 @@ export default function Modal({user}) {
                   <button
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => (setShowModal(false))}
+                    onClick={() => {
+                      editUser(user._id, username, email, role);
+                      setShowModal(false);
+                    }}
                   >
                     Save Changes
                   </button>
