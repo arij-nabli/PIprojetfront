@@ -5,6 +5,7 @@ import FooterSmall from "components/Footers/FooterSmall.js";
 import Login from "views/auth/Login.js";
 import Register from "views/auth/Register.js";
 import colors, { red } from "tailwindcss/colors";
+
 import CompanyRegister from "views/auth/CompanyRegister";
 import ForgotPassword from "views/auth/ForgotPassword";
 import SignUpOther from "views/auth/SignUpOther";
@@ -29,6 +30,7 @@ export default function Auth() {
             <Route path="/register/company" element={<CompanyRegister/>} />
             <Route path="/reset-password" element={<ForgotPassword />} /> 
             <Route path="/auth" element={<Navigate to="/auth/login" />} />
+         
           </Routes>
           
         </section>
