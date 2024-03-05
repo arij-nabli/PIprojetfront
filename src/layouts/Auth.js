@@ -5,10 +5,9 @@ import FooterSmall from "components/Footers/FooterSmall.js";
 import Login from "views/auth/Login.js";
 import Register from "views/auth/Register.js";
 import colors, { red } from "tailwindcss/colors";
-
+import SignUpOther from "views/auth/SignUpOther";
 import CompanyRegister from "views/auth/CompanyRegister";
 import ForgotPassword from "views/auth/ForgotPassword";
-import SignUpOther from "views/auth/SignUpOther";
 export default function Auth() {
   return (
     <div    style={{

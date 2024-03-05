@@ -1,7 +1,7 @@
 import{ React,useState,useEffect} from "react";
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
-import { useLocation } from "react-router";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 export default function SignUpOther(route) {
   const [role, setRole] = useState('');
