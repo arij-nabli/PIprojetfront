@@ -21,7 +21,7 @@ export default function CompanyRegister() {
   const [telephone, setTelephone] = useState('');
 const [telephoneError, setTelephoneError] = useState('');
 const [website, setWebsite] = useState('');
-
+    const [errorMessage, setErrorMessage] = useState('');
 const [acceptedConditions, setAcceptedConditions] = useState(false);
 const [showModal, setShowModal] = useState(false);
 const handleClose = () => setShowModal(false);

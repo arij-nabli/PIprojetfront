@@ -3,10 +3,6 @@ import ReactAvatarEditor from "react-avatar-editor";
 
 import Navbar from "components/Navbars/AuthNavbar.js";
 import Footer from "components/Footers/Footer.js";
-import React, { useState } from 'react';
-
-const Profile = () => {
-  const [isOpen, setIsOpen] = useState(false);
 
 export default function Profile() {
   const [state, setState] = useState({
@@ -155,15 +151,10 @@ export default function Profile() {
                 </div>
               </div>
             </div>
-
-            {/* Similar Companies card */}
-            {/* ... Similar Companies code ... */}
           </div>
-          {/* End of Left Side */}
-        </div>
-      </div>
-    </div>
+        </section>
+      </main>
+      <Footer />
+    </>
   );
-};
-
-export default Profile;
+}
