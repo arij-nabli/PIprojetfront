@@ -3,7 +3,9 @@ import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-countr
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import GoogleLogin from "react-google-login";
+import { useLinkedIn } from 'react-linkedin-login-oauth2';
+import linkedin from 'react-linkedin-login-oauth2/assets/linkedin.png';
 export default function Register() {
   const [userName, setuserName] = useState('');
   const [role, setRole] = useState('');
@@ -113,42 +115,20 @@ const githubOAuthURL = `https://github.com/login/oauth/authorize?client_id=${GIT
 const [ user, setUser ] = useState([]);
 const [ profile, setProfile ] = useState([]);
 
-    const login = useGoogleLogin({
+    const loginGoogle = useGoogleLogin({
         onSuccess: (codeResponse) => setUser(codeResponse),
         onError: (error) => console.log('Login Failed:', error)
     });
     
-    const handleLogin = async (code) => {
+    const loginGithub = async (code) => {
       try {
-        // Exchange the code for an access token
-        const data = await fetch('https://localhost:5000/auth/github-cors-by-pass', {
-              
-              method: 'post',
-              body: ({
-             
-                code,
-            }),
-              headers: {
-                    'Content-Type': 'application/json',
-                    
-              }
-        }).then((response) => response.json());
-  
-        const accessToken = data.access_token;
-  
-        // Fetch the user's GitHub profile
-        const userProfile = await fetch('https://api.github.com/user', {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-           
-          }
-        });
-  
-        // Handle the user profile data (e.g., store it in your database and log the user in)
-        console.log(`Welcome, ${userProfile.data.name}!`);
+        const response = await axios.post('http://localhost:5000/auth/github-cors-by-pass', { code });
+        console.log(response.data);
+        if(response.data.email)
+       { navigate('/auth/register-other/user',{state:  response.data })}
       } catch (error) {
-        console.error("github error",error);
-      } 
+        console.error('Login Failed:', error);
+      }
     }
     const handleGitHubCallback = () => {
       const queryString = window.location.search;
@@ -156,9 +136,19 @@ const [ profile, setProfile ] = useState([]);
       const code = urlParams.get('code');
       
       if (code) {
-        handleLogin(code);
+       loginGithub(code);
       }
     };
+    const { linkedInLogin } = useLinkedIn({
+      clientId: '78e3zjnwmivy4i',
+      redirectUri: `http://localhost:3000/auth/register/user`, 
+      onSuccess: (code) => {
+        console.log(code);
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    });
     useEffect(
         () => {
           handleGitHubCallback();
@@ -208,21 +198,57 @@ const handleShow = () => setShowModal(true);
                 </div>
                 <div className="btn-wrapper text-center flex justify-center">
                  
-                <a href={githubOAuthURL}>Sign in with GitHub</a>
-                <button
-                    className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => login()}
-                  >
-                    <img
-                      alt="..."
-                      className="w-5 mr-1"
-                      src={require("assets/img/google.svg").default}
-                    />
-                    Google
-                  </button>
-
-                </div>
+               
+                 <button
+                     className="bg-white mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                     type="button"
+                    onClick={()=>loginGoogle()}
+                   >
+                     <img
+                       alt="..."
+                       className="w-5 "
+                       src={require("assets/img/google.svg").default}
+                     />
+                  
+                   </button>
+                   <button
+                     className="bg-white mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                     type="button"
+                     onClick={() => window.location.href = githubOAuthURL}                   >
+                     <img
+                       alt="..."
+                       className="w-5 "
+                       src={require("assets/img/github.svg").default}
+                     />
+                  
+                   </button>
+                   <button
+                     className="bg-white mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                     type="button"
+                  
+                   >
+                     <img
+                       alt="..."
+                       className="w-5 "
+                       src={require("assets/img/fcbk.svg").default}
+                     />
+                  
+                   </button>
+                   <button
+                     className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                     type="button"
+                  
+                   >
+                     <img
+                       alt="..."
+                       className="w-5 "
+                       src={require("assets/img/linkedin.svg").default}
+                       onClick={linkedInLogin}
+                     />
+                  
+                   </button>
+ 
+                 </div>
                 <hr className="border-b-1 border-blueGray-300" />
               </div>
               <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
