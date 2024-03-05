@@ -14,7 +14,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [color, setColor] = useState("#BD2C43");
   const [emailSent, setEmailSent] = useState(false);
-
+  const [role, setRole] = useState('user');
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -60,7 +60,7 @@ export default function Login() {
     setPassword(event.target.value);
   };
 
-  /* Fonction de gestion du changement de rôle
+
   const handleRoleChange = (event) => {
     setRole(event.target.value);
   };
@@ -170,7 +170,7 @@ const handleForgotPassword = async () => {
                   <small>Or sign in with credentials</small>
                 </div>
                 <form>
-                  {/* Champ Email */}
+           
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
