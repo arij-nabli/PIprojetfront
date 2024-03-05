@@ -6,7 +6,6 @@ import axios from "axios";
 import HashLoader from "react-spinners/HashLoader";
 
 export default function Login() {
-  const [role, setRole] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -34,6 +33,7 @@ export default function Login() {
     }
     const userData = {
       email,
+      email,
       password,
     };
     try {
@@ -60,7 +60,7 @@ export default function Login() {
     setPassword(event.target.value);
   };
 
-  // Fonction de gestion du changement de rôle
+  /* Fonction de gestion du changement de rôle
   const handleRoleChange = (event) => {
     setRole(event.target.value);
   };

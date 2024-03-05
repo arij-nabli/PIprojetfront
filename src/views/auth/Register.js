@@ -1,5 +1,5 @@
-import{ React,useState,useEffect} from "react";
-import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
+import{ React ,useState,useEffect} from "react";
+//import {ReactFlagsSelect} from "react-flags-select";
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -7,12 +7,12 @@ import GoogleLogin from "react-google-login";
 import { useLinkedIn } from 'react-linkedin-login-oauth2';
 import linkedin from 'react-linkedin-login-oauth2/assets/linkedin.png';
 import FacebookLogin from '@greatsumini/react-facebook-login';
-
+import ReactFlagsSelect from 'react-flags-select';
+import ReCAPTCHA from "react-google-recaptcha";
 export default function Register() {
   const [userName, setuserName] = useState('');
   const [role, setRole] = useState('');
   const [country, setCountry] = useState('');
-  const [region, setRegion] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -22,6 +22,10 @@ export default function Register() {
   const [passwordMatchError, setPasswordMatchError] = useState(''); // Add this line
   const [showModal, setShowModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [selected, setSelected] = useState("");
+  const [graduationDate, setGraduationDate] = useState('');
+  const [currentPosition, setCurrentPosition] = useState('');
+  const [job_title, setjob_title] = useState('');
   const GITHUB_CLIENT_ID = '075cb9a7d1740345dd4c';
 const GITHUB_CLIENT_SECRET = '4997f777e54b2af5531dc4dc6716a1e4a11cbb2d';
 const GITHUB_CALLBACK_URL = 'http://localhost:3000/auth/register/user';
@@ -38,19 +42,36 @@ const githubOAuthURL = `https://github.com/login/oauth/authorize?client_id=${GIT
       setEmailError('');
     }
   };
-  const selectCountry = (value) => {
-    setCountry(value);
-  };
-  const signUp = () => {
+  
+ 
+  const onRecaptchaChange = (value) => {
+    console.log(value);
+    if (value) {
+        // Send reCAPTCHA value to backend for validation
+        axios.post('http://localhost:5000/auth/submit', { recaptchaToken: value })
+            .then(response => {
+                console.log(response.data);
+                // Handle response from backend (optional)
+            })
+            .catch(error => {
+                console.error('Error submitting reCAPTCHA:', error);
+                // Handle error (optional)
+            });
+    }
+};
+
+
+  const signUp = (e) => {
+    e.preventDefault()
+    
     if(!isFormValid()){
       setErrorMessage('Please fill in all fields');
       return;
-    }
+    }   
     const userData = {
       username:userName,
       role,
       country,
-      region,
       email,
       password,
     };
@@ -60,15 +81,16 @@ const githubOAuthURL = `https://github.com/login/oauth/authorize?client_id=${GIT
         setErrorMessage("User registered successfully! Please check your email to verify your account.")
       })
       .catch(error => {
+        console.log(error)
         if (error.response && error.response.data && error.response.data.message) {
           setErrorMessage(error.response.data.message);
         }
       });
   };
-  
-  const selectRegion = (value) => {
-    setRegion(value);
+  const selectCountry = (value) => {
+    setCountry(value);
   };
+  
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   
@@ -108,8 +130,15 @@ const githubOAuthURL = `https://github.com/login/oauth/authorize?client_id=${GIT
     setRole(event.target.value);
   };
   
+  
   const isFormValid = () => {
-    return email && !emailError && password && passwordError.length === 0 && confirmPassword && !passwordMatchError&&  userName && role && country && region ;
+    console.log(email)
+    console.log(password)
+    console.log(confirmPassword)
+    console.log(userName)
+    console.log(role)
+    console.log(country)
+    return email && !emailError && password && passwordError.length === 0 && confirmPassword && !passwordMatchError&&  userName && role && country ;
   };
   const responseMessage = (response) => {
     console.log(response);
@@ -154,6 +183,7 @@ const [ profile, setProfile ] = useState([]);
     useEffect(
         () => {
           handleGitHubCallback();
+
             if (user) {
                 axios
                     .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
@@ -174,6 +204,11 @@ const [ profile, setProfile ] = useState([]);
                     })
                     .catch((err) => console.log("google error",err));
             }
+            const script = document.createElement('script');
+            script.src = 'https://www.google.com/recaptcha/api.js';
+            script.async = true;
+            script.defer = true;
+            document.body.appendChild(script);
         },
         [ user ]
     );
@@ -186,8 +221,9 @@ const [ profile, setProfile ] = useState([]);
 
 const handleClose = () => setShowModal(false);
 const handleShow = () => setShowModal(true);
-  return (
+  return(
     <>
+  
       <div className="container mx-auto px-4 h-full">
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-6/12 px-4">
@@ -269,7 +305,7 @@ const handleShow = () => setShowModal(true);
                 <div className=" text-center mb-3 font-bold">
                   <small>Or sign up with credentials</small>
                 </div>
-                <form>
+                <form >
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -370,28 +406,78 @@ const handleShow = () => setShowModal(true);
     
                     <div className="relative  mt-4 mb-3">
 
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-role"
-                      >
-                                            <i class="fa-solid fa-graduation-cap"></i>
+                      
+                      <div className="relative w-full mb-3">
+  <label
+    className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+    htmlFor="grid-role"
+  >
+    <i class="fa-solid fa-graduation-cap"></i>
+    {'  '}Role
+  </label>
+  <select
+    id="grid-role"
+    onChange={handleRoleChange} // Add this line
+    defaultValue=""
+    className="border-0 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+  >
+    <option value="">Select role</option> 
+    <option value="student">Student</option>
+    <option value="alumni">Alumni</option>
+    <option value="staff">Staff</option>
+  </select>
+</div>
 
-                                            {'  '}Role
-                     
-                      </label>
-                      <select
-                        id="grid-role"
-                        onChange={handleRoleChange} // Add this line
-                        defaultValue=""
-                        className="border-0 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
-                      >
-                          <option value="">Select role</option> 
+{role === 'alumni' && (
+  <div className="relative w-full mb-3">
+    <label
+      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+      htmlFor="grid-graduation-date"
+    >
+      Graduation Date
+    </label>
+    <input
+      type="date"
+      id="grid-graduation-date"
+      value={graduationDate}
+      onChange={(e) => setGraduationDate(e.target.value)}
+      className="border-0 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+    />
+    <label
+      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+      htmlFor="grid-current-position"
+    >
+      Current Position
+    </label>
+    <input
+      type="text"
+      id="grid-current-position"
+      value={currentPosition}
+      onChange={(e) => setCurrentPosition(e.target.value)}
+      className="border-0 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+    />
+  </div>
+)}
 
-                        <option value="student">Student</option>
-                        <option value="alumni">Alumni</option>
-                        <option value="staff">Staff</option>
-                      </select>
-                    </div>
+{role === 'staff' && (
+  <div className="relative w-full mb-3">
+    <label
+      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+      htmlFor="grid-current-position"
+    >
+      Job
+    </label>
+    <input
+      type="text"
+      id="grid-current-position"
+      value={job_title}
+      onChange={(e) => setjob_title(e.target.value)}
+      className="border-0 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+    />
+  </div>
+)}
+
+                    
                   <div className="flex justify-between">
                     <div className="w-1/2 mr-3">
                   <label
@@ -400,29 +486,20 @@ const handleShow = () => setShowModal(true);
                     >
                       <i class="fa-solid fa-earth-africa"></i>
                         {'  '}Select your country
-                    </label>
-                    <CountryDropdown
-                      value={country}
-                      onChange={(val) => selectCountry(val)} 
-                      className="border-0 mb-3 mt-2 px-3 py-3 mr-3  rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red  focus:ring w-full ease-linear transition-all duration-150 "
-                      />
-                      </div>
-                      <div className="w-1/2 ml-3">
-                         <label
-                      className=" uppercase text-blueGray-600 text-xs font-bold mb-4"
-                      htmlFor="grid-password"
-                    >
-                      <i class="fa-solid fa-mountain-sun"></i>
-                        {'  '}Select your region
-                    </label>
-                    <RegionDropdown
-                      country={country}
-                      value={region}
-                      onChange={(val) => selectRegion(val)}
-                      className="border-0 mb-3 mt-2 px-3 py-3 mr-3  rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red  focus:ring w-full ease-linear transition-all duration-150 "
-                      />
-                      </div>
+                    </label>    
+
+                    
+                  <ReactFlagsSelect  
+                    className="bg-white h-11 rounded mb-4"
+                    onSelect={(code) => selectCountry(code)} 
+                    selected={country}
+                  />
+                      
                   </div>
+                      
+                  </div>
+                  
+                  
                   <div>
                     <label className="inline-flex items-center cursor-pointer">
                       <input
@@ -434,7 +511,7 @@ const handleShow = () => setShowModal(true);
                         I agree with the{" "}
                         <a
                           href="#pablo"
-                          className="text-lightBlue-500"
+                          className="text-lightBlue-500 "
                           onClick={handleShow}
                         >
                           Privacy Policy
@@ -443,12 +520,17 @@ const handleShow = () => setShowModal(true);
                     </label>
                   </div>
 
-                  <div className="text-center mt-6">
+                  <div className="text-center mt-5">
+                  <ReCAPTCHA
+                      className="mb-4 center"
+                      sitekey="6Ldrc4kpAAAAAMtAXLvqZSR6xz4UQpGKP9HI4md4"
+                      onChange={(value)=>onRecaptchaChange(value)}
+                    />
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                      type="button"
+                      type="submit"
                       
-                      onClick={() => signUp()}
+                      onClick={(e) => signUp(e)}
                     >
                       Create Account
                     </button>
@@ -457,12 +539,29 @@ const handleShow = () => setShowModal(true);
   <span class="font-medium"> <p style={{  color: 'red' }}>{errorMessage}</p></span>
 </div>            : null   }
                       {errorMessage == "User registered successfully! Please check your email to verify your account." ?
-                       <div class="p-4 mt-4 mb-4 text-sm text-center text-green-800 rounded-lg bg-green-50 bg-green-200 dark:text-green-700" role="alert">
+                       <div class="p-4 mt-4 mb-4 text-sm text-center text-green-800 rounded-lg bg-green-50 dark:text-green-700" role="alert">
                        <span class="font-medium ">{errorMessage}</span> 
                      </div> :
                         null}
+                        </div>
+                        
                 </form>
               </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             </div>
           </div>
         </div>
