@@ -6,6 +6,8 @@ import axios from "axios";
 import GoogleLogin from "react-google-login";
 import { useLinkedIn } from 'react-linkedin-login-oauth2';
 import linkedin from 'react-linkedin-login-oauth2/assets/linkedin.png';
+import FacebookLogin from '@greatsumini/react-facebook-login';
+
 export default function Register() {
   const [userName, setuserName] = useState('');
   const [role, setRole] = useState('');
@@ -234,6 +236,18 @@ const handleShow = () => setShowModal(true);
                      />
                   
                    </button>
+                   <FacebookLogin
+                          appId="2594710990698655"
+                          onSuccess={(response) => {
+                            console.log('Login Success!', response);
+                          }}
+                          onFail={(error) => {
+                            console.log('Login Failed!', error);
+                          }}
+                          onProfileSuccess={(response) => {
+                            console.log('Get Profile Success!', response);
+                          }}
+                        />
                    <button
                      className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                      type="button"

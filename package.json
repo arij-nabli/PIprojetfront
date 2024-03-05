@@ -17,6 +17,7 @@
     "gulp-append-prepend": "1.0.9",
     "postcss": "8.4.35",
     "react": "18.2.0",
+    "react-avatar-editor": "^13.0.2",
     "react-country-region-selector": "^3.6.1",
     "react-dom": "18.2.0",
     "react-google-login": "^5.2.2",
