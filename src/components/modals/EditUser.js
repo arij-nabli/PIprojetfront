@@ -8,7 +8,6 @@ export default function Modal({user}) {
    const [username, setUsername] = useState(user.username);
    const [email, setEmail] = useState(user.email);
    const [role, setRole] = useState(user.role);
-   const [error, setError] = useState(null);
 
 
     const handleRoleChange = (selectedRole) => {
@@ -87,7 +86,7 @@ export default function Modal({user}) {
                     <label className="mr-4">Role:</label>
                     <select
                       className="p-auto text-sm font-semibold inline-block px-4 rounded-full uppercase last:mr-0 mr-1"
-                      defaultValuevalue={user.role}
+                      defaultValue={user.role}
                       onChange={(e) => handleRoleChange(e.target.value)}
                     >
                       <option value="alumni">Alumni</option>
