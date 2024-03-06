@@ -1,10 +1,21 @@
 import React from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 // components
-
 import CardStats from "components/Cards/CardStats.js";
 
 export default function HeaderStats() {
+
+  const [cardsData, SetCardsData] = useState([]);
+
+  const fetchData = async () => {
+    const response = await axios.get("http://localhost:5000/admin/allusers");
+    SetCardsData(response.data);
+  };
+ useEffect(() => {
+   fetchData();
+ }, []);
   return (
     <>
       {/* Header */}
@@ -16,7 +27,7 @@ export default function HeaderStats() {
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <CardStats
                   statSubtitle="TRAFFIC"
-                  statTitle="350,897"
+                  statTitle={cardsData.length}
                   statArrow="up"
                   statPercent="3.48"
                   statPercentColor="text-emerald-500"
@@ -28,10 +39,22 @@ export default function HeaderStats() {
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <CardStats
                   statSubtitle="NEW USERS"
-                  statTitle="2,356"
-                  statArrow="down"
-                  statPercent="3.48"
-                  statPercentColor="text-red-500"
+                  statTitle={
+                    cardsData.filter(
+                      (user) =>
+                        new Date(user.createdAt) >=
+                        new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)
+                    ).length
+                  }
+                  statArrow="up"
+                  statPercent={
+                    cardsData.filter(
+                      (user) =>
+                        new Date(user.createdAt) >=
+                        new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+                    ).length
+                  }
+                  statPercentColor="text-green-500"
                   statDescripiron="Since last week"
                   statIconName="fas fa-chart-pie"
                   statIconColor="bg-orange-500"
@@ -39,8 +62,10 @@ export default function HeaderStats() {
               </div>
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <CardStats
-                  statSubtitle="SALES"
-                  statTitle="924"
+                  statSubtitle="COMPANIES"
+                  statTitle={
+                    cardsData.filter((user) => user.role === "company").length
+                  }
                   statArrow="down"
                   statPercent="1.10"
                   statPercentColor="text-orange-500"
@@ -51,8 +76,10 @@ export default function HeaderStats() {
               </div>
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <CardStats
-                  statSubtitle="PERFORMANCE"
-                  statTitle="49,65%"
+                  statSubtitle="STUDENTS"
+                  statTitle={
+                    cardsData.filter((user) => user.role === "student").length
+                  }
                   statArrow="up"
                   statPercent="12"
                   statPercentColor="text-emerald-500"

@@ -1,29 +1,45 @@
-import React from "react";
-import { Routes, Route, Navigate} from "react-router-dom";
+import React, { useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 // components
-
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import HeaderStats from "components/Headers/HeaderStats.js";
 import FooterAdmin from "components/Footers/FooterAdmin.js";
-
+import CardTable from "components/Cards/CardTable.js";
 // views
-
 import Dashboard from "views/admin/Dashboard.js";
 import Maps from "views/admin/Maps.js";
 import Settings from "views/admin/Settings.js";
 import Tables from "views/admin/Tables.js";
-import CardTable from "components/Cards/CardTable";
+import CardSettings from "components/Cards/CardSettings";
 
 export default function Admin() {
+  const [showForm, setShowForm] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(""); 
+
+  const handleAddUserClick = () => {
+    setShowForm(!showForm);
+  };
+
+    const handleAdminAdded = () => {
+      setShowForm(false);
+      // Additional logic or actions to perform after admin is added
+    };
+
+     const handleSearchQueryChange = (query) => {
+       setSearchQuery(query);
+     };
+
+
   return (
     <>
       <Sidebar />
-      <div className="relative md:ml-64 bg-blueGray-100">
-        <AdminNavbar />
+      <div className="relative h-screen md:ml-64 bg-blueGray-100">
+        <AdminNavbar onSearchQueryChange={handleSearchQueryChange} />
         {/* Header */}
         <HeaderStats />
+
         <div className="px-4 md:px-10 mx-auto w-full -m-24">
           <Routes>
             <Route path="/admin/dashboard" exact component={Dashboard} />
@@ -34,9 +50,28 @@ export default function Admin() {
           </Routes>
         </div>
         <div className="relative md:ml-12 pl-6 w-11/12 bg-blueGray-100">
-        <CardTable />
+          {showForm ? (
+            <button
+              className="bg-red-500 text-white p-2 mb-3 rounded-md"
+              onClick={handleAddUserClick}
+            >
+              Return
+            </button>
+          ) : (
+            <button
+              className="bg-green-500 text-white p-2 mb-3 rounded-md"
+              onClick={handleAddUserClick}
+            >
+              Add Admin
+            </button>
+          )}
+          {showForm ? (
+            <CardSettings onAdminAdded={handleAdminAdded} />
+          ) : (
+            <CardTable searchQuery={searchQuery} />
+          )}
         </div>
-        <div className="bottom-0 w-full bg-gray-100 text-white">
+        <div className="fixed bottom-0 w-full bg-gray-100 text-white">
           <FooterAdmin />
         </div>
       </div>
