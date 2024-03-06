@@ -13,6 +13,8 @@ import Landing from "views/Landing.js";
 import Profile from "views/Profile.js";
 import Index from "views/Index.js";
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import ContactUs from 'views/ContactUs';
+import AdminContactPage from 'views/admin/AdminContactPage';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <GoogleOAuthProvider clientId="305919606485-hj7u2mmjvcoaa7blqet64uglmpu3e6aa.apps.googleusercontent.com">
@@ -25,6 +27,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       {/* add routes without layouts */}
       <Route path="/landing" exact element={<Landing />} />
       <Route path="/profile" exact element={<Profile/>} />
+      <Route path='/contactus' exact element={<ContactUs />} />
+      <Route path='/contactAdmin' exact element={<AdminContactPage />} />
       <Route path="/" exact element={<Index />}/>
       {/* add redirect for first page */}
       <Route path="*" element={<Navigate to="/" />} />
