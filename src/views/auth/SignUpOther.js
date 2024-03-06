@@ -71,7 +71,7 @@ export default function SignUpOther(route) {
       <div className="container mx-auto px-4 h-full">
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-6/12 px-4">
-            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
+            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white border-0">
               <div className="rounded-t mb-0 px-6 py-6">
                 <div className="text-center mb-3">
                   <h6 className="text-sm font-bold">
@@ -99,7 +99,7 @@ export default function SignUpOther(route) {
                         id="grid-role"
                         onChange={handleRoleChange} // Add this line
                         defaultValue=""
-                        className="border-0 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+                        className="border-0 bg-gray-100 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
                       >
                           <option value="">Select role</option> 
 
@@ -120,7 +120,7 @@ export default function SignUpOther(route) {
                     <CountryDropdown
                       value={country}
                       onChange={(val) => selectCountry(val)} 
-                      className="border-0 mb-3 mt-2 px-3 py-3 mr-3  rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red  focus:ring w-full ease-linear transition-all duration-150 "
+                      className="border-0 bg-gray-100 mb-3 mt-2 px-3 py-3 mr-3  rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red  focus:ring w-full ease-linear transition-all duration-150 "
                       />
                       </div>
                       <div className="w-1/2 ml-3">
@@ -135,7 +135,7 @@ export default function SignUpOther(route) {
                       country={country}
                       value={region}
                       onChange={(val) => selectRegion(val)}
-                      className="border-0 mb-3 mt-2 px-3 py-3 mr-3  rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red  focus:ring w-full ease-linear transition-all duration-150 "
+                      className="border-0 bg-gray-100 mb-3 mt-2 px-3 py-3 mr-3  rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red  focus:ring w-full ease-linear transition-all duration-150 "
                       />
                       </div>
                   </div>

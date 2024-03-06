@@ -188,13 +188,31 @@ export default function Profile() {
                     </div>
                   </div>
                 </div>
-                <div className="text-center mt-12">
-                  <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                    Jenna Stones
-                  </h3>
-                  <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-                    <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>{" "}
-                    Los Angeles, California
+              </div>
+              <div
+                className="w-full ml-10  flex flex-col justify-between "
+                style={{ height: "100%" }}
+              >
+                <div className="flex justify-between" >
+                <div className="flex flex-col break-words mr-5 w-full bg-white mb-10 shadow-xl rounded-lg">
+                  <div className="flex flex-col text-center mt-3">
+                    <h2 className="text-2xl font-semibold leading-normal text-blueGray-700 mb-2">
+                      Hard Skills
+                    </h2>
+                    <div className="text-left flex flex-col mx-auto">
+                    <div className="text-sm leading-normal mt-0 mb-2  text-blueGray-400 font-bold uppercase">
+                      <i className="fas fa-code mr-2 text-lg text-blueGray-400" style={{color:"#BD2C43"}}></i>{" "}
+                      JavaScript, React, Node.js
+                    </div>
+                    <div className="text-sm leading-normal  mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                      <i  style={{color:"#BD2C43"}} className="fas fa-database mr-2 text-lg text-blueGray-400"></i>{" "}
+                      SQL, MongoDB
+                    </div>
+                    <div className="mb-2 text-blueGray-600">
+                      <i  style={{color:"#BD2C43"}} className="fas fa-cloud mr-2 text-lg text-blueGray-400"></i>
+                      AWS, Google Cloud
+                    </div>
+                    </div>
                   </div>
                 </div>
 
@@ -285,7 +303,7 @@ export default function Profile() {
                 </div>
               </div>
             </div>
-         
+          </div>
         </section>
       </main>
       <Footer />

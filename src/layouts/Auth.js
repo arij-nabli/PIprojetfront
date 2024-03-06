@@ -18,7 +18,7 @@ export default function Auth() {
     }}> 
       <Navbar />
       <main>
-        <section className="relative w-full h-full py-40 min-h-screen">
+        <section className="relative w-full h-full py-20 min-h-screen">
           <div
          
           ></div>

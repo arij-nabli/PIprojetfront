@@ -169,7 +169,7 @@ const handleWebsiteChange = (event) => {
 <div className="container mx-auto px-4 h-full">
   <div className="flex content-center items-center justify-center h-full">
     <div className="w-full lg:w-6/12 px-4">
-      <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-custom-gray border-0">
+      <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white border-0">
         <div className="rounded-t mb-0 px-6 py-6">
           <div className="text-center mb-3">
             <h1 className="font-bold text-xl">
@@ -194,7 +194,7 @@ const handleWebsiteChange = (event) => {
                 </label>
                 <input
                   onChange={handlenomEntrepriseChange}
-                  className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+                  className="border-0 bg-gray-100 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
                 />
               </div>
             </div>
@@ -213,7 +213,7 @@ const handleWebsiteChange = (event) => {
                   onChange={handleActivityChanges}
                   id="secteur_activite"
                   name="secteur_activite"
-                  className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+                  className="border-0 px-3 bg-gray-100 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
                 >
                   <option value="">Select</option>
                   <option value="informatique_telecoms">IT / Telecoms</option>
@@ -240,7 +240,7 @@ const handleWebsiteChange = (event) => {
                 type="email"
                 value={email}
                 onChange={handleEmailChange}
-                className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+                className="border-0 bg-gray-100 bg-gray-100 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
               />
               {emailError && <div className="flex items-center text-red-500 text-base mt-2">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5 mr-2">
@@ -271,7 +271,7 @@ const handleWebsiteChange = (event) => {
     type="tel"
     value={telephone}
     onChange={handleTelephoneChange}
-    className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+    className="border-0 px-3 bg-gray-100 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
   />
 
   )}
@@ -300,7 +300,7 @@ const handleWebsiteChange = (event) => {
       <input
         onChange={handleAdresseChange}
         type="adresse"
-        className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+        className="border-0 bg-gray-100 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
       />
     </div>
   </div>
@@ -320,7 +320,7 @@ const handleWebsiteChange = (event) => {
       type="text"
       onChange={handlesetdescreption}
       placeholder="Describe your company"
-      className="border-0 mb-3 mt-2 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150 "
+      className="border-0 bg-gray-100 mb-3 mt-2 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150 "
     />
   </div>
 </div>
@@ -338,7 +338,7 @@ const handleWebsiteChange = (event) => {
       type="url"
       onChange={handleWebsiteChange}
       placeholder="Website URL ex: https://EspriCompass.com"
-      className="border-0 mb-3 mt-2 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+      className="border-0 bg-gray-100 mb-3 mt-2 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
     />
   </div>
 </div>
@@ -358,7 +358,7 @@ const handleWebsiteChange = (event) => {
           type={passwordVisible ? "text" : "password"}
           value={password}
           onChange={handlePasswordChange}
-          className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+          className="border-0 bg-gray-100 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
         />
         <i 
           onClick={() => setPasswordVisible(!passwordVisible)}
@@ -401,7 +401,7 @@ const handleWebsiteChange = (event) => {
         type="password"
         value={confirmPassword}
         onChange={handleConfirmPasswordChange}
-        className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+        className="border-0 bg-gray-100 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
         disabled={!password || passwordError.length > 0}  // Disable Confirm Password if Password is not filled or has errors
       />
      {passwordMatchError && 
@@ -421,7 +421,7 @@ const handleWebsiteChange = (event) => {
                       <input
                         id="customCheckLogin"
                         type="checkbox"
-                        className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear focus:ring-custom-red transition-all duration-150"
+                        className="form-checkbox bg-gray-100 border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear focus:ring-custom-red transition-all duration-150"
                       />
                       <span className="ml-2 text-sm font-semibold text-blueGray-600">
                         I agree with the{" "}

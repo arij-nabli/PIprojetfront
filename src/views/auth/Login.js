@@ -126,7 +126,7 @@ const handleForgotPassword = async () => {
                  
                
                 <button
-                    className=" mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase  hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                    className=" mr-4 bg-gray-100 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase  hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
                  
                   >
@@ -138,7 +138,7 @@ const handleForgotPassword = async () => {
                  
                   </button>
                   <button
-                    className=" mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase  hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                    className="bg-gray-100 mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase  hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
                  
                   >
@@ -150,7 +150,7 @@ const handleForgotPassword = async () => {
                  
                   </button>
                   <button
-                    className=" mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase  hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                    className="bg-gray-100 mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase  hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
                  
                   >
@@ -162,7 +162,7 @@ const handleForgotPassword = async () => {
                  
                   </button>
                   <button
-                    className=" active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase  hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                    className="bg-gray-100 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase  hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
                  
                   >
@@ -195,7 +195,7 @@ const handleForgotPassword = async () => {
                       value={email}
                       required
                       onChange={handleEmailChange}
-                      className="bg-gray-200 border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+                      className="bg-gray-100 border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
                     />
                      { emailError && <div className="flex items-center text-red-500 text-base mt-2">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5 mr-2">
@@ -218,7 +218,7 @@ const handleForgotPassword = async () => {
                         value={password}
                         required
                         onChange={handlePasswordChange}
-                        className="bg-gray-200 border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+                        className="bg-gray-100 border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
                       />
                       <i 
                         onClick={() => setPasswordVisible(!passwordVisible)}

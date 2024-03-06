@@ -228,7 +228,7 @@ const handleShow = () => setShowModal(true);
       <div className="container mx-auto px-4 h-full">
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-6/12 px-4">
-            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
+            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white border-0">
               <div className="rounded-t mb-0 px-6 py-6">
                 <div className="text-center mb-3">
                   <h6 className="text-sm font-bold">
@@ -239,7 +239,7 @@ const handleShow = () => setShowModal(true);
                  
                
                  <button
-                     className="bg-white mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                     className="bg-gray-100 mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                      type="button"
                     onClick={()=>loginGoogle()}
                    >
@@ -251,7 +251,7 @@ const handleShow = () => setShowModal(true);
                   
                    </button>
                    <button
-                     className="bg-white mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                     className="bg-gray-100 mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                      type="button"
                      onClick={() => window.location.href = githubOAuthURL}                   >
                      <img
@@ -272,7 +272,7 @@ const handleShow = () => setShowModal(true);
                           onProfileSuccess={(response) => {
                             console.log('Get Profile Success!', response);
                           }}
-                          className="bg-white mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                          className="bg-gray-100 mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
 
                         > <img
                         alt="..."
@@ -280,7 +280,7 @@ const handleShow = () => setShowModal(true);
                         src={require("assets/img/fcbk.svg").default}
                       /></FacebookLogin>
                    <button
-                     className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                     className="bg-gray-100 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                      type="button"
                   
                    >
@@ -294,7 +294,7 @@ const handleShow = () => setShowModal(true);
                    </button>
  
                  </div>
-                <hr className="border-b-1 border-blueGray-300" />
+                <hr className="border-b-1 mt-3 border-blueGray-300" />
               </div>
               <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
                 <div className=" text-center mb-3 font-bold">
@@ -312,7 +312,7 @@ const handleShow = () => setShowModal(true);
                     <input
                         onChange={handleuserNameChange} // Add this line
 
-                      className="border-0 px-3 py-3   rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150 "
+                      className="border-0 px-3 py-3 bg-gray-100  rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150 "
                     
                     />
                   </div>
@@ -329,7 +329,7 @@ const handleShow = () => setShowModal(true);
         type="email"
         value={email}
         onChange={handleEmailChange}
-        className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+        className="bg-gray-100 border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
       />
 {emailError && 
   <div className="flex items-center text-red-500 text-base mt-2">
@@ -353,7 +353,7 @@ const handleShow = () => setShowModal(true);
         type={passwordVisible ? "text" : "password"}
         value={password}
         onChange={handlePasswordChange}
-        className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+        className="border-0 px-3 bg-gray-100 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
       />
    
    
@@ -388,7 +388,7 @@ const handleShow = () => setShowModal(true);
         type="password"
         value={confirmPassword}
         onChange={handleConfirmPasswordChange}
-        className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+        className="border-0 bg-gray-100 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
       />
 {passwordMatchError && 
   <div className="flex items-center text-red-500 text-base mt-2">
@@ -414,7 +414,7 @@ const handleShow = () => setShowModal(true);
     id="grid-role"
     onChange={handleRoleChange} // Add this line
     defaultValue=""
-    className="border-0 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+    className="border-0 bg-gray-100 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
   >
     <option value="">Select role</option> 
     <option value="student">Student</option>
@@ -436,7 +436,7 @@ const handleShow = () => setShowModal(true);
       id="grid-graduation-date"
       value={graduationDate}
       onChange={(e) => setGraduationDate(e.target.value)}
-      className="border-0 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+      className="border-0 px-3 bg-gray-100 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
     />
     <label
       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -449,7 +449,7 @@ const handleShow = () => setShowModal(true);
       id="grid-current-position"
       value={currentPosition}
       onChange={(e) => setCurrentPosition(e.target.value)}
-      className="border-0 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+      className="border-0 bg-gray-100 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
     />
   </div>
 )}
@@ -467,7 +467,7 @@ const handleShow = () => setShowModal(true);
       id="grid-current-position"
       value={job_title}
       onChange={(e) => setjob_title(e.target.value)}
-      className="border-0 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+      className="border-0 bg-gray-100 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
     />
   </div>
 )}
@@ -485,7 +485,7 @@ const handleShow = () => setShowModal(true);
 
                     
                   <ReactFlagsSelect  
-                    className="bg-white h-11 rounded mb-4"
+                    className="bg-gray-100 h-11 rounded mb-4"
                     onSelect={(code) => selectCountry(code)} 
                     selected={country}
                   />
@@ -496,11 +496,11 @@ const handleShow = () => setShowModal(true);
                   
                   
                   <div>
-                    <label className="inline-flex items-center cursor-pointer">
+                    <label className="inline-flex items-center cursor-pointer mt-4">
                       <input
                         id="customCheckLogin"
                         type="checkbox"
-                        className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear focus:ring-custom-red transition-all duration-150"
+                        className="form-checkbox bg-gray-100 border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear focus:ring-custom-red transition-all duration-150"
                       />
                       <span className="ml-2 text-sm font-semibold text-blueGray-600">
                         I agree with the{" "}
@@ -517,7 +517,7 @@ const handleShow = () => setShowModal(true);
 
                   <div className="text-center mt-5">
                   <ReCAPTCHA
-                      className="mb-4 center"
+                      className="mb-4 mt-5 self-center"
                       sitekey="6Ldrc4kpAAAAAMtAXLvqZSR6xz4UQpGKP9HI4md4"
                       onChange={(value)=>onRecaptchaChange(value)}
                     />
@@ -568,8 +568,8 @@ const handleShow = () => setShowModal(true);
         <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
       </div>
       <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-      <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-        <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+      <div className="inline-block align-bottom bg-gray-100 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div className="bg-gray-100 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div className="sm:flex sm:items-start">
             <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
               <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">
