@@ -18,6 +18,7 @@ export default function CardSettings({ onAdminAdded }) {
       username,
       email,
       password,
+      verified
     };
     axios
       .post("http://localhost:5000/admin/addAdmin", data)
