@@ -6,9 +6,9 @@ import "react-intl-tel-input/dist/main.css";
 export default function CompanyRegister() {
   const [redirectToSignIn, setRedirectToSignIn] = useState(false);
   const [ descreption, setdescreption] = useState('');
-  //const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [setLogo] = useState(null);
+  const [logo, setLogo] = useState(null);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [password, setPassword] = useState('');
@@ -21,7 +21,7 @@ export default function CompanyRegister() {
   const [telephone, setTelephone] = useState('');
 const [telephoneError, setTelephoneError] = useState('');
 const [website, setWebsite] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
+
 const [acceptedConditions, setAcceptedConditions] = useState(false);
 const [showModal, setShowModal] = useState(false);
 const handleClose = () => setShowModal(false);

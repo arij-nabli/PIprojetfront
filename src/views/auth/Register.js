@@ -88,6 +88,7 @@ const githubOAuthURL = `https://github.com/login/oauth/authorize?client_id=${GIT
       });
   };
   const selectCountry = (value) => {
+    console.log(value);
     setCountry(value);
   };
   
@@ -260,18 +261,6 @@ const handleShow = () => setShowModal(true);
                      />
                   
                    </button>
-                   <button
-                     className="bg-white mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                     type="button"
-                  
-                   >
-                     <img
-                       alt="..."
-                       className="w-5 "
-                       src={require("assets/img/fcbk.svg").default}
-                     />
-                  
-                   </button>
                    <FacebookLogin
                           appId="2594710990698655"
                           onSuccess={(response) => {
@@ -283,7 +272,13 @@ const handleShow = () => setShowModal(true);
                           onProfileSuccess={(response) => {
                             console.log('Get Profile Success!', response);
                           }}
-                        />
+                          className="bg-white mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+
+                        > <img
+                        alt="..."
+                        className="w-5 "
+                        src={require("assets/img/fcbk.svg").default}
+                      /></FacebookLogin>
                    <button
                      className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                      type="button"

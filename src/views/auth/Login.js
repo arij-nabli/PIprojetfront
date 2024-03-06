@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import HashLoader from "react-spinners/HashLoader";
-
+import { useNavigate } from "react-router-dom";
 export default function Login() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
@@ -15,6 +15,7 @@ export default function Login() {
   const [color, setColor] = useState("#BD2C43");
   const [emailSent, setEmailSent] = useState(false);
   const [role, setRole] = useState('user');
+  const navigate = useNavigate();
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -37,11 +38,22 @@ export default function Login() {
       password,
     };
     try {
-      const response = await axios.post('http://localhost:5000/auth/login', userData);
       setIsLoading(true)
-      console.log(response);
+      const response = await axios.post('http://localhost:5000/auth/login', userData);
+      
+      console.log(response.data);
+      localStorage.setItem('token', response.data.token);
+      const role =response.data.role.role;
+      if(role === 'admin')
+       { navigate('/admin/dashboard', { replace: true });}
+        else {
+          navigate('/profile', { replace: true });
+}
+
+      setIsLoading(false)
       // Si l'authentification réussit, vous pouvez effectuer des actions supplémentaires ici
     } catch (error) {
+      setIsLoading(false)
       console.error(error.response.data);
       if (error.response.status === 401) {
         setErrorMessage("Incorrect Password");
@@ -49,7 +61,7 @@ export default function Login() {
         setErrorMessage("User Not Found");
       } 
       if(error.response.status === 403) {
-        setErrorMessage("Please verify");
+        setErrorMessage("Please verify your email address first");
       }
     
     }
