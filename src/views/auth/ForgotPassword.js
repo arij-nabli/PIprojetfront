@@ -50,7 +50,7 @@ const ForgotPassword = () => {
       })
       .catch((error) => {
         console.error('Error:', error);
-        setserverError("error");
+        setserverError(error.response.data.message);
       });
   };
   const handleNewPasswordChange = (event) => {
@@ -89,7 +89,7 @@ const ForgotPassword = () => {
     <div className="container mx-auto px-4  h-full">
       <div className="flex content-center items-center justify-center h-full">
         <div className="w-full lg:w-4/12 px-4">
-          <div className="relative flex p-4 flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-custom-gray border-0">
+          <div className="relative flex p-4 flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white border-0">
             <h2 className="text-center mb-5">Forgot Password</h2>
             <form onSubmit={handleSubmit}>
           
@@ -106,7 +106,7 @@ const ForgotPassword = () => {
                         value={newPassword}
                         required
                         onChange={handleNewPasswordChange}
-                        className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+                        className="border-0 bg-gray-100 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
                       />
                       <i 
                         onClick={() => setPasswordVisible(!passwordVisible)}
@@ -140,7 +140,7 @@ const ForgotPassword = () => {
                   value={confirmNewPassword}
                   required
                   onChange={(e) => handleConfirmPasswordChange(e)}
-                  className="border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+                  className="border-0 bg-gray-100 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
                 />
                   <i 
                         onClick={() => setPasswordVisible(!passwordVisible)}
