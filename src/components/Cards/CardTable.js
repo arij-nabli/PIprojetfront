@@ -37,6 +37,7 @@ const toggleModalUser = (index) => {
         `http://localhost:5000/admin/deleteuser/${userId}`
       );
       console.log(res.data);
+      window.location.reload();
     } catch (err) {
       console.error(err.message);
     }
@@ -209,7 +210,7 @@ const toggleModalUser = (index) => {
                       </svg>
                     </button>
 
-                    <button onClick={() => deleteUser(user.id)}>
+                    <button onClick={() => deleteUser(user._id)}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="red"

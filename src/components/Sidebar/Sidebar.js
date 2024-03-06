@@ -22,7 +22,7 @@ export default function Sidebar() {
           {/* Brand */}
           <Link
             className="md:block text-center md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-            to="/"  
+            to="/auth/login"  
           >
             ESPRIT COMPASS
           </Link>

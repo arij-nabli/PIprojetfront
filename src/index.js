@@ -23,15 +23,11 @@ function MainApp() {
       setIsLoading(false);
     };
 
-    window.addEventListener('load', handleLoad);
 
     return () => window.removeEventListener('load', handleLoad);
   }, []);
 
-  if (isLoading) {
-    return <HashLoader />;
-  }
-
+ 
   return (
     <GoogleOAuthProvider clientId="305919606485-hj7u2mmjvcoaa7blqet64uglmpu3e6aa.apps.googleusercontent.com">
       <BrowserRouter>
