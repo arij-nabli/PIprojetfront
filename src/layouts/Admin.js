@@ -14,6 +14,7 @@ import Dashboard from "views/admin/Dashboard.js";
 import Maps from "views/admin/Maps.js";
 import Settings from "views/admin/Settings.js";
 import Tables from "views/admin/Tables.js";
+import CardTable from "components/Cards/CardTable";
 
 export default function Admin() {
   return (
@@ -30,8 +31,12 @@ export default function Admin() {
             <Route path="/admin/settings" exact component={Settings} />
             <Route path="/admin/tables" exact component={Tables} />
             <Route path="/admin" element={<Navigate to="/admin/dashboard" />} />
-
           </Routes>
+        </div>
+        <div className="relative md:ml-12 pl-6 w-11/12 bg-blueGray-100">
+        <CardTable />
+        </div>
+        <div className="bottom-0 w-full bg-gray-100 text-white">
           <FooterAdmin />
         </div>
       </div>
