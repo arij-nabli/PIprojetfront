@@ -257,7 +257,7 @@ const handleForgotPassword = async () => {
                 </a>
               </div>
               <div className="w-1/2 text-right">
-                <Link to="/auth/register" className="text-blueGray-200">
+                <Link to="/auth/register/user" className="text-blueGray-200">
                   <small>Create new account</small>
                 </Link>
               </div>
