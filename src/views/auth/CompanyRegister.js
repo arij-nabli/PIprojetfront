@@ -27,11 +27,6 @@ export default function CompanyRegister() {
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
   const signUp = () => {
-    if (!isFormValid()) {
-      setErrorMessage('Please fill in all fields');
-      return;
-    }
-
     const companyData = {
       username: nomEntreprise,
       email: email,
@@ -44,21 +39,33 @@ export default function CompanyRegister() {
       location: adresse,
     };
     console.log("Company Data:", companyData);
-    axios.post('http://localhost:5000/auth/register', JSON.stringify(companyData), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => {
+    axios
+      .post(
+        "http://localhost:5000/auth/register",
+        JSON.stringify(companyData),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
         console.log(response.data);
-        setErrorMessage("Your Request will be validated by an admin.S")
+        setErrorMessage(
+          "Company registered successfully! Please check your email to verify your account."
+        );
       })
-      .catch(error => {
-        console.log(error)
-        if(error.response.data.message === "User already exists")
-        setErrorMessage("This company has already been registered")
+      .catch((error) => {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          setErrorMessage(error.response.data.message);
+        }
       });
   };
+
   const handleConditionsChange = () => {
     setAcceptedConditions(!acceptedConditions);
   };
@@ -91,24 +98,18 @@ export default function CompanyRegister() {
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-  
+
     const errors = [];
-    if (event.target.value.length < 8) {
-      errors.push('Password must contain at least 8 characters');
+    if (event.target.value.length < 6) {
+      errors.push("Password must contain at least 6 characters");
     }
     if (!/[A-Z]/.test(event.target.value)) {
-      errors.push('Password must contain an uppercase letter');
-    }
-    if (!/[a-z]/.test(event.target.value)) {
-      errors.push('Password must contain a lowercase letter');
+      errors.push("Password must contain an uppercase letter");
     }
     if (!/\d/.test(event.target.value)) {
-      errors.push('Password must contain a number');
+      errors.push("Password must contain a number");
     }
-    if (!/[!@#$%^&*]/.test(event.target.value)) {
-      errors.push('Password must contain a special character');
-    }
-  
+
     setPasswordError(errors);
   };
 
@@ -130,7 +131,7 @@ export default function CompanyRegister() {
 
     // Add any validation logic here
     if (value.trim() === "") {
-      setTelephoneError("phone in valid ");
+      setTelephoneError("Téléphone ne peut pas être vide");
     } else {
       setTelephoneError("");
     }
@@ -146,7 +147,7 @@ export default function CompanyRegister() {
     // Validation supplémentaire si nécessaire
     if (!/^\d+$/.test(numericValue)) {
       setTelephoneError(
-        "The telephone number must contain only number."
+        "Le numéro de téléphone doit contenir uniquement des chiffres."
       );
     } else {
       setTelephoneError("");
@@ -165,11 +166,9 @@ export default function CompanyRegister() {
       secteurActivite &&
       descreption &&
       adresse &&
-      telephone&&
-      website 
+      telephone
     );
   };
- 
   return (
     <>
       <div className="container mx-auto px-4 h-full">
@@ -290,16 +289,17 @@ export default function CompanyRegister() {
                         <div className="flex items-center">
                           <IntlTelInput
                             containerClassName="intl-tel-input"
-                            className="border-0 bg-gray-100 bg-gray-100 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
                             
-                             
+                            inputComponent={({ value, onChange }) => (
+                              <input
                                 type="tel"
-                               
+                                className="border-0 bg-gray-100 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+
                                 value={telephone}
                                 onChange={handleTelephoneChange}
-                            
+                              />
 
-                          
+                            )}
                             preferredCountries={[]}
                             defaultCountry="tn"
                             format
@@ -395,16 +395,37 @@ export default function CompanyRegister() {
                             } absolute mr-3 right-3 top-1/2 transform -translate-y-1/2 cursor-pointer`}
                           />
                         </div>
-                        
+                        {passwordError.length > 0 && (
+                          <div className="text-red-500 text-base mt-2 space-y-2">
+                            {passwordError.map((error, index) => (
+                              <div key={index} className="flex items-center">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                  className="h-5 w-5 mr-2"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M6 18L18 6M6 6l12 12"
+                                  />
+                                </svg>
+                                <p>{error}</p>
+                              </div>
+                            ))}
+                          </div>
+                        )}
 
-{passwordError.length > 0 && (
-  <div className="text-red-500 text-xs mt-2">
-    {passwordError.map((error, index) => (
-      <p key={index}>{error}</p>
-    ))}
-  </div>
-)}
-
+                        {passwordError.length > 0 && (
+                          <div className="text-red-500 text-xs mt-2">
+                            {passwordError.map((error, index) => (
+                              <p key={index}>{error}</p>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -468,7 +489,6 @@ export default function CompanyRegister() {
                   </div>
 
                   <div className="text-center mt-6">
-                 
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
@@ -477,15 +497,28 @@ export default function CompanyRegister() {
                       Create Account
                     </button>
                   </div>
-                 
-                  {errorMessage && errorMessage != "Your Request will be validated by an admin.S"?<div class="p-4 mb-4 flex justify-center relative text-sm text-red-800 rounded-lg bg-red-200 mt-5  dark:text-red-400" role="alert">
-  <span class="font-medium"> <p style={{  color: 'red' }}>{errorMessage}</p></span>
-</div>            : null   }
-                      {errorMessage == "Your Request will be validated by an admin.S" ?
-                       <div class="p-4 mt-4 mb-4 text-sm text-center text-green-800 rounded-lg bg-green-50 dark:text-green-700" role="alert">
-                       <span class="font-medium ">{errorMessage}</span> 
-                     </div> :
-                        null}
+                  {errorMessage &&
+                  errorMessage !=
+                    "Your Request will be validated by an admin as soon as possible !Please check your email " ? (
+                    <div
+                      class="p-4 mb-4 flex justify-center relative text-sm text-red-800 rounded-lg bg-red-200 mt-5  dark:text-red-400"
+                      role="alert"
+                    >
+                      <span class="font-medium">
+                        {" "}
+                        <p style={{ color: "red" }}>{errorMessage}</p>
+                      </span>
+                    </div>
+                  ) : null}
+                  {errorMessage ==
+                  "User registered successfully! Please check your email to verify your account." ? (
+                    <div
+                      class="p-4 mt-4 mb-4 text-sm text-center text-green-800 rounded-lg bg-green-50 bg-green-200 dark:text-green-700"
+                      role="alert"
+                    >
+                      <span class="font-medium ">{errorMessage}</span>
+                    </div>
+                  ) : null}
                 </form>
               </div>
             </div>
