@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import ReactAvatarEditor from "react-avatar-editor";
 import axios from "axios";
-import Navbar from "components/Navbars/AuthNavbar.js";
+import Navbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footers/Footer.js";
-
+import { useNavigate } from "react-router-dom";
+import HashLoader from "react-spinners/HashLoader";
 export default function Profile() {
   const [state, setState] = useState({
     image: "",
@@ -16,15 +17,15 @@ export default function Profile() {
     width: 330,
     height: 330,
   });
-
-  const token = localStorage.getItem("token");
-
+  const [token, setToken] = useState(localStorage.getItem("token")); 
+  const navigate = useNavigate();
   const [processedImage, setProcessedImage] = useState(null); // New state for processed image
   const [showEditor, setShowEditor] = useState(false); // New state for showing the editor
   const [showMore, setShowMore] = useState(false); // New state variable
   const [name, setName] = useState("John Doe");
   const [country, setCountry] = useState("Tunisia");
   const [jobTitle, setJobTitle] = useState("Software Engineer");
+  const [isLoading, setIsLoading] = useState(true);
   const [description, setDescription] = useState(
     "Full-Stack web developer with 3 years of experience in building web applications."
   );
@@ -68,15 +69,30 @@ export default function Profile() {
         console.log(response.data);
         setName(response.data.user.username);
         setEmail(response.data.user.email);
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
+        setIsLoading(false);
       }
     };
 
     fetchUserData();
-  }, []);
+  }, [token]);
+
   return (
     <>
+    {isLoading ? (
+     <div style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+     <HashLoader
+       color={"#BD2C43"}
+       loading={isLoading}
+       size={150}
+       aria-label="Loading Spinner"
+       data-testid="loader"
+     />
+   </div>
+    ) : (
+      <>
       <Navbar />
       <main
         className="profile-pagerelative w-full h-full py-10 "
@@ -364,5 +380,8 @@ export default function Profile() {
         </div>
       )}
     </>
+    )}
+  </>
+ 
   );
 }

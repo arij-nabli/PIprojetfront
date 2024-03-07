@@ -99,18 +99,7 @@ const handleForgotPassword = async () => {
 
   return (
 
-    <>
-    {isLoading ? (
-     <div style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-     <HashLoader
-       color={color}
-       loading={isLoading}
-       size={150}
-       aria-label="Loading Spinner"
-       data-testid="loader"
-     />
-   </div>
-    ) : (
+
       <>
       <div className="container mx-auto px-4 h-full ">
         <div className="flex content-center items-center justify-center  h-full">
@@ -265,9 +254,8 @@ const handleForgotPassword = async () => {
           </div>
         </div>
       </div>
-    </>
-    )}
-  </>
+ 
+      </>
   
   );
 }

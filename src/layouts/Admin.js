@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-
+import React, { useEffect, useState } from "react";
+import { Routes, Route,useNavigate,Navigate } from "react-router-dom";
+import axios from "axios";
 // components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
@@ -13,11 +13,13 @@ import Maps from "views/admin/Maps.js";
 import Settings from "views/admin/Settings.js";
 import Tables from "views/admin/Tables.js";
 import CardSettings from "components/Cards/CardSettings";
-
+import HashLoader from "react-spinners/HashLoader";
 export default function Admin() {
   const [showForm, setShowForm] = useState(false);
   const [searchQuery, setSearchQuery] = useState(""); 
+  const [isLoading, setIsLoading] = useState(true);
 
+  const navigate = useNavigate();
   const handleAddUserClick = () => {
     setShowForm(!showForm);
   };
@@ -31,9 +33,50 @@ export default function Admin() {
        setSearchQuery(query);
      };
 
-
+     useEffect(() => {
+      
+      const token = localStorage.getItem('token');
+      const fetchUserData = async () => {
+        try {
+          const response = await axios.get(
+            "http://localhost:5000/auth/getUserDataFromToken",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          console.log(response.data);
+            if (response.data.user.role != "admin"){
+              navigate("/auth/login")
+            }
+            else{
+              setIsLoading(false);
+            }
+        } catch (error) {
+          console.error(error);
+           setIsLoading(false);
+        }
+      };
+  
+      fetchUserData();
+    
+     })
   return (
     <>
+    {isLoading ? (
+     <div style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+     <HashLoader
+       color={"#BD2C43"}
+       loading={isLoading}
+       size={150}
+       aria-label="Loading Spinner"
+       data-testid="loader"
+     />
+   </div>
+    ) : (
+      <>
+    
       <Sidebar />
       <div className="relative h-screen md:ml-64 bg-blueGray-100">
         <AdminNavbar onSearchQueryChange={handleSearchQueryChange} />
@@ -75,5 +118,9 @@ export default function Admin() {
         </div>
       </div>
     </>
+    )}
+  </>
+    
+
   );
 }

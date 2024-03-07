@@ -14,7 +14,8 @@ import Profile from "views/Profile.js";
 import Index from "views/Index.js";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import HashLoader from "react-spinners/HashLoader";
-
+import AuthGuard from "components/AuthGuard";
+import NoAuthGuard from "components/NoAuthGuard";
 function MainApp() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -30,20 +31,17 @@ function MainApp() {
  
   return (
     <GoogleOAuthProvider clientId="305919606485-hj7u2mmjvcoaa7blqet64uglmpu3e6aa.apps.googleusercontent.com">
-      <BrowserRouter>
-        <Routes>
-          {/* add routes with layouts */}
-          <Route path="/admin/*" element={<Admin />} />
-          <Route path="/auth/*" element={<Auth />} />
-          {/* add routes without layouts */}
-          <Route path="/landing" exact element={<Landing />} />
-          <Route path="/profile" exact element={<Profile />} />
-          <Route path="/" exact element={<Index />} />
-          {/* add redirect for first page */}
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </BrowserRouter>
-    </GoogleOAuthProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/admin/*" element={<AuthGuard><Admin /></AuthGuard>} />
+        <Route path="/auth/*" element={<NoAuthGuard><Auth /></NoAuthGuard>} />
+        <Route path="/landing" exact element={<Landing />} />
+        <Route path="/profile" element={<AuthGuard><Profile /></AuthGuard>} />
+        <Route path="/" exact element={<Auth />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </BrowserRouter>
+  </GoogleOAuthProvider>
   );
 }
 
