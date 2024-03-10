@@ -61,14 +61,7 @@ export default function Navbar(props) {
                   Join as company
                 </Link>
               </li>
-              <li className="flex items-center">
-                <Link
-                to={"/"}
-                  className="text-black lg:hover:text-blueGray-200  px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                >
-                  Home
-                </Link>
-              </li>
+         
               <li className="flex items-center ">
                 <PagesDropdown />
               </li>

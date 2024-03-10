@@ -16,6 +16,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import HashLoader from "react-spinners/HashLoader";
 import AuthGuard from "components/AuthGuard";
 import NoAuthGuard from "components/NoAuthGuard";
+import SetToken from "components/SetToken";
 function MainApp() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -38,6 +39,7 @@ function MainApp() {
         <Route path="/landing" exact element={<Landing />} />
         <Route path="/profile" element={<AuthGuard><Profile /></AuthGuard>} />
         <Route path="/" exact element={<Auth />} />
+        <Route path="/set-token" element={<SetToken />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
