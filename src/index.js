@@ -16,6 +16,8 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import HashLoader from "react-spinners/HashLoader";
 import AuthGuard from "components/AuthGuard";
 import NoAuthGuard from "components/NoAuthGuard";
+import Dashboard from "views/admin/Dashboard";
+import Offer from "views/Offer";
 function MainApp() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -36,6 +38,7 @@ function MainApp() {
         <Route path="/admin/*" element={<AuthGuard><Admin /></AuthGuard>} />
         <Route path="/auth/*" element={<NoAuthGuard><Auth /></NoAuthGuard>} />
         <Route path="/landing" exact element={<Landing />} />
+        <Route path="/offer" exact element={<Offer/>} />
         <Route path="/profile" element={<AuthGuard><Profile /></AuthGuard>} />
         <Route path="/" exact element={<Auth />} />
         <Route path="*" element={<Navigate to="/" />} />

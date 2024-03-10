@@ -108,7 +108,7 @@ const handleForgotPassword = async () => {
             <div className="rounded-t mb-0 px-6 py-6">
                 <div className="text-center mb-3">
                   <h6 className="text-sm font-bold">
-                    Sign up with
+                    Sign in with
                   </h6>
                 </div>
                 <div className="btn-wrapper text-center flex justify-center">
