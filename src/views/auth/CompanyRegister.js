@@ -36,6 +36,7 @@ export default function CompanyRegister() {
       industry: secteurActivite,
       description: descreption,
       phone: telephone,
+      country:{label:"tunisia"},
       location: adresse,
     };
     console.log("Company Data:", companyData);
@@ -128,7 +129,7 @@ export default function CompanyRegister() {
 
   const handleTelephoneChange = (e) => {
     const value = e.target.value;
-
+      console.log(value)
     // Add any validation logic here
     if (value.trim() === "") {
       setTelephoneError("Téléphone ne peut pas être vide");
