@@ -9,7 +9,7 @@
     "@dsalvagni/react-profile-picture": "^1.0.1",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
-    "@fortawesome/fontawesome-free": "6.5.1",
+    "@fortawesome/fontawesome-free": "^6.5.1",
     "@greatsumini/react-facebook-login": "^3.3.3",
     "@popperjs/core": "2.11.8",
     "@react-oauth/google": "^0.12.1",
