@@ -23,7 +23,7 @@ export default function Profile() {
   const [processedImage, setProcessedImage] = useState(null) // New state for processed image
   const [showEditor, setShowEditor] = useState(false) // New state for showing the editor
   const [showMore, setShowMore] = useState(false) // New state variable
-  const [name, setName] = useState('John Doe')
+  const [name, setName] = useState('Chaima Idoudi')
   const [country, setCountry] = useState('Tunisia')
   const [jobTitle, setJobTitle] = useState('Software Engineer')
   const [isLoading, setIsLoading] = useState(true)
@@ -45,7 +45,27 @@ export default function Profile() {
     setShowEditor(false)
     document.getElementById('dropzone-file').click()
   }
+  const [editMode, setEditMode] = useState(false)
+  const [contactInfo, setContactInfo] = useState({
+    fullName: 'Chaima Idoudi',
 
+    email: 'idoudi.chaima@esprit.tn',
+    phone: '51730998',
+  })
+
+  const handleEdit = () => {
+    setEditMode(true)
+  }
+
+  const handleSave = () => {
+    // Save the updated contact information
+    setEditMode(false)
+  }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setContactInfo({ ...contactInfo, [name]: value })
+  }
   const handleScale = (e) => {
     const scale = parseFloat(e.target.value)
     setState({ ...state, scale })
@@ -178,15 +198,97 @@ export default function Profile() {
                       </button>
 
                       <div className='mx-auto mt-2'>
-                        <h3 className='text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2'>
-                          {name}
-                        </h3>
-                        <div className='text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase'>
-                          <i
-                            style={{ color: '#BD2C43' }}
-                            className='fas fa-map-marker-alt mr-2 text-lg text-blueGray-400'></i>{' '}
-                          {country}
+                        {/*<section>
+                          <h2 className='text-2xl font-semibold leading-normal border-t pt-10 border-blueGray-200 mb-2 text-blueGray-700 mb-2'>
+                            Contact Information
+                          </h2>
+                          <h3 className='text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2'>
+                            {name}
+                          </h3>
+                          <div className='text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase'>
+                            <i
+                              style={{ color: '#BD2C43' }}
+                              className='fas fa-map-marker-alt mr-2 text-lg text-blueGray-400'></i>{' '}
+                            {country}
+                          </div>
+                        </section>*/}
+                        <div className='border p-4 rounded-md shadow-md'>
+                          <h2 className='text-lg font-semibold mb-4'>
+                            Contact Information
+                          </h2>
+                          {editMode ? (
+                            <div>
+                              <label htmlFor='firstName' className='block mb-1'>
+                                fullName
+                              </label>
+                              <input
+                                type='text'
+                                id='fullName'
+                                name='fullName'
+                                value={contactInfo.firstName}
+                                onChange={handleChange}
+                                className='w-full border rounded-md px-3 py-2 mb-2'
+                              />
+
+                              <label htmlFor='email' className='block mb-1'>
+                                Email
+                              </label>
+                              <input
+                                type='email'
+                                id='email'
+                                name='email'
+                                value={contactInfo.email}
+                                onChange={handleChange}
+                                className='w-full border rounded-md px-3 py-2 mb-2'
+                              />
+                              <label htmlFor='phone' className='block mb-1'>
+                                Phone
+                              </label>
+                              <input
+                                type='text'
+                                id='phone'
+                                name='phone'
+                                value={contactInfo.phone}
+                                onChange={handleChange}
+                                className='w-full border rounded-md px-3 py-2 mb-2'
+                              />
+                              <div className='mt-4'>
+                                <button
+                                  onClick={handleSave}
+                                  className='bg-blue-500 text-white px-4 py-2 rounded-md mr-2'>
+                                  Save
+                                </button>
+                                <button
+                                  onClick={() => setEditMode(false)}
+                                  className='bg-transparent border border-gray-500 text-gray-500 px-4 py-2 rounded-md'>
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <div>
+                              <p>
+                                {' '}
+                                <i class='fa-regular fa-user'></i>
+                                {contactInfo.fullName}
+                              </p>
+                              <p>
+                                {' '}
+                                <i class='fa-regular fa-envelope '></i>
+                                {contactInfo.email}
+                              </p>
+                              <p>
+                                {' '}
+                                <i class='fa-solid fa-phone'></i>
+                                {contactInfo.phone}
+                              </p>
+                              <button onClick={handleEdit}>
+                                <i class='fa-solid fa-pen-to-square fa-xl ml-48'></i>
+                              </button>
+                            </div>
+                          )}
                         </div>
+
                         <div className='mb-2 text-blueGray-600 mt-3'>
                           <i
                             style={{ color: '#BD2C43' }}
