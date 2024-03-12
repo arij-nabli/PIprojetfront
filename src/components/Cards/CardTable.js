@@ -9,7 +9,7 @@ export default function CardTable({ color,searchQuery }) {
   const [isModalOpenUser, setIsModalOpenUser] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(6);
+  const [itemsPerPage] = useState(7);
   const [tableData, setTableData] = useState([]);
 
 const toggleModal = (index) => {
@@ -94,14 +94,15 @@ const toggleModalUser = (index) => {
 
   return (
     <>
+    <div className="border-[4px] border-black w-50% h-50%" >
       <div
         className={
-          "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded " +
+          "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded  " +
           (color === "light" ? "bg-white" : "bg-lightBlue-900 text-white")
         }
       >
-        <div className="rounded-t mb-0 px-4 py-3 border-0">
-          <div className="flex flex-wrap items-center">
+        <div className="rounded-t mb-0 px-4 py-3  ">
+          <div className="flex flex-wrap items-center ">
             <div className="relative w-full px-4 max-w-full flex-grow flex-1">
               <h3
                 className={
@@ -259,7 +260,9 @@ const toggleModalUser = (index) => {
           onClose={() => isModalOpenUser(true)}
         />
       )}
-      <div className="py-2">
+      
+    </div>
+    <div className=" fixed bottom-6 left-[15%] right-0  ">
         <nav className="flex justify-center align-middle">
           <ul className="flex pl-0 rounded list-none flex-wrap">
             <li>
@@ -293,7 +296,7 @@ const toggleModalUser = (index) => {
               <button
                 onClick={() => paginate(currentPage + 1)}
                 disabled={currentItems.length < itemsPerPage}
-                className="first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 bg-white text-lightBlue-500"
+                className="first:ml-0 text-xs font-semibold mt-auto mb-0 flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 bg-white text-lightBlue-500"
               >
                 <i className="fas fa-chevron-right -mr-px"></i>
               </button>

@@ -5,7 +5,6 @@ import axios from "axios";
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import HeaderStats from "components/Headers/HeaderStats.js";
-import FooterAdmin from "components/Footers/FooterAdmin.js";
 import CardTable from "components/Cards/CardTable.js";
 // views
 import Dashboard from "views/admin/Dashboard.js";
@@ -78,7 +77,7 @@ export default function Admin() {
       <>
     
       <Sidebar />
-      <div className="relative h-screen md:ml-64 bg-blueGray-100">
+      <div className=" md:ml-64 bg-blueGray-100">
         <AdminNavbar onSearchQueryChange={handleSearchQueryChange} />
         {/* Header */}
         <HeaderStats />
