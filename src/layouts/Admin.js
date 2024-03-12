@@ -12,6 +12,7 @@ import Settings from "views/admin/Settings.js";
 import Tables from "views/admin/Tables.js";
 import AllUsersTable from "views/admin/AllUsersTable";
 import HashLoader from "react-spinners/HashLoader";
+import CompaniesTable from "views/admin/CompaniesTable";
 export default function Admin() {
   
   const [isLoading, setIsLoading] = useState(true);
@@ -75,6 +76,7 @@ export default function Admin() {
         <div className="px-4 md:px-10 mx-auto w-full -m-24">
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/companies" element={<CompaniesTable />} />
             <Route path="/all-users" element={<AllUsersTable />}/>
             <Route path="/settings"  element={<Settings />} />
             <Route path="/admin/tables" component={Tables} />
