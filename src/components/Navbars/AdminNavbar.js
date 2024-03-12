@@ -1,6 +1,6 @@
 import React from "react";
 
-import UserDropdown from "components/Dropdowns/UserDropdown.js";
+import AdminDropdown from "components/Dropdowns/adminDropdown";
 
 export default function Navbar() {
   return (
@@ -31,7 +31,7 @@ export default function Navbar() {
           </form>
           {/* User */}
           <ul className=" ">
-            <UserDropdown />
+            <AdminDropdown />
           </ul>
         </div>
       </nav>
