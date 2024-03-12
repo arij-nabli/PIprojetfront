@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route,useNavigate,Navigate } from "react-router-dom";
+import { Routes, Route,useNavigate } from "react-router-dom";
 import axios from "axios";
 // components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
@@ -7,7 +7,6 @@ import Sidebar from "components/Sidebar/Sidebar.js";
 import HeaderStats from "components/Headers/HeaderStats.js";
 // views
 import Dashboard from "views/admin/Dashboard.js";
-import Maps from "views/admin/Maps.js";
 import Settings from "views/admin/Settings.js";
 import Tables from "views/admin/Tables.js";
 import AllUsersTable from "views/admin/AllUsersTable";
