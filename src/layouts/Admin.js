@@ -54,39 +54,47 @@ export default function Admin() {
     };
   return (
     <>
-    {isLoading ? (
-     <div style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-     <HashLoader
-       color={"#BD2C43"}
-       loading={isLoading}
-       size={150}
-       aria-label="Loading Spinner"
-       data-testid="loader"
-     />
-   </div>
-    ) : (
-      <>
-    
-      <Sidebar />
-      <div className=" md:ml-64 h-screen bg-blueGray-100">
-        <AdminNavbar onSearchQueryChange={handleSearchQueryChange} />
-        <HeaderStats />
-        {/* Header */}
-        <div className="px-4 md:px-10 mx-auto w-full -m-24">
-          <Routes>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/all-users" element={<AllUsersTable />}/>
-            <Route path="/settings"  element={<Settings />} />
-            <Route path="/admin/tables" component={Tables} />
-            <Route path="/" element={<Dashboard/>}  />
-          </Routes>
+      {isLoading ? (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "white",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <HashLoader
+            color={"#BD2C43"}
+            loading={isLoading}
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
         </div>
-      
-      </div>
+      ) : (
+        <>
+          <Sidebar />
+          <div className="md:ml-64 h-screen bg-blueGray-100">
+            <AdminNavbar onSearchQueryChange={handleSearchQueryChange} />
+            <HeaderStats />
+            {/* Header */}
+            <div className="px-4 md:px-10 mx-auto -m-24">
+              <Routes>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/all-users" element={<AllUsersTable />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/admin/tables" component={Tables} />
+                <Route path="/" element={<Dashboard />} />
+              </Routes>
+            </div>
+          </div>
+        </>
+      )}
     </>
-    )}
-  </>
-    
-
   );
 }
