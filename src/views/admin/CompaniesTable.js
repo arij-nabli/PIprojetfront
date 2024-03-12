@@ -72,8 +72,8 @@ export default function CompaniesTable({ color, searchQuery }) {
     const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
     return (
-        <>
-            <div>
+       
+            <div className="bg-blueGray-100">
                 <div
                     className={
                         "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded  " +
@@ -181,8 +181,8 @@ export default function CompaniesTable({ color, searchQuery }) {
                         </table>
                     </div>
                 </div>
+                <CompanyDetailsModal isOpen={isModalOpenUser} closeModal={toggleModalUser} company={selectedCompany} user={selectedUser}/>
             </div>
-            <CompanyDetailsModal isOpen={isModalOpenUser} closeModal={toggleModalUser} company={selectedCompany} user={selectedUser}/>
-        </>
+        
     );
 }

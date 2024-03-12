@@ -13,38 +13,37 @@ const CompanyDetailsModal = ({ isOpen, closeModal, company, user }) => {
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div className="sm:flex sm:items-start">
-              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">
-                  Company Information
-                </h3>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    Name: {company.name}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    Industry: {company.industry}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    Description: {company.description}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    Status: {company.company_status}
-                  </p>
-               
-                  <p className="text-sm text-gray-500">
-                    Email: {user.email}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    Username: {user.username}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    Country: {user.country}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    Account Status: {user.account_status}
-                  </p>
-                </div>
-              </div>
+            <div className="mt-5 text-center sm:mt-0 sm:ml-4 sm:text-left">
+  <h3 className="text-2xl leading-6 font-bold text-gray-900 mb-4">
+    Company Information
+  </h3>
+  <div className="mt-2">
+    <p className="text-sm text-gray-500 mb-2">
+      <span className="font-semibold">Name:</span> {company.name}
+    </p>
+    <p className="text-sm text-gray-500 mb-2">
+      <span className="font-semibold">Industry:</span> {company.industry}
+    </p>
+    <p className="text-sm text-gray-500 mb-2">
+      <span className="font-semibold">Description:</span> {company.description}
+    </p>
+    <p className="text-sm text-gray-500 mb-2">
+      <span className="font-semibold">Status:</span> {company.company_status}
+    </p>
+    <p className="text-sm text-gray-500 mb-2">
+      <span className="font-semibold">Email:</span> {user.email}
+    </p>
+    <p className="text-sm text-gray-500 mb-2">
+      <span className="font-semibold">Username:</span> {user.username}
+    </p>
+    <p className="text-sm text-gray-500 mb-2">
+      <span className="font-semibold">Country:</span> {user.country}
+    </p>
+    <p className="text-sm text-gray-500 mb-2">
+      <span className="font-semibold">Account Status:</span> {user.account_status}
+    </p>
+  </div>
+</div>
             </div>
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">

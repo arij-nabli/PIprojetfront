@@ -13,6 +13,7 @@ import Tables from "views/admin/Tables.js";
 import AllUsersTable from "views/admin/AllUsersTable";
 import HashLoader from "react-spinners/HashLoader";
 import CompaniesTable from "views/admin/CompaniesTable";
+import SkillsTable from "views/admin/SkillsTable";
 export default function Admin() {
   
   const [isLoading, setIsLoading] = useState(true);
@@ -66,10 +67,10 @@ export default function Admin() {
      />
    </div>
     ) : (
-      <>
+      <div className="bg-blueGray-100 h-min">
     
       <Sidebar />
-      <div className=" md:ml-64 h-screen bg-blueGray-100">
+      <div className=" md:ml-64  ">
         <AdminNavbar onSearchQueryChange={handleSearchQueryChange} />
         <HeaderStats />
         {/* Header */}
@@ -77,6 +78,8 @@ export default function Admin() {
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/companies" element={<CompaniesTable />} />
+            <Route path="/skills" element={<SkillsTable />} />
+
             <Route path="/all-users" element={<AllUsersTable />}/>
             <Route path="/settings"  element={<Settings />} />
             <Route path="/admin/tables" component={Tables} />
@@ -85,7 +88,7 @@ export default function Admin() {
         </div>
       
       </div>
-    </>
+    </div>
     )}
   </>
     

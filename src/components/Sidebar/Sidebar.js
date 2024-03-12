@@ -114,17 +114,17 @@ export default function Sidebar() {
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
-                  to="/admin/settings"
+                  to="/admin/companies"
                 >
                   <i
                     className={
-                      "fas fa-tools mr-2 text-sm " +
+                      "fas fa-building mr-2 text-sm " +
                       (window.location.href.indexOf("/admin/settings") !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
                   ></i>{" "}
-                  Settings
+                  Companies
                 </Link>
               </li>
 
@@ -136,7 +136,7 @@ export default function Sidebar() {
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
-                  to="/admin/tables"
+                  to="/admin/skills"
                 >
                   <i
                     className={
@@ -146,7 +146,7 @@ export default function Sidebar() {
                         : "text-blueGray-300")
                     }
                   ></i>{" "}
-                  Tables
+                  Skills
                 </Link>
               </li>
 
