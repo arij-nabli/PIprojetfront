@@ -110,14 +110,14 @@ export default function SkillsTable({ color, searchQuery }) {
           {/* Skills table */}
           <table className="items-center w-full bg-transparent border-collapse">
             <thead>
-              <tr>
-                <th className=" bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left ">
+              <tr className="bg-blueGray-50 text-blueGray-500 border-blueGray-100">
+                <th className="  px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left ">
                   Name
                 </th>
-                <th className="px-6 bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left ">
+                <th className="px-6 * align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left ">
                   Description
                 </th>
-                <th className="px-6 bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700  align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center ">
+                <th className="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center ">
                   Actions
                 </th>
               </tr>

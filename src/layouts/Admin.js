@@ -77,7 +77,7 @@ export default function Admin() {
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/companies" element={<CompaniesTable color={"light"}/>} />
-            <Route path="/skills" element={<SkillsTable />} />
+            <Route path="/skills" element={<SkillsTable color={"light"} />} />
 
             <Route path="/all-users" element={<AllUsersTable  />}/>
             <Route path="/settings"  element={<Settings />} />
