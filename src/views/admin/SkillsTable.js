@@ -56,34 +56,27 @@ export default function SkillsTable({ color, searchQuery }) {
 
   return (
     <div className="bg-blueGray-100">
-      <div
-        className={
-          "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded  " +
-          (color === "light" ? "bg-white" : "bg-lightBlue-900 text-white")
-        }
-      >
-        <div className="mt-4">
+         <div className="mt-4">
         <h3
           className={
-            "font-semibold text-lg text-center " +
-            (color === "light" ? "text-blueGray-700" : "text-white")
+            "font-semibold text-lg text-center " 
           }
         >
           Add Skill
         </h3>
-        <div className="flex justify-center mt-4 text-black">
+        <div className="flex justify-center my-4 text-black">
           <input
             type="text"
             placeholder="Enter skill name"
             value={newSkill}
-            className="ml-3 bg-gray-100 border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0  ease-linear transition-all duration-150"
+            className="ml-3  border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0  ease-linear transition-all duration-150"
             onChange={(e) => setNewSkill(e.target.value)}
           />
           <input
             type="text"
             placeholder="Enter skill description"
             value={description}
-            className="bg-gray-100 mx-3 border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0  ease-linear transition-all duration-150"
+            className=" mx-3 border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0  ease-linear transition-all duration-150"
             onChange={(e) => setDescription(e.target.value)}
           />
           <button onClick={addSkill}>
@@ -91,6 +84,13 @@ export default function SkillsTable({ color, searchQuery }) {
           </button>
         </div>
         </div>
+      <div
+        className={
+          "relative flex flex-col min-w-0 break-words w-full my-6 shadow-lg rounded  " +
+          (color === "light" ? "bg-white" : "bg-lightBlue-900 text-white")
+        }
+      >
+       
        
         <div className="rounded-t mb-0 px-4 py-3  ">
           <div className="flex flex-wrap items-center ">

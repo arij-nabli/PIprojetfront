@@ -66,14 +66,14 @@ export default function Admin() {
      />
    </div>
     ) : (
-      <div className="bg-blueGray-100 h-min">
+      <div className="bg-blueGray-100 min-h-screen">
     
       <Sidebar />
       <div className=" md:ml-64  ">
         <AdminNavbar onSearchQueryChange={handleSearchQueryChange} />
-        <HeaderStats />
+        
         {/* Header */}
-        <div className="px-4 md:px-10 mx-auto w-full -m-24">
+        <div className="px-4 md:px-10 mx-auto w-full ">
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/companies" element={<CompaniesTable />} />

@@ -73,7 +73,7 @@ export default function CompaniesTable({ color, searchQuery }) {
 
     return (
        
-            <div className="bg-blueGray-100">
+            <div className="bg-blueGray-100 mt-10">
                 <div
                     className={
                         "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded  " +
@@ -96,7 +96,7 @@ export default function CompaniesTable({ color, searchQuery }) {
                     </div>
                     <div className="block w-full overflow-x-auto">
                         {/* Companies table */}
-                        <table className="items-center w-full bg-transparent border-collapse">
+                        <table className="items-center w-full bg-transparent border-collapse pb-10">
                             <thead>
                                 <tr>
                                     <th

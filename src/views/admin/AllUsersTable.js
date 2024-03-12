@@ -16,6 +16,7 @@ const AllUsersTable = () => {
 
     return (
         <div className="md:ml-12 pl-6 w-11/12">
+            
             {showForm ? (
                 <button
                     className="bg-red-500 text-white p-2 mb-3 rounded-md"
@@ -32,9 +33,9 @@ const AllUsersTable = () => {
                 </button>
             )}
             {showForm ? (
-                <CardSettings onAdminAdded={handleAdminAdded} />
+                <CardSettings onAdminAdded={handleAdminAdded}  />
             ) : (
-                <CardTable searchQuery={searchQuery} />
+                <CardTable searchQuery={searchQuery}  className="mb-5"/>
             )}
         </div>
     );
