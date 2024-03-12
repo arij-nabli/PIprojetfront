@@ -35,7 +35,7 @@ export default function Admin() {
               },
             }
           );
-          console.log(response.data);
+         
             if (response.data.user.role != "admin"){
               navigate("/auth/login")
             }

@@ -5,22 +5,25 @@ import { useState, useEffect } from "react";
 export default function SkillsTable({ color, searchQuery }) {
     const [skills, setSkills] = useState([]);
     const [newSkill, setNewSkill] = useState("");
-    
+    const [description, setDescription] = useState("");
     const fetchData = async () => {
         const response = await axios.get("http://localhost:5000/skills");
-        if(response.data.skills){
-        setSkills(response.data.skills);}
+        console.log(response.data);
+        if(response.data){
+        setSkills(response.data);}
     };
 
     const addSkill = async () => {
         try {
             const response = await axios.post("http://localhost:5000/skills", {
                 name: newSkill,
-                description: ""
+            
+                description: description
             });
             console.log("Skill Added");
             alert("Skill Added");
             setNewSkill("");
+            setDescription("");
             fetchData();
         } catch (err) {
             console.error(err.message);
@@ -89,6 +92,16 @@ export default function SkillsTable({ color, searchQuery }) {
                                 </th>
                                 <th
                                     className={
+                                        "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
+                                        (color === "light"
+                                            ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
+                                            : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
+                                    }
+                                >
+                                    Description
+                                </th>
+                                <th
+                                    className={
                                         "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center " +
                                         (color === "light"
                                             ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
@@ -104,6 +117,9 @@ export default function SkillsTable({ color, searchQuery }) {
                                 <tr key={skill._id}>
                                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
                                         {skill.name}
+                                    </td>
+                                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
+                                        {skill.description}
                                     </td>
                                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                         <button onClick={() => deleteSkill(skill._id)}>
@@ -123,6 +139,12 @@ export default function SkillsTable({ color, searchQuery }) {
                         placeholder="Enter skill name"
                         value={newSkill}
                         onChange={(e) => setNewSkill(e.target.value)}
+                    />
+                     <input
+                        type="text"
+                        placeholder="Enter skill description"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
                     />
                     <button onClick={addSkill}>Add Skill</button>
                 </div>
