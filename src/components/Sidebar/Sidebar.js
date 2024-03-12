@@ -89,11 +89,33 @@ ESPRIT COMPASS</div>
             {/* Navigation */}
 
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
+            <li className="items-center">
+    <Link
+      className={
+        "text-xs uppercase py-3 font-bold block " +
+        (location.pathname === "/admin"
+          ? "text-lightBlue-500 hover:text-lightBlue-600"
+          : "text-blueGray-700 hover:text-blueGray-500")
+      }
+      to="/admin"
+    >
+      <i
+        className={
+          "fa-solid fa-chart-line mr-2 text-sm " +
+          (location.pathname === "/admin"
+            ? "opacity-75"
+            : "text-blueGray-300")
+        }
+      ></i>{" "}
+      Dashboard
+    </Link>
+  </li>
               <li className="items-center">
+                
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
-                    (window.location.href.indexOf("/admin/") !== -1
+                    (window.location.href.indexOf("/admin/all-users") !== -1
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
@@ -102,7 +124,7 @@ ESPRIT COMPASS</div>
                   <i
                     className={
                       "fas fa-tv mr-2 text-sm " +
-                      (window.location.href.indexOf("/admin/") !== -1
+                      (window.location.href.indexOf("/admin/all-users") !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
@@ -115,7 +137,7 @@ ESPRIT COMPASS</div>
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
-                    (window.location.href.indexOf("/admin/settings") !== -1
+                    (window.location.href.indexOf("/admin/companies") !== -1
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
@@ -124,7 +146,7 @@ ESPRIT COMPASS</div>
                   <i
                     className={
                       "fas fa-building mr-2 text-sm " +
-                      (window.location.href.indexOf("/admin/settings") !== -1
+                      (window.location.href.indexOf("/admin/companies") !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
@@ -137,7 +159,7 @@ ESPRIT COMPASS</div>
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
-                    (window.location.href.indexOf("/admin/tables") !== -1
+                    (window.location.href.indexOf("/admin/skills") !== -1
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
@@ -146,7 +168,7 @@ ESPRIT COMPASS</div>
                   <i
                     className={
                       "fa-solid fa-laptop-code mr-2 text-sm " +
-                      (window.location.href.indexOf("/admin/tables") !== -1
+                      (window.location.href.indexOf("/admin/skills") !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
