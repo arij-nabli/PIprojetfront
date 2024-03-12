@@ -1,18 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useState, useEffect } from "react";
 
-export default function Modal({ user }) {
-  const [showModal, setShowModal] = React.useState(true);
-  const [cardData, SetcardData] = useState([]);
+export default function UserDetails({ user }) {
+  const [showModal, setShowModal] = useState(true);
+  const [cardData, setCardData] = useState([]);
 
   const fetchData = async () => {
     try {
       const id = user._id;
-      let res = await axios.post("http://localhost:5000/admin/getAllInfo", {
-        id,
-      });
-      SetcardData(res.data);
+      let res = await axios.post("http://localhost:5000/admin/getAllInfo", { id });
+      setCardData(res.data);
     } catch (err) {
       console.log(err.message);
     }
@@ -23,84 +20,53 @@ export default function Modal({ user }) {
   }, []);
 
   return (
-    <>
-      {showModal ? (
-        <>
-          <div className="fixed z-10 inset-0 overflow-y-auto flex items-center justify-center">
-            <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none max-w-lg mx-auto">
-              {/*header*/}
-              <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                <h3 className="text-3xl font-semibold">User Details</h3>
-                <button
-                  className="p-1 ml-auto bg-red border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                  onClick={() => setShowModal(false)}
-                >
-                  <span className="bg-red text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none"></span>
-                </button>
-              </div>
-              {/*body*/}
-              <div className="relative p-6 flex-auto">
-                <div className="mb-3">
-                  <p className="my-4 mx-2">
-                    {" "}
-                    <span className="text-lg font-semibold">Username: </span>
-                    {user.username}
+    <div className={`fixed z-10 inset-0 overflow-y-auto ${showModal ? "" : "hidden"}`}>
+      <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+        </div>
+        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div className="sm:flex sm:items-start">
+              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                <h3 className="text-lg leading-6 font-medium text-gray-900">
+                  User Details
+                </h3>
+                <div className="mt-2">
+                  <p className="text-sm text-gray-500">
+                    Username: {user.username}
                   </p>
-                </div>
-                <div className="mb-3">
-                  <p className="my-4 mx-2">
-                    {" "}
-                    <span className="text-lg font-semibold">Email: </span>
-                    {user.email}
+                  <p className="text-sm text-gray-500">
+                    Email: {user.email}
                   </p>
-                </div>
-                <div className="mb-3">
-                  <p className="my-4 mx-2">
-                    {" "}
-                    <span className="text-lg font-semibold">Role: </span>
-                    {user.role}
+                  <p className="text-sm text-gray-500">
+                    Role: {user.role}
                   </p>
                   {user.role === "company" && cardData.company && (
-                    <div className="">
-                      <div className="">
-                        <p className="my-4 mx-2">
-                          <span className="text-lg font-semibold">
-                            Company name:{" "}
-                          </span>
-                          {cardData.company.name}
-                        </p>
-                        <p className="my-4 mx-2">
-                          <span className="text-lg font-semibold">
-                            Company Industry:{" "}
-                          </span>
-                          {cardData.company.industry}
-                        </p>
-                        <p className="my-4 mx-2">
-                          <span className="text-lg font-semibold">
-                            Company Description:{" "}
-                          </span>
-                          {cardData.company.description}
-                        </p>
-                      </div>
+                    <div>
+                      <p className="text-sm text-gray-500">
+                        Company name: {cardData.company.name}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        Company Industry: {cardData.company.industry}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        Company Description: {cardData.company.description}
+                      </p>
                     </div>
                   )}
                 </div>
               </div>
-              {/*footer*/}
-              <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                <button
-                  className="text-white bg-red-700 rounded-md font-bold uppercase px-6 py-2 text-sm mr-1 mb-1 ease-linear transition-all duration-150"
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                >
-                  Close
-                </button>
-              </div>
             </div>
           </div>
-        </>
-      ) : null}
-    </>
+          <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <button type="button" className="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" onClick={() => setShowModal(false)}>
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
