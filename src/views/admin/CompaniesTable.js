@@ -166,13 +166,14 @@ export default function CompaniesTable({ color, searchQuery }) {
                                                     />
                                                 </svg>
                                             </button>
-                                          
-                                            <button onClick={() => refuseCompany(company._id)}>
+                                        
+                                            <button  onClick={() => acceptCompany(company._id)}>
                                             <i class="fa-regular fa-circle-check fa-xl" style={{color:"lime"}}></i>
                                             </button>
-                                            <button onClick={() => acceptCompany(company._id)}>
+                                            <button onClick={() => refuseCompany(company._id)}>
                                             <i class="fa-regular fa-circle-xmark fa-xl" style={{color:"red"}}></i>
                                             </button>
+                                         
                                         </div>
                                     </td>
                                 </tr>
