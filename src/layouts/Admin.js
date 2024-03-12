@@ -5,32 +5,20 @@ import axios from "axios";
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import HeaderStats from "components/Headers/HeaderStats.js";
-import CardTable from "components/Cards/CardTable.js";
 // views
 import Dashboard from "views/admin/Dashboard.js";
 import Maps from "views/admin/Maps.js";
 import Settings from "views/admin/Settings.js";
 import Tables from "views/admin/Tables.js";
-import CardSettings from "components/Cards/CardSettings";
+import AllUsersTable from "views/admin/AllUsersTable";
 import HashLoader from "react-spinners/HashLoader";
 export default function Admin() {
-  const [showForm, setShowForm] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(""); 
+  
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState(""); 
 
   const navigate = useNavigate();
-  const handleAddUserClick = () => {
-    setShowForm(!showForm);
-  };
 
-    const handleAdminAdded = () => {
-      setShowForm(false);
-      // Additional logic or actions to perform after admin is added
-    };
-
-     const handleSearchQueryChange = (query) => {
-       setSearchQuery(query);
-     };
 
      useEffect(() => {
       
@@ -61,6 +49,9 @@ export default function Admin() {
       fetchUserData();
     
      })
+     const handleSearchQueryChange = (query) => {
+      setSearchQuery(query);
+    };
   return (
     <>
     {isLoading ? (
@@ -77,44 +68,20 @@ export default function Admin() {
       <>
     
       <Sidebar />
-      <div className=" md:ml-64 bg-blueGray-100">
+      <div className=" md:ml-64 h-screen bg-blueGray-100">
         <AdminNavbar onSearchQueryChange={handleSearchQueryChange} />
-        {/* Header */}
         <HeaderStats />
-
+        {/* Header */}
         <div className="px-4 md:px-10 mx-auto w-full -m-24">
           <Routes>
-            <Route path="/admin/dashboard" exact component={Dashboard} />
-            <Route path="/admin/maps" exact component={Maps} />
-            <Route path="/admin/settings" exact component={Settings} />
-            <Route path="/admin/tables" exact component={Tables} />
-            <Route path="/admin" element={<Navigate to="/admin/dashboard" />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/all-users" element={<AllUsersTable />}/>
+            <Route path="/settings"  element={<Settings />} />
+            <Route path="/admin/tables" component={Tables} />
+            <Route path="/" element={<Dashboard/>}  />
           </Routes>
         </div>
-        <div className="relative md:ml-12 pl-6 w-11/12 bg-blueGray-100">
-          {showForm ? (
-            <button
-              className="bg-red-500 text-white p-2 mb-3 rounded-md"
-              onClick={handleAddUserClick}
-            >
-              Return
-            </button>
-          ) : (
-            <button
-              className="bg-green-500 text-white p-2 mb-3 rounded-md"
-              onClick={handleAddUserClick}
-            >
-              Add Admin
-            </button>
-          )}
-          {showForm ? (
-            <CardSettings onAdminAdded={handleAdminAdded} />
-          ) : (
-            <CardTable searchQuery={searchQuery} />
-          )}
-        </div>
-        <div className="fixed bottom-0 w-full bg-gray-100 text-white">
-        </div>
+      
       </div>
     </>
     )}

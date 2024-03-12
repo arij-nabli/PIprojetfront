@@ -94,7 +94,7 @@ const toggleModalUser = (index) => {
 
   return (
     <>
-    <div className="border-[4px] border-black w-50% h-50%" >
+    <div  >
       <div
         className={
           "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded  " +
@@ -262,7 +262,7 @@ const toggleModalUser = (index) => {
       )}
       
     </div>
-    <div className=" fixed bottom-6 left-[15%] right-0  ">
+    <div className=" left-[15%] right-0  ">
         <nav className="flex justify-center align-middle">
           <ul className="flex pl-0 rounded list-none flex-wrap">
             <li>
