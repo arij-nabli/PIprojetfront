@@ -27,7 +27,7 @@ export default function Sidebar() {
           >
             <div className="flex items-center">  <img src={logo} alt="compass" border="0" width="50" height="50" />
 
-ESPRIT COMPASS</div>
+          ESPRIT COMPASS</div>
         
           </Link>
           {/* User */}
@@ -47,7 +47,7 @@ ESPRIT COMPASS</div>
             }
           >
             {/* Collapse header */}
-            <div className="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-blueGray-200">
+            <div className="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid  border-blueGray-200">
               <div className="flex flex-wrap">
                 <div className="w-6/12">
                   <Link
@@ -81,15 +81,14 @@ ESPRIT COMPASS</div>
             </form>
 
             {/* Divider */}
-            <hr className="my-4 md:min-w-full" />
-            {/* Heading */}
+            <hr className="my-4 md:min-w-full border-1 border-gray-400 mb-3" />         
             <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
               Admin Layout Pages
             </h6>
             {/* Navigation */}
 
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
-            <li className="items-center">
+            <li className="items-center mb-1">
     <Link
       className={
         "text-xs uppercase py-3 font-bold block " +
@@ -110,7 +109,7 @@ ESPRIT COMPASS</div>
       Dashboard
     </Link>
   </li>
-              <li className="items-center">
+              <li className="items-center mb-1">
                 
                 <Link
                   className={
@@ -133,7 +132,7 @@ ESPRIT COMPASS</div>
                 </Link>
               </li>
 
-              <li className="items-center">
+              <li className="items-center mb-1">
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
@@ -155,7 +154,7 @@ ESPRIT COMPASS</div>
                 </Link>
               </li>
 
-              <li className="items-center">
+              <li className="items-center mb-1">
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +

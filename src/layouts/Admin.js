@@ -76,12 +76,11 @@ export default function Admin() {
         <div className="px-4 md:px-10 mx-auto w-full ">
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/companies" element={<CompaniesTable />} />
+            <Route path="/companies" element={<CompaniesTable color={"light"}/>} />
             <Route path="/skills" element={<SkillsTable />} />
 
-            <Route path="/all-users" element={<AllUsersTable />}/>
+            <Route path="/all-users" element={<AllUsersTable  />}/>
             <Route path="/settings"  element={<Settings />} />
-            <Route path="/admin/tables" component={Tables} />
             <Route path="/" element={<Dashboard/>}  />
           </Routes>
         </div>
