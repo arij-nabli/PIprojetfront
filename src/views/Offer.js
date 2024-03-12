@@ -3,16 +3,18 @@ import axios from "axios";
 import Navbar from "components/Navbars/IndexNavbar.js";
 import HashLoader from "react-spinners/HashLoader";
 import feriel from "../assets/img/feriel.jpg";
+import { Link } from "react-router-dom";
 export default function Offer() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [name, setName] = useState("Feriel BHK");
-  const [country, setCountry] = useState("Tunisia");
-  const [jobTitle, setJobTitle] = useState("Software Engineer");
   const [isLoading, setIsLoading] = useState(true);
   const [description, setDescription] = useState(
     "Full-Stack web developer with 3 years of experience in building web applications."
   );
-  const [jobLocation, setJobLocation] = useState("Ariana, Tunisia");
+  //si role=student haka sinon alumni looking for job offer
+  const [status, setStatus] = useState(
+    "A student looking for an internship."
+  );
   const [email, setEmail] = useState("");
  
   useEffect(() => {
@@ -94,7 +96,7 @@ export default function Offer() {
     <div className="shadow-lg p-5 lg:col-span-1">
 
       <div className="flex flex-col bg-white">
-        <div className="flex items-center justify-center w-full">
+        <div className="flex items-center justify-center mt-10 w-full">
           <img
             src={feriel}
             style={{ width: 200, height: 200 }}
@@ -104,41 +106,40 @@ export default function Offer() {
         </div>
 
         <div className="mx-auto mt-2">
-          <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700">
+          <h3 className="text-4xl text-center font-semibold leading-normal mb-2 text-blueGray-700">
             {name}
           </h3>
-          <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-            <i
-              style={{ color: "#BD2C43" }}
-              className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"
-            ></i>{" "}
-            {country}
-          </div>
-          <div className="mb-2 text-blueGray-600 mt-3">
-            <i
-              style={{ color: "#BD2C43" }}
-              className="fas fa-briefcase mr-2 text-lg text-blueGray-400"
-            ></i>
-            {jobTitle}
-          </div>
-          <div className="mb-2 text-blueGray-600">
-            <i
-              style={{ color: "#BD2C43" }}
-              className="fas fa-university mr-2 text-lg text-blueGray-400"
-            ></i>
-            {jobLocation}
-          </div>
-        </div>
-
-        <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
-          <div className="flex flex-wrap justify-center">
-            <div className="w-full lg:w-9/12 px-4 flex flex-col">
-              <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
+          <p className="mb-4 text-lg  leading-relaxed text-blueGray-700">
                 {description}
               </p>
-            </div>
+          
+        </div>
+
+        <div className="mt-10  py-10 border-t border-blueGray-200 text-center">
+          <div className="flex flex-wrap justify-center ">
+          <Link
+                  className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
+                  to="/profile"
+                >
+                  <i className="fas fa-user-circle text-blueGray-800 mr-2 text-sm"></i>{" "}
+                  My profile 
+                </Link>
+            
+          </div>
+          <div className="flex flex-wrap  justify-center">
+            <div className="w-full font-bold lg:w-9/12 px-4 mb-6 flex flex-col">
+            <Link
+                  className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
+                  to="/"
+                >
+                <i className="fas fa-clipboard-list text-blueGray-700 mr-2 text-sm"></i>{" "}
+                  My applications
+                </Link>            
+                </div>
+            
           </div>
         </div>
+     
       </div>
     </div>
 
