@@ -112,7 +112,9 @@ const googleSignIn = async () => {
             <div className="relative flex bg-white flex-col min-w-0 break-words w-full mb-2 shadow-lg rounded-lg  border-0">
               <div className="rounded-t mb-0 px-6 py-6">
                 <div className="text-center mb-3">
-                  <h6 className="text-sm font-bold">Sign up with</h6>
+                  <h6 className="text-sm font-bold">
+                    Sign in with
+                  </h6>
                 </div>
                 <div className="btn-wrapper text-center flex justify-center">
                   <button
