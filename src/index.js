@@ -20,6 +20,7 @@ import Dashboard from "views/admin/Dashboard";
 import Offer from "views/Offer";
 import DetailsOffer from "views/DetailsOffer";
 import Apply from "views/Apply";
+import ProfileCompany from "views/ProfileCompany";
 function MainApp() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -44,7 +45,7 @@ function MainApp() {
         <Route path="/offer-details" exact element={<DetailsOffer/>} />
         <Route path="/profile" element={<AuthGuard><Profile /></AuthGuard>} />
         <Route path="/" exact element={<Auth />} />
-     
+        <Route path="/profilecompany" element={<ProfileCompany /> }/>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
