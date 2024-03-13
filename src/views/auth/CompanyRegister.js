@@ -1,8 +1,9 @@
-import { React, useState } from "react";
+import { React, useState ,useEffect} from "react";
 import axios from "axios";
 import IntlTelInput from "react-intl-tel-input";
 import "react-intl-tel-input/dist/main.css";
 import ReactCountryFlagsSelect from "react-country-flags-select";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function CompanyRegister() {
   const [redirectToSignIn, setRedirectToSignIn] = useState(false);
@@ -34,6 +35,29 @@ export default function CompanyRegister() {
     console.log(value);
     setSelected(value);
     setCountry(value);
+  };
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://www.google.com/recaptcha/api.js";
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+  })
+  const onRecaptchaChange = (value) => {
+    console.log(value);
+    if (value) {
+      // Send reCAPTCHA value to backend for validation
+      axios
+        .post("http://localhost:5000/auth/submit", { recaptchaToken: value })
+        .then((response) => {
+          console.log(response.data);
+          // Handle response from backend (optional)
+        })
+        .catch((error) => {
+          console.error("Error submitting reCAPTCHA:", error);
+          // Handle error (optional)
+        });
+    }
   };
   const signUp = () => {
     if (!isFormValid()) {
@@ -494,9 +518,13 @@ export default function CompanyRegister() {
                       </span>
                     </label>
                   </div>
-
+                    
                   <div className="text-center mt-6">
-                 
+                  <ReCAPTCHA
+                        className="mb-4 mt-5 self-center"
+                        sitekey="6Ldrc4kpAAAAAMtAXLvqZSR6xz4UQpGKP9HI4md4"
+                        onChange={(value) => onRecaptchaChange(value)}
+                      />
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
