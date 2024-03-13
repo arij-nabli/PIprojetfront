@@ -13,6 +13,7 @@ import AllUsersTable from "views/admin/AllUsersTable";
 import HashLoader from "react-spinners/HashLoader";
 import CompaniesTable from "views/admin/CompaniesTable";
 import SkillsTable from "views/admin/SkillsTable";
+import IndustriesTable from "views/admin/IndustriesTbale";
 export default function Admin() {
   
   const [isLoading, setIsLoading] = useState(true);
@@ -81,6 +82,7 @@ export default function Admin() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/companies" element={<CompaniesTable color={"light"}/>} />
             <Route path="/skills" element={<SkillsTable color={"light"} />} />
+            <Route path="/industries" element={<IndustriesTable color={"light"} />} />
 
             <Route path="/all-users" element={<AllUsersTable  />}/>
             <Route path="/settings"  element={<Settings />} />

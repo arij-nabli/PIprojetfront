@@ -164,6 +164,27 @@ export default function Sidebar() {
                 </Link>
               </li>
               <li className="items-center mb-1">
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block " +
+                    (window.location.href.indexOf("/admin/skills") !== -1
+                      ? "text-lightBlue-500 hover:text-lightBlue-600"
+                      : "text-blueGray-700 hover:text-blueGray-500")
+                  }
+                  to="/admin/industries"
+                >
+                  <i
+                    className={
+                      "fa-solid fa-laptop-code mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/skills") !== -1
+                        ? "opacity-75"
+                        : "text-blueGray-300")
+                    }
+                  ></i>{" "}
+                  Industries
+                </Link>
+              </li>
+              <li className="items-center mb-1">
                 <button
                   className={
                     "text-xs uppercase py-3 font-bold block " 
