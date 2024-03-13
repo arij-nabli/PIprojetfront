@@ -24,7 +24,7 @@ export default function HeaderStats() {
         defer
       ></script>
       {/* Header */}
-      <div className=" md:mt-12 mb-32 mt-4">
+      <div className="  mb-10 ">
         <div className="px-4 md:px-10 mx-auto w-full">
           <div>
             {/* Card stats */}

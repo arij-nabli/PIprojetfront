@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 export default function SkillsTable({ color, searchQuery }) {
   const [skills, setSkills] = useState([]);
   const [newSkill, setNewSkill] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(7);
+
   const [description, setDescription] = useState("");
   const fetchData = async () => {
     const response = await axios.get("http://localhost:5000/skills");
@@ -13,7 +16,9 @@ export default function SkillsTable({ color, searchQuery }) {
       setSkills(response.data);
     }
   };
-
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+};
   const addSkill = async () => {
     try {
       const response = await axios.post("http://localhost:5000/skills", {
@@ -47,15 +52,17 @@ export default function SkillsTable({ color, searchQuery }) {
   useEffect(() => {
     fetchData();
   }, []);
-
   const filteredSkills = searchQuery
-    ? skills.filter((skill) =>
-        skill.name.toLowerCase().includes(searchQuery.toLowerCase())
+  ? skills.filter((item) =>
+          item.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
-    : skills;
+  : skills;
+const indexOfLastItem = currentPage * itemsPerPage;
+const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+const currentItems = filteredSkills.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
-    <div className="bg-blueGray-100">
+    <div className="">
          <div className="mt-4">
         <h3
           className={
@@ -123,7 +130,7 @@ export default function SkillsTable({ color, searchQuery }) {
               </tr>
             </thead>
             <tbody>
-              {filteredSkills.map((skill) => (
+              {currentItems.map((skill) => (
                 <tr key={skill._id}>
                   <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
                     {skill.name}
@@ -145,6 +152,46 @@ export default function SkillsTable({ color, searchQuery }) {
           </table>
         </div>
       </div>
+      <nav className="flex justify-center align-middle bg-tr">
+        <ul className=" flex pl-0 rounded list-none flex-wrap">
+          <li>
+            <button
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 bg-white text-lightBlue-500"
+            >
+              <i className="fas fa-chevron-left -ml-px"></i>
+            </button>
+          </li>
+          {skills.length > 0 &&
+            Array.from(
+              { length: Math.ceil(skills.length / itemsPerPage) },
+              (_, index) => (
+                <li key={index}>
+                  <button
+                    onClick={() => paginate(index + 1)}
+                    className={`first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 bg-white text-lightBlue-500 ${
+                      currentPage === index + 1
+                        ? "bg-lightBlue-200 text-lightBlue-900"
+                        : ""
+                    }`}
+                  >
+                    {index + 1}
+                  </button>
+                </li>
+              )
+            )}
+          <li>
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              disabled={currentItems.length < itemsPerPage}
+              className="first:ml-0 text-xs font-semibold mt-auto mb-0 flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 bg-white text-lightBlue-500"
+            >
+              <i className="fas fa-chevron-right -mr-px"></i>
+            </button>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 }

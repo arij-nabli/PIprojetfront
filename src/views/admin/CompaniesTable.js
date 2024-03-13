@@ -73,7 +73,7 @@ export default function CompaniesTable({ color, searchQuery }) {
     const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
     return (
-      <div className="bg-blueGray-100 ">
+      <div className="">
         <div
           className={
             "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded  " +
@@ -189,14 +189,57 @@ export default function CompaniesTable({ color, searchQuery }) {
                 </tr>
               ))}
             </table>
+        
           </div>
+          
         </div>
+       
         <CompanyDetailsModal
           isOpen={isModalOpenUser}
           closeModal={toggleModalUser}
           company={selectedCompany}
           user={selectedUser}
         />
+ <nav className="flex justify-center align-middle bg-tr">
+        <ul className=" flex pl-0 rounded list-none flex-wrap">
+          <li>
+            <button
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 bg-white text-lightBlue-500"
+            >
+              <i className="fas fa-chevron-left -ml-px"></i>
+            </button>
+          </li>
+          {tableData.length > 0 &&
+            Array.from(
+              { length: Math.ceil(tableData.length / itemsPerPage) },
+              (_, index) => (
+                <li key={index}>
+                  <button
+                    onClick={() => paginate(index + 1)}
+                    className={`first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 bg-white text-lightBlue-500 ${
+                      currentPage === index + 1
+                        ? "bg-lightBlue-200 text-lightBlue-900"
+                        : ""
+                    }`}
+                  >
+                    {index + 1}
+                  </button>
+                </li>
+              )
+            )}
+          <li>
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              disabled={currentItems.length < itemsPerPage}
+              className="first:ml-0 text-xs font-semibold mt-auto mb-0 flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 bg-white text-lightBlue-500"
+            >
+              <i className="fas fa-chevron-right -mr-px"></i>
+            </button>
+          </li>
+        </ul>
+      </nav>
       </div>
     );
 }
