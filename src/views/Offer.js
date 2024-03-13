@@ -4,7 +4,12 @@ import Navbar from "components/Navbars/IndexNavbar.js";
 import HashLoader from "react-spinners/HashLoader";
 import feriel from "../assets/img/feriel.jpg";
 import { Link } from "react-router-dom";
+import companyphoto from "../assets/img/mobiblanc.jpeg";
+
 export default function Offer() {
+  const [companyName, setCompanyName] = useState(
+    "Mobiblanc Tunisie"
+  );
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [name, setName] = useState("Feriel BHK");
   const [isLoading, setIsLoading] = useState(true);
@@ -144,24 +149,86 @@ export default function Offer() {
     </div>
 
     <div class="p-5 lg:col-span-2">
-      <div class="shadow-lg text-center mb-4 py-4">
-        <i class="fas fa-laptop-code text-2xl text-blue-500"></i>
-        <h3 class="text-xl py-2">Web Developer</h3>
-        <p>Description : Stage PFE  Lorem ipsum dolor sit amet consectetur adipisicing .....</p>
-        <div class="mt-2"><button className="px-3 mx-4 py-1  text-white rounded-md mr-2" style={{ backgroundColor: "#BD2C43" }}>Voir plus</button><button className="px-3 mx-4 py-1 bg-blue-500 text-white rounded-md mr-2">Postuler</button></div>
-      </div>
-      <div class="shadow-lg text-center mb-4 py-4">
-        <i class="fas fa-laptop-code text-2xl text-blue-500"></i>
-        <h3 class="text-xl py-2">Web Developer</h3>
-        <p>Description : Stage PFE  Lorem ipsum dolor sit amet consectetur adipisicing .....</p>
-        <div class="mt-2"><button className="px-3 mx-4 py-1  text-white rounded-md mr-2" style={{ backgroundColor: "#BD2C43" }}>Voir plus</button><button className="px-3 mx-4 py-1 bg-blue-500 text-white rounded-md mr-2">Postuler</button></div>
-      </div>
-      <div class="shadow-lg text-center mb-4 py-4">
-        <i class="fas fa-laptop-code text-2xl text-blue-500"></i>
-        <h3 class="text-xl py-2">Web Developer</h3>
-        <p>Description : Stage PFE  Lorem ipsum dolor sit amet consectetur adipisicing .....</p>
-        <div class="mt-2"><button className="px-3 mx-4 py-1  text-white rounded-md mr-2" style={{ backgroundColor: "#BD2C43" }}>Voir plus</button><button className="px-3 mx-4 py-1 bg-blue-500 text-white rounded-md mr-2">Postuler</button></div>
-      </div>
+    <div class="shadow-lg bg-white rounded-lg text-center ">
+        <div class="py-4  px-6 border-b border-gray-200 flex items-center justify-center ">
+            <img
+                src={companyphoto}
+                style={{ width: 35, height: 35 }}
+                className="border-1 shadow rounded-full border-black mr-4 lg:mr-6 justify-center "
+                alt="Default"
+            />
+            <div>
+                <h3 class="text-xl font-semibold justify-center">Junior Java Developer</h3>
+                <p class="text-base leading-relaxed text-blueGray-700 justify-center">{companyName}</p>
+            </div>
+        </div>
+        <div class="px-6 py-2 text-center">
+            <p class="mt-2 text-sm leading-relaxed text-gray-600">Description : Stage PFE Lorem ipsum dolor sit amet consectetur adipisicing elit. ...</p>
+        </div>
+        <div class="flex justify-center py-4 mb-4 ">
+            <Link
+                  class="px-4 py-2 text-sm text-white bg-red-500 rounded-md mr-2"style={{ backgroundColor: "#BD2C43" }}
+                  to="/offer-details"
+                >
+                View more
+                </Link>
+            <button class="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600">Apply</button>
+        </div>
+    </div>
+
+
+    <div class="shadow-lg bg-white rounded-lg text-center ">
+        <div class="py-4  px-6 border-b border-gray-200 flex items-center justify-center ">
+            <img
+                src={companyphoto}
+                style={{ width: 35, height: 35 }}
+                className="border-1 shadow rounded-full border-black mr-4 lg:mr-6 justify-center "
+                alt="Default"
+            />
+            <div>
+                <h3 class="text-xl font-semibold justify-center">Junior Java Developer</h3>
+                <p class="text-base leading-relaxed text-blueGray-700 justify-center">{companyName}</p>
+            </div>
+        </div>
+        <div class="px-6 py-2 text-center">
+            <p class="mt-2 text-sm leading-relaxed text-gray-600">Description : Stage PFE Lorem ipsum dolor sit amet consectetur adipisicing elit. ...</p>
+        </div>
+        <div class="flex justify-center py-4 mb-4 ">
+            <Link
+                  class="px-4 py-2 text-sm text-white bg-red-500 rounded-md mr-2"style={{ backgroundColor: "#BD2C43" }}
+                  to="/offer-details"
+                >
+                View more
+                </Link>
+            <button class="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600">Apply</button>
+        </div>
+    </div>
+    <div class="shadow-lg bg-white rounded-lg text-center ">
+        <div class="py-4  px-6 border-b border-gray-200 flex items-center justify-center ">
+            <img
+                src={companyphoto}
+                style={{ width: 35, height: 35 }}
+                className="border-1 shadow rounded-full border-black mr-4 lg:mr-6 justify-center "
+                alt="Default"
+            />
+            <div>
+                <h3 class="text-xl font-semibold justify-center">Junior Java Developer</h3>
+                <p class="text-base leading-relaxed text-blueGray-700 justify-center">{companyName}</p>
+            </div>
+        </div>
+        <div class="px-6 py-2 text-center">
+            <p class="mt-2 text-sm leading-relaxed text-gray-600">Description : Stage PFE Lorem ipsum dolor sit amet consectetur adipisicing elit. ...</p>
+        </div>
+        <div class="flex justify-center py-4 mb-4 ">
+            <Link
+                  class="px-4 py-2 text-sm text-white bg-red-500 rounded-md mr-2"style={{ backgroundColor: "#BD2C43" }}
+                  to="/offer-details"
+                >
+                View more
+                </Link>
+            <button class="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600">Apply</button>
+        </div>
+    </div>
     </div>
 
     <div class="shadow-lg p-5 lg:col-span-1 ">
@@ -209,7 +276,7 @@ export default function Offer() {
               <input type="text" id="lieu-offre" value={lieuOffre} onChange={(e) => setLieuOffre(e.target.value)} />
             </div>
             <div>
-              <button type="button" onClick={handleReset} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">Réinitialiser</button>
+              <button type="button" onClick={handleReset} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">Reset</button>
             </div>
             </div>
             </form>
