@@ -76,7 +76,7 @@ export default function Admin() {
       <div className=" md:ml-64  ">
         
         {/* Header */}
-        <div className="px-4 md:px-10 mx-auto py-10 ml-10 rounded shadow   " style={{backgroundColor:"rgba(243,244,246,0.6)"}} >
+        <div className="px-4 md:px-10 mx-auto py-10 ml-10 rounded shadow-2xl  " style={{backgroundColor:"rgba(243,244,246,0.6)"}} >
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/companies" element={<CompaniesTable color={"light"}/>} />
