@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import CompanyDetailsModal from "components/modals/CompanyDetailsModal";
+import HeaderStats from "components/Headers/HeaderStats";
 
 
 export default function CompaniesTable({ color, searchQuery }) {
@@ -74,6 +75,8 @@ export default function CompaniesTable({ color, searchQuery }) {
 
     return (
       <div className="">
+      <HeaderStats />
+    
         <div
           className={
             "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded  " +

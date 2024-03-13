@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-
+import HeaderStats from "components/Headers/HeaderStats";
 export default function SkillsTable({ color, searchQuery }) {
   const [skills, setSkills] = useState([]);
   const [newSkill, setNewSkill] = useState("");
@@ -63,6 +63,8 @@ const currentItems = filteredSkills.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="">
+            <HeaderStats />
+
          <div className="mt-4">
         <h3
           className={
