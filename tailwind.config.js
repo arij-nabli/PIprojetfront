@@ -2,6 +2,13 @@ const plugin = require("tailwindcss/plugin");
 const colors = require("tailwindcss/colors");
 
 module.exports = {
+  variants: {
+    extend: {
+      transform: ["hover", "focus"],
+      scale: ["hover", "focus"],
+      backgroundColor: ["hover", "focus"],
+    },
+  },
   purge: {
     enabled: true,
     content: [
@@ -25,10 +32,13 @@ module.exports = {
         pink: "#EFC9D1",
         red: "#BD2C43",
         darkred: "#6F103D",
-        gray:"#D9D9D9",
+        gray: "#D9D9D9",
       },
     },
     extend: {
+      fontFamily: {
+        'sans': ["Inter", "sans-serif"],
+      },
       minHeight: {
         "screen-75": "75vh",
       },
