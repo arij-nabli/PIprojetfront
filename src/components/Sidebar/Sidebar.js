@@ -8,9 +8,13 @@ import UserDropdown from "components/Dropdowns/UserDropdown.js";
 
 export default function Sidebar() {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
+  const logout = () => {
+    localStorage.removeItem('token');
+    window.location.href = '/auth/login';
+  }
   return (
     <>
-      <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-gray-100 flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
+      <nav className="md:left-0 my-8 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-gray-100 flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
         <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
           {/* Toggler */}
           <button
@@ -27,7 +31,7 @@ export default function Sidebar() {
           >
             <div className="flex items-center">  <img src={logo} alt="compass" border="0" width="50" height="50" />
 
-ESPRIT COMPASS</div>
+          ESPRIT COMPASS</div>
         
           </Link>
           {/* User */}
@@ -47,7 +51,7 @@ ESPRIT COMPASS</div>
             }
           >
             {/* Collapse header */}
-            <div className="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-blueGray-200">
+            <div className="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid  border-blueGray-200">
               <div className="flex flex-wrap">
                 <div className="w-6/12">
                   <Link
@@ -81,19 +85,40 @@ ESPRIT COMPASS</div>
             </form>
 
             {/* Divider */}
-            <hr className="my-4 md:min-w-full" />
-            {/* Heading */}
+            <hr className="my-4 md:min-w-full border-1 border-gray-400 mb-3" />         
             <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
               Admin Layout Pages
             </h6>
             {/* Navigation */}
 
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
-              <li className="items-center">
+            <li className="items-center mb-1">
+    <Link
+      className={
+        "text-xs uppercase py-3 font-bold block " +
+        (location.pathname === "/admin"
+          ? "text-lightBlue-500 hover:text-lightBlue-600"
+          : "text-blueGray-700 hover:text-blueGray-500")
+      }
+      to="/admin"
+    >
+      <i
+        className={
+          "fa-solid fa-chart-line mr-2 text-sm " +
+          (location.pathname === "/admin"
+            ? "opacity-75"
+            : "text-blueGray-300")
+        }
+      ></i>{" "}
+      Dashboard
+    </Link>
+  </li>
+              <li className="items-center mb-1">
+                
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
-                    (window.location.href.indexOf("/admin/") !== -1
+                    (window.location.href.indexOf("/admin/all-users") !== -1
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
@@ -102,7 +127,7 @@ ESPRIT COMPASS</div>
                   <i
                     className={
                       "fas fa-tv mr-2 text-sm " +
-                      (window.location.href.indexOf("/admin/") !== -1
+                      (window.location.href.indexOf("/admin/all-users") !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
@@ -111,11 +136,11 @@ ESPRIT COMPASS</div>
                 </Link>
               </li>
 
-              <li className="items-center">
+              <li className="items-center mb-1">
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
-                    (window.location.href.indexOf("/admin/settings") !== -1
+                    (window.location.href.indexOf("/admin/companies") !== -1
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
@@ -124,7 +149,7 @@ ESPRIT COMPASS</div>
                   <i
                     className={
                       "fas fa-building mr-2 text-sm " +
-                      (window.location.href.indexOf("/admin/settings") !== -1
+                      (window.location.href.indexOf("/admin/companies") !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
@@ -133,11 +158,11 @@ ESPRIT COMPASS</div>
                 </Link>
               </li>
 
-              <li className="items-center">
+              <li className="items-center mb-1">
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
-                    (window.location.href.indexOf("/admin/tables") !== -1
+                    (window.location.href.indexOf("/admin/skills") !== -1
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
@@ -146,13 +171,25 @@ ESPRIT COMPASS</div>
                   <i
                     className={
                       "fa-solid fa-laptop-code mr-2 text-sm " +
-                      (window.location.href.indexOf("/admin/tables") !== -1
+                      (window.location.href.indexOf("/admin/skills") !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
                   ></i>{" "}
                   Skills
                 </Link>
+              </li>
+              <li className="items-center mb-1">
+                <button
+                  className={
+                    "text-xs uppercase py-3 font-bold block " 
+                  }
+                  onClick={logout}
+                >
+                  <i class="fa-solid fa-arrow-right-from-bracket  mr-2 text-sm  opacity-75 text-blueGray-300"></i>
+                 {" "}
+                  Logout
+                </button>
               </li>
 
             </ul>
