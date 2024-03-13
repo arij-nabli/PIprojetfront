@@ -73,7 +73,7 @@ export default function CompaniesTable({ color, searchQuery }) {
 
     return (
        
-            <div className="bg-blueGray-100 mt-10">
+            <div className="bg-blueGray-100 ">
                 <div
                     className={
                         "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded  " +

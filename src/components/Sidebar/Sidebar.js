@@ -8,9 +8,13 @@ import UserDropdown from "components/Dropdowns/UserDropdown.js";
 
 export default function Sidebar() {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
+  const logout = () => {
+    localStorage.removeItem('token');
+    window.location.href = '/auth/login';
+  }
   return (
     <>
-      <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-gray-100 flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
+      <nav className="md:left-0 my-8 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-gray-100 flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
         <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
           {/* Toggler */}
           <button
@@ -174,6 +178,18 @@ export default function Sidebar() {
                   ></i>{" "}
                   Skills
                 </Link>
+              </li>
+              <li className="items-center mb-1">
+                <button
+                  className={
+                    "text-xs uppercase py-3 font-bold block " 
+                  }
+                  onClick={logout}
+                >
+                  <i class="fa-solid fa-arrow-right-from-bracket  mr-2 text-sm  opacity-75 text-blueGray-300"></i>
+                 {" "}
+                  Logout
+                </button>
               </li>
 
             </ul>
