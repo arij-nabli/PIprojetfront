@@ -175,7 +175,7 @@ export default function Sidebar() {
                 >
                   <i
                     className={
-                      "fa-solid fa-laptop-code mr-2 text-sm " +
+                      "fa-solid fa-industry mr-2 text-sm " +
                       (window.location.href.indexOf("/admin/skills") !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
@@ -184,18 +184,13 @@ export default function Sidebar() {
                   Industries
                 </Link>
               </li>
-              <li className="items-center mb-1">
-                <button
-                  className={
-                    "text-xs uppercase py-3 font-bold block " 
-                  }
-                  onClick={logout}
-                >
-                  <i class="fa-solid fa-arrow-right-from-bracket  mr-2 text-sm  opacity-75 text-blueGray-300"></i>
+              <button className="items-center mb-1 bg-red-500 flex justify-center w-full bottom-0 absolute text-xs uppercase py-3 font-bold  text-black">
+               
+                  <i class="fa-solid fa-arrow-right-from-bracket  mr-2 text-sm  opacity-75 text-blueGray-300" style={{color:"black"}}></i>
                  {" "}
                   Logout
                 </button>
-              </li>
+            
 
             </ul>
 
