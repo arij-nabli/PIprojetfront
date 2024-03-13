@@ -10,7 +10,8 @@ import { useState , useEffect} from "react";
 export default function DetailsOffer() {
     const [jobTitle, setJobTitle] = useState("Junior Java Developer");
     const [companyemail, setCompanyEmail] = useState("bouzayeni@mobiblanc.com");
-
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
     const [companyName, setCompanyName] = useState(
     "Mobiblanc Tunisie"
   );
