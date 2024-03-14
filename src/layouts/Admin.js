@@ -75,7 +75,7 @@ export default function Admin() {
     
       <Sidebar className=""/>
       <div className=" md:ml-64  ">
-        
+      <HeaderStats />
         {/* Header */}
         <div className="px-4 md:px-10 mx-auto py-10 ml-10 rounded shadow-2xl  " style={{backgroundColor:"rgba(243,244,246,0.6)"}} >
           <Routes>

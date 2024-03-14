@@ -90,26 +90,14 @@ export default function CardTable({ color, searchQuery }) {
 
   return (
     <>
+   
       <div
         className={
           "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded  " +
           (color === "light" ? "bg-white" : "bg-lightBlue-900 text-white")
         }
       >
-        <div className="rounded-t mb-0 px-4 py-3">
-          <div className="flex flex-wrap">
-            <div className="relative w-full px-4 max-w-full flex-grow flex-1">
-              <h3
-                className={
-                  "font-semibold text-lg " +
-                  (color === "light" ? "text-blueGray-700" : "text-white")
-                }
-              >
-                Users
-              </h3>
-            </div>
-          </div>
-        </div>
+       
         <div className="block w-full overflow-x-auto">
           {/* Projects table */}
           <table className="w-full bg-transparent border-collapse min-w-full divide-y divide-gray-200">

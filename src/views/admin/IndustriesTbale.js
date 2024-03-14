@@ -68,32 +68,9 @@ export default function IndustriesTable({ color, searchQuery }) {
 
     return (
         <div className="">
-            <HeaderStats />
+                           <h1 className="text-center font-black text-2xl mb-5">Skills</h1>
 
-            <div className="mt-4">
-                <h3
-                    className={
-                        "font-semibold text-lg text-center "
-                    }
-                >
-                    Add Industry
-                </h3>
-                <div className="flex justify-center my-4 text-black">
-                    <input
-                        type="text"
-                        placeholder="Enter industry name"
-                        value={newIndustry}
-                        className="ml-3  border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0  ease-linear transition-all duration-150"
-                        onChange={(e) => setNewIndustry(e.target.value)}
-                    />
-                    <button onClick={addIndustry}>
-                        <i
-                            class="fa-solid fa-square-plus fa-xl ml-5"
-                            style={{ color: "lime" }}
-                        ></i>
-                    </button>
-                </div>
-            </div>
+
             <div
                 className={
                     "relative flex flex-col min-w-0 break-words w-full my-6 shadow-lg rounded  " +
@@ -187,6 +164,31 @@ export default function IndustriesTable({ color, searchQuery }) {
                     </li>
                 </ul>
             </nav>
+            
+            <div className="mt-10">
+                <h3
+                    className={
+                        "font-semibold text-lg text-center "
+                    }
+                >
+                    Add Industry
+                </h3>
+                <div className="flex justify-center my-4 text-black">
+                    <input
+                        type="text"
+                        placeholder="Enter industry name"
+                        value={newIndustry}
+                        className="ml-3  border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0  ease-linear transition-all duration-150"
+                        onChange={(e) => setNewIndustry(e.target.value)}
+                    />
+                    <button onClick={addIndustry}>
+                        <i
+                            class="fa-solid fa-square-plus fa-xl ml-5"
+                            style={{ color: "lime" }}
+                        ></i>
+                    </button>
+                </div>
+            </div>
         </div>
     );
 }

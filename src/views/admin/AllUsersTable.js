@@ -15,14 +15,16 @@ const AllUsersTable = () => {
 
    return (
     <div>
-      <HeaderStats />
-      <div className="flex flex-wrap mt-4">
-        <div className="w-full px-4">
+  
+     
+        <div className="w-full">
+        <h1 className="text-center font-black text-2xl mb-5">Users</h1>
+
           <CardTable />
         </div>
        
       </div>
-    </div>
+  
    );
 };
 
