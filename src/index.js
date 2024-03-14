@@ -40,9 +40,11 @@ function MainApp() {
         <Route path="/landing" exact element={<Landing />} />
         <Route path="/offer" exact element={<Offer/>} />
         <Route path="/offer-details" exact element={<DetailsOffer/>} />
+        <Route path="/offer" exact element={<Offer/>} />
+        <Route path="/offer-details" exact element={<DetailsOffer/>} />
         <Route path="/profile" element={<AuthGuard><Profile /></AuthGuard>} />
         <Route path="/" exact element={<Auth />} />
-        <Route path="/set-token" element={<SetToken />} />
+     
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>

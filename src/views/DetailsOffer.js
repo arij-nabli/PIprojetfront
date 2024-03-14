@@ -3,23 +3,26 @@ import HashLoader from "react-spinners/HashLoader";
 import React from "react";
 import axios from "axios";
 import companyphoto from "../assets/img/mobiblanc.jpeg";
-
+import Apply from "./Apply";
 import { useState , useEffect} from "react";
 
 
 export default function DetailsOffer() {
     const [jobTitle, setJobTitle] = useState("Junior Java Developer");
     const [companyemail, setCompanyEmail] = useState("bouzayeni@mobiblanc.com");
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+    const [name, setName] = useState("Feriel BHK");
     const [companyName, setCompanyName] = useState(
     "Mobiblanc Tunisie"
   );
   const [nombre, setNombre] = useState("7");
-
+  const [email, setEmail] = useState("");
     const [token, setToken] = useState(localStorage.getItem("token"));
     const [isLoading, setIsLoading] = useState(true);
-    
+    const [showApplyForm, setShowApplyForm] = useState(false);
+
+    const handleApplyClick = () => {
+      setShowApplyForm(!showApplyForm); // Inversion de l'état lors du clic sur le bouton "Apply"
+    };
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -88,7 +91,15 @@ export default function DetailsOffer() {
         </p>
     </div>
     <div className="ml-auto">
-        <button className="p-3 text-white rounded-md mr-2 mb-3 mt-10" style={{ backgroundColor: "#BD2C43" }}>Apply Now</button>
+
+                    <button
+                      onClick={handleApplyClick}
+                      className="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                    >
+                      Apply
+                    </button>
+                    {showApplyForm && <Apply onClose={handleApplyClick} />}
+               
         <p className="mb-4 text-lg font-semibold leading-relaxed text-blueGray-700">{nombre} application(s)</p>
         </div>
     </div>

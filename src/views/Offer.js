@@ -5,7 +5,7 @@ import HashLoader from "react-spinners/HashLoader";
 import feriel from "../assets/img/feriel.jpg";
 import { Link } from "react-router-dom";
 import companyphoto from "../assets/img/mobiblanc.jpeg";
-
+import Apply from "./Apply";
 export default function Offer() {
   const [companyName, setCompanyName] = useState(
     "Mobiblanc Tunisie"
@@ -21,7 +21,11 @@ export default function Offer() {
     "A student looking for an internship."
   );
   const [email, setEmail] = useState("");
- 
+  const [showApplyForm, setShowApplyForm] = useState(false);
+
+  const handleApplyClick = () => {
+    setShowApplyForm(!showApplyForm); // Inversion de l'état lors du clic sur le bouton "Apply"
+  };
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -172,7 +176,15 @@ export default function Offer() {
                 >
                 View more
                 </Link>
-            <button class="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600">Apply</button>
+             
+                    <button
+                      onClick={handleApplyClick}
+                      className="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                    >
+                      Apply
+                    </button>
+                    {showApplyForm && <Apply onClose={handleApplyClick} />}
+                  
         </div>
     </div>
 
@@ -200,7 +212,15 @@ export default function Offer() {
                 >
                 View more
                 </Link>
-            <button class="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600">Apply</button>
+             
+                    <button
+                      onClick={handleApplyClick}
+                      className="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                    >
+                      Apply
+                    </button>
+                    {showApplyForm && <Apply onClose={handleApplyClick} />}
+                  
         </div>
     </div>
     <div class="shadow-lg bg-white rounded-lg text-center ">
@@ -226,7 +246,15 @@ export default function Offer() {
                 >
                 View more
                 </Link>
-            <button class="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600">Apply</button>
+                
+                    <button
+                      onClick={handleApplyClick}
+                      className="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                    >
+                      Apply
+                    </button>
+                    {showApplyForm && <Apply onClose={handleApplyClick} />}
+                
         </div>
     </div>
     </div>
