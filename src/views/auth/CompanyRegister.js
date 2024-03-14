@@ -84,7 +84,7 @@ export default function CompanyRegister() {
     })
       .then(response => {
         console.log(response.data);
-        setErrorMessage("Your Request will be validated by an admin.S")
+        setErrorMessage("Your Request will be validated by an admin")
       })
       .catch(error => {
         console.log(error)
@@ -534,10 +534,10 @@ export default function CompanyRegister() {
                     </button>
                   </div>
                  
-                  {errorMessage && errorMessage != "Your Request will be validated by an admin.S"?<div class="p-4 mb-4 flex justify-center relative text-sm text-red-800 rounded-lg bg-red-200 mt-5  dark:text-red-400" role="alert">
+                  {errorMessage && errorMessage != "Your Request will be validated by an admin"?<div class="p-4 mb-4 flex justify-center relative text-sm text-red-800 rounded-lg bg-red-200 mt-5  dark:text-red-400" role="alert">
   <span class="font-medium"> <p style={{  color: 'red' }}>{errorMessage}</p></span>
 </div>            : null   }
-                      {errorMessage == "Your Request will be validated by an admin.S" ?
+                      {errorMessage == "Your Request will be validated by an admin" ?
                        <div class="p-4 mt-4 mb-4 text-sm text-center text-green-800 rounded-lg bg-green-50 dark:text-green-700" role="alert">
                        <span class="font-medium ">{errorMessage}</span> 
                      </div> :

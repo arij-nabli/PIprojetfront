@@ -64,7 +64,7 @@ export default function Login() {
         setErrorMessage("User Not Found");
       }
       if (error.response.status === 403) {
-        setErrorMessage("Please verify your email address first");
+        setErrorMessage(error.response.data.message);
       }
     }
   };

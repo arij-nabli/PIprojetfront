@@ -37,10 +37,13 @@ const CompanyDetailsModal = ({ isOpen, closeModal, company, user }) => {
       <span className="font-semibold">Username:</span> {user.username}
     </p>
     <p className="text-sm text-gray-500 mb-2">
-      <span className="font-semibold">Country:</span> {user.country}
+      <span className="font-semibold">Country:</span> {company.country}
     </p>
     <p className="text-sm text-gray-500 mb-2">
       <span className="font-semibold">Account Status:</span> {user.account_status}
+    </p>
+    <p className="text-sm text-gray-500 mb-2">
+      <span className="font-semibold">Website:</span> {company.website}
     </p>
   </div>
 </div>
