@@ -8,7 +8,8 @@ export default function SetToken() {
     const urlParams = new URLSearchParams(location.search);
     const token = urlParams.get('token');
     localStorage.setItem('token', token);
-    navigate('/profile');
+    console.log("aaaaaaaaaa",token);
+    navigate('/offer');
     // Redirect to profile or another page
   }, [location]);
 

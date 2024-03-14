@@ -50,7 +50,7 @@ export default function Login() {
       if (role === "admin") {
         navigate("/admin/dashboard", { replace: true });
       } else {
-        navigate("/profile", { replace: true });
+        navigate("/", { replace: true });
       }
 
       setIsLoading(false);

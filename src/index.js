@@ -15,7 +15,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import HashLoader from "react-spinners/HashLoader";
 import AuthGuard from "components/AuthGuard";
 import NoAuthGuard from "components/NoAuthGuard";
-import Offer from "views/Offer";
+import Offer from "views/OffersPage";
 import DetailsOffer from "views/DetailsOffer";
 import SetToken from "components/SetToken";
 function MainApp() {
@@ -39,12 +39,10 @@ function MainApp() {
         <Route path="/auth/*" element={<NoAuthGuard><Auth /></NoAuthGuard>} />
         <Route path="/landing" exact element={<Landing />} />
         <Route path="/offer" exact element={<Offer/>} />
-        <Route path="/offer-details" exact element={<DetailsOffer/>} />
-        <Route path="/offer" exact element={<Offer/>} />
-        <Route path="/offer-details" exact element={<DetailsOffer/>} />
+        <Route path="/set-token" exact element={<SetToken />} />
+        <Route path="/offer-details/:id" exact element={<DetailsOffer/>} />
         <Route path="/profile" element={<AuthGuard><Profile /></AuthGuard>} />
-        <Route path="/" exact element={<Auth />} />
-     
+        <Route path="/" exact element={<Offer />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
