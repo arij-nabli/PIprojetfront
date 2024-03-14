@@ -94,7 +94,7 @@ export default function DetailsOffer() {
 
                     <button
                       onClick={handleApplyClick}
-                      className="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                      className="px-4 py-2 text-sm text-white bg-custom-red w-full rounded-md hover:bg-red-600"
                     >
                       Apply
                     </button>
@@ -130,10 +130,10 @@ export default function DetailsOffer() {
         <h6 className="mb-2 mt-2 text-lg font-semibold leading-relaxed text-blueGray-900">Key Words</h6>
         <div className="flex flex-wrap">
             <div className="w-full ">
-                <h1 className="p-3 text-white rounded-md mr-2 mb-3 mt-10" style={{ backgroundColor: "#BD2C43" }}>PHP</h1>
-                <h1 className="p-3 text-white rounded-md mr-2 mb-3 mt-10" style={{ backgroundColor: "#BD2C43" }}>iOS</h1>
-                <h1 className="p-3 text-white rounded-md mr-2 mb-3 mt-10" style={{ backgroundColor: "#BD2C43" }}>Android</h1>
-                <h1 className="p-3 text-white rounded-md mr-2 mb-3 mt-10" style={{ backgroundColor: "#BD2C43" }}>Data science</h1>
+                <h1 className="p-3 text-white rounded-md mr-2 mb-3 mt-10 text-center" style={{ backgroundColor: "#BD2C43" }}>PHP</h1>
+                <h1 className="p-3 text-white rounded-md mr-2 mb-3 mt-10 text-center" style={{ backgroundColor: "#BD2C43" }}>iOS</h1>
+                <h1 className="p-3 text-white rounded-md mr-2 mb-3 mt-10 text-center"  style={{ backgroundColor: "#BD2C43" }}>Android</h1>
+                <h1 className="p-3 text-white rounded-md mr-2 mb-3 mt-10 text-center" style={{ backgroundColor: "#BD2C43" }}>Data science</h1>
             </div>
             
         </div>

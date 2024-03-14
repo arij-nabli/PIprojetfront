@@ -11,11 +11,11 @@ export default function Navbar(props) {
   const navigate = useNavigate();
   const logout = ()=> {
     localStorage.removeItem('token');
-    navigate("/")
+    navigate("/auth/login")
   }
   return (
     <div >
-      <nav style={{ height:"10%"}} className=" shadow-2xl  flex flex-wrap items-center justify-between px-2  navbar-expand-lg bg-white">
+      <nav style={{ height:"10%"}} className=" shadow flex flex-wrap items-center justify-between px-2  navbar-expand-lg bg-white">
         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
             <Link

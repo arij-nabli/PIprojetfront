@@ -142,6 +142,7 @@ const googleSignIn = async () => {
                   <button
                     className="bg-gray-100 mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase  hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
+                    onClick={()=>  window.open('http://localhost:5000/auth/facebook', '_self')}
                   >
                     <img
                       alt="..."
@@ -152,6 +153,7 @@ const googleSignIn = async () => {
                   <button
                     className="bg-gray-100 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase  hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
+                    onClick={()=>  window.open('http://localhost:5000/auth/linkedin', '_self')}
                   >
                     <img
                       alt="..."

@@ -127,17 +127,17 @@ export default function Offer() {
         <>
           {token ? <IndexNavbar /> : <AuthNavbar />}
 
-          <div class="mx-auto grid lg:grid-cols-4 sm:grid-cols-2 gap-6 mt-4 ">
-            <div className="shadow-lg p-5 lg:col-span-1">
+          <div class="mx-auto grid   lg:grid-cols-4 sm:grid-cols-2 gap-6 mt-4 ">
+          <div className="shadow-lg p-5 lg:col-span-1">
               <div className="flex flex-col bg-white">
-                <div className="flex items-center justify-center mt-10 w-full">
+                {/* <div className="flex items-center justify-center mt-10 w-full">
                   <img
                     src={feriel}
                     style={{ width: 200, height: 200 }}
                     className="mt-5 border-1 shadow rounded-full border-black"
                     alt="Default"
                   />
-                </div>
+                </div> */}
 
                 <div className="mx-auto mt-2">
                   <h3 className="text-4xl text-center font-semibold leading-normal mb-2 text-blueGray-700">

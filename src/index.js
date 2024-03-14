@@ -38,11 +38,11 @@ function MainApp() {
         <Route path="/admin/*" element={<AuthGuard><Admin /></AuthGuard>} />
         <Route path="/auth/*" element={<NoAuthGuard><Auth /></NoAuthGuard>} />
         <Route path="/landing" exact element={<Landing />} />
-        <Route path="/offer" exact element={<Offer/>} />
+        <Route path="/offer" exact element={<AuthGuard><Offer/></AuthGuard>} />
         <Route path="/set-token" exact element={<SetToken />} />
         <Route path="/offer-details/:id" exact element={<DetailsOffer/>} />
         <Route path="/profile" element={<AuthGuard><Profile /></AuthGuard>} />
-        <Route path="/" exact element={<Offer />} />
+        <Route path="/" exact element={<Auth/>} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>

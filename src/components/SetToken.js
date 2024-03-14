@@ -9,7 +9,7 @@ export default function SetToken() {
     const token = urlParams.get('token');
     localStorage.setItem('token', token);
     console.log("aaaaaaaaaa",token);
-    navigate('/offer');
+    navigate('/profile');
     // Redirect to profile or another page
   }, [location]);
 
