@@ -774,7 +774,6 @@ export default function Profile() {
                                           className='block mb-1'>
                                           School
                                         </label>
-                                        
                                       </div>
                                     )
                                   )}
@@ -810,7 +809,6 @@ export default function Profile() {
                                             <strong>Company:</strong>{' '}
                                             {education.school}
                                           </div>
-                                          
                                         </li>
                                       )
                                     )}
