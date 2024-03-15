@@ -77,6 +77,9 @@ export default function CardTable({ color, searchQuery }) {
     if (role === "company") {
       color = "text-indigo-600 bg-indigo-200";
     }
+    if (role === "alumni") {
+      color = "text-red-600 bg-red-200";
+    }
     return color;
   }
 

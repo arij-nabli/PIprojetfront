@@ -82,7 +82,7 @@ const currentItems = filteredSkills.slice(indexOfFirstItem, indexOfLastItem);
       onClick={() => setShowForm(!showForm)} 
    
     >
-     { !showForm? <i class="fa-solid fa-square-plus fa-xl" style={{color:"lime"}}></i>:<i class="fa-solid fa-arrow-left fa-xl" style={{color:"lime"}}></i>}
+     { !showForm? <i class="fa-solid fa-square-plus fa-xl" style={{color:"rgb(132,204,22)"}}></i>:<i class="fa-solid fa-arrow-left fa-xl" sstyle={{color:"rgb(132,204,22)"}}></i>}
     </button>
     {showForm ? (
       <div className="mt-4">
@@ -104,8 +104,8 @@ const currentItems = filteredSkills.slice(indexOfFirstItem, indexOfLastItem);
             className="mx-3 border-0 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 ease-linear transition-all duration-150"
             onChange={(e) => setDescription(e.target.value)}
           />
-          <button onClick={addSkill}>
-            <i class="fa-solid fa-square-plus fa-xl" style={{color:"lime"}}></i>
+          <button onClick={addSkill} className=" bg-lime-500 px-5 rounded ">
+            <h1  className=" font-black text-white">add</h1>
           </button>
         </div>
       </div>
