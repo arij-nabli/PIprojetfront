@@ -1,7 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
-import '../assets/styles/contact.css'
 
 // components
 import Navbar from 'components/Navbars/AuthNavbar'
