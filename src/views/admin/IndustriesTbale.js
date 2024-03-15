@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import HeaderStats from "components/Headers/HeaderStats";
+import Swal from 'sweetalert2'
 
 export default function IndustriesTable({ color, searchQuery }) {
     const [industries, setIndustries] = useState([]);
@@ -9,7 +10,7 @@ export default function IndustriesTable({ color, searchQuery }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(7);
     const [showForm, setShowForm] = useState(false);
-
+ 
     const fetchData = async () => {
         const response = await axios.get("http://localhost:5000/industries");
         console.log(response.data);
@@ -29,7 +30,13 @@ export default function IndustriesTable({ color, searchQuery }) {
                 companies: [],
             });
             console.log("Industry Added");
-            alert("Industry Added");
+            Swal.fire({
+                position: "top",
+                icon: "success",
+                title: "Industry added successfully!",
+                showConfirmButton: false,
+                timer: 1000
+              });
             setNewIndustry("");
             fetchData();
         } catch (err) {
@@ -43,7 +50,13 @@ export default function IndustriesTable({ color, searchQuery }) {
                 `http://localhost:5000/industries/${industryId}`
             );
             console.log("Industry Deleted");
-            alert("Industry Deleted");
+            Swal.fire({
+                position: "top",
+                icon: "warning",
+                title: "Industry Deleted",
+                showConfirmButton: false,
+                timer: 1000
+              });
             fetchData();
         } catch (err) {
             console.error(err.message);

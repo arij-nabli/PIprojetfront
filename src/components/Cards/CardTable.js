@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import EditUser from "../modals/EditUser";
 import UserDetails from "../modals/UserDetails";
-
+import Swal from "sweetalert2";
 export default function CardTable({ color, searchQuery }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenUser, setIsModalOpenUser] = useState(false);
@@ -46,8 +46,14 @@ export default function CardTable({ color, searchQuery }) {
     try {
       const res = await axios.put(`http://localhost:5000/admin/ban/${userId}`);
       console.log("User Banned");
-      alert("User Banned");
-      window.location.reload();
+      Swal.fire({
+        position: "top",
+        icon: "success",
+        title: "User banned successfully!",
+        showConfirmButton: false,
+        timer: 1000
+      });
+      fetchData()
     } catch (err) {
       console.error(err.message);
     }

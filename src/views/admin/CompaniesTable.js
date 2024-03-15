@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import CompanyDetailsModal from "components/modals/CompanyDetailsModal";
 import HeaderStats from "components/Headers/HeaderStats";
-
+import Swal from "sweetalert2";
 
 export default function CompaniesTable({ color, searchQuery }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,8 +35,14 @@ export default function CompaniesTable({ color, searchQuery }) {
                 `http://localhost:5000/admin/acceptcompany/${companyId}`
             );
             console.log("Company Accepted");
-            alert("Company Accepted");
-            window.location.reload();
+            Swal.fire({
+              position: "top",
+              icon: "success",
+              title: "Company accepted successfully!",
+              showConfirmButton: false,
+              timer: 1000
+            });
+           fetchData()
         } catch (err) {
             console.error(err.message);
         }
@@ -48,8 +54,14 @@ export default function CompaniesTable({ color, searchQuery }) {
                 `http://localhost:5000/admin/refusecompany/${companyId}`
             );
             console.log("Company Refused");
-            alert("Company Refused");
-            window.location.reload();
+            Swal.fire({
+              position: "top",
+              icon: "error",
+              title: "Company refused successfully!",
+              showConfirmButton: false,
+              timer: 1000
+            });
+            fetchData()
         } catch (err) {
             console.error(err.message);
         }

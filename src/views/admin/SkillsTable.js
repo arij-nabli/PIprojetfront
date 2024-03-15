@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import Swal from 'sweetalert2'
+
 import HeaderStats from "components/Headers/HeaderStats";
 export default function SkillsTable({ color, searchQuery }) {
   const [skills, setSkills] = useState([]);
@@ -28,7 +30,13 @@ export default function SkillsTable({ color, searchQuery }) {
         description: description,
       });
       console.log("Skill Added");
-      alert("Skill Added");
+      Swal.fire({
+        position: "top",
+        icon: "success",
+        title: "Skill added successfully!",
+        showConfirmButton: false,
+        timer: 1000
+      });
       setNewSkill("");
       setDescription("");
       fetchData();
@@ -43,7 +51,13 @@ export default function SkillsTable({ color, searchQuery }) {
         `http://localhost:5000/skills/deleteskill/${skillId}`
       );
       console.log("Skill Deleted");
-      alert("Skill Deleted");
+      Swal.fire({
+        position: "top",
+        icon: "warning",
+        title: "Skill deleted",
+        showConfirmButton: false,
+        timer: 1000
+      });
       fetchData();
     } catch (err) {
       console.error(err.message);
