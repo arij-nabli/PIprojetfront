@@ -1,5 +1,7 @@
 import React from "react";
-import {Chart} from "chart.js";
+import { Chart, LineController, BarController, CategoryScale, LinearScale, PointElement, BarElement,LineElement } from 'chart.js';
+
+Chart.register(LineController, BarController, CategoryScale, LinearScale, PointElement, BarElement,LineElement);
 
 export default function CardLineChart() {
   React.useEffect(() => {
