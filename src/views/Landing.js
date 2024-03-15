@@ -311,7 +311,7 @@ export default function LandingPage() {
           style={{
             background: 'linear-gradient(to bottom, #ffffff 0%, #800000 100%)',
           }}>
-          <div className='container mx-auto px-4 text-center  '>
+          <div className='container mx-auto px-4 text-center mr-3'>
             <div className='mb-24 justify-center text-center'>
               <h2 className='text-4xl font-semibold text-center '>
                 Our Partners
