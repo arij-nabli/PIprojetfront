@@ -19,6 +19,7 @@ import Offer from 'views/OffersPage'
 import DetailsOffer from 'views/DetailsOffer'
 import SetToken from 'components/SetToken'
 import ContactUs from 'views/ContactUs'
+import ProfileCompany from 'views/ProfileCompany'
 function MainApp() {
   const [isLoading, setIsLoading] = useState(true)
 
@@ -51,6 +52,10 @@ function MainApp() {
             }
           />
           <Route path='/landing' exact element={<Landing />} />
+          <Route path='/profile' exact element={<Profile />} />
+          <Route path='/profileCompany' exact element={<ProfileCompany/>} />
+
+
           <Route
             path='/offer'
             exact
