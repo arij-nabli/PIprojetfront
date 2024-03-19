@@ -82,11 +82,12 @@ export default function Profile() {
     french: 60,
     english: 80,
     arabic: 90,
-  });
+  })
+  const [newSkill, setNewSkill] = useState('')
+  const [programmingLanguage, setProgrammingLanguage] = useState('')
+  const [database, setDatabase] = useState('')
+  const [cloud, setCloud] = useState('')
 
-  const [hardSkillInfo, setHardSkillInfo] = useState({
-    hardSkills: ["React", "Angular", "SpringBoot"],
-  });
   const [softSkillInfo, setSoftSkillInfo] = useState({
     softSkills: ["communication", "leader", "pacient"],
   });
@@ -115,8 +116,14 @@ export default function Profile() {
         company: "Esprit",
       },
     ],
-  });
-
+  })
+  const [hardSkillInfo, setHardSkillInfo] = useState({
+    hardSkills: {
+      'Programming language': ['java', 'Python'], // Initial value for programming language
+      Database: ['mongodb', 'SQL'],
+      Cloud: ['aws'],
+    },
+  })
   //const handleEdit = () => {
   //setEditMode(true)
   //}
@@ -130,8 +137,22 @@ export default function Profile() {
     setEditModeLang(true);
   };
   const handleEditHardSkill = () => {
-    setEditModeHardSkill(true);
-  };
+    setEditModeHardSkill(true)
+    const programmingLanguageArray =
+      hardSkillInfo.hardSkills['Programming language']
+    if (Array.isArray(programmingLanguageArray)) {
+      setProgrammingLanguage(programmingLanguageArray.join(', '))
+    }
+    const databaseArray = hardSkillInfo.hardSkills.Database
+    if (Array.isArray(databaseArray)) {
+      setDatabase(databaseArray.join(', '))
+    }
+    const cloudArray = hardSkillInfo.hardSkills.Cloud
+    if (Array.isArray(cloudArray)) {
+      setCloud(cloudArray.join(', '))
+    }
+  }
+
   const handleEditSoftSkill = () => {
     setEditModeSoftSkill(true);
   };
@@ -155,9 +176,14 @@ export default function Profile() {
     setEditModeLang(false);
   };
   const handleSaveHardSkill = () => {
-    // Save the updated contact information
-    setEditModeHardSkill(false);
-  };
+    const updatedHardSkills = {
+      'Programming language': programmingLanguage,
+      DataBase: database,
+      Cloud: cloud,
+    }
+    setHardSkillInfo({ hardSkills: updatedHardSkills })
+    setEditModeHardSkill(false)
+  }
   const handleSaveSoftSkill = () => {
     // Save the updated contact information
     setEditModeSoftSkill(false);
@@ -184,9 +210,9 @@ export default function Profile() {
     setLangInfo({ ...contactInfo, [name]: value });
   };
   const handleChangeHardSkill = (e) => {
-    const { name, value } = e.target;
-    setEditModeHardSkill({ ...hardSkillInfo, [name]: value });
-  };
+    setNewSkill(e.target.value)
+  }
+
   const handleChangeSoftSkill = (e) => {
     const { name, value } = e.target;
     setEditModeSoftSkill({ ...softSkillInfo, [name]: value });
@@ -267,7 +293,7 @@ export default function Profile() {
         <>
           <Navbar />
           <main
-            className="profile-pagerelative w-full h-full py-10 "
+            className='profile-pagerelative w-full h-full py-10 text-center'
             style={{
               "background-color": "#DFDBE5",
             }}
@@ -442,18 +468,18 @@ export default function Profile() {
                           ) : (
                             <div>
                               <p>
-                                {" "}
-                                <i class="fa-regular fa-user"></i>
+                                {' '}
+                                <i class='fa-regular fa-user mr-3' style={{ color: '#BD2C43' }}></i>
                                 {contactInfo.fullName}
                               </p>
                               <p>
-                                {" "}
-                                <i class="fa-regular fa-envelope "></i>
+                                {' '}
+                                <i class='fa-regular fa-envelope mr-3 ' style={{ color: '#BD2C43' }}></i>
                                 {contactInfo.email}
                               </p>
                               <p>
-                                {" "}
-                                <i class="fa-solid fa-phone"></i>
+                                {' '}
+                                <i class='fa-solid fa-phone mr-3' style={{ color: '#BD2C43' }}></i>
                                 {contactInfo.phone}
                               </p>
                               <button onClick={handleEditContactInfo}>
@@ -493,6 +519,28 @@ export default function Profile() {
                                 value={langInfo.english}
                                 onChange={handleChangelang}
                                 className="w-full border rounded-md px-3 py-2 mb-2"
+                              />
+                              <label htmlFor='arabic' className='block mb-1'>
+                                <strong>Arabic</strong>
+                              </label>
+                              <input
+                                type='number'
+                                id='arabic'
+                                name='arabic'
+                                value={langInfo.arabic}
+                                onChange={handleChangelang}
+                                className='w-full border rounded-md px-3 py-2 mb-2'
+                              />
+                              <label htmlFor='arabic' className='block mb-1'>
+                                <strong>Arabic</strong>
+                              </label>
+                              <input
+                                type='number'
+                                id='arabic'
+                                name='arabic'
+                                value={langInfo.arabic}
+                                onChange={handleChangelang}
+                                className='w-full border rounded-md px-3 py-2 mb-2'
                               />
 
                               <div className="mt-4">
@@ -574,33 +622,43 @@ export default function Profile() {
                           {editModeHardSkill ? (
                             <div>
                               <label
-                                htmlFor="hardskills"
-                                className="block mb-1"
-                              >
-                                HardSkills
+                                htmlFor='programmingLanguage'
+                                className='block mb-1'>
+                                Programming Language
                               </label>
                               <input
-                                type="text"
-                                id="hardskills"
-                                name="hardskills"
-                                value={skillInput}
-                                onChange={handleSkillInputChange}
-                                className="w-full border rounded-md px-3 py-2 "
+                                type='text'
+                                id='programmingLanguage'
+                                name='programmingLanguage'
+                                value={programmingLanguage}
+                                onChange={(e) =>
+                                  setProgrammingLanguage(e.target.value)
+                                }
+                                className='w-full border rounded-md px-3 py-2 mb-2'
                               />
-                              {skillInput ? (
-                                <div className="bg-gray-300 text-left mx-1 absolute z-10 rounded-md shadow-lg">
-                                  {suggestedSkills.map((skill, index) => (
-                                    <div
-                                      key={index}
-                                      onClick={() => handleSkillClick(skill)}
-                                      className="hover:bg-blue-200 px-4 cursor-pointer"
-                                    >
-                                      {skill}
-                                    </div>
-                                  ))}
-                                </div>
-                              ) : null}
-                              <div className="mt-4">
+                              <label htmlFor='database' className='block mb-1'>
+                                Database
+                              </label>
+                              <input
+                                type='text'
+                                id='database'
+                                name='database'
+                                value={database}
+                                onChange={(e) => setDatabase(e.target.value)}
+                                className='w-full border rounded-md px-3 py-2 mb-2'
+                              />
+                              <label htmlFor='cloud' className='block mb-1'>
+                                Cloud
+                              </label>
+                              <input
+                                type='text'
+                                id='cloud'
+                                name='cloud'
+                                value={cloud}
+                                onChange={(e) => setDatabase(e.target.value)}
+                                className='w-full border rounded-md px-3 py-2 mb-2'
+                              />
+                              <div className='mt-4'>
                                 <button
                                   onClick={handleSaveHardSkill}
                                   className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2"
@@ -617,19 +675,26 @@ export default function Profile() {
                             </div>
                           ) : (
                             <div>
-                              <ul>
-                                {hardSkillInfo.hardSkills.map(
-                                  (skill, index) => (
-                                    <li key={index}>{skill}</li>
-                                  )
-                                )}
-                              </ul>
-                              <button onClick={handleEditHardSkill}>
-                                <i class="fa-solid fa-pen-to-square fa-xl ml-60 mt-6"></i>
-                              </button>
+                              <i
+                                className='fas fa-code mr-2 text-lg text-blueGray-400'
+                                style={{ color: '#BD2C43' }}></i>
+                              {hardSkillInfo.hardSkills['Programming language']}
+                              <br />
+                              <i
+                                style={{ color: '#BD2C43' }}
+                                className='fas fa-database mr-2 text-lg text-blueGray-400'></i>{' '}
+                              {hardSkillInfo.hardSkills['DataBase']}
+                              <br />
+                              <i
+                                style={{ color: '#BD2C43' }}
+                                className='fas fa-cloud mr-2 text-lg text-blueGray-400'></i>{' '}
+                              {hardSkillInfo.hardSkills['Cloud']}
                             </div>
                           )}
                         </div>
+                        <button
+                          className='fa-solid fa-pen-to-square fa-xl ml-60 mt-6 mb-6'
+                          onClick={handleEditHardSkill}></button>
                       </div>
                       {/*-------------------SoftSkills------------------------- */}
                       <div className="flex flex-col break-words ml-5 w-full bg-white mb-10 shadow-xl rounded-lg">
@@ -641,9 +706,8 @@ export default function Profile() {
                             {editModeSoftSkill ? (
                               <div>
                                 <label
-                                  htmlFor="hardskills"
-                                  className="block mb-1"
-                                >
+                                  htmlFor='softSkills'
+                                  className='block mb-1'>
                                   SoftSkills
                                 </label>
                                 <input
@@ -651,8 +715,8 @@ export default function Profile() {
                                   id="softskills"
                                   name="softskills"
                                   value={softSkillInfo.softSkills}
-                                  onChange={handleChangeHardSkill}
-                                  className="w-full border rounded-md px-3 py-2 mb-2"
+                                  onChange={handleChangeSoftSkill}
+                                  className='w-full border rounded-md px-3 py-2 mb-2'
                                 />
                                 <div className="mt-4">
                                   <button
@@ -688,9 +752,9 @@ export default function Profile() {
                         </div>
                       </div>
                     </div>
-                    {/*---------------Reeeest of section ---------------------------find it on github*/}
-                    <div className="flex flex-col break-words w-full bg-white mb-10 shadow-xl rounded-lg">
-                      <div className="flex flex-row justify-between align-middle">
+                    {/*------------------------Experiences---------------------------------*/}
+                    <div className='flex flex-col break-words w-full bg-white mb-10 shadow-xl rounded-lg'>
+                      <div className='flex flex-row justify-between align-middle'>
                         {/* Any content you want to place in this flex row */}
                       </div>
                       <div className="flex flex-col items-center justify-center w-full mb-10">
@@ -774,10 +838,9 @@ export default function Profile() {
                                       <li key={index} className="mb-4">
                                         <div>
                                           <i
-                                            class="fa-light fa-briefcase fa-xl"
-                                            style={{ color: "#8c0333" }}
-                                          ></i>
-                                          <strong>Title:</strong>{" "}
+                                            class='fa-solid fa-briefcase m-3 fa-xl'
+                                            style={{ color: '#9e0514' }}></i>
+                                          <strong>Title:</strong>{' '}
                                           {experience.title}
                                         </div>
                                         <div>
@@ -866,10 +929,9 @@ export default function Profile() {
                                         <li key={index} className="mb-4">
                                           <div>
                                             <i
-                                              class="fa-light fa-briefcase fa-xl"
-                                              style={{ color: "#8c0333" }}
-                                            ></i>
-                                            <strong>Title:</strong>{" "}
+                                              class='fa-solid fa-user-graduate fa-xl m-3'
+                                              style={{ color: '#860909' }}></i>
+                                            <strong>Title:</strong>{' '}
                                             {education.title}
                                           </div>
                                           <div>
