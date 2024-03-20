@@ -26,7 +26,7 @@ export default function Profile() {
   const [name, setName] = useState("Chaima Idoudi");
   const [country, setCountry] = useState("Tunisia");
   const [suggestedSkills, setSuggestedSkills] = useState([]);
-
+  const [user, setUser] = useState({});
   // const [jobTitle, setJobTitle] = useState('Software Engineer')
   const [isLoading, setIsLoading] = useState(true);
 
@@ -47,14 +47,15 @@ export default function Profile() {
       // You can set them in the state and display them as suggestions.
     } else setSuggestedSkills([]); // Clear the suggestions when the input is empty
   };
-  const handleSkillClick = (skill) => {
+  const handleSkillClick = async  (skill) => {
     setSkillInput(skill);
     setHardSkillInfo({ ...hardSkillInfo, hardSkills: [...hardSkillInfo.hardSkills, skill] })
     setSuggestedSkills([]);
   };
-  const handleNewImage = (e) => {
+  const handleNewImage = async (e) => {
     setState({ ...state, image: e.target.files[0] });
     setShowEditor(true); // Show the editor when a new image is selected
+
   };
   const handleReplaceImage = () => {
     // Reset the processed image state and show the file input
@@ -214,6 +215,20 @@ export default function Profile() {
       const img = editorRef.current.getImageScaledToCanvas().toDataURL();
       setProcessedImage(img);
       setShowEditor(false); // Set the processed image state
+           // Create a FormData instance to hold the image file
+     const formData = new FormData();
+     formData.append('image', state.image);
+   
+     // Send the image to the server
+    const response = await axios.post(`http://localhost:5000/user/update-image?id=${user._id}`, formData)
+    .then((response) => {
+       console.log(response.data);
+       setProcessedImage(response.data.imageUrl);
+       setShowEditor(false);
+    }).catch((error) => {
+       console.error(error);
+       setShowEditor(false);
+    }) 
     }
   };
   useEffect(() => {
@@ -228,6 +243,7 @@ export default function Profile() {
           }
         );
         console.log(response.data);
+        setUser(response.data.user);
         setName(response.data.user.username);
         setEmail(response.data.user.email);
         setIsLoading(false);
@@ -280,6 +296,7 @@ export default function Profile() {
                     id="dropzone-file"
                     type="file"
                     class="hidden"
+                    accept=".jpg,.jpeg,.png"
                     onChange={handleNewImage}
                   />
                   <div

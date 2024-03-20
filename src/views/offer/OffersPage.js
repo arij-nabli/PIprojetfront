@@ -6,7 +6,7 @@ import feriel from "../../assets/img/feriel.jpg";
 import { Link } from "react-router-dom";
 import companyphoto from "../../assets/img/mobiblanc.jpeg";
 
-export default function Offer() {
+export default function OffersPage() {
   const [companyName, setCompanyName] = useState(
     "Mobiblanc Tunisie"
   );
