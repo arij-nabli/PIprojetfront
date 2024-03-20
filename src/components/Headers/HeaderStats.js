@@ -18,14 +18,18 @@ export default function HeaderStats() {
  }, []);
   return (
     <>
-      <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+      <script
+        src="https://www.google.com/recaptcha/api.js"
+        async
+        defer
+      ></script>
       {/* Header */}
-      <div className="relative md:pt-32 pb-32 pt-12">
+      <div className="  mb-10 ">
         <div className="px-4 md:px-10 mx-auto w-full">
           <div>
             {/* Card stats */}
             <div className="flex flex-wrap">
-              <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+              <div className="w-full lg:w-6/12 xl:w-3/12 px-4 transform transition duration-500 hover:scale-110">
                 <CardStats
                   statSubtitle="TRAFFIC"
                   statTitle={cardsData.length}
@@ -37,7 +41,7 @@ export default function HeaderStats() {
                   statIconColor="bg-red-500"
                 />
               </div>
-              <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+              <div className="w-full lg:w-6/12 xl:w-3/12 px-4 transform transition duration-500 hover:scale-110">
                 <CardStats
                   statSubtitle="NEW USERS"
                   statTitle={
@@ -61,7 +65,7 @@ export default function HeaderStats() {
                   statIconColor="bg-orange-500"
                 />
               </div>
-              <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+              <div className="w-full lg:w-6/12 xl:w-3/12 px-4 transform transition duration-500 hover:scale-110">
                 <CardStats
                   statSubtitle="COMPANIES"
                   statTitle={
@@ -75,7 +79,7 @@ export default function HeaderStats() {
                   statIconColor="bg-pink-500"
                 />
               </div>
-              <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+              <div className="w-full lg:w-6/12 xl:w-3/12 px-4 transform transition duration-500 hover:scale-110">
                 <CardStats
                   statSubtitle="STUDENTS"
                   statTitle={

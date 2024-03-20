@@ -1,37 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route,useNavigate,Navigate } from "react-router-dom";
+import { Routes, Route,useNavigate } from "react-router-dom";
 import axios from "axios";
 // components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import HeaderStats from "components/Headers/HeaderStats.js";
-import FooterAdmin from "components/Footers/FooterAdmin.js";
-import CardTable from "components/Cards/CardTable.js";
 // views
 import Dashboard from "views/admin/Dashboard.js";
-import Maps from "views/admin/Maps.js";
 import Settings from "views/admin/Settings.js";
 import Tables from "views/admin/Tables.js";
-import CardSettings from "components/Cards/CardSettings";
+import AllUsersTable from "views/admin/AllUsersTable";
 import HashLoader from "react-spinners/HashLoader";
+import CompaniesTable from "views/admin/CompaniesTable";
+import SkillsTable from "views/admin/SkillsTable";
+import IndustriesTable from "views/admin/IndustriesTbale";
 export default function Admin() {
-  const [showForm, setShowForm] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(""); 
+  
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState(""); 
 
   const navigate = useNavigate();
-  const handleAddUserClick = () => {
-    setShowForm(!showForm);
-  };
 
-    const handleAdminAdded = () => {
-      setShowForm(false);
-      // Additional logic or actions to perform after admin is added
-    };
-
-     const handleSearchQueryChange = (query) => {
-       setSearchQuery(query);
-     };
 
      useEffect(() => {
       
@@ -46,8 +35,8 @@ export default function Admin() {
               },
             }
           );
-          console.log(response.data);
-            if (response.data.user.role != "admin"){
+         
+            if (response.data.user.role !== "admin"){
               navigate("/auth/login")
             }
             else{
@@ -62,6 +51,9 @@ export default function Admin() {
       fetchUserData();
     
      })
+     const handleSearchQueryChange = (query) => {
+      setSearchQuery(query);
+    };
   return (
     <>
     {isLoading ? (
@@ -75,49 +67,31 @@ export default function Admin() {
      />
    </div>
     ) : (
-      <>
+      <div className="relative w-full h-full py-8 min-h-screen pr-10"
+      style={{
+        backgroundColor: "#D9D9D9",
+        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%23BD2C43' stroke-width='1'%3E%3Cpath d='M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63'/%3E%3Cpath d='M-31 229L237 261 390 382 603 493 308.5 537.5 101.5 381.5M370 905L295 764'/%3E%3Cpath d='M520 660L578 842 731 737 840 599 603 493 520 660 295 764 309 538 390 382 539 269 769 229 577.5 41.5 370 105 295 -36 126.5 79.5 237 261 102 382 40 599 -69 737 127 880'/%3E%3Cpath d='M520-140L578.5 42.5 731-63M603 493L539 269 237 261 370 105M902 382L539 269M390 382L102 382'/%3E%3Cpath d='M-222 42L126.5 79.5 370 105 539 269 577.5 41.5 927 80 769 229 902 382 603 493 731 737M295-36L577.5 41.5M578 842L295 764M40-201L127 80M102 382L-261 269'/%3E%3C/g%3E%3Cg fill='%23BD2C43'%3E%3Ccircle cx='769' cy='229' r='5'/%3E%3Ccircle cx='539' cy='269' r='5'/%3E%3Ccircle cx='603' cy='493' r='5'/%3E%3Ccircle cx='731' cy='737' r='5'/%3E%3Ccircle cx='520' cy='660' r='5'/%3E%3Ccircle cx='309' cy='538' r='5'/%3E%3Ccircle cx='295' cy='764' r='5'/%3E%3Ccircle cx='40' cy='599' r='5'/%3E%3Ccircle cx='102' cy='382' r='5'/%3E%3Ccircle cx='127' cy='80' r='5'/%3E%3Ccircle cx='370' cy='105' r='5'/%3E%3Ccircle cx='578' cy='42' r='5'/%3E%3Ccircle cx='237' cy='261' r='5'/%3E%3Ccircle cx='390' cy='382' r='5'/%3E%3C/g%3E%3C/svg%3E")`
+      }}>
     
-      <Sidebar />
-      <div className="relative h-screen md:ml-64 bg-blueGray-100">
-        <AdminNavbar onSearchQueryChange={handleSearchQueryChange} />
+      <Sidebar className=""/>
+      <div className=" md:ml-64  ">
+      <HeaderStats />
         {/* Header */}
-        <HeaderStats />
-
-        <div className="px-4 md:px-10 mx-auto w-full -m-24">
+        <div className="px-4 md:px-10 mx-auto py-10 ml-10 rounded shadow-2xl  " style={{backgroundColor:"rgba(243,244,246,0.6)"}} >
           <Routes>
-            <Route path="/admin/dashboard" exact component={Dashboard} />
-            <Route path="/admin/maps" exact component={Maps} />
-            <Route path="/admin/settings" exact component={Settings} />
-            <Route path="/admin/tables" exact component={Tables} />
-            <Route path="/admin" element={<Navigate to="/admin/dashboard" />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/companies" element={<CompaniesTable color={"light"}/>} />
+            <Route path="/skills" element={<SkillsTable color={"light"} />} />
+            <Route path="/industries" element={<IndustriesTable color={"light"} />} />
+
+            <Route path="/all-users" element={<AllUsersTable  />}/>
+            <Route path="/settings"  element={<Settings />} />
+            <Route path="/" element={<Dashboard/>}  />
           </Routes>
         </div>
-        <div className="relative md:ml-12 pl-6 w-11/12 bg-blueGray-100">
-          {showForm ? (
-            <button
-              className="bg-red-500 text-white p-2 mb-3 rounded-md"
-              onClick={handleAddUserClick}
-            >
-              Return
-            </button>
-          ) : (
-            <button
-              className="bg-green-500 text-white p-2 mb-3 rounded-md"
-              onClick={handleAddUserClick}
-            >
-              Add Admin
-            </button>
-          )}
-          {showForm ? (
-            <CardSettings onAdminAdded={handleAdminAdded} />
-          ) : (
-            <CardTable searchQuery={searchQuery} />
-          )}
-        </div>
-        <div className="fixed bottom-0 w-full bg-gray-100 text-white">
-        </div>
+      
       </div>
-    </>
+    </div>
     )}
   </>
     
