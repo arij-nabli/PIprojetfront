@@ -2,9 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import Navbar from "components/Navbars/IndexNavbar.js";
 import HashLoader from "react-spinners/HashLoader";
-import feriel from "../assets/img/feriel.jpg";
+import feriel from "../../assets/img/feriel.jpg";
 import { Link } from "react-router-dom";
-import companyphoto from "../assets/img/mobiblanc.jpeg";
+import companyphoto from "../../assets/img/mobiblanc.jpeg";
 
 export default function Offer() {
   const [companyName, setCompanyName] = useState(

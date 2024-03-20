@@ -10,15 +10,15 @@ import Admin from "layouts/Admin.js";
 import Auth from "layouts/Auth.js";
 // views without layouts
 import Landing from "views/Landing.js";
-import Profile from "views/Profile.js";
+import Profile from "views/profile/Profile.js";
 import Index from "views/Index.js";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import HashLoader from "react-spinners/HashLoader";
 import AuthGuard from "components/AuthGuard";
 import NoAuthGuard from "components/NoAuthGuard";
 import Dashboard from "views/admin/Dashboard";
-import Offer from "views/Offer";
-import DetailsOffer from "views/DetailsOffer";
+import Offer from "views/offer/Offer";
+import DetailsOffer from "views/offer/DetailsOffer";
 function MainApp() {
   const [isLoading, setIsLoading] = useState(true);
 

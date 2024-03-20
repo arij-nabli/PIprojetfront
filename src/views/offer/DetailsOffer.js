@@ -2,7 +2,7 @@ import Navbar from "components/Navbars/IndexNavbar.js";
 import HashLoader from "react-spinners/HashLoader";
 import React from "react";
 import axios from "axios";
-import companyphoto from "../assets/img/mobiblanc.jpeg";
+import companyphoto from "../../assets/img/mobiblanc.jpeg";
 
 import { useState , useEffect} from "react";
 
