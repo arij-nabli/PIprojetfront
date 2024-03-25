@@ -196,14 +196,6 @@ export default function OffersPage() {
 
 
 
-
-
-
-
-
-
-
-
     
 
 
