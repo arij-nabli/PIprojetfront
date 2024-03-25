@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 
 const OfferCard = ({ companyphoto, jobTitle, companyName, description, viewMoreLink, handleApplyClick, showApplyForm }) => {
     return (
-        <div className="shadow-lg bg-white rounded-lg text-center flex flex-col mb-5 ">
-            <div className="py-4 px-6 border-b border-gray-200 flex items-center justify-center">
+        <div class="p-5 lg:col-span-2">
+    <div class="shadow-lg bg-white rounded-lg text-center ">
+        <div class="py-4  px-6 border-b border-gray-200 flex items-center justify-center ">
                 <img
                     src={companyphoto}
                     style={{ width: 35, height: 35 }}
@@ -28,6 +29,7 @@ const OfferCard = ({ companyphoto, jobTitle, companyName, description, viewMoreL
                 >
                 View more
                 </Link>
+                </div>
         </div>
         </div>
     );

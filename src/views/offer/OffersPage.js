@@ -175,29 +175,22 @@ export default function OffersPage() {
 
 
 
-    <div className="mx-auto grid lg:grid-cols-4 sm:grid-cols-2 gap-6 mt-4">
             
 
-            <div className="p-5 lg:col-span-2">
+    <div class="p-5 lg:col-span-2">
               <div>
-                {offers.map((offer) => (
+                {offers.map((offer, index) => (
                   <OfferCard
-                    key={offer._id}
-                    companyphoto={offer.companyphoto}
+                    key={index}
+                    companyphoto={companyphoto}
                     jobTitle={offer.jobTitle}
                     companyName={offer.companyName}
                     description={offer.description}
-                    //viewMoreLink={`/offer-details/${offer._id}`}
-                    
+                    //viewMoreLink={offer.viewMoreLink}
                   />
-                  
                 ))}
-              
-            
-          
-        
-        </div>
-    </div>
+              </div>
+            </div>
 
 
 
@@ -212,7 +205,6 @@ export default function OffersPage() {
 
 
     
-    </div>
 
 
 
