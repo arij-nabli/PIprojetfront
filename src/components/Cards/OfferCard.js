@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+
 const OfferCard = ({ companyphoto, jobTitle, companyName, description, viewMoreLink, handleApplyClick, showApplyForm }) => {
     return (
         <div className="shadow-lg bg-white rounded-lg text-center flex flex-col mb-5 ">
@@ -19,16 +20,15 @@ const OfferCard = ({ companyphoto, jobTitle, companyName, description, viewMoreL
             <div className="px-6 py-2 text-center">
                 <p className="mt-2 text-sm leading-relaxed text-gray-600">{description}</p>
             </div>
-            <div className="flex justify-center py-4 mb-4">
-                <Link
-                    className="px-4 py-2 text-sm text-white bg-custom-red  mr-2"
-                    style={{ backgroundColor: "#BD2C43" }}
-                    to={viewMoreLink}
+           
+            <div class="flex justify-center py-4 mb-4 ">
+            <Link
+                  class="px-4 py-2 text-sm text-white bg-red-500 rounded-md mr-2"style={{ backgroundColor: "#BD2C43" }}
+                  to={viewMoreLink}
                 >
-                    View more
+                View more
                 </Link>
-        
-            </div>
+        </div>
         </div>
     );
 };

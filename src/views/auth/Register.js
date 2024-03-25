@@ -45,24 +45,23 @@ export default function Register() {
       setEmailError("");
     }
   };
-
+  
   const onRecaptchaChange = (value) => {
-    console.log(value);
-    if (value) {
-      // Send reCAPTCHA value to backend for validation
+    console.log(value); 
+    if (value) { 
+      
       axios
-        .post("http://localhost:5000/auth/submit", { recaptchaToken: value })
+        .post("http://localhost:5000/auth/submit", { recaptchaToken: value }) 
         .then((response) => {
-          console.log(response.data);
-          // Handle response from backend (optional)
+          console.log(response.data); 
         })
         .catch((error) => {
-          console.error("Error submitting reCAPTCHA:", error);
+          console.error("Error submitting reCAPTCHA:", error); 
           // Handle error (optional)
         });
     }
   };
-
+  
   const signUp = (e) => {
     e.preventDefault();
 
