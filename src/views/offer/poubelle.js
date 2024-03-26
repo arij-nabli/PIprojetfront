@@ -1,4 +1,4 @@
-import Navbar from "components/Navbars/IndexNavbar.js";
+/*import Navbar from "components/Navbars/IndexNavbar.js";
 import HashLoader from "react-spinners/HashLoader";
 import React from "react";
 import axios from "axios";
@@ -9,32 +9,55 @@ import { useState , useEffect} from "react";
 
 export default function DetailsOffer() {
     const [companyemail, setCompanyEmail] = useState("bouzayeni@mobiblanc.com");
-    const [offer, setOffer] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const { id } = useParams();
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [offer, setOffer] = useState([]);
 
     const [companyName, setCompanyName] = useState(
     "Mobiblanc Tunisie"
   );
       const [companyLocalisation , setCompanyLocalisation] = useState("Tunisie - Tunis -Centre Urbain Nord")
-      const [nombre, setNombre] = useState("7");
+  const [nombre, setNombre] = useState("7");
 
     const [token, setToken] = useState(localStorage.getItem("token"));
-   
-    useEffect(() => {
-      const fetchOfferDetails = async () => {
-        try {
-          const response = await axios.get(`http://localhost:5000/offers/get/${id}`);
-          setOffer(response.data);
-          setIsLoading(false);
-        } catch (error) {
-          console.error("Error fetching offer details:", error);
-          setIsLoading(false);
-        }
-      };
+    const [isLoading, setIsLoading] = useState(true);
+    
+    const { id , description , title  } = useParams();
+  // Fetch offer details using the ID
+  useEffect(() => {
+    const fetchOfferDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/offers/get/${id}`);
+        console.log(`${id}`);
+        console.log(response.data);
   
-      fetchOfferDetails();
-    }, [id]);
+        // Check if response.data is null or empty
+        if (!response.data) {
+          console.error("Error: Response data is null or empty.");
+          setIsLoading(false);
+          return;
+        }
+  
+        // Check if response.data contains the expected properties
+        if (!offer) {
+          console.error("Error: Offer details are incomplete.");
+          setIsLoading(false);
+          return;
+        }
+  
+        // Set the offer details
+        setOffer(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching offer details:", error);
+        setIsLoading(false);
+      }
+    };
+  
+    fetchOfferDetails();
+  }, [id]);
+  console.log(offer);
+  
   
   
 
@@ -50,7 +73,8 @@ export default function DetailsOffer() {
           }
         );
         console.log(response.data);
-       
+        setName(response.data.user.username);
+        setEmail(response.data.user.email);
         setIsLoading(false);
       } catch (error) {
         console.error(error);
@@ -97,8 +121,7 @@ export default function DetailsOffer() {
     />
     <div className="text-center lg:text-left">
         <h3 className="text-2xl lg:text-4xl font-semibold leading-normal mb-2 text-blueGray-700">
-           {offer.offerType} : {offer.title}
-
+           
         </h3>
         <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
             {companyName}
@@ -124,7 +147,7 @@ export default function DetailsOffer() {
                 <h1 className="mb-2 mt-2 text-lg leading-relaxed font-semibold text-blueGray-800" style={{ color: "#BD2C43" }}>Contrat :</h1>
                 <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">FREELANCE OR INDEPENDENT SERVICE PROVIDER</p>
                 <h1 className="mb-2 mt-2 text-lg leading-relaxed font-semibold text-blueGray-800" style={{ color: "#BD2C43" }}>Salary :</h1>
-                <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">{offer.salary_range}</p>
+                <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600"></p>
  
             </div>
         </div>
@@ -158,20 +181,12 @@ export default function DetailsOffer() {
  - Android (java et kotlin)
  - Data science
  - IA.</p>
- <p>{offer.description}</p>
-    <h2>Requirements:</h2>
-    {Array.isArray(offer.requirements) && offer.requirements.length > 0 ? (
-        <ul>
-          {offer.requirements.map((requirement, index) => (
-            <li key={index}>{requirement}</li>
-          ))}
-        </ul>
-      ) : (
-        <div>No requirements specified</div>
-      )}
-            
+        <p className="mb-8 mt-8">Why do we use it?
+        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+
+        </p>
         <hr className="mb-8 mt-8"></hr>
-        <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">Closing date for applications: {offer.end_date}</h6>
+        <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">Closing date for applications: 05/05/2024</h6>
         <hr className="mb-8 mt-8"></hr>
         <div>
         
@@ -206,3 +221,46 @@ export default function DetailsOffer() {
     )}
   </>
 );}
+*/
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+
+const DetailsOffer = () => {
+  const [offer, setOffer] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const { id } = useParams();
+
+  useEffect(() => {
+    const fetchOfferDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/offers/get/${id}`);
+        setOffer(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching offer details:", error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchOfferDetails();
+  }, [id]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!offer) {
+    return <div>Offer not found</div>;
+  }
+
+  return (
+    <div>
+      <h1>{offer.title}</h1>
+      <p>{offer.description}</p>
+      {/* Render other offer details here */}
+    </div>
+  );
+};
+
+export default DetailsOffer;

@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import Navbar from "components/Navbars/IndexNavbar.js";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import AuthNavbar from "components/Navbars/AuthNavbar.js";
 import OfferCard from "components/Cards/OfferCard";
@@ -28,6 +27,7 @@ export default function OffersPage() {
     const fetchOffers = async () => {
       try {
         const response = await axios.get("http://localhost:5000/offers/getall");
+        console.log(response.data);
         setOffers(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -110,13 +110,8 @@ export default function OffersPage() {
         <>
           {token ? <IndexNavbar /> : <AuthNavbar />}
 
-
-         
-
-
-
   <div class="mx-auto grid lg:grid-cols-4 sm:grid-cols-2 gap-6 mt-4">
-    <div className="shadow-lg p-5 lg:col-span-1">
+    <div className="shadow-lg p-5 lg:col-span-1 ">
 
       <div className="flex flex-col bg-white">
         <div className="flex items-center justify-center mt-10 w-full">
@@ -168,13 +163,6 @@ export default function OffersPage() {
 
 
 
-
-
-
-
-
-
-
             
 
     <div class="p-5 lg:col-span-2">
@@ -182,26 +170,16 @@ export default function OffersPage() {
                 {offers.map((offer, index) => (
                   <OfferCard
                     key={index}
+                    //companyphoto={offer.photoofprovider}
                     companyphoto={companyphoto}
-                    jobTitle={offer.jobTitle}
+                    jobTitle={offer.title}
                     companyName={offer.companyName}
                     description={offer.description}
-                    //viewMoreLink={offer.viewMoreLink}
+                    viewMoreLink={`/offer-details/${offer._id}`}
                   />
                 ))}
               </div>
-            </div>
-
-
-
-
-
-    
-
-
-
-
-
+    </div>
 
 
 
