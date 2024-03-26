@@ -171,7 +171,7 @@ export default function DetailsOffer() {
       )}
             
         <hr className="mb-8 mt-8"></hr>
-        <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">Closing date for applications: {offer.end_date}</h6>
+        <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">Closing date for applications: {(new Date(offer.end_date)).toISOString().split("T")[0]}</h6>
         <hr className="mb-8 mt-8"></hr>
         <div>
         
