@@ -17,7 +17,6 @@ export default function DetailsOffer() {
     "Mobiblanc Tunisie"
   );
       const [companyLocalisation , setCompanyLocalisation] = useState("Tunisie - Tunis -Centre Urbain Nord")
-      const [nombre, setNombre] = useState("7");
 
     const [token, setToken] = useState(localStorage.getItem("token"));
    
@@ -96,17 +95,18 @@ export default function DetailsOffer() {
         alt="logo company"
     />
     <div className="text-center lg:text-left">
-        <h3 className="text-2xl lg:text-4xl font-semibold leading-normal mb-2 text-blueGray-700">
-           {offer.offerType} : {offer.title}
+        <h6 className="text-2xl lg:text-4xl font-semibold leading-normal mb-2 text-blueGray-900">
+           {offer.offerType}
 
-        </h3>
+        </h6>
+        
         <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
             {companyName}
         </p>
     </div>
     <div className="ml-auto">
         <button className="p-3 text-white rounded-md mr-2 mb-3 mt-10" style={{ backgroundColor: "#BD2C43" }}>Apply Now</button>
-        <p className="mb-4 text-lg font-semibold leading-relaxed text-blueGray-700">{nombre} application(s)</p>
+        <p className="mb-4 text-lg font-semibold leading-relaxed text-blueGray-700">{offer.applications.length} : application(s)</p>
         </div>
     </div>
     <div class="grid lg:grid-cols-4 sm:grid-cols-1 gap-6 mt-4 ml-16 mr-16">
@@ -150,6 +150,12 @@ export default function DetailsOffer() {
 
 
     <div className="shadow-lg p-5 lg:col-span-3 sm:col-span-full mb-8 mr-4 sm:mr-0">
+    <h6 className="text-2xl lg:text-4xl font-semibold leading-normal mb-8 mt-8 text-blueGray-900">
+           {offer.title}
+
+        </h6>
+        <hr className="mb-8 mt-8"></hr>
+
         <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">About The Offer</h6>
         <p>Nous sommes la société Mobiblanc Tunisie située au centre urbain nord .Nous désirons avoir la possibilité de recruter des profils ayant effectués leurs études au sein de votre établissement avec des les différentes technologies tel que : 
  
