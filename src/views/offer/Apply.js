@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "react-input-range/lib/css/index.css"; // Don't forget to import the styles
 import InputRange from "react-input-range";
-export default function Appli({ onClose }) {
+import axios from "axios";
+export default function Appli({ onClose,offer,user }) {
   const [step, setStep] = useState(1);
   const [resume, setResume] = useState(null);
   const [coverLetter, setCoverLetter] = useState("");
@@ -9,6 +10,7 @@ export default function Appli({ onClose }) {
 
   const handleNext = () => {
     setStep(step + 1);
+    console.log(offer)
   };
 
   const handleResumeChange = (e) => {
@@ -23,9 +25,31 @@ export default function Appli({ onClose }) {
     setSalary(value);
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    handleFormSubmit({ resume, coverLetter, salary });
+    console.log(user._id, offer._id, resume.name, coverLetter, salary);
+  
+    const formData = new FormData();
+    formData.append('candidate', user._id);
+    formData.append('offer', offer._id);
+    formData.append('resume', resume);
+    formData.append('cover_letter', coverLetter);
+    formData.append('salary_expectation',JSON.stringify(salary));
+  
+    try {
+      const response = await axios.post('http://localhost:5000/applications', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(response.data);
+      if (response.status === 201) {
+        setStep(4);
+      }
+    } catch (error) {
+      console.error(error);
+      setStep(5)
+    }
   };
   return (
  <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -37,7 +61,7 @@ export default function Appli({ onClose }) {
       </svg>
     </button>
     <h2 className="mb-6 text-3xl font-bold text-center text-gray-800">
-      Job Application Form
+      Job Application Form 
     </h2>
     <form onSubmit={handleFormSubmit}>
       {step === 1 && (
@@ -46,7 +70,7 @@ export default function Appli({ onClose }) {
       <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
         <path fillRule="evenodd" d="M13 6V4a2 2 0 00-2-2H3a2 2 0 00-2 2v8a2 2 0 002 2h4v2a2 2 0 002 2h6a2 2 0 002-2V8a2 2 0 00-2-2h-1zm-1 0h2l-2-2v2zm-1 2H4V4h6v4a1 1 0 001 1h1v1H9a1 1 0 01-1-1V6H1v6h3V9a1 1 0 011-1h1v4H3a1 1 0 01-1-1V4a1 1 0 011-1h8a1 1 0 011 1v4h-1a1 1 0 01-1-1V6zm2 4h3l-3 3v-3z" clipRule="evenodd"></path>
       </svg>
-      <span className="mt-2 text-base leading-normal">{resume?resume.name :" Select a file"}</span>
+      <span className="mt-2 text-base leading-normal text-black">{resume?resume.name :" Select a file"}</span>
       <input type='file' className="hidden" id="dropzone-file" accept=".pdf,.doc,.docx" onChange={(e) => handleResumeChange(e)} />
     </label>
     <button type="button" className="bg-custom-red hover:bg-red-800 text-white font-bold py-2 px-4 rounded mt-4" onClick={handleNext}>
@@ -70,10 +94,25 @@ export default function Appli({ onClose }) {
           <label className="block text-left text-sm font-bold mb-10 w-full" htmlFor="salary">
             Salary Range
           </label>
-          <InputRange minValue={30000}  maxValue={90000} value={salary} onChange={(value) => setSalary(value)} />
+          <InputRange minValue={offer.salary_range.min}  maxValue={offer.salary_range.max} value={salary} onChange={(value) => setSalary(value)} />
           <button type="submit" className="bg-custom-red hover:bg-red-800 text-white font-bold py-2 px-4 rounded mt-10">
             Apply Now
           </button>
+        </>
+      )}
+          {step === 4 && (
+        <>
+          <div>
+            <i className="fas fa-check-circle text-4xl text-green-500">  Success</i>
+         
+          </div>
+        </>
+      )}
+       {step === 5 && (
+        <>
+          <div>
+            Error
+          </div>
         </>
       )}
     </form>

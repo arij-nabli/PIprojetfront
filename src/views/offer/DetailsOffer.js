@@ -5,12 +5,18 @@ import axios from "axios";
 import companyphoto from "../../assets/img/mobiblanc.jpeg";
 import { useParams } from 'react-router-dom';
 import { useState , useEffect} from "react";
+import Appli from "./Apply";
 
 
 export default function DetailsOffer() {
     const [companyemail, setCompanyEmail] = useState("bouzayeni@mobiblanc.com");
     const [offer, setOffer] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [showApplyForm, setShowApplyForm] = useState(false);
+    const [user, setUser] = useState(null);
+    const handleApplyClick = () => {
+      setShowApplyForm(!showApplyForm); // Inversion de l'état lors du clic sur le bouton "Apply"
+    };
     const { id } = useParams();
 
     const [companyName, setCompanyName] = useState(
@@ -48,7 +54,7 @@ export default function DetailsOffer() {
             },
           }
         );
-        console.log(response.data);
+        setUser(response.data.user);
        
         setIsLoading(false);
       } catch (error) {
@@ -105,7 +111,8 @@ export default function DetailsOffer() {
         </p>
     </div>
     <div className="ml-auto">
-        <button className="p-3 text-white rounded-md mr-2 mb-3 mt-10" style={{ backgroundColor: "#BD2C43" }}>Apply Now</button>
+        <button className="p-3 text-white rounded-md mr-2 mb-3 mt-10" onClick={handleApplyClick} style={{ backgroundColor: "#BD2C43" }}>Apply Now</button>
+        {showApplyForm && <Appli onClose={handleApplyClick}  offer={offer} user={user} />}
         <p className="mb-4 text-lg font-semibold leading-relaxed text-blueGray-700">{offer.applications.length} : application(s)</p>
         </div>
     </div>
@@ -124,7 +131,7 @@ export default function DetailsOffer() {
                 <h1 className="mb-2 mt-2 text-lg leading-relaxed font-semibold text-blueGray-800" style={{ color: "#BD2C43" }}>Contrat :</h1>
                 <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">FREELANCE OR INDEPENDENT SERVICE PROVIDER</p>
                 <h1 className="mb-2 mt-2 text-lg leading-relaxed font-semibold text-blueGray-800" style={{ color: "#BD2C43" }}>Salary :</h1>
-                <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">{offer.salary_range}</p>
+                <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">{offer.salary_range.min} - {offer.salary_range.max}</p>
  
             </div>
         </div>
