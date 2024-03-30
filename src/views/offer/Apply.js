@@ -27,7 +27,6 @@ export default function Appli({ onClose,offer,user }) {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(user._id, offer._id, resume.name, coverLetter, salary);
   
     const formData = new FormData();
     formData.append('candidate', user._id);
@@ -73,7 +72,7 @@ export default function Appli({ onClose,offer,user }) {
       <span className="mt-2 text-base leading-normal text-black">{resume?resume.name :" Select a file"}</span>
       <input type='file' className="hidden" id="dropzone-file" accept=".pdf,.doc,.docx" onChange={(e) => handleResumeChange(e)} />
     </label>
-    <button type="button" className="bg-custom-red hover:bg-red-800 text-white font-bold py-2 px-4 rounded mt-4" onClick={handleNext}>
+    <button type="button" disabled={!resume} className="bg-custom-red hover:bg-red-800 text-white font-bold py-2 px-4 rounded mt-4" onClick={handleNext}>
       Next
     </button>
   </>
