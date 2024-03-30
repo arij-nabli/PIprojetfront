@@ -263,7 +263,7 @@ export default function CardTable({ color, searchQuery }) {
             <button
               onClick={() => paginate(currentPage - 1)}
               disabled={currentPage === 1}
-              className="first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 bg-white text-lightBlue-500"
+              className="first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-400 bg-white text-red-500"
             >
               <i className="fas fa-chevron-left -ml-px"></i>
             </button>
@@ -275,9 +275,9 @@ export default function CardTable({ color, searchQuery }) {
                 <li key={index}>
                   <button
                     onClick={() => paginate(index + 1)}
-                    className={`first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 bg-white text-lightBlue-500 ${
+                    className={`first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-400 bg-white text-red-500 ${
                       currentPage === index + 1
-                        ? "bg-lightBlue-200 text-lightBlue-900"
+                        ? "bg-red-200 text-red-900"
                         : ""
                     }`}
                   >
@@ -290,7 +290,7 @@ export default function CardTable({ color, searchQuery }) {
             <button
               onClick={() => paginate(currentPage + 1)}
               disabled={currentItems.length < itemsPerPage}
-              className="first:ml-0 text-xs font-semibold mt-auto mb-0 flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 bg-white text-lightBlue-500"
+              className="first:ml-0 text-xs font-semibold mt-auto mb-0 flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-400 bg-white text-red-500"
             >
               <i className="fas fa-chevron-right -mr-px"></i>
             </button>
