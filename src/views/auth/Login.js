@@ -66,6 +66,9 @@ export default function Login() {
       if (error.response.status === 403) {
         setErrorMessage(error.response.data.message);
       }
+      if(error.response.status === 405){
+        setErrorMessage("User is banned. Please contact the administrator for more information.");
+      }
     }
   };
 

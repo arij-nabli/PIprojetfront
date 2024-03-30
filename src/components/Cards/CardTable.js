@@ -44,7 +44,7 @@ export default function CardTable({ color, searchQuery }) {
 
   const banUser = async (userId) => {
     try {
-      const res = await axios.put(`http://localhost:5000/admin/ban/${userId}`);
+     await axios.put(`http://localhost:5000/admin/ban/${userId}`);
       console.log("User Banned");
       Swal.fire({
         position: "top",
