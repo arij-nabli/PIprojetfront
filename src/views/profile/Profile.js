@@ -214,16 +214,16 @@ export default function Profile() {
     if (editorRef.current) {
       const img = editorRef.current.getImageScaledToCanvas().toDataURL();
       setProcessedImage(img);
-      setShowEditor(false); // Set the processed image state
-           // Create a FormData instance to hold the image file
+      setShowEditor(false); 
+      const response1 = await fetch(img);
+    const blob = await response1.blob();
      const formData = new FormData();
-     formData.append('image', state.image);
+     formData.append('image', blob, 'profile.jpg'); // append the blob with a filename
    
      // Send the image to the server
     const response = await axios.post(`http://localhost:5000/user/update-image?id=${user._id}`, formData)
     .then((response) => {
        console.log(response.data);
-       setProcessedImage(response.data.imageUrl);
        setShowEditor(false);
     }).catch((error) => {
        console.error(error);
@@ -244,6 +244,7 @@ export default function Profile() {
         );
         console.log(response.data);
         setUser(response.data.user);
+        getProfileImage(response.data.user._id);
         setName(response.data.user.username);
         setEmail(response.data.user.email);
         setIsLoading(false);
@@ -252,8 +253,20 @@ export default function Profile() {
         setIsLoading(false);
       }
     };
-
+    const getProfileImage = async (id) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/user/get-image?id=${id}`,
+          { responseType: 'blob' } 
+        );
+        const imageUrl = URL.createObjectURL(response.data);
+        setProcessedImage(imageUrl);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     fetchUserData();
+    
   }, [token]);
 
   return (
@@ -311,7 +324,7 @@ export default function Profile() {
                               src={processedImage}
                               style={{ width: 230, height: 230 }}
                               className="mt-5 border-1 shadow rounded-full  border-black"
-                              alt="Processed"
+                              alt="Profile Image"
                             />
                           </>
                         ) : (
