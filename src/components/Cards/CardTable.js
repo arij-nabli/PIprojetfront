@@ -1,29 +1,28 @@
 import React from "react";
 import axios from "axios";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import EditUser from "../modals/EditUser";
 import UserDetails from "../modals/UserDetails";
-
-export default function CardTable({ color,searchQuery }) {
+import Swal from "sweetalert2";
+export default function CardTable({ color, searchQuery }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenUser, setIsModalOpenUser] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(6);
+  const [itemsPerPage] = useState(7);
   const [tableData, setTableData] = useState([]);
 
-const toggleModal = (index) => {
-  const userIndex = indexOfFirstItem + index;
-  setSelectedUser(tableData[userIndex]);
-  setIsModalOpen(!isModalOpen);
-  console.log(selectedUser);
-};
-const toggleModalUser = (index) => {
-  const userIndex = indexOfFirstItem + index;
-  setSelectedUser(tableData[userIndex]);
-  setIsModalOpenUser(!isModalOpenUser);
-};
-
+  const toggleModal = (index) => {
+    const userIndex = indexOfFirstItem + index;
+    setSelectedUser(tableData[userIndex]);
+    setIsModalOpen(!isModalOpen);
+    console.log(selectedUser);
+  };
+  const toggleModalUser = (index) => {
+    const userIndex = indexOfFirstItem + index;
+    setSelectedUser(tableData[userIndex]);
+    setIsModalOpenUser(!isModalOpenUser);
+  };
 
   const fetchData = async () => {
     const response = await axios.get("http://localhost:5000/admin/allusers");
@@ -45,15 +44,20 @@ const toggleModalUser = (index) => {
 
   const banUser = async (userId) => {
     try {
-      const res = await axios.put(
-        `http://localhost:5000/admin/ban/${userId}`)
+     await axios.put(`http://localhost:5000/admin/ban/${userId}`);
       console.log("User Banned");
-      alert("User Banned")
-      window.location.reload();
+      Swal.fire({
+        position: "top",
+        icon: "success",
+        title: "User banned successfully!",
+        showConfirmButton: false,
+        timer: 1000
+      });
+      fetchData()
     } catch (err) {
       console.error(err.message);
     }
-  }
+  };
 
   useEffect(() => {
     fetchData();
@@ -73,6 +77,9 @@ const toggleModalUser = (index) => {
     if (role === "company") {
       color = "text-indigo-600 bg-indigo-200";
     }
+    if (role === "alumni") {
+      color = "text-red-600 bg-red-200";
+    }
     return color;
   }
 
@@ -90,33 +97,19 @@ const toggleModalUser = (index) => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
- 
-
   return (
     <>
+   
       <div
         className={
-          "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded " +
+          "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded  " +
           (color === "light" ? "bg-white" : "bg-lightBlue-900 text-white")
         }
       >
-        <div className="rounded-t mb-0 px-4 py-3 border-0">
-          <div className="flex flex-wrap items-center">
-            <div className="relative w-full px-4 max-w-full flex-grow flex-1">
-              <h3
-                className={
-                  "font-semibold text-lg " +
-                  (color === "light" ? "text-blueGray-700" : "text-white")
-                }
-              >
-                Users
-              </h3>
-            </div>
-          </div>
-        </div>
+       
         <div className="block w-full overflow-x-auto">
           {/* Projects table */}
-          <table className="items-center w-full bg-transparent border-collapse">
+          <table className="w-full bg-transparent border-collapse min-w-full divide-y divide-gray-200">
             <thead>
               <tr>
                 <th
@@ -162,11 +155,16 @@ const toggleModalUser = (index) => {
               </tr>
             </thead>
             {currentItems.map((user, index) => (
-              <tr key={user.id}>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
+              <tr key={user.id} className="hover:bg-gray-100 text-sm">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4 text-left flex items-center">
                   {user.username}
                 </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td
+                  className="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4 cursor-pointer text-sm"
+                  onClick={() =>
+                    (window.location.href = `mailto:${user.email}`)
+                  }
+                >
                   {user.email}
                 </td>
 
@@ -226,7 +224,7 @@ const toggleModalUser = (index) => {
                         />
                       </svg>
                     </button>
-                  
+
                     <button onClick={() => banUser(user._id)}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -259,48 +257,46 @@ const toggleModalUser = (index) => {
           onClose={() => isModalOpenUser(true)}
         />
       )}
-      <div className="py-2">
-        <nav className="flex justify-center align-middle">
-          <ul className="flex pl-0 rounded list-none flex-wrap">
-            <li>
-              <button
-                onClick={() => paginate(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 bg-white text-lightBlue-500"
-              >
-                <i className="fas fa-chevron-left -ml-px"></i>
-              </button>
-            </li>
-            {tableData.length > 0 &&
-              Array.from(
-                { length: Math.ceil(tableData.length / itemsPerPage) },
-                (_, index) => (
-                  <li key={index}>
-                    <button
-                      onClick={() => paginate(index + 1)}
-                      className={`first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 bg-white text-lightBlue-500 ${
-                        currentPage === index + 1
-                          ? "bg-lightBlue-200 text-lightBlue-900"
-                          : ""
-                      }`}
-                    >
-                      {index + 1}
-                    </button>
-                  </li>
-                )
-              )}
-            <li>
-              <button
-                onClick={() => paginate(currentPage + 1)}
-                disabled={currentItems.length < itemsPerPage}
-                className="first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 bg-white text-lightBlue-500"
-              >
-                <i className="fas fa-chevron-right -mr-px"></i>
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </div>
+      <nav className="flex justify-center align-middle">
+        <ul className=" flex pl-0 rounded list-none flex-wrap">
+          <li>
+            <button
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-400 bg-white text-red-500"
+            >
+              <i className="fas fa-chevron-left -ml-px"></i>
+            </button>
+          </li>
+          {tableData.length > 0 &&
+            Array.from(
+              { length: Math.ceil(tableData.length / itemsPerPage) },
+              (_, index) => (
+                <li key={index}>
+                  <button
+                    onClick={() => paginate(index + 1)}
+                    className={`first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-400 bg-white text-red-500 ${
+                      currentPage === index + 1
+                        ? "bg-red-200 text-red-900"
+                        : ""
+                    }`}
+                  >
+                    {index + 1}
+                  </button>
+                </li>
+              )
+            )}
+          <li>
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              disabled={currentItems.length < itemsPerPage}
+              className="first:ml-0 text-xs font-semibold mt-auto mb-0 flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-400 bg-white text-red-500"
+            >
+              <i className="fas fa-chevron-right -mr-px"></i>
+            </button>
+          </li>
+        </ul>
+      </nav>
     </>
   );
 }

@@ -1,13 +1,13 @@
 import React from "react";
 
-import UserDropdown from "components/Dropdowns/UserDropdown.js";
+import AdminDropdown from "components/Dropdowns/adminDropdown";
 
 export default function Navbar() {
   return (
     <>
       {/* Navbar */}
-      <nav className="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
-        <div className="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4">
+      <nav className="w-full p-4 z-10 bg-transparent  justify-center flex items-center ">
+        <div className="items-center w-full flex  justify-center">
           {/* Brand */}
           <a
             className="text-black text-sm uppercase hidden lg:inline-block font-semibold"
@@ -30,8 +30,8 @@ export default function Navbar() {
             </div>
           </form>
           {/* User */}
-          <ul className="flex-col md:flex-row list-none items-center hidden md:flex">
-            <UserDropdown />
+          <ul className=" ">
+            <AdminDropdown />
           </ul>
         </div>
       </nav>

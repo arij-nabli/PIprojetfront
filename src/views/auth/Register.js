@@ -2,6 +2,8 @@ import { React, useState, useEffect } from "react";
 //import {ReactFlagsSelect} from "react-flags-select";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 import { useNavigate, Link } from "react-router-dom";
+import ReactCountryFlagsSelect from "react-country-flags-select";
+
 import axios from "axios";
 import GoogleLogin from "react-google-login";
 import { useLinkedIn } from "react-linkedin-login-oauth2";
@@ -26,6 +28,7 @@ export default function Register() {
   const [graduationDate, setGraduationDate] = useState("");
   const [currentPosition, setCurrentPosition] = useState("");
   const [job_title, setjob_title] = useState("");
+
   const GITHUB_CLIENT_ID = "075cb9a7d1740345dd4c";
   const GITHUB_CLIENT_SECRET = "4997f777e54b2af5531dc4dc6716a1e4a11cbb2d";
   const GITHUB_CALLBACK_URL = "http://localhost:3000/auth/register/user";
@@ -42,24 +45,23 @@ export default function Register() {
       setEmailError("");
     }
   };
-
+  
   const onRecaptchaChange = (value) => {
-    console.log(value);
-    if (value) {
-      // Send reCAPTCHA value to backend for validation
+    console.log(value); 
+    if (value) { 
+      
       axios
-        .post("http://localhost:5000/auth/submit", { recaptchaToken: value })
+        .post("http://localhost:5000/auth/submit", { recaptchaToken: value }) 
         .then((response) => {
-          console.log(response.data);
-          // Handle response from backend (optional)
+          console.log(response.data); 
         })
         .catch((error) => {
-          console.error("Error submitting reCAPTCHA:", error);
+          console.error("Error submitting reCAPTCHA:", error); 
           // Handle error (optional)
         });
     }
   };
-
+  
   const signUp = (e) => {
     e.preventDefault();
 
@@ -95,6 +97,7 @@ export default function Register() {
   };
   const selectCountry = (value) => {
     console.log(value);
+    setSelected(value);
     setCountry(value);
   };
 
@@ -253,7 +256,7 @@ export default function Register() {
                   <button
                     className="bg-gray-100 mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => loginGoogle()}
+                    onClick={() => window.open('http://localhost:5000/auth/google', '_self')}
                   >
                     <img
                       alt="..."
@@ -273,26 +276,27 @@ export default function Register() {
                       src={require("assets/img/github.svg").default}
                     />
                   </button>
-                 
-                  <FacebookLogin
-                          appId="2594710990698655"
-                        
-                          onSuccess={(response) => {
-                            console.log('Login Success!', response);
-                          }}
-                          onFail={(error) => {
-                            console.log('Login Failed!', error);
-                          }}
-                          onProfileSuccess={(response) => {
-                            console.log('Get Profile Success!', response);
-                          }}
-                          className="bg-gray-100 mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
 
-                        > <img
-                        alt="..."
-                        className="w-5 "
-                        src={require("assets/img/fcbk.svg").default}
-                      /></FacebookLogin>
+                  <FacebookLogin
+                    appId="2594710990698655"
+                    onSuccess={(response) => {
+                      console.log("Login Success!", response);
+                    }}
+                    onFail={(error) => {
+                      console.log("Login Failed!", error);
+                    }}
+                    onProfileSuccess={(response) => {
+                      console.log("Get Profile Success!", response);
+                    }}
+                    className="bg-gray-100 mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                  >
+                    {" "}
+                    <img
+                      alt="..."
+                      className="w-5 "
+                      src={require("assets/img/fcbk.svg").default}
+                    />
+                  </FacebookLogin>
                   <button
                     className="bg-gray-100 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
@@ -479,10 +483,10 @@ export default function Register() {
                           id="grid-graduation-date"
                           value={graduationDate}
                           onChange={(e) => setGraduationDate(e.target.value)}
-                          className="border-0 px-3 bg-gray-100 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+                          className="border-0 px-3 bg-gray-100 py-3 mb-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
                         />
                         <label
-                          className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                          className="block uppercase mt-3 text-blueGray-600 text-xs font-bold mb-2"
                           htmlFor="grid-current-position"
                         >
                           Current Position
@@ -517,18 +521,19 @@ export default function Register() {
                     <div className="flex justify-between">
                       <div className="w-1/2 mr-3">
                         <label
-                          className=" uppercase text-blueGray-600 text-xs font-bold mb-2"
+                          className=" uppercase text-blueGray-600 text-xs  font-bold mb-3"
                           htmlFor="grid-password"
                         >
                           <i class="fa-solid fa-earth-africa"></i>
                           {"  "}Select your country
                         </label>
-
-                        <ReactFlagsSelect
-                          className="bg-gray-100 h-11 rounded mb-4"
-                          onSelect={(code) => selectCountry(code)}
-                          selected={country}
+                        <ReactCountryFlagsSelect
+                          selected={selected}
+                          onSelect={(e) => selectCountry(e)}
+                          searchable={true}
+                          selectHeight={45}
                         />
+                        
                       </div>
                     </div>
 

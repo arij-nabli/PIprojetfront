@@ -1,15 +1,20 @@
 /*eslint-disable*/
 import React from "react";
 import { Link } from "react-router-dom";
+import logo from "../../assets/img/logo-bg-tr.png";
 
 import NotificationDropdown from "components/Dropdowns/NotificationDropdown.js";
 import UserDropdown from "components/Dropdowns/UserDropdown.js";
 
 export default function Sidebar() {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
+  const logout = () => {
+    localStorage.removeItem('token');
+    window.location.href = '/auth/login';
+  }
   return (
     <>
-      <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-gray-100 flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
+      <nav className="md:left-0 my-8 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden  bg-gray-100 flex flex-wrap items-center mr-10 justify-between relative md:w-64 z-10 py-4 px-6">
         <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
           {/* Toggler */}
           <button
@@ -22,20 +27,15 @@ export default function Sidebar() {
           {/* Brand */}
           <Link
             className="md:block text-center md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-            to="/auth/login"  
+            to="/admin"  
           >
-            ESPRIT COMPASS
+            <div className="flex items-center">  <img src={logo} alt="compass" border="0" width="50" height="50" />
+
+          ESPRIT COMPASS</div>
+        
           </Link>
           {/* User */}
-          <ul className="md:hidden items-center flex flex-wrap list-none">
-            <li className="inline-block relative">
-              <NotificationDropdown />
-            </li>
-            <li className="inline-block relative">
-              <UserDropdown />
-            </li>
-          </ul>
-          {/* Collapse */}
+       
           <div
             className={
               "md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded " +
@@ -43,13 +43,14 @@ export default function Sidebar() {
             }
           >
             {/* Collapse header */}
-            <div className="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-blueGray-200">
+            <div className="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid  border-blueGray-200">
               <div className="flex flex-wrap">
                 <div className="w-6/12">
                   <Link
                     className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-                    to="/"
+                    to="/admin"
                   >
+                    <img src={logo} alt="compass" border="0" width="50" height="50" />
                     ESPRIT COMPASS
                   </Link>
                 </div>
@@ -65,39 +66,52 @@ export default function Sidebar() {
               </div>
             </div>
             {/* Form */}
-            <form className="mt-6 mb-4 md:hidden">
-              <div className="mb-3 pt-0">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="border-0 px-3 py-2 h-12  border-solid  border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
-                />
-              </div>
-            </form>
+           
 
             {/* Divider */}
-            <hr className="my-4 md:min-w-full" />
-            {/* Heading */}
+            <hr className="md:min-w-full border-1 border-gray-400 mb-5" />         
             <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
               Admin Layout Pages
             </h6>
             {/* Navigation */}
 
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
-              <li className="items-center">
+            <li className="items-center mb-1">
+    <Link
+      className={
+        "text-xs uppercase py-3 font-bold block " +
+        (location.pathname === "/admin"
+          ? "text-lightBlue-500 hover:text-lightBlue-600"
+          : "text-blueGray-700 hover:text-blueGray-500")
+      }
+      to="/admin"
+    >
+      <i
+        className={
+          "fa-solid fa-chart-line mr-2 text-sm " +
+          (location.pathname === "/admin"
+            ? "opacity-75"
+            : "text-blueGray-300")
+        }
+      ></i>{" "}
+      Dashboard
+    </Link>
+  </li>
+              <li className="items-center mb-1">
+                
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
-                    (window.location.href.indexOf("/admin/") !== -1
+                    (window.location.href.indexOf("/admin/all-users") !== -1
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
-                  to="/admin/"
+                  to="/admin/all-users"
                 >
                   <i
                     className={
                       "fas fa-tv mr-2 text-sm " +
-                      (window.location.href.indexOf("/admin/") !== -1
+                      (window.location.href.indexOf("/admin/all-users") !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
@@ -106,136 +120,82 @@ export default function Sidebar() {
                 </Link>
               </li>
 
-              <li className="items-center">
+              <li className="items-center mb-1">
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
-                    (window.location.href.indexOf("/admin/settings") !== -1
+                    (window.location.href.indexOf("/admin/companies") !== -1
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
-                  to="/admin/settings"
+                  to="/admin/companies"
                 >
                   <i
                     className={
-                      "fas fa-tools mr-2 text-sm " +
-                      (window.location.href.indexOf("/admin/settings") !== -1
+                      "fas fa-building mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/companies") !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
                   ></i>{" "}
-                  Settings
+                  Companies
                 </Link>
               </li>
 
-              <li className="items-center">
+              <li className="items-center mb-1">
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
-                    (window.location.href.indexOf("/admin/tables") !== -1
+                    (window.location.href.indexOf("/admin/skills") !== -1
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
-                  to="/admin/tables"
+                  to="/admin/skills"
                 >
                   <i
                     className={
-                      "fas fa-table mr-2 text-sm " +
-                      (window.location.href.indexOf("/admin/tables") !== -1
+                      "fa-solid fa-laptop-code mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/skills") !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
                   ></i>{" "}
-                  Tables
+                  Skills
                 </Link>
               </li>
-
-              <li className="items-center">
+              <li className="items-center mb-1">
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
-                    (window.location.href.indexOf("/admin/maps") !== -1
+                    (window.location.href.indexOf("/admin/industries") !== -1
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
-                  to="/admin/maps"
+                  to="/admin/industries"
                 >
                   <i
                     className={
-                      "fas fa-map-marked mr-2 text-sm " +
-                      (window.location.href.indexOf("/admin/maps") !== -1
+                      "fa-solid fa-industry mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/industries") !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
                   ></i>{" "}
-                  Maps
+                  Industries
                 </Link>
               </li>
+              <button className="items-center mb-1 bg-red-500 flex justify-center w-full bottom-0 absolute text-xs uppercase py-3 font-bold  text-white" onClick={logout}>
+               
+                  <i class="fa-solid fa-arrow-right-from-bracket  mr-2 text-sm  opacity-75 text-blueGray-300" style={{color:"white"}}></i>
+                 {" "}
+                  Logout
+                </button>
+            
+
             </ul>
 
             {/* Divider */}
-            <hr className="my-4 md:min-w-full" />
-            {/* Heading */}
-            <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-              Auth Layout Pages
-            </h6>
-            {/* Navigation */}
-
-            <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-              <li className="items-center">
-                <Link
-                  className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
-                  to="/auth/login"
-                >
-                  <i className="fas fa-fingerprint text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  Login
-                </Link>
-              </li>
-
-              <li className="items-center">
-                <Link
-                  className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
-                  to="/auth/register"
-                >
-                  <i className="fas fa-clipboard-list text-blueGray-300 mr-2 text-sm"></i>{" "}
-                  Register
-                </Link>
-              </li>
-            </ul>
-
-            {/* Divider */}
-            <hr className="my-4 md:min-w-full" />
-            {/* Heading */}
-            <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-              No Layout Pages
-            </h6>
-            {/* Navigation */}
-
-            <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-              <li className="items-center">
-                <Link
-                  className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
-                  to="/landing"
-                >
-                  <i className="fas fa-newspaper text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  Landing Page
-                </Link>
-              </li>
-
-              <li className="items-center">
-                <Link
-                  className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
-                  to="/profile"
-                >
-                  <i className="fas fa-user-circle text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  Profile Page
-                </Link>
-              </li>
-            </ul>
-
-            {/* Divider */}
-            <hr className="my-4 md:min-w-full" />
-            {/* Heading */}
+           
             
           </div>
         </div>

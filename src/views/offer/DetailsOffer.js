@@ -2,28 +2,48 @@ import Navbar from "components/Navbars/IndexNavbar.js";
 import HashLoader from "react-spinners/HashLoader";
 import React from "react";
 import axios from "axios";
-import companyphoto from "../assets/img/mobiblanc.jpeg";
-import Apply from "./Apply";
+import companyphoto from "../../assets/img/mobiblanc.jpeg";
+import { useParams } from 'react-router-dom';
 import { useState , useEffect} from "react";
+import Appli from "./Apply";
 
 
 export default function DetailsOffer() {
-    const [jobTitle, setJobTitle] = useState("Junior Java Developer");
     const [companyemail, setCompanyEmail] = useState("bouzayeni@mobiblanc.com");
-    const [name, setName] = useState("Feriel BHK");
-    const [companyName, setCompanyName] = useState(
-    "Mobiblanc Tunisie"
-  );
-  const [nombre, setNombre] = useState("7");
-  const [email, setEmail] = useState("");
-    const [token, setToken] = useState(localStorage.getItem("token"));
+    const [offer, setOffer] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [showApplyForm, setShowApplyForm] = useState(false);
-
+    const [user, setUser] = useState(null);
     const handleApplyClick = () => {
       setShowApplyForm(!showApplyForm); // Inversion de l'état lors du clic sur le bouton "Apply"
     };
-  useEffect(() => {
+    const { id } = useParams();
+
+    const [companyName, setCompanyName] = useState(
+    "Mobiblanc Tunisie"
+  );
+      const [companyLocalisation , setCompanyLocalisation] = useState("Tunisie - Tunis -Centre Urbain Nord")
+
+    const [token, setToken] = useState(localStorage.getItem("token"));
+   
+    useEffect(() => {
+      const fetchOfferDetails = async () => {
+        try {
+          const response = await axios.get(`http://localhost:5000/offers/get/${id}`);
+          setOffer(response.data);
+          setIsLoading(false);
+        } catch (error) {
+          console.error("Error fetching offer details:", error);
+          setIsLoading(false);
+        }
+      };
+  
+      fetchOfferDetails();
+    }, [id]);
+  
+  
+
+    useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
@@ -34,9 +54,8 @@ export default function DetailsOffer() {
             },
           }
         );
-        console.log(response.data);
-        setName(response.data.user.username);
-        setEmail(response.data.user.email);
+        setUser(response.data.user);
+       
         setIsLoading(false);
       } catch (error) {
         console.error(error);
@@ -46,7 +65,6 @@ export default function DetailsOffer() {
 
     fetchUserData();
   }, [token]);
-
     
   return (
     <>
@@ -83,24 +101,19 @@ export default function DetailsOffer() {
         alt="logo company"
     />
     <div className="text-center lg:text-left">
-        <h3 className="text-2xl lg:text-4xl font-semibold leading-normal mb-2 text-blueGray-700">
-            {jobTitle}
-        </h3>
+        <h6 className="text-2xl lg:text-4xl font-semibold leading-normal mb-2 text-blueGray-900">
+           {offer.offerType}
+
+        </h6>
+        
         <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
             {companyName}
         </p>
     </div>
     <div className="ml-auto">
-
-                    <button
-                      onClick={handleApplyClick}
-                      className="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600"
-                    >
-                      Apply
-                    </button>
-                    {showApplyForm && <Apply onClose={handleApplyClick} />}
-               
-        <p className="mb-4 text-lg font-semibold leading-relaxed text-blueGray-700">{nombre} application(s)</p>
+        <button className="p-3 text-white rounded-md mr-2 mb-3 mt-10" onClick={handleApplyClick} style={{ backgroundColor: "#BD2C43" }}>Apply Now</button>
+        {showApplyForm && <Appli onClose={handleApplyClick}  offer={offer} user={user} />}
+        <p className="mb-4 text-lg font-semibold leading-relaxed text-blueGray-700">{offer.applications.length} : application(s)</p>
         </div>
     </div>
     <div class="grid lg:grid-cols-4 sm:grid-cols-1 gap-6 mt-4 ml-16 mr-16">
@@ -110,7 +123,7 @@ export default function DetailsOffer() {
         <div className="flex flex-wrap">
             <div className="w-full ">
                 <h1 className="mb-2 mt-2 text-lg leading-relaxed font-semibold text-blueGray-800" style={{ color: "#BD2C43" }}>Localisation :</h1>
-                <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">Tunisie - Tunis -Centre Urbain Nord</p>
+                <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">{companyLocalisation}</p>
                 <h1 className="mb-2 mt-2 text-lg leading-relaxed font-semibold text-blueGray-800" style={{ color: "#BD2C43" }}>Type of work : </h1>
                 <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">Hybrid face-to-face and remote</p>
             </div>
@@ -118,7 +131,8 @@ export default function DetailsOffer() {
                 <h1 className="mb-2 mt-2 text-lg leading-relaxed font-semibold text-blueGray-800" style={{ color: "#BD2C43" }}>Contrat :</h1>
                 <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">FREELANCE OR INDEPENDENT SERVICE PROVIDER</p>
                 <h1 className="mb-2 mt-2 text-lg leading-relaxed font-semibold text-blueGray-800" style={{ color: "#BD2C43" }}>Salary :</h1>
-                <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">1000 - 2000 TND </p>
+                <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">{offer.salary_range.min} - {offer.salary_range.max}</p>
+ 
             </div>
         </div>
     </div>
@@ -143,6 +157,12 @@ export default function DetailsOffer() {
 
 
     <div className="shadow-lg p-5 lg:col-span-3 sm:col-span-full mb-8 mr-4 sm:mr-0">
+    <h6 className="text-2xl lg:text-4xl font-semibold leading-normal mb-8 mt-8 text-blueGray-900">
+           {offer.title}
+
+        </h6>
+        <hr className="mb-8 mt-8"></hr>
+
         <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">About The Offer</h6>
         <p>Nous sommes la société Mobiblanc Tunisie située au centre urbain nord .Nous désirons avoir la possibilité de recruter des profils ayant effectués leurs études au sein de votre établissement avec des les différentes technologies tel que : 
  
@@ -151,13 +171,25 @@ export default function DetailsOffer() {
  - Android (java et kotlin)
  - Data science
  - IA.</p>
-        <p className="mb-8 mt-8">Why do we use it?
-        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-
-        </p>
+ <p>{offer.description}</p>
+    <h2>Requirements:</h2>
+    {Array.isArray(offer.requirements) && offer.requirements.length > 0 ? (
+        <ul>
+          {offer.requirements.map((requirement, index) => (
+            <li key={index}>{requirement}</li>
+          ))}
+        </ul>
+      ) : (
+        <div>No requirements specified</div>
+      )}
+            
         <hr className="mb-8 mt-8"></hr>
-        <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">Closing date for applications: 05/05/2024</h6>
+        <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">Closing date for applications: {(new Date(offer.end_date)).toISOString().split("T")[0]}</h6>
         <hr className="mb-8 mt-8"></hr>
+        <div>
+        
+        
+        </div>
         <h6 className="mb-4 mt-6 text-lg font-semibold leading-relaxed text-blueGray-700">Added By :</h6>
         <div className="lg:col-span-2  py-2 flex flex-col lg:flex-row items-start lg:items-center">
         <img

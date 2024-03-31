@@ -1,15 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import Navbar from "components/Navbars/IndexNavbar.js";
+import IndexNavbar from "components/Navbars/IndexNavbar.js";
+import AuthNavbar from "components/Navbars/AuthNavbar.js";
+import OfferCard from "components/Cards/OfferCard";
 import HashLoader from "react-spinners/HashLoader";
-import feriel from "../assets/img/feriel.jpg";
+import feriel from "../../assets/img/feriel.jpg";
 import { Link } from "react-router-dom";
-import companyphoto from "../assets/img/mobiblanc.jpeg";
-import Apply from "./Apply";
-export default function Offer() {
-  const [companyName, setCompanyName] = useState(
-    "Mobiblanc Tunisie"
-  );
+import companyphoto from "../../assets/img/mobiblanc.jpeg";
+
+export default function OffersPage() {
+  
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [name, setName] = useState("Feriel BHK");
   const [isLoading, setIsLoading] = useState(true);
@@ -21,11 +21,24 @@ export default function Offer() {
     "A student looking for an internship."
   );
   const [email, setEmail] = useState("");
-  const [showApplyForm, setShowApplyForm] = useState(false);
+  const [offers, setOffers] = useState([]);
 
-  const handleApplyClick = () => {
-    setShowApplyForm(!showApplyForm); // Inversion de l'état lors du clic sur le bouton "Apply"
-  };
+  useEffect(() => {
+    const fetchOffers = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/offers/getall");
+        console.log(response.data);
+        setOffers(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchOffers();
+  }, []);
+ 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -95,14 +108,10 @@ export default function Offer() {
         </div>
       ) : (
         <>
-          <Navbar />
-
-         
-
-
+          {token ? <IndexNavbar /> : <AuthNavbar />}
 
   <div class="mx-auto grid lg:grid-cols-4 sm:grid-cols-2 gap-6 mt-4">
-    <div className="shadow-lg p-5 lg:col-span-1">
+    <div className="shadow-lg p-5 lg:col-span-1 ">
 
       <div className="flex flex-col bg-white">
         <div className="flex items-center justify-center mt-10 w-full">
@@ -152,112 +161,36 @@ export default function Offer() {
       </div>
     </div>
 
+
+
+            
+
     <div class="p-5 lg:col-span-2">
-    <div class="shadow-lg bg-white rounded-lg text-center ">
-        <div class="py-4  px-6 border-b border-gray-200 flex items-center justify-center ">
-            <img
-                src={companyphoto}
-                style={{ width: 35, height: 35 }}
-                className="border-1 shadow rounded-full border-black mr-4 lg:mr-6 justify-center "
-                alt="Default"
-            />
-            <div>
-                <h3 class="text-xl font-semibold justify-center">Junior Java Developer</h3>
-                <p class="text-base leading-relaxed text-blueGray-700 justify-center">{companyName}</p>
-            </div>
-        </div>
-        <div class="px-6 py-2 text-center">
-            <p class="mt-2 text-sm leading-relaxed text-gray-600">Description : Stage PFE Lorem ipsum dolor sit amet consectetur adipisicing elit. ...</p>
-        </div>
-        <div class="flex justify-center py-4 mb-4 ">
-            <Link
-                  class="px-4 py-2 text-sm text-white bg-red-500 rounded-md mr-2"style={{ backgroundColor: "#BD2C43" }}
-                  to="/offer-details"
-                >
-                View more
-                </Link>
-             
-                    <button
-                      onClick={handleApplyClick}
-                      className="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600"
-                    >
-                      Apply
-                    </button>
-                    {showApplyForm && <Apply onClose={handleApplyClick} />}
-                  
-        </div>
+              <div>
+                {offers.map((offer, index) => (
+                  <OfferCard
+                    key={index}
+                    //companyphoto={offer.photoofprovider}
+                    companyphoto={companyphoto}
+                    jobTitle={offer.title}
+                    companyName={offer.companyName}
+                    description={offer.description}
+                    viewMoreLink={`/offer-details/${offer._id}`}
+                  />
+                ))}
+              </div>
     </div>
 
 
-    <div class="shadow-lg bg-white rounded-lg text-center ">
-        <div class="py-4  px-6 border-b border-gray-200 flex items-center justify-center ">
-            <img
-                src={companyphoto}
-                style={{ width: 35, height: 35 }}
-                className="border-1 shadow rounded-full border-black mr-4 lg:mr-6 justify-center "
-                alt="Default"
-            />
-            <div>
-                <h3 class="text-xl font-semibold justify-center">Junior Java Developer</h3>
-                <p class="text-base leading-relaxed text-blueGray-700 justify-center">{companyName}</p>
-            </div>
-        </div>
-        <div class="px-6 py-2 text-center">
-            <p class="mt-2 text-sm leading-relaxed text-gray-600">Description : Stage PFE Lorem ipsum dolor sit amet consectetur adipisicing elit. ...</p>
-        </div>
-        <div class="flex justify-center py-4 mb-4 ">
-            <Link
-                  class="px-4 py-2 text-sm text-white bg-red-500 rounded-md mr-2"style={{ backgroundColor: "#BD2C43" }}
-                  to="/offer-details"
-                >
-                View more
-                </Link>
-             
-                    <button
-                      onClick={handleApplyClick}
-                      className="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600"
-                    >
-                      Apply
-                    </button>
-                    {showApplyForm && <Apply onClose={handleApplyClick} />}
-                  
-        </div>
-    </div>
-    <div class="shadow-lg bg-white rounded-lg text-center ">
-        <div class="py-4  px-6 border-b border-gray-200 flex items-center justify-center ">
-            <img
-                src={companyphoto}
-                style={{ width: 35, height: 35 }}
-                className="border-1 shadow rounded-full border-black mr-4 lg:mr-6 justify-center "
-                alt="Default"
-            />
-            <div>
-                <h3 class="text-xl font-semibold justify-center">Junior Java Developer</h3>
-                <p class="text-base leading-relaxed text-blueGray-700 justify-center">{companyName}</p>
-            </div>
-        </div>
-        <div class="px-6 py-2 text-center">
-            <p class="mt-2 text-sm leading-relaxed text-gray-600">Description : Stage PFE Lorem ipsum dolor sit amet consectetur adipisicing elit. ...</p>
-        </div>
-        <div class="flex justify-center py-4 mb-4 ">
-            <Link
-                  class="px-4 py-2 text-sm text-white bg-red-500 rounded-md mr-2"style={{ backgroundColor: "#BD2C43" }}
-                  to="/offer-details"
-                >
-                View more
-                </Link>
-                
-                    <button
-                      onClick={handleApplyClick}
-                      className="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600"
-                    >
-                      Apply
-                    </button>
-                    {showApplyForm && <Apply onClose={handleApplyClick} />}
-                
-        </div>
-    </div>
-    </div>
+
+
+
+
+
+
+
+
+
 
     <div class="shadow-lg p-5 lg:col-span-1 ">
     <form onSubmit={handleSubmit}>

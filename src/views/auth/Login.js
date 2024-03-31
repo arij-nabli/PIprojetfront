@@ -50,7 +50,7 @@ export default function Login() {
       if (role === "admin") {
         navigate("/admin/dashboard", { replace: true });
       } else {
-        navigate("/profile", { replace: true });
+        navigate("/", { replace: true });
       }
 
       setIsLoading(false);
@@ -64,7 +64,10 @@ export default function Login() {
         setErrorMessage("User Not Found");
       }
       if (error.response.status === 403) {
-        setErrorMessage("Please verify your email address first");
+        setErrorMessage(error.response.data.message);
+      }
+      if(error.response.status === 405){
+        setErrorMessage("User is banned. Please contact the administrator for more information.");
       }
     }
   };
@@ -142,6 +145,7 @@ const googleSignIn = async () => {
                   <button
                     className="bg-gray-100 mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase  hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
+                    onClick={()=>  window.open('http://localhost:5000/auth/facebook', '_self')}
                   >
                     <img
                       alt="..."
@@ -152,6 +156,7 @@ const googleSignIn = async () => {
                   <button
                     className="bg-gray-100 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase  hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
+                    onClick={()=>  window.open('http://localhost:5000/auth/linkedin', '_self')}
                   >
                     <img
                       alt="..."

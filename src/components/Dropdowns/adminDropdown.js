@@ -1,11 +1,14 @@
 import React from "react";
 import { createPopper } from "@popperjs/core";
+import { useNavigate } from "react-router-dom";
 
-const UserDropdown = () => {
+const AdminDropdown = () => {
   // dropdown props
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
   const btnDropdownRef = React.createRef();
   const popoverDropdownRef = React.createRef();
+  const navigate = useNavigate();
+
   const openDropdownPopover = () => {
     createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
       placement: "bottom-end",
@@ -15,6 +18,24 @@ const UserDropdown = () => {
   const closeDropdownPopover = () => {
     setDropdownPopoverShow(false);
   };
+
+  const handleLogout = () => {
+    // Retrieve the data from local storage
+    const data = localStorage.getItem("token");
+
+    // Clear the data
+    localStorage.removeItem("token");
+
+    // Alternatively, to clear all data in local storage:
+    // localStorage.clear();
+
+    // Close the dropdown
+    closeDropdownPopover();
+
+    // Redirect to the sign in page
+    navigate("/auth/login");
+  };
+
   return (
     <>
       <a
@@ -72,11 +93,11 @@ const UserDropdown = () => {
         </a>
         <div className="h-0 my-2 border border-solid border-blueGray-100" />
         <a
-          href="#pablo"
+          href="/"
           className={
             "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
           }
-          onClick={(e) => e.preventDefault()}
+          onClick={handleLogout}
         >
           Logout
         </a>
@@ -85,4 +106,4 @@ const UserDropdown = () => {
   );
 };
 
-export default UserDropdown;
+export default AdminDropdown;
