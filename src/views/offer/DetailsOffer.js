@@ -120,7 +120,7 @@ export default function DetailsOffer() {
               "Sign in to apply "
             ) : user.role == "company" ? (
               <div className="ml-auto">
-  <Link className=" text-custom-red hover:text-custom-darkred font-bold">
+  <Link className=" text-custom-red hover:text-custom-darkred font-bold" to={`/company/applications/${offer._id}`}>
                 View Applications
               </Link>
 <p className="mb-4 text-md font-semibold leading-relaxed text-blueGray-700">{offer.applications.length} : application(s)</p>

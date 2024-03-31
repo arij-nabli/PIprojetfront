@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Routes, Route,useNavigate } from "react-router-dom";
 import axios from "axios";
 // components
-
+import ApplicationsByOffer from "views/application/ApplicationsByOffer";
 import CompanyOffers from "views/offer/CompanyOffers";
 import ProfileCompany from "views/profile/ProfileCompany";
 import AddOffer from "views/offer/AddOffer";
@@ -71,6 +71,7 @@ export default function Company() {
           <Route path='/profile' exact element={<ProfileCompany/>} />
           <Route path='/add-offer' exact element={<AddOffer />} />
           <Route path='*' element={<CompanyOffers />} />
+          <Route path='/applications/:offerId' element={<ApplicationsByOffer />} />
           </Routes>
  
       
