@@ -6,7 +6,7 @@ export default function Appli({ onClose,offer,user }) {
   const [step, setStep] = useState(1);
   const [resume, setResume] = useState(null);
   const [coverLetter, setCoverLetter] = useState("");
-  const [salary, setSalary] = useState({ min: 30000, max: 90000 });
+  const [salary, setSalary] = useState({ min: offer.salary_range.min, max: offer.salary_range.max });
 
   const handleNext = () => {
     setStep(step + 1);
@@ -102,7 +102,7 @@ export default function Appli({ onClose,offer,user }) {
           {step === 4 && (
         <>
           <div>
-            <i className="fas fa-check-circle text-4xl text-green-500">  Success</i>
+            <i className="fas fa-check-circle text-3xl text-green-500">  S u c c e s s</i>
          
           </div>
         </>

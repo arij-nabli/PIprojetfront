@@ -49,7 +49,11 @@ export default function Login() {
       const role = response.data.role.role;
       if (role === "admin") {
         navigate("/admin/dashboard", { replace: true });
-      } else {
+      }
+      else if (role === "company") {
+        navigate("/company/profile", { replace: true });
+      }
+       else {
         navigate("/", { replace: true });
       }
 

@@ -92,7 +92,7 @@ const AddOffer = () => {
     const offerData = {
       title,
       description,
-      provider: "65f3ffedb349f4553b8c07d2",
+      provider: "6608f7f8ac60ba2adcd178d1",
       salary_range: { min: minSalary, max: maxSalary },
       start_date: startDate,
       end_date: endDate,
@@ -124,7 +124,7 @@ const AddOffer = () => {
   };
 
   return (
-    <div className="bg-gray-100 py-6 sm:px-6 lg:px-8">
+    <div className="bg-gray-100 py-3 sm:px-6 lg:px-8">
       <h1 className="mb-8 text-3xl font-bold text-center">Add Offer</h1>
 
       <div className="flex flex-row items-center justify-center min-h-screen ">
@@ -371,7 +371,7 @@ const AddOffer = () => {
                   }}
                 >
                   <span>{skill.name}</span>
-                  <button onClick={() => handleSkillDelete(skill)}>X</button>
+                  <button onClick={() => handleSkillDelete(skill)}><i class="fa-solid fa-xmark p-1 hover:bg-red-200 rounded-full "></i></button>
                 </div>
               ))}
               {errors.skills && (

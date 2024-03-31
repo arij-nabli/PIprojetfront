@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation,useNavigate } from 'react-router-dom';
-
+import axios from 'axios';
 export default function SetToken() {
   const location = useLocation();
     const navigate = useNavigate();
@@ -9,7 +9,34 @@ export default function SetToken() {
     const token = urlParams.get('token');
     localStorage.setItem('token', token);
     console.log("aaaaaaaaaa",token);
-    navigate('/profile');
+    const fetchUserData = async () => {
+    
+      try {
+          const response = await axios.get(
+              'http://localhost:5000/auth/getUserDataFromToken',
+              {
+                  headers: {
+                      Authorization: `Bearer ${token}`,
+                  },
+              }
+          );
+          console.log("role",response.data.user.role);
+          if (response.data.user.role === 'company') {
+              navigate('/company');
+          }else if (response.data.user.role === 'admin') {
+              navigate('/admin');
+          }
+          
+          else {
+              navigate('/profile');
+          }
+
+      } catch (error) {
+          console.error(error);
+      }
+  };
+
+  fetchUserData();
     // Redirect to profile or another page
   }, [location]);
 

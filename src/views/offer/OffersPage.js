@@ -7,12 +7,14 @@ import HashLoader from "react-spinners/HashLoader";
 import feriel from "../../assets/img/feriel.jpg";
 import { Link } from "react-router-dom";
 import companyphoto from "../../assets/img/mobiblanc.jpeg";
-
+import CompanyNavbar from "components/Navbars/CompanyNavbar";
+import Auth from "layouts/Auth";
 export default function OffersPage() {
   
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [name, setName] = useState("Feriel BHK");
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState({});
   const [description, setDescription] = useState(
     "Full-Stack web developer with 3 years of experience in building web applications."
   );
@@ -51,6 +53,7 @@ export default function OffersPage() {
           }
         );
         console.log(response.data);
+        setUser(response.data.user);
         setName(response.data.user.username);
         setEmail(response.data.user.email);
         setIsLoading(false);
@@ -108,8 +111,10 @@ export default function OffersPage() {
         </div>
       ) : (
         <>
-          {token ? <IndexNavbar /> : <AuthNavbar />}
-
+{
+  !user.role ?<AuthNavbar /> : 
+  (user.role === 'company' ? <CompanyNavbar /> :  <IndexNavbar />)
+}
   <div class="mx-auto grid lg:grid-cols-4 sm:grid-cols-2 gap-6 mt-4">
     <div className="shadow-lg p-5 lg:col-span-1 ">
 
