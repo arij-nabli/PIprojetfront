@@ -179,7 +179,9 @@ export default function OffersPage() {
                     companyphoto={companyphoto}
                     jobTitle={offer.title}
                     companyName={offer.companyName}
+                    Category={offer.category}
                     description={offer.description}
+
                     viewMoreLink={`/offer-details/${offer._id}`}
                   />
                 ))}
