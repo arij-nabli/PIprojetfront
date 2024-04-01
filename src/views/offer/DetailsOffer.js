@@ -174,10 +174,10 @@ export default function DetailsOffer() {
                       className="mb-2 mt-2 text-lg leading-relaxed font-semibold text-blueGray-800"
                       style={{ color: "#BD2C43" }}
                     >
-                      Localisation :
+                      Location :
                     </h1>
                     <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">
-                      {companyLocalisation}
+                    {offer.location}
                     </p>
                     <h1
                       className="mb-2 mt-2 text-lg leading-relaxed font-semibold text-blueGray-800"
@@ -186,7 +186,7 @@ export default function DetailsOffer() {
                       Type of work :{" "}
                     </h1>
                     <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">
-                      Hybrid face-to-face and remote
+                      {offer.type}
                     </p>
                   </div>
                   <div className="w-full ">
@@ -194,10 +194,10 @@ export default function DetailsOffer() {
                       className="mb-2 mt-2 text-lg leading-relaxed font-semibold text-blueGray-800"
                       style={{ color: "#BD2C43" }}
                     >
-                      Contrat :
+                      {offer.category === "job offer" ? "Contrat" : "Payment"} :
                     </h1>
                     <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">
-                      FREELANCE OR INDEPENDENT SERVICE PROVIDER
+                      {offer.category === "job offer" && offer.contrat ? offer.contrat : offer.payment}
                     </p>
                     <h1
                       className="mb-2 mt-2 text-lg leading-relaxed font-semibold text-blueGray-800"
@@ -206,7 +206,7 @@ export default function DetailsOffer() {
                       Salary :
                     </h1>
                     <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">
-                      {offer.salary_range.min} - {offer.salary_range.max}
+                      {offer.salary_range.min} - {offer.salary_range.max} TND 
                     </p>
                   </div>
                 </div>
@@ -249,37 +249,31 @@ export default function DetailsOffer() {
 
             <div className="shadow-lg p-5 lg:col-span-3 sm:col-span-full mb-8 mr-4 sm:mr-0">
               <h6 className="text-2xl lg:text-4xl font-semibold leading-normal mb-8 mt-8 text-blueGray-900">
-                {offer.title}
+              {offer.title.toUpperCase()}
               </h6>
               <hr className="mb-8 mt-8"></hr>
 
               <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
                 About The Offer
+              
               </h6>
               <p>
-                Nous sommes la société Mobiblanc Tunisie située au centre urbain
+                Nous sommes la société Tunisie située au centre urbain
                 nord .Nous désirons avoir la possibilité de recruter des profils
-                ayant effectués leurs études au sein de votre établissement avec
-                des les différentes technologies tel que : - PHP symfony ( avec
-                minimum 5 ans d'expérience) - iOS - Android (java et kotlin) -
-                Data science - IA.
+                ayant effectués leurs études au sein de votre établissement 
               </p>
               <p>{offer.description}</p>
-              <h2>Requirements:</h2>
-              {Array.isArray(offer.requirements) &&
-              offer.requirements.length > 0 ? (
-                <ul>
-                  {offer.requirements.map((requirement, index) => (
-                    <li key={index}>{requirement}</li>
-                  ))}
-                </ul>
-              ) : (
-                <div>No requirements specified</div>
-              )}
+              <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
+              Starting date for working with our team : {" "}
+                {new Date(offer.start_date).toISOString().split("T")[0]}
+              </h6>
+             
+           
+       
 
               <hr className="mb-8 mt-8"></hr>
               <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
-                Closing date for applications:{" "}
+                Closing date for applications : {" "}
                 {new Date(offer.end_date).toISOString().split("T")[0]}
               </h6>
               <hr className="mb-8 mt-8"></hr>

@@ -5,7 +5,7 @@ import axios from "axios";
 import ApplicationsByOffer from "views/application/ApplicationsByOffer";
 import CompanyOffers from "views/offer/CompanyOffers";
 import ProfileCompany from "views/profile/ProfileCompany";
-import AddOffer from "views/offer/AddOffer";
+import AddOffer from "views/offer/addOffer";
 import HashLoader from "react-spinners/HashLoader";
 import Navbar from "components/Navbars/CompanyNavbar";
 export default function Company() {
