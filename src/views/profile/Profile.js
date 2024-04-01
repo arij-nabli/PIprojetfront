@@ -295,7 +295,7 @@ export default function Profile() {
         </div>
       ) : (
         <>
-          <Navbar />
+          <Navbar  id={user._id}/>
           <main
             className="profile-pagerelative w-full h-full py-10 "
             style={{

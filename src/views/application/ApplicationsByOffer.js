@@ -54,7 +54,13 @@ const ApplicationsByOffer = () => {
         console.error('Error updating application status:', error);
       }
   };
-
+  const sortedApplications = [...applications].sort((a, b) => {
+    if (a.status === 'Pending') return -1;
+    if (b.status === 'Pending') return 1;
+    if (a.status === 'Accepted') return -1;
+    if (b.status === 'Accepted') return 1;
+    return 0;
+  });
   return (
     <>
     {isLoading ? (
@@ -82,7 +88,7 @@ const ApplicationsByOffer = () => {
       ) : 
  (   <div className="flex flex-col items-center mt-5">
       <h1 className="text-2xl font-bold mb-5">Applications</h1>
-      {applications.map((application) => (
+      {sortedApplications.map((application) => (
         <div
           key={application._id}
           className={`flex flex-col bg-white shadow-md rounded-lg p-6 mb-5 w-full sm:w-4/5 cursor-pointer hover:bg-gray-100`}
@@ -107,7 +113,9 @@ const ApplicationsByOffer = () => {
           </div>
           
           <div className="flex justify-between items-center">
-            <p className="text-sm">Status: {application.status}</p>
+          <div className='flex items-center text-sm'>Status: <p className={`text-sm ${application.status === 'Accepted' ? 'text-green-500' : application.status === 'Refused' ? 'text-red-500' : 'text-yellow-500'}`}>
+         {application.status}
+         </p>  </div>
             <div className="flex items-center">
           
               <button className="text-green-500 hover:underline mr-2" onClick={(e) => handleDownload(e,application._id)}>

@@ -45,7 +45,7 @@ export default function Navbar(props) {
             <li className="flex items-center">
                 <a
                   onClick={()=>logout()}
-                  className=" text-black lg:hover:text-blueGray-200 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                  className="text-gray-700  hover:text-sm rounded hover:bg-custom-pink hover:text-black  transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 >
                   Logout
                 </a>
@@ -54,7 +54,7 @@ export default function Navbar(props) {
               <li className="flex items-center">
                 <Link
                 to={"/offer"}
-                  className="text-black lg:hover:text-blueGray-200  px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                className="text-gray-700  hover:text-sm rounded hover:bg-custom-pink hover:text-black  transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 >
                   offers
                 </Link>
@@ -62,9 +62,17 @@ export default function Navbar(props) {
               <li className="flex items-center">
                 <Link
                 to={"/profile"}
-                  className="text-black lg:hover:text-blueGray-200  px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                className="text-gray-700  hover:text-sm rounded hover:bg-custom-pink hover:text-black  transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 >
                   profile
+                </Link>
+              </li>
+              <li className="flex items-center">
+                <Link
+                to={`/applications/${props.id}`}
+                className="text-gray-700  hover:text-sm rounded hover:bg-custom-pink hover:text-black  transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                >
+                  applications
                 </Link>
               </li>
               <li className="flex items-center ">

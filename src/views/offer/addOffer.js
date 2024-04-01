@@ -124,7 +124,7 @@ const AddOffer = () => {
   };
 
   return (
-    <div className="bg-gray-100 py-3 sm:px-6 lg:px-8">
+    <div className="bg-gray-100 h-max py-3 sm:px-6 lg:px-8">
       <h1 className="mb-8 text-3xl font-bold text-center">Add Offer</h1>
 
       <div className="flex flex-row items-center justify-center min-h-screen ">
@@ -328,7 +328,7 @@ const AddOffer = () => {
                 <p className="text-red-500 text-xs italic">{errors.category}</p>
               )}
             </div>
-            <div>
+            <div >
               <label
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 htmlFor="skills"
@@ -345,7 +345,7 @@ const AddOffer = () => {
                 onChange={(e) => handleSkillInputChange(e)}
               />
               {skillInput ? (
-                <div className="bg-gray-300 text-left mx-1 absolute z-10 rounded-md shadow-lg">
+                <div className="bg-white text-left mx-1  z-10 rounded-md shadow-lg">
                   {suggestedSkills.map((skill, index) => (
                     <div
                       key={index}
@@ -371,7 +371,9 @@ const AddOffer = () => {
                   }}
                 >
                   <span>{skill.name}</span>
-                  <button onClick={() => handleSkillDelete(skill)}><i class="fa-solid fa-xmark p-1 hover:bg-red-200 rounded-full "></i></button>
+                  <button onClick={() => handleSkillDelete(skill)}>
+                    <i class="fa-solid fa-xmark p-1 hover:text-red-600 rounded-full "></i>
+                  </button>
                 </div>
               ))}
               {errors.skills && (

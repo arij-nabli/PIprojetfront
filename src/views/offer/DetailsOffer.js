@@ -15,6 +15,7 @@ export default function DetailsOffer() {
   const [isLoading, setIsLoading] = useState(true);
   const [showApplyForm, setShowApplyForm] = useState(false);
   const [user, setUser] = useState(null);
+  const [applied, setApplied] = useState(null);
   const handleApplyClick = () => {
     setShowApplyForm(!showApplyForm); // Inversion de l'état lors du clic sur le bouton "Apply"
   };
@@ -27,25 +28,9 @@ export default function DetailsOffer() {
 
   const [token, setToken] = useState(localStorage.getItem("token"));
 
-  useEffect(() => {
-    const fetchOfferDetails = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/offers/get/${id}`
-        );
-        setOffer(response.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching offer details:", error);
-        setIsLoading(false);
-      }
-    };
-
-    fetchOfferDetails();
-  }, [id]);
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchData = async () => {
       try {
         const response = await axios.get(
           "http://localhost:5000/auth/getUserDataFromToken",
@@ -56,21 +41,53 @@ export default function DetailsOffer() {
           }
         );
         setUser(response.data.user);
+        const response2 = await axios.get(
+          `http://localhost:5000/offers/get/${id}`
+        );
+        setOffer(response2.data);
+        console.log(response2.data,response.data.user); 
+        const app = response2.data.applications.find(app => app.candidate === response.data.user._id);
 
+        if(app){
+          const applicationDate = new Date(app.application_date);
+          const currentDate = new Date();
+        
+          const differenceInTime = currentDate.getTime() - applicationDate.getTime();
+          const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+        
+          let timeDifference;
+          if (differenceInDays < 1) {
+            const differenceInHours = differenceInTime / (1000 * 3600);
+            if (differenceInHours < 1) {
+              timeDifference = "just now";
+            } else {
+              timeDifference = `${Math.floor(differenceInHours)} hours ago`;
+            }
+          } else {
+            timeDifference = `${Math.floor(differenceInDays)} days ago`;
+          }
+        
+          console.log(timeDifference);
+          setApplied(timeDifference);
+          console.log("applied");
+        }
         setIsLoading(false);
       } catch (error) {
         console.error(error);
         setIsLoading(false);
       }
     };
+  
+    fetchData();
+   
 
-    fetchUserData();
-  }, [token]);
+
+  }, [token,id]);
 
   return (
     <>
       {isLoading ? (
-        <div
+        <div 
           style={{
             position: "fixed",
             top: 0,
@@ -98,7 +115,7 @@ export default function DetailsOffer() {
           ) : user.role === "company" ? (
             <CompanyNavbar />
           ) : (
-            <IndexNavbar />
+            <IndexNavbar id={user._id} />
           )}
           <div className="shadow-lg mt-10 lg:col-span-2 px-8 lg:px-16 mx-4 lg:mx-16 py-4 flex flex-col lg:flex-row items-start lg:items-center">
             <img
@@ -109,7 +126,7 @@ export default function DetailsOffer() {
             />
             <div className="text-center lg:text-left">
               <h6 className="text-2xl lg:text-4xl font-semibold leading-normal mb-2 text-blueGray-900">
-                {offer.offerType}
+                {offer.type}
               </h6>
 
               <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
@@ -127,7 +144,7 @@ export default function DetailsOffer() {
               </div>
             
               
-            ) : (
+            ) : applied ? <div className="ml-auto text-green-500">applied {applied} </div> : (
               <div className="ml-auto">
                 <button
                   className="p-3 text-white rounded-md mr-2 mb-3 mt-10"

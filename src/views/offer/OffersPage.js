@@ -113,7 +113,7 @@ export default function OffersPage() {
         <>
 {
   !user.role ?<AuthNavbar /> : 
-  (user.role === 'company' ? <CompanyNavbar /> :  <IndexNavbar />)
+  (user.role === 'company' ? <CompanyNavbar /> :  <IndexNavbar id={user._id}/>)
 }
   <div class="mx-auto grid lg:grid-cols-4 sm:grid-cols-2 gap-6 mt-4">
     <div className="shadow-lg p-5 lg:col-span-1 ">

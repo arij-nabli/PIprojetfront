@@ -17,6 +17,7 @@ import DetailsOffer from "views/offer/DetailsOffer";
 import SetToken from 'components/SetToken'
 import ContactUs from 'views/ContactUs'
 import Company from 'layouts/Company'
+import ApplicationsByUser from 'views/application/applicationsByUser'
 function MainApp() {
   const [isLoading, setIsLoading] = useState(true)
 
@@ -51,6 +52,7 @@ function MainApp() {
           <Route path='/company/*' element={<AuthGuard><Company /></AuthGuard>} />
           <Route path='/landing' exact element={<Landing />} />
           <Route path='/profile' exact element={<AuthGuard><Profile /></AuthGuard>} />
+          <Route path='/applications/:candidateId' exact element={<AuthGuard> <ApplicationsByUser /> </AuthGuard>} />
           
           <Route
             path='/offer'
