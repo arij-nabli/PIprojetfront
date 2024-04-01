@@ -102,10 +102,10 @@ export default function OffersPage() {
 
   const handleReset = () => {
     setNomEntreprise('');
-    setDateOffre('');
+    setSearchDate('');
     setTypeOffre('');
     setSecteurActivite('');
-    setLieuOffre('');
+    setSearchLocation('');
   };
   const filterOffers = (offer) => {
     // Filtrer par emplacement
