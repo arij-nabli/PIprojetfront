@@ -10,6 +10,12 @@ import companyphoto from "../../assets/img/mobiblanc.jpeg";
 import CompanyNavbar from "components/Navbars/CompanyNavbar";
 import Auth from "layouts/Auth";
 export default function OffersPage() {
+  const [searchLocation, setSearchLocation] = useState('');
+
+  const handleLocationChange = (e) => {
+    setSearchLocation(e.target.value);
+  };
+
   
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [name, setName] = useState("Feriel BHK");
@@ -24,6 +30,10 @@ export default function OffersPage() {
   );
   const [email, setEmail] = useState("");
   const [offers, setOffers] = useState([]);
+  const filteredOffers = offers.filter(offer => {
+    return offer.location.toLowerCase().includes(searchLocation.toLowerCase());
+  });
+  
 
   useEffect(() => {
     const fetchOffers = async () => {
@@ -172,7 +182,7 @@ export default function OffersPage() {
 
     <div class="p-5 lg:col-span-2">
               <div>
-                {offers.map((offer, index) => (
+                {filteredOffers.map((offer, index) => (
                   <OfferCard
                     key={index}
                     //companyphoto={offer.photoofprovider}
@@ -241,8 +251,9 @@ export default function OffersPage() {
             </div>
             <div className="mb-4">
               <label className="block mb-1" htmlFor="lieu-offre">Location</label>
-              <input type="text" id="lieu-offre" value={lieuOffre} onChange={(e) => setLieuOffre(e.target.value)} />
-            </div>
+              
+                  <input type="text" id="lieu-offre" value={searchLocation} onChange={handleLocationChange} />
+                </div>            
             <div>
               <button type="button" onClick={handleReset} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">Reset</button>
             </div>
