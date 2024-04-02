@@ -1,198 +1,282 @@
-
-
 import Navbar from "components/Navbars/AuthNavbar.js";
 import Footer from "components/Footers/Footer.js";
+import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import companyphoto from "../../../src/assets/img/companyphoto.png"
 
-import React, { useRef, useState } from 'react';
-import {
-  Badge,
-  Box,
-  Button,
-  HStack,
-  Image,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Text,
-  useDisclosure,
-} from '@chakra-ui/react';
-  export default function Profile() {
-  
-    const [coverImage, setCoverImage] = useState(null);
-    const inputRef = useRef(null);
-    const profileImageRef = useRef('');
-    const { isOpen, onOpen, onClose } = useDisclosure();
-  
-    const openChooseImage = () => {
-      inputRef.current.click();
-    };
-  
-  
-    const handleChangeCover = (event) => {
-      const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
-      const selected = event.target.files[0];
-  
-      if (selected && ALLOWED_TYPES.includes(selected.type)) {
-        let reader = new FileReader();
-        reader.onloadend = () => setCoverImage(reader.result);
-        reader.readAsDataURL(selected);
-      } else {
-        onOpen();
-      }
-    };
+import ReactAvatarEditor from 'react-avatar-editor'
+export default function ProfileCompany() {
+  const [processedImage, setProcessedImage] = useState(null)
+  const [showEditor, setShowEditor] = useState(false) // New state for showing the editor
+  const [companyPhoto, setCompanyPhoto] = useState(companyphoto);
+  const [showModal, setShowModal] = useState();
+  const navigate = useNavigate();
+  const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [token, setToken] = useState(localStorage.getItem("token")); 
+
+ 
+  const [showApplicationForm, setShowApplicationForm] = useState(false);
+  const [country, setCountry] = useState();
+  const [secteurActivite, setSecteurActivite] = useState();
+  const [adresse, setAdresse] = useState();
+  const [name, setName] = useState();
+  const [telephone, setTelephone] = useState();
+ 
+  const [description, setDescription] = useState(
     
+  );
+  const [companyName, setCompanyName] = useState(
+    "Mobiblanc Tunisie"
+  );
+  const handleNewImage = (e) => {
+    setState({ ...state, image: e.target.files[0] })
+    setShowEditor(true) 
+  }
+
+  const handleToggleForm = () => {
+    setShowApplicationForm(!showApplicationForm);
+  };
+
+  const [state, setState] = useState({
+    image: "",
+    allowZoomOut: false,
+    position: { x: 0.5, y: 0.5 },
+    scale: 1,
+    rotate: 0,
+    borderRadius: 50,
+    preview: null,
+    width: 330,
+    height: 330,
+  });
+  const handleScale = (e) => {
+    const scale = parseFloat(e.target.value)
+    setState({ ...state, scale })
+  }
+  const handlePositionChange = (position) => {
+    setState({ ...state, position })
+  }
+  const handleSubmit = async (e) => {
+    if (editorRef.current) {
+      const img = editorRef.current.getImageScaledToCanvas().toDataURL();
+   
+      setCompanyPhoto(img); 
+      setShowEditor(false); 
+      const response1 = await fetch(img);
+    const blob = await response1.blob();
+     const formData = new FormData();
+     formData.append('image', blob, 'companyphoto'); // append the blob with a filename
+    const response = await axios.post(`http://localhost:5000/user/update-image?id=${user._id}`, formData)
+    .then((response) => {
+       console.log(response.data);
+       setCompanyPhoto(img); 
+       setShowEditor(false);
+    }).catch((error) => {
+       console.error(error);
+       setShowEditor(false);
+    }) 
+    }
+  };
+  
+  const editorRef = useRef(null)
+
+useEffect(() => {
+  console.log("showModal value:", showModal);
+}, [showModal]);
+useEffect(() => {
+      
+  const token = localStorage.getItem('token');
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/auth/getUserDataFromToken",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+     
+        if (response.data.user.role !== "company"){
+          navigate("/auth/login")
+        }
+        else{
+          const userData = response.data;
+          const companyData = userData.data; // Contient les informations de l'entreprise
+          setName(response.data.user.username);
+         setDescription(companyData.description);
+          setCountry(response.data.user.country);
+         setAdresse(companyData.location);
+         setTelephone(companyData.phone);
+          setSecteurActivite(companyData.industry);
+          setUser(response.data.user);
+         
+         
+         
+       
+          getProfileImage(response.data.user._id);
+          console.log(response.data.company);
+          setIsLoading(false);
+        }
+    } catch (error) {
+      console.error(error);
+       setIsLoading(false);
+    }
+  };
+
+  const getProfileImage = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/user/get-image?id=${id}`,
+        { responseType: 'blob' } 
+      );
+      const imageUrl = URL.createObjectURL(response.data);
+     
+      setCompanyPhoto(imageUrl); 
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  fetchUserData();
+  
+}, [token]);
+
   return (
     <>
-      <main className="profile-page">
-        <section className="relative block h-500-px">
-          <div
-            className="absolute top-0 w-full h-full bg-center bg-cover"
-           
-          >
-            <span
-              id="blackOverlay"
-              className="w-full h-full absolute opacity-50 bg-black"
-            ></span>
-          </div>
-          <div
-            className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"
-            style={{ transform: "translateZ(0)" }}
-          >
-            <svg
-              className="absolute bottom-0 overflow-hidden"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="none"
-              version="1.1"
-              viewBox="0 0 2560 100"
-              x="0"
-              y="0"
-            >
-              <polygon
-                className="text-blueGray-200 fill-current"
-                points="2560 0 2560 100 0 100"
-              ></polygon>
-            </svg>
-          </div>
-        </section>
-        <section className="relative py-16 bg-blueGray-200">
-          <div className="container mx-auto px-4">
-            <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
-              <div className="px-6">
-                <div className="flex flex-wrap justify-center">
-                  <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
-                  <Box h={60} overflow="hidden">
-      <Image
-        w="full"
-        h="full"
-        objectFit="cover"
-        src={coverImage ? coverImage : '/img/cover.jpg'}
-        alt="Cover"
-      />
-      <div className="relative">
-        
-        <Button
-          onClick={openChooseImage}
-          className="bg-lightBlue-500 active:bg-lightBlue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
-          type="button"
-        >
-          Choisir une photo
-        </Button>
-        <input
-          ref={inputRef}
-          type="file"
-          onChange={handleChangeCover}
-          hidden
-        />
+      <section className="h-full">
+  <div className="container mx-auto px-4 h-full">
+    <div className="flex w-full justify-between h-full flex-col">
+     
+        <div className="mx-4 mt-2 ">
+          <h3 className="text-3xl font-semibold leading-normal mb-3 text-blueGray-700 text-left">
+            Company information:
+            <button onClick={handleToggleForm} className="text-white rounded-full p-2">
+                    <i style={{ color: "#BD2C43" }} className="fa-solid fa-file-pen"></i>
+                  </button>
+          </h3>
+      
+      
       </div>
-    </Box>
-                    
-                  </div>
-                  <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
-                    <div className="py-6 px-3 mt-32 sm:mt-0">
+      <div className="flex flex-col bg-white lg:flex-row items-start lg:items-center break-words bg-white shadow-xl rounded-lg ">
+    
+      <div className="flex flex-col items-center pt-13 mx-10">
+  <div className="relative">
+
+  <img
+  src={companyPhoto}
+  style={{ width: 180, height: 180}}
+  className="w-[250px] h-[250px]  border-2 border-gray-700"
+  alt="logo company"
+/>
+<div className="input-group">
+          <button className="absolute -bottom-3 left-0 right-0 m-auto w-fit p-[.35rem] rounded-full bg-white hover:bg-gray-100 border border-gray-700" onClick={() => document.getElementById('eventImage').click()}>
+              <i className="fa-solid fa-image" style={{ color: "#BD2C43" }}></i> 
+          </button>
+          <input type="file" id="eventImage" name="event_img" onChange={handleNewImage} accept=".jpg,.jpeg,.png" style={{ display: 'none' }} />
+      </div>
+
+
+ 
+
+<div>
+  
+</div>
+    </div>
+  </div>
+    
+    <div className="mx-8 mt-2">
+
+
+  <div className="flex items-center mb-4">
+    <h2 className="text-2xl font-semibold leading-normal mt-4 mb-2 text-blueGray-700">
+   
+      {name}
+    
+    </h2>
+  </div>
+    <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
+      
+      {description}
+    </p>
+    <div className="mb-2 text-blueGray-600">
+    <i  style={{color:"#BD2C43"}} class="fa-solid fa-earth-europe mr-2 text-lg text-blueGray-400"></i> {country}
+ </div>
+
+    <div className="mb-2 text-blueGray-600">
+                      <i  style={{color:"#BD2C43"}} className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i> {secteurActivite}
+                    </div>
+    
+    <div className="mb-2 text-blueGray-600">
+    <i style={{color:"#BD2C43"}} class="fa-solid fa-location-dot mr-3 text-lg text-blueGray-400"></i> {adresse}
+ </div>
+ <div className="mb-2 text-blueGray-600">
+                          <i  style={{color:"#BD2C43"}} className="fas fa-phone mr-2 text-lg text-blueGray-400"></i> {telephone}
+                          </div>
+  </div>
+       </div>
+             
+               
+      </div>
+    
+</div>
+</section>
+      {showEditor && (
+            <div className='fixed z-10 inset-0 overflow-y-auto'>
+              <div className='flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0'>
+                <div
+                  className='fixed inset-0 transition-opacity'
+                  aria-hidden='true'>
+                  <div className='absolute inset-0 bg-gray-500 opacity-75'></div>
+                </div>
+                <span
+                  className='hidden sm:inline-block sm:align-middle sm:h-screen'
+                  aria-hidden='true'>
+                  &#8203;
+                </span>
+                <div className='inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full'>
+                  <div className='bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 flex flex-col justify-center align-middle items-center'>
+                    <h3>Zoom</h3>
+                    <input
+                      name='scale'
+                      type='range'
+                      onChange={handleScale}
+                      min={state.allowZoomOut ? '0.1' : '1'}
+                      max='2'
+                      step='0.01'
+                      defaultValue='1'
+                      className='appearance-none h-3 w-full bg-blue-200 rounded-full outline-none slider-thumb'
+                    />
+                    <div>
+                    <ReactAvatarEditor
+  ref={editorRef}
+  scale={parseFloat(state.scale)}
+  width={state.width}
+  height={state.height}
+  position={state.position}
+  onPositionChange={handlePositionChange}
+  rotate={parseFloat(state.rotate)}
+  image={state.image}
+  color={[255, 255, 255, 0.6]}
+  className='editor-canvas'
+/>
+                    </div>
+                    <div>
                       <button
-                        className="bg-lightBlue-500 active:bg-lightBlue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
-                        type="button"
-                      >
-                        Connect
+                        onClick={handleSubmit}
+                        className='bg-blue-500 hover:bg-blue-700 mt-5 text-white font-bold py-2 px-4 rounded'>
+                        SUBMIT
                       </button>
-                    </div>
-                  </div>
-                  <div className="w-full lg:w-4/12 px-4 lg:order-1">
-                    <div className="flex justify-center py-4 lg:pt-4 pt-8">
-                      <div className="mr-4 p-3 text-center">
-                        <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          22
-                        </span>
-                        <span className="text-sm text-blueGray-400">
-                          Friends
-                        </span>
-                      </div>
-                      <div className="mr-4 p-3 text-center">
-                        <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          10
-                        </span>
-                        <span className="text-sm text-blueGray-400">
-                          Photos
-                        </span>
-                      </div>
-                      <div className="lg:mr-4 p-3 text-center">
-                        <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          89
-                        </span>
-                        <span className="text-sm text-blueGray-400">
-                          Comments
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="text-center mt-12">
-                  <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                    Jenna Stones
-                  </h3>
-                  <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-                    <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>{" "}
-                    Los Angeles, California
-                  </div>
-                  <div className="mb-2 text-blueGray-600 mt-10">
-                    <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                    Solution Manager - Creative Tim Officer
-                  </div>
-                  <div className="mb-2 text-blueGray-600">
-                    <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
-                    University of Computer Science
-                  </div>
-                </div>
-                <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
-                  <div className="flex flex-wrap justify-center">
-                    <div className="w-full lg:w-9/12 px-4">
-                      <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
-                        An artist of considerable range, Jenna the name taken by
-                        Melbourne-raised, Brooklyn-based Nick Murphy writes,
-                        performs and records all of his own music, giving it a
-                        warm, intimate feel with a solid groove structure. An
-                        artist of considerable range.
-                      </p>
-                      <a
-                        href="#pablo"
-                        className="font-normal text-lightBlue-500"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        Show more
-                      </a>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-      </main>
-      <Footer />
+          )}
     </>
+    
+
   );
 }
