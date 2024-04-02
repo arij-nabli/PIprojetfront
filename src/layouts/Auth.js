@@ -8,6 +8,7 @@ import colors, { red } from "tailwindcss/colors";
 import SignUpOther from "views/auth/SignUpOther";
 import CompanyRegister from "views/auth/CompanyRegister";
 import ForgotPassword from "views/auth/ForgotPassword";
+import SelectRole from "views/auth/SelectRole";
 export default function Auth() {
   return (
     
@@ -30,7 +31,8 @@ export default function Auth() {
             <Route path="/register/company" element={<CompanyRegister/>} />
             <Route path="/reset-password" element={<ForgotPassword />} /> 
             <Route path="/" element={<Navigate to="/auth/login" />} />
-         
+            <Route path="/select-role" element={<SelectRole />} />
+            <Route path="*" element={<Navigate to="/auth/login" />} />
           </Routes>
           
         </section>

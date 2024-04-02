@@ -55,6 +55,7 @@ function MainApp() {
           <Route path='/applications/:candidateId' exact element={<AuthGuard> <ApplicationsByUser /> </AuthGuard>} />
           
           <Route
+          
             path='/offer'
             exact
             element={

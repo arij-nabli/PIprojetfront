@@ -28,11 +28,8 @@ export default function Register() {
   const [graduationDate, setGraduationDate] = useState("");
   const [currentPosition, setCurrentPosition] = useState("");
   const [job_title, setjob_title] = useState("");
-
+  const [selectRoleError, setSelectRoleError] = useState("");
   const GITHUB_CLIENT_ID = "075cb9a7d1740345dd4c";
-  const GITHUB_CLIENT_SECRET = "4997f777e54b2af5531dc4dc6716a1e4a11cbb2d";
-  const GITHUB_CALLBACK_URL = "http://localhost:3000/auth/register/user";
-  const githubOAuthURL = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=user`;
   const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
@@ -159,16 +156,11 @@ export default function Register() {
       country
     );
   };
-  const responseMessage = (response) => {
-    console.log(response);
-  };
+
   const [user, setUser] = useState([]);
   const [profile, setProfile] = useState([]);
 
-  const loginGoogle = useGoogleLogin({
-    onSuccess: (codeResponse) => setUser(codeResponse),
-    onError: (error) => console.log("Login Failed:", error),
-  });
+
 
   const loginGithub = async (code) => {
     try {
@@ -203,6 +195,20 @@ export default function Register() {
       console.log(error);
     },
   });
+  // This function starts the GitHub authentication process
+  function startGithubAuth() {
+    setSelectRoleError("");
+    if(role) {
+    
+        // After the role has been sent, start the GitHub authentication process
+        window.location.href = `http://localhost:5000/auth/github?role=${role}`;
+      
+   
+      }
+     else {
+      setSelectRoleError("Please select a role");
+    }
+  }
   useEffect(() => {
     handleGitHubCallback();
 
@@ -256,7 +262,7 @@ export default function Register() {
                   <button
                     className="bg-gray-100 mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => window.open('http://localhost:5000/auth/google', '_self')}
+                    onClick={() =>startGithubAuth()}
                   >
                     <img
                       alt="..."
@@ -268,7 +274,7 @@ export default function Register() {
                   <button
                     className="bg-gray-100 mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => (window.location.href = githubOAuthURL)}
+                    onClick={() =>startGithubAuth()}
                   >
                     <img
                       alt="..."
@@ -310,6 +316,15 @@ export default function Register() {
                   </button>
                 </div>
                 <hr className="border-b-1 mt-3 border-blueGray-300" />
+                {selectRoleError&&  <div
+                        class="p-4 mb-4 flex justify-center relative text-sm text-red-800 rounded-lg bg-red-200 mt-5  dark:text-red-400"
+                        role="alert"
+                      >
+                        <span class="font-medium">
+                          {" "}
+                          <p style={{ color: "red" }}>{selectRoleError}</p>
+                        </span>
+                      </div>}
               </div>
               <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
                 <div className=" text-center mb-3 font-bold">
