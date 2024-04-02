@@ -199,15 +199,23 @@ export default function Register() {
   function startGithubAuth() {
     setSelectRoleError("");
     if(role) {
-    
         // After the role has been sent, start the GitHub authentication process
         window.location.href = `http://localhost:5000/auth/github?role=${role}`;
-      
-   
       }
      else {
       setSelectRoleError("Please select a role");
     }
+  }
+  const startGoogleAuth = () => {
+    setSelectRoleError("");
+    if(role) {
+        // After the role has been sent, start the Google authentication process
+        window.location.href = `http://localhost:5000/auth/google?role=${role}`;
+      }
+     else {
+      setSelectRoleError("Please select a role");
+    }
+  
   }
   useEffect(() => {
     handleGitHubCallback();
@@ -262,7 +270,7 @@ export default function Register() {
                   <button
                     className="bg-gray-100 mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() =>startGithubAuth()}
+                    onClick={() =>startGoogleAuth()}
                   >
                     <img
                       alt="..."
