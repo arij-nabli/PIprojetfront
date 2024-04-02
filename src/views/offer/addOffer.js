@@ -326,9 +326,47 @@ const AddOffer = () => {
                 onChange={(e) => setCategory(e.target.value)}
               >
                 <option value="">Select Category</option>
-                <option value="internship">Internship</option>
-                <option value="job">Job</option>
+                <option value="internship">internship</option>
+                <option value="job">job</option>
               </select>
+              {category === "internship" && (
+            <div>
+              <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                htmlFor="payment"
+              >
+                Payment:
+              </label>
+              <select
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                id="payment"
+                value={payment}
+                onChange={(e) => setPayment(e.target.value)}
+              >
+                <option value="paid">Paid</option>
+                <option value="unpaid">Unpaid</option>
+              </select>
+            </div>
+          )}
+
+          {/* Conditional rendering for Contrat input */}
+          {category === "job" && (
+            <div>
+              <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                htmlFor="contrat"
+              >
+                Contrat:
+              </label>
+              <input
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                type="text"
+                id="contrat"
+                value={contrat}
+                onChange={(e) => setContrat(e.target.value)}
+              />
+            </div>
+          )}
               {errors.category && (
                 <p className="text-red-500 text-xs italic">{errors.category}</p>
               )}
@@ -386,44 +424,7 @@ const AddOffer = () => {
               )}
             </div>
           </div>
-          {category === "internship" && (
-            <div>
-              <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                htmlFor="payment"
-              >
-                Payment:
-              </label>
-              <select
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                id="payment"
-                value={payment}
-                onChange={(e) => setPayment(e.target.value)}
-              >
-                <option value="paid">Paid</option>
-                <option value="unpaid">Unpaid</option>
-              </select>
-            </div>
-          )}
-
-          {/* Conditional rendering for Contrat input */}
-          {category === "job" && (
-            <div>
-              <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                htmlFor="contrat"
-              >
-                Contrat:
-              </label>
-              <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                type="text"
-                id="contrat"
-                value={contrat}
-                onChange={(e) => setContrat(e.target.value)}
-              />
-            </div>
-          )}
+          
 
           <div className="mt-6">
             <button
