@@ -19,6 +19,9 @@ const AddOffer = () => {
   const [errors, setErrors] = useState({});
   const [skillInput, setSkillInput] = useState("");
   const [suggestedSkills, setSuggestedSkills] = useState([]);
+  const [payment, setPayment] = useState("unpaid"); // New state for Payment
+  const [contrat, setContrat] = useState(""); // New state for Contrat
+
   const handleSkillInputChange = async (event) => {
     setSkillInput(event.target.value);
     if (event.target.value.length > 0) {
@@ -102,6 +105,8 @@ const AddOffer = () => {
       benefits,
       is_active: isActive,
       requirements: skills,
+      payment, // Include payment in offer data
+      contrat,
     };
 
     try {
@@ -381,6 +386,45 @@ const AddOffer = () => {
               )}
             </div>
           </div>
+          {category === "internship" && (
+            <div>
+              <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                htmlFor="payment"
+              >
+                Payment:
+              </label>
+              <select
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                id="payment"
+                value={payment}
+                onChange={(e) => setPayment(e.target.value)}
+              >
+                <option value="paid">Paid</option>
+                <option value="unpaid">Unpaid</option>
+              </select>
+            </div>
+          )}
+
+          {/* Conditional rendering for Contrat input */}
+          {category === "job" && (
+            <div>
+              <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                htmlFor="contrat"
+              >
+                Contrat:
+              </label>
+              <input
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                type="text"
+                id="contrat"
+                value={contrat}
+                onChange={(e) => setContrat(e.target.value)}
+              />
+            </div>
+          )}
+
           <div className="mt-6">
             <button
               className="w-full shadow bg-custom-red hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"

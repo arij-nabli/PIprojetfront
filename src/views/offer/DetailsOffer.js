@@ -194,10 +194,10 @@ export default function DetailsOffer() {
                       className="mb-2 mt-2 text-lg leading-relaxed font-semibold text-blueGray-800"
                       style={{ color: "#BD2C43" }}
                     >
-                      {offer.category === "job offer" ? "Contrat" : "Payment"} :
+                      {offer.category === "job" ? "Contrat" : "Payment"} :
                     </h1>
                     <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">
-                      {offer.category === "job offer" && offer.contrat ? offer.contrat : offer.payment}
+                      {offer.category === "job" && offer.contrat ? offer.contrat : offer.payment}
                     </p>
                     <h1
                       className="mb-2 mt-2 text-lg leading-relaxed font-semibold text-blueGray-800"
