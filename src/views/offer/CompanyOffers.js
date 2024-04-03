@@ -71,7 +71,7 @@ const CompanyOffers = () => {
           <h1 className="text-4xl font-bold mb-6 text-center text-custom-red">
             Company Offers
           </h1>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {offers.map((offer) => (
               <div
                 key={offer._id}
