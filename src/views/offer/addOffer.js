@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 const AddOffer = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [provider, setProvider] = useState("");
@@ -22,6 +24,8 @@ const AddOffer = () => {
   const [suggestedSkills, setSuggestedSkills] = useState([]);
   const [payment, setPayment] = useState("unpaid"); // New state for Payment
   const [contrat, setContrat] = useState(""); // New state for Contrat
+  const [user, setUser] = useState(null);
+  const [offers, setOffers] = useState([]);
 
   const handleSkillInputChange = async (event) => {
     setSkillInput(event.target.value);
@@ -44,6 +48,37 @@ const AddOffer = () => {
   const handleSkillDelete = (skillToDelete) => {
     setSkills(skills.filter((skill) => skill !== skillToDelete));
   };
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.get(
+          'http://localhost:5000/auth/getUserDataFromToken',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(response.data);
+        setUser(response.data.user);
+
+        if (response.data.user && response.data.user._id) {
+          const offersResponse = await axios.get(
+            `http://localhost:5000/offers/getByCompany/${response.data.user._id}`
+          );
+          console.log(offersResponse.data);
+          setOffers(offersResponse.data);
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -95,11 +130,13 @@ const AddOffer = () => {
       setErrors(validationErrors);
       return;
     }
+    
+  
 
     const offerData = {
       title,
       description,
-      provider,
+      provider : user._id,
       salary_range: { min: minSalary, max: maxSalary },
       start_date: startDate,
       end_date: endDate,
