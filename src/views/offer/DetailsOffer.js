@@ -126,11 +126,11 @@ export default function DetailsOffer() {
             />
             <div className="text-center lg:text-left">
               <h6 className="text-2xl lg:text-4xl font-semibold leading-normal mb-2 text-blueGray-900">
-                {offer.type}
+                {offer.title}
               </h6>
 
               <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
-                {companyName}
+                {offer.provider.username}
               </p>
             </div>
             {!user ? (
@@ -290,10 +290,10 @@ export default function DetailsOffer() {
                 />
                 <div className="text-center lg:text-left">
                   <p className="mb-2 mt-5 text-lg font-semibold leading-relaxed text-blueGray-800">
-                    {companyName}
+                    {offer.provider.username}
                   </p>
                   <h3 className=" leading-normal mb-4 text-blueGray-700">
-                    {companyemail}
+                    {offer.provider.email}
                   </h3>
                 </div>
               </div>
