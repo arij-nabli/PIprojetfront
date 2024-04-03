@@ -92,16 +92,7 @@ const AddOffer = () => {
     if (!description) {
       validationErrors.description = "Description is required";
     }
-    if (!minSalary) {
-      validationErrors.minSalary = "Minimum Salary is required";
-    }
-    if (!maxSalary) {
-      validationErrors.maxSalary = "Maximum Salary is required";
-    }
-    if (minSalary >= maxSalary) {
-      validationErrors.minSalary =
-        "Minimum Salary must be smaller than Maximum Salary";
-    }
+   
     if (!startDate) {
       validationErrors.startDate = "Start Date is required";
     }
