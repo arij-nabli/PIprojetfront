@@ -330,118 +330,6 @@ const AddOffer = () => {
                 <p className="text-red-500 text-xs italic">{errors.area}</p>
               )}
             </div>
-
-
-
-
-            <div>
-              <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                htmlFor="category"
-              >
-                Category:
-              </label>
-              <select
-                className={`appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
-                  errors.category ? "border-red-500" : ""
-                }`}
-                id="category"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              >
-                <option value="">Select Category</option>
-                <option value="internship">internship</option>
-                <option value="job">job</option>
-              </select>
-              {category === "internship" && (
-            <div>
-              <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                htmlFor="payment"
-              >
-                Payment:
-              </label>
-              <select
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                id="payment"
-                value={payment}
-                onChange={(e) => setPayment(e.target.value)}
-              >
-                <option value="paid">Paid</option>
-                <option value="unpaid">Unpaid</option>
-              </select>
-            </div>
-          )}
-          {category === "job" && (
-  <div>
-    <div>
-      <label
-        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-        htmlFor="minSalary"
-      >
-        Minimum Salary:
-      </label>
-      <input
-        className={`appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
-          errors.minSalary ? "border-red-500" : ""
-        }`}
-        type="number"
-        id="minSalary"
-        value={minSalary}
-        onChange={(e) => setMinSalary(e.target.value)}
-      />
-      {errors.minSalary && (
-        <p className="text-red-500 text-xs italic">
-          {errors.minSalary}
-        </p>
-      )}
-    </div>
-    <div>
-      <label
-        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-        htmlFor="maxSalary"
-      >
-        Maximum Salary:
-      </label>
-      <input
-        className={`appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
-          errors.maxSalary ? "border-red-500" : ""
-        }`}
-        type="number"
-        id="maxSalary"
-        value={maxSalary}
-        onChange={(e) => setMaxSalary(e.target.value)}
-      />
-      {errors.maxSalary && (
-        <p className="text-red-500 text-xs italic">
-          {errors.maxSalary}
-        </p>
-      )}
-    </div>
-    <div>
-      <label
-        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-        htmlFor="contrat"
-      >
-        Contrat:
-      </label>
-      <input
-        className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-        type="text"
-        id="contrat"
-        value={contrat}
-        onChange={(e) => setContrat(e.target.value)}
-      />
-    </div>
-  </div>
-)}
-
-  
-              {errors.category && (
-                <p className="text-red-500 text-xs italic">{errors.category}</p>
-              )}
-            </div>
-           
             <div >
               <label
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -494,7 +382,121 @@ const AddOffer = () => {
                 <p className="text-red-500 text-xs italic">{errors.skills}</p>
               )}
             </div>
-          </div>
+       
+
+
+
+
+            <div>
+              <label
+                className="flex  uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                htmlFor="category"
+              >
+                Category:
+              </label>
+              <select
+                className={`appearance-none block w-full bg-gray-200 text-gray-700 border row rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
+                  errors.category ? "border-red-500" : ""
+                }`}
+                id="category"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option value="">Select Category</option>
+                <option value="internship">internship</option>
+                <option value="job">job</option>
+              </select>
+              {category === "internship" && (
+            <div>
+              <label
+                className="flex uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                htmlFor="payment"
+              >
+                Payment:
+              </label>
+              
+              <select
+                className="appearance-none flex w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                id="payment"
+                value={payment}
+                onChange={(e) => setPayment(e.target.value)}
+              >
+                <option value="paid">Paid</option>
+                <option value="unpaid">Unpaid</option>
+              </select>
+            </div>
+          )}
+          {category === "job" && (
+  <div>
+    <div>
+      <label
+        className="flex uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+        htmlFor="minSalary"
+      >
+        Minimum Salary:
+      </label>
+      <input
+        className={`appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
+          errors.minSalary ? "border-red-500" : ""
+        }`}
+        type="number"
+        id="minSalary"
+        value={minSalary}
+        onChange={(e) => setMinSalary(e.target.value)}
+      />
+      {errors.minSalary && (
+        <p className="text-red-500 text-xs italic">
+          {errors.minSalary}
+        </p>
+      )}
+    </div>
+    <div>
+      <label
+        className="flex uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+        htmlFor="maxSalary"
+      >
+        Maximum Salary:
+      </label>
+      <input
+        className={`appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
+          errors.maxSalary ? "border-red-500" : ""
+        }`}
+        type="number"
+        id="maxSalary"
+        value={maxSalary}
+        onChange={(e) => setMaxSalary(e.target.value)}
+      />
+      {errors.maxSalary && (
+        <p className="text-red-500 text-xs italic">
+          {errors.maxSalary}
+        </p>
+      )}
+    </div>
+    <div>
+      <label
+        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+        htmlFor="contrat"
+      >
+        Contrat:
+      </label>
+      <input
+        className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        type="text"
+        id="contrat"
+        value={contrat}
+        onChange={(e) => setContrat(e.target.value)}
+      />
+    </div>
+  </div>
+)}
+
+  
+              {errors.category && (
+                <p className="text-red-500 text-xs italic">{errors.category}</p>
+              )}
+            </div>
+           
+            </div>
           
 
           <div className="mt-6">
