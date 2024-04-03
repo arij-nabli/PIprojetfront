@@ -3,6 +3,7 @@ import axios from 'axios';
 import HashLoader from "react-spinners/HashLoader";
 import { useParams } from "react-router-dom";
 import OfferCard from "components/Cards/OfferCard";
+import { Link } from "react-router-dom";
 
 const CompanyOffers = () => {
   const [user, setUser] = useState(null);
