@@ -14,7 +14,7 @@ export default function OffersPage() {
   const [searchDate, setSearchDate] = useState("today");
   const [searchCompanyName, setSearchCompanyName] = useState('');
   const [searchSector, setSearchSector] = useState('');
-
+  const [processedImage, setProcessedImage] = useState(null);
 
   const handleLocationChange = (e) => {
     setSearchLocation(e.target.value);
@@ -54,7 +54,9 @@ export default function OffersPage() {
       try {
         const response = await axios.get("http://localhost:5000/offers/getall");
         console.log(response.data);
-        setOffers(response.data);
+        const sortedOffers = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      
+        setOffers(sortedOffers);
         setIsLoading(false);
       } catch (error) {
         console.error(error);
@@ -80,6 +82,7 @@ export default function OffersPage() {
         setUser(response.data.user);
         setName(response.data.user.username);
         setEmail(response.data.user.email);
+        getProfileImage(response.data.user._id);
         setIsLoading(false);
       } catch (error) {
         console.error(error);
@@ -89,6 +92,18 @@ export default function OffersPage() {
 
     fetchUserData();
   }, [token]);
+  const getProfileImage = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/user/get-image?id=${id}`,
+        { responseType: 'blob' } 
+      );
+      const imageUrl = URL.createObjectURL(response.data);
+      setProcessedImage(imageUrl);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const [nomEntreprise, setNomEntreprise] = useState('');
   const [dateOffre, setDateOffre] = useState('');
   const [typeOffre, setTypeOffre] = useState('');
@@ -113,7 +128,7 @@ export default function OffersPage() {
     // Filtrer par date
     const createdDate = new Date(offer.created_at);
     const today = new Date();
-    console.log(today)
+    
     let dateFilter;
     switch (searchDate) {
       case "This-day":
@@ -179,15 +194,15 @@ export default function OffersPage() {
   <div class="mx-auto grid lg:grid-cols-4 sm:grid-cols-2 gap-6 mt-4">
     <div className="shadow-lg p-5 lg:col-span-1 ">
 
-      <div className="flex flex-col bg-white">
-        <div className="flex items-center justify-center mt-10 w-full">
-          <img
-            src={feriel}
-            style={{ width: 200, height: 200 }}
-            className="mt-5 border-1 shadow rounded-full border-black"
-            alt="Default"
-          />
-        </div>
+      <div className="flex flex-col items-center bg-white">
+      <>
+                         <img
+                              src={processedImage}
+                              style={{ width: 230, height: 230 }}
+                              className="mt-5 border-1 shadow rounded-full  border-black"
+                              alt="Profile Image"
+                            />
+                          </>
 
         <div className="mx-auto mt-2">
           <h3 className="text-4xl text-center font-semibold leading-normal mb-2 text-blueGray-700">
@@ -211,10 +226,10 @@ export default function OffersPage() {
             
           </div>
           <div className="flex flex-wrap  justify-center">
-            <div className="w-full font-bold lg:w-9/12 px-4 mb-6 flex flex-col">
+            <div className="w-full font-bold lg:w-9/12 px-4 mb-6 flex">
             <Link
                   className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
-                  to="/"
+                  to={`/applications/${user._id} `}
                 >
                 <i className="fas fa-clipboard-list text-blueGray-700 mr-2 text-sm"></i>{" "}
                   My applications
