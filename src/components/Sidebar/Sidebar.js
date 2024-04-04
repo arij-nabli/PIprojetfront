@@ -184,6 +184,27 @@ export default function Sidebar() {
                   Industries
                 </Link>
               </li>
+              <li className="items-center mb-1">
+                <Link
+  className={
+    "text-xs uppercase py-3 font-bold block " +
+    (window.location.href.indexOf("/admin/profile") !== -1
+      ? "text-lightBlue-500 hover:text-lightBlue-600"
+      : "text-blueGray-700 hover:text-blueGray-500")
+  }
+  to="/admin/profile"
+>
+  <i
+    className={
+      "fa-solid fa-user mr-2 text-sm " +
+      (window.location.href.indexOf("/admin/profile") !== -1
+        ? "opacity-75"
+        : "text-blueGray-300")
+    }
+  ></i>{" "}
+  Admin profile
+</Link>
+              </li>
               <button className="items-center mb-1 bg-red-500 flex justify-center w-full bottom-0 absolute text-xs uppercase py-3 font-bold  text-white" onClick={logout}>
                
                   <i class="fa-solid fa-arrow-right-from-bracket  mr-2 text-sm  opacity-75 text-blueGray-300" style={{color:"white"}}></i>

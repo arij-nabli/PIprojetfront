@@ -180,7 +180,7 @@ export default function OffersPage() {
                               src={processedImage}
                               style={{ width: 230, height: 230 }}
                               className="mt-5 border-1 shadow rounded-full  border-black"
-                              alt="Profile Image"
+                              alt="Profile"
                             />
                           </>
 
