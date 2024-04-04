@@ -23,16 +23,17 @@ export default function Profile() {
   const [processedImage, setProcessedImage] = useState(null) // New state for processed image
   const [showEditor, setShowEditor] = useState(false) // New state for showing the editor
   const [showMore, setShowMore] = useState(false) // New state variable
-  const [name, setName] = useState('Chaima Idoudi')
+
   const [country, setCountry] = useState('Tunisia')
   const [suggestedSkills, setSuggestedSkills] = useState([])
   const [user, setUser] = useState({})
   // const [jobTitle, setJobTitle] = useState('Software Engineer')
   const [isLoading, setIsLoading] = useState(true)
 
-  const [jobLocation, setJobLocation] = useState('Ariana, Tunisia')
-  const [phoneNumber, setPhoneNumber] = useState('123-456-7890')
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+
   const editorRef = useRef(null)
   const [skillInput, setSkillInput] = useState('')
   const handleSkillInputChange = async (event) => {
@@ -65,35 +66,10 @@ export default function Profile() {
     setShowEditor(false)
     document.getElementById('dropzone-file').click()
   }
-  const [editModeDescrption, setEditModeDescrption] = useState(false)
-  const [editModeContactInfo, setEditModeContactInfo] = useState(false)
-  const [editModeLang, setEditModeLang] = useState(false)
   const [editModeHardSkill, setEditModeHardSkill] = useState(false)
   const [editModeSoftSkill, setEditModeSoftSkill] = useState(false)
-  const [editModeExperiences, setEditModeExperiences] = useState(false)
   const [editModeEducation, setEditModeEducation] = useState(false)
-
-  const [contactInfo, setContactInfo] = useState({
-    fullName: 'Chaima Idoudi',
-    email: 'idoudi.chaima@esprit.tn',
-    phone: '51730998',
-  })
-  const [descriptionInfo, setDescriptionInfo] = useState({
-    description: 'Full Stack Developer ',
-  })
-
-  const [langInfo, setLangInfo] = useState({
-    french: 60,
-    english: 80,
-    arabic: 90,
-  })
-
-  const [hardSkillInfo, setHardSkillInfo] = useState({
-    hardSkills: [''],
-  })
-  const [softSkillInfo, setSoftSkillInfo] = useState({
-    softSkills: ['communication', 'leader', 'pacient'],
-  })
+  const [editModeExperiences, setEditModeExperiences] = useState(false)
   const [experienceInfo, setExperienceInfo] = useState({
     experiences: [
       {
@@ -108,6 +84,63 @@ export default function Profile() {
       },
     ],
   })
+  const [newExperienceVisible, setNewExperienceVisible] = useState(false)
+  const [newExperience, setNewExperience] = useState({
+    title: '',
+    company: '',
+    duration: '',
+  })
+
+  const handleEditExperiences = () => {
+    setEditModeExperiences(true)
+  }
+
+  const handleAddExperience = () => {
+    setNewExperience({
+      title: '',
+      company: '',
+      duration: '',
+    })
+    setNewExperienceVisible(true) // Show the form for adding a new experience
+  }
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setNewExperience((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }))
+  }
+
+  const handleSaveExperiences = () => {
+    // Save the updated contact information
+    setEditModeExperiences(false)
+    setNewExperienceVisible(false) // Hide the form for adding a new experience after saving
+  }
+
+  const handleChangeExperiences = (e) => {
+    const { name, value } = e.target
+    setExperienceInfo({
+      ...experienceInfo,
+      experiences: experienceInfo.experiences.map((experience, index) => {
+        if (index.toString() === name) {
+          return {
+            ...experience,
+            [value]: value,
+          }
+        }
+        return experience
+      }),
+    })
+  }
+
+  const [hardSkillInfo, setHardSkillInfo] = useState({
+    hardSkills: [''],
+  })
+  const [softSkillInfo, setSoftSkillInfo] = useState({
+    softSkills: ['communication', 'leader', 'pacient'],
+  })
+
   const [educationeInfo, setEducationInfo] = useState({
     educations: [
       {
@@ -121,43 +154,17 @@ export default function Profile() {
     ],
   })
 
-  //const handleEdit = () => {
-  //setEditMode(true)
-  //}
-  const handleEditDescription = () => {
-    setEditModeDescrption(true)
-  }
-  const handleEditContactInfo = () => {
-    setEditModeContactInfo(true)
-  }
-  const handleEditLang = () => {
-    setEditModeLang(true)
-  }
   const handleEditHardSkill = () => {
     setEditModeHardSkill(true)
   }
   const handleEditSoftSkill = () => {
     setEditModeSoftSkill(true)
   }
-  const handleEditExperiences = () => {
-    setEditModeExperiences(true)
-  }
+
   const handleEditEducation = () => {
     setEditModeEducation(true)
   }
 
-  const handleSaveDescription = () => {
-    // Save the updated contact information
-    setEditModeDescrption(false)
-  }
-  const handleSaveContactInfo = () => {
-    // Save the updated contact information
-    setEditModeContactInfo(false)
-  }
-  const handleSaveLang = () => {
-    // Save the updated contact information
-    setEditModeLang(false)
-  }
   const handleSaveHardSkill = () => {
     // Save the updated contact information
     setEditModeHardSkill(false)
@@ -166,27 +173,12 @@ export default function Profile() {
     // Save the updated contact information
     setEditModeSoftSkill(false)
   }
-  const handleSaveExperiences = () => {
-    // Save the updated contact information
-    setEditModeExperiences(false)
-  }
+
   const handleSaveEducation = () => {
     // Save the updated contact information
     setEditModeEducation(false)
   }
 
-  const handleChangeDescription = (e) => {
-    const { name, value } = e.target
-    setDescriptionInfo({ ...descriptionInfo, [name]: value })
-  }
-  const handleChangeContactInfo = (e) => {
-    const { name, value } = e.target
-    setContactInfo({ ...langInfo, [name]: value })
-  }
-  const handleChangelang = (e) => {
-    const { name, value } = e.target
-    setLangInfo({ ...contactInfo, [name]: value })
-  }
   const handleChangeHardSkill = (e) => {
     const { name, value } = e.target
     setEditModeHardSkill({ ...hardSkillInfo, [name]: value })
@@ -195,10 +187,7 @@ export default function Profile() {
     const { name, value } = e.target
     setEditModeSoftSkill({ ...softSkillInfo, [name]: value })
   }
-  const handleChangeExperiences = (e) => {
-    const { name, value } = e.target
-    setEditModeExperiences({ ...experienceInfo, [name]: value })
-  }
+
   const handleChangeEducation = (e) => {
     const { name, value } = e.target
     setEditModeEducation({ ...experienceInfo, [name]: value })
@@ -239,6 +228,7 @@ export default function Profile() {
     }
   }
   useEffect(() => {
+    // Inside fetchUserData function:
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
@@ -250,9 +240,16 @@ export default function Profile() {
           }
         )
         console.log(response.data)
-        setUser(response.data.user)
-        getProfileImage(response.data.user._id)
-        setName(response.data.user.username)
+        const userData = response.data.user
+        setUser(userData)
+        setContactInfo({
+          // Set contactInfo state with fetched user data
+          fullName: userData.username,
+          phone: userData.phone,
+          email: userData.email,
+        })
+        getProfileImage(userData._id)
+        setName(userData.username)
         setEmail(response.data.user.email)
         setIsLoading(false)
       } catch (error) {
@@ -260,6 +257,7 @@ export default function Profile() {
         setIsLoading(false)
       }
     }
+
     const getProfileImage = async (id) => {
       try {
         const response = await axios.get(
@@ -274,6 +272,125 @@ export default function Profile() {
     }
     fetchUserData()
   }, [token])
+
+  //------------------Description Logic---------------------------//
+  const [description, setDescription] = useState('')
+  const [editModeDescription, setEditModeDescription] = useState(false)
+
+  const handleEditDescription = () => {
+    setEditModeDescription(true)
+    setDescription(user.description) // Set the description from user state
+  }
+
+  const handleSaveDescription = async () => {
+    try {
+      await axios.put('http://localhost:5000/user/updateDescription', {
+        id: user._id,
+        description,
+      })
+      // Update user state with the new description
+      setUser((prevUser) => ({
+        ...prevUser,
+        description: description,
+      }))
+      setEditModeDescription(false)
+    } catch (error) {
+      console.error(error)
+      // Handle error
+    }
+  }
+
+  //--------------------------------------------------------------//
+
+  //------------------Contact Information Logic---------------------------//
+  const [contactInfo, setContactInfo] = useState({
+    fullName: user.username, // Set initial value to user's username
+    phone: user.phone, // Set initial value to user's phone
+    email: user.email,
+  })
+  const [editModeContactInfo, setEditModeContactInfo] = useState(false)
+
+  const handleEditContactInfo = () => {
+    setEditModeContactInfo(true)
+  }
+
+  const handleSaveContactInfo = async () => {
+    try {
+      await axios.put('http://localhost:5000/user/updateContactInfo', {
+        id: user._id,
+        username: contactInfo.fullName, // Send updated username
+        phone: contactInfo.phone, // Send updated phone
+      })
+      setEditModeContactInfo(false)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleChangeContactInfo = (e) => {
+    const { name, value } = e.target
+    setContactInfo((prevInfo) => ({
+      ...prevInfo,
+      [name]: value,
+    }))
+  }
+  //---------------------------------------------------------------------//
+  //------------------Languages Part---------------------------//
+  const [langData, setLangData] = useState({
+    french: 0,
+    english: 0,
+    arabic: 0,
+  })
+
+  const [editModeLang, setEditModeLang] = useState(false)
+
+  useEffect(() => {
+    const fetchLangData = async () => {
+      try {
+        const response = await axios.get(
+          'http://localhost:5000/getUserLanguages',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        setLangData(response.data.languages)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchLangData()
+  }, [token])
+
+  const handleEditLang = () => {
+    setEditModeLang(true)
+  }
+
+  const handleSaveLang = async () => {
+    try {
+      await axios.put('http://localhost:5000/updateUserLanguages', langData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      setEditModeLang(false)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleChangelang = (e) => {
+    const { name, value } = e.target
+    setLangData((prevLangData) => ({
+      ...prevLangData,
+      [name]: parseInt(value) || 0,
+    }))
+
+    //---------------------------------------------------------------------//
+    //-----------------------UploadCV-------------------------------------------//
+  }
 
   return (
     <>
@@ -366,23 +483,23 @@ export default function Profile() {
                       </button>
                       {/*----------------------Description-------------------------------- */}
                       <div className=' mt-2'>
-                        <div className='border p-4 rounded-md shadow-md'>
+                        <div className=' p-4 rounded-md '>
                           <h2 className='text-lg font-semibold mb-4'>
                             Description
                           </h2>
-                          {editModeDescrption ? (
+                          {editModeDescription ? (
                             <div>
                               <label
                                 htmlFor='description'
                                 className='block mb-1'>
-                                fullName
+                                Description
                               </label>
                               <input
                                 type='text'
                                 id='description'
                                 name='description'
-                                value={descriptionInfo.description}
-                                onChange={handleChangeDescription}
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
                                 className='w-full border rounded-md px-3 py-2 mb-2'
                               />
                               <div className='mt-4'>
@@ -392,7 +509,7 @@ export default function Profile() {
                                   Save
                                 </button>
                                 <button
-                                  onClick={() => setEditModeDescrption(false)}
+                                  onClick={() => setEditModeDescription(false)}
                                   className='bg-transparent border border-gray-500 text-gray-500 px-4 py-2 rounded-md'>
                                   Cancel
                                 </button>
@@ -400,45 +517,35 @@ export default function Profile() {
                             </div>
                           ) : (
                             <div>
-                              <p> {descriptionInfo.description}</p>
+                              <p>{user.description}</p>{' '}
+                              {/* Access description from user state */}
                               <button onClick={handleEditDescription}>
-                                <i class='fa-solid fa-pen-to-square fa-xl ml-60 mt-6'></i>
+                                <i className='fa-solid fa-pen-to-square fa-xl ml-60 mt-6'></i>
                               </button>
                             </div>
                           )}
                         </div>
                       </div>
                       {/*------------------Contact Info------------------------- */}
-                      <div className=' mt-2'>
-                        <div className='border p-4 rounded-md shadow-md'>
+                      <div className='mt-2'>
+                        <div className='p-4 rounded-md'>
                           <h2 className='text-lg font-semibold mb-4'>
                             Contact Information
                           </h2>
                           {editModeContactInfo ? (
                             <div>
-                              <label htmlFor='firstName' className='block mb-1'>
-                                fullName
+                              <label htmlFor='fullName' className='block mb-1'>
+                                Full Name
                               </label>
                               <input
                                 type='text'
                                 id='fullName'
                                 name='fullName'
-                                value={contactInfo.firstName}
+                                value={contactInfo.fullName}
                                 onChange={handleChangeContactInfo}
                                 className='w-full border rounded-md px-3 py-2 mb-2'
                               />
 
-                              <label htmlFor='email' className='block mb-1'>
-                                Email
-                              </label>
-                              <input
-                                type='email'
-                                id='email'
-                                name='email'
-                                value={contactInfo.email}
-                                onChange={handleChangeContactInfo}
-                                className='w-full border rounded-md px-3 py-2 mb-2'
-                              />
                               <label htmlFor='phone' className='block mb-1'>
                                 Phone
                               </label>
@@ -466,79 +573,60 @@ export default function Profile() {
                           ) : (
                             <div>
                               <p>
-                                {' '}
                                 <i
-                                  class='fa-regular fa-user mr-3'
+                                  className='fa-regular fa-user mr-3'
                                   style={{ color: '#BD2C43' }}></i>
                                 {contactInfo.fullName}
                               </p>
                               <p>
-                                {' '}
                                 <i
-                                  class='fa-regular fa-envelope mr-3 '
+                                  className='fa-regular fa-envelope mr-3 '
                                   style={{ color: '#BD2C43' }}></i>
                                 {contactInfo.email}
                               </p>
                               <p>
-                                {' '}
                                 <i
-                                  class='fa-solid fa-phone mr-3'
+                                  className='fa-solid fa-phone mr-3'
                                   style={{ color: '#BD2C43' }}></i>
                                 {contactInfo.phone}
                               </p>
                               <button onClick={handleEditContactInfo}>
-                                <i class='fa-solid fa-pen-to-square fa-xl ml-60 mt-6'></i>
+                                <i className='fa-solid fa-pen-to-square fa-xl ml-60 mt-6'></i>
                               </button>
                             </div>
                           )}
                         </div>
                       </div>
+
                       {/*------------------------------Languages-----------------------------------*/}
-                      <div className=' mt-2'>
-                        <div className='border p-4 rounded-md shadow-md'>
+                      <div className='mt-2'>
+                        <div className='p-4 rounded-md'>
                           <h2 className='text-lg font-semibold mb-4'>
-                            Languages Lavel
+                            Languages Level
                           </h2>
                           {editModeLang ? (
                             <div>
-                              <label htmlFor='french' className='block mb-1'>
-                                <strong>French</strong>
-                              </label>
-                              <input
-                                type='number'
-                                id='french'
-                                name='french'
-                                value={langInfo.french}
-                                onChange={handleChangelang}
-                                className='w-full border rounded-md px-3 py-2 mb-2'
-                              />
-
-                              <label htmlFor='english' className='block mb-1'>
-                                <strong>English</strong>
-                              </label>
-                              <input
-                                type='number'
-                                id='english'
-                                name='english'
-                                value={langInfo.english}
-                                onChange={handleChangelang}
-                                className='w-full border rounded-md px-3 py-2 mb-2'
-                              />
-                              <label htmlFor='arabic' className='block mb-1'>
-                                <strong>Arabic</strong>
-                              </label>
-                              <input
-                                type='number'
-                                id='arabic'
-                                name='arabic'
-                                value={langInfo.arabic}
-                                onChange={handleChangelang}
-                                className='w-full border rounded-md px-3 py-2 mb-2'
-                              />
-
+                              {Object.keys(langData).map((lang) => (
+                                <div key={lang}>
+                                  <label htmlFor={lang} className='block mb-1'>
+                                    <strong>
+                                      {lang.charAt(0).toUpperCase() +
+                                        lang.slice(1)}
+                                    </strong>
+                                  </label>
+                                  <input
+                                    type='number'
+                                    id={lang}
+                                    name={lang}
+                                    value={langData[lang]}
+                                    onChange={handleChangelang}
+                                    className='w-full border rounded-md px-3 py-2 mb-2'
+                                  />
+                                </div>
+                              ))}
                               <div className='mt-4'>
                                 <button
-                                  onClick={handleSaveLang}
+                                  onClick={() => setEditModeLang(false)}
                                   className='bg-blue-500 text-white px-4 py-2 rounded-md mr-2'>
                                   Save
                                 </button>
@@ -551,44 +639,25 @@ export default function Profile() {
                             </div>
                           ) : (
                             <div>
-                              <div className='language-container'>
-                                <p className='flex items-center'>
-                                  <strong>French</strong>
-                                </p>
-                                <div className='progress-bar-container bg-gray-200 h-2 rounded-lg overflow-hidden'>
-                                  <div
-                                    className='progress-bar bg-red-600 h-full'
-                                    style={{
-                                      width: `${langInfo.french}%`,
-                                    }}></div>
+                              {Object.keys(langData).map((lang) => (
+                                <div key={lang} className='language-container'>
+                                  <p className='flex items-center'>
+                                    <strong>
+                                      {lang.charAt(0).toUpperCase() +
+                                        lang.slice(1)}
+                                    </strong>
+                                  </p>
+                                  <div className='progress-bar-container bg-gray-200 h-2 rounded-lg overflow-hidden'>
+                                    <div
+                                      className='progress-bar bg-red-600 h-full'
+                                      style={{
+                                        width: `${langData[lang]}%`,
+                                      }}></div>
+                                  </div>
                                 </div>
-                              </div>
-                              <div className='language-container'>
-                                <p className='flex items-center mt-3'>
-                                  <strong>English</strong>
-                                </p>
-                                <div className='progress-bar-container bg-gray-200 h-2 rounded-lg overflow-hidden'>
-                                  <div
-                                    className='progress-bar bg-red-600 h-full'
-                                    style={{
-                                      width: `${langInfo.english}%`,
-                                    }}></div>
-                                </div>
-                              </div>
-                              <div className='language-container'>
-                                <p className='flex items-center mt-3'>
-                                  <strong>Arabic</strong>
-                                </p>
-                                <div className='progress-bar-container bg-gray-200 h-2 rounded-lg overflow-hidden'>
-                                  <div
-                                    className='progress-bar bg-red-600 h-full'
-                                    style={{
-                                      width: `${langInfo.arabic}%`,
-                                    }}></div>
-                                </div>
-                              </div>
+                              ))}
                               <button onClick={handleEditLang}>
-                                <i class='fa-solid fa-pen-to-square fa-xl ml-60 mt-6'></i>
+                                <i className='fa-solid fa-pen-to-square fa-xl ml-60 mt-6'></i>
                               </button>
                             </div>
                           )}
@@ -596,56 +665,87 @@ export default function Profile() {
                       </div>
                     </div>
                   </div>
+
                   {/*-------------------------------HardSkills------------------------------ */}
                   <div
-                    className='w-full ml-10  flex flex-col justify-between '
+                    className='w-full ml-10 flex flex-col justify-center '
                     style={{ height: '100%' }}>
+                    <div className='flex ml-48'>
+                      <button
+                        className='bg-yellow-500 hover:bg-yellow-300 text-red-700 font-bold py-2 px-4 rounded inline-flex items-center mb-6'
+                        style={{ width: 'fit-content' }}
+                        onClick={() =>
+                          document.getElementById('fileInput').click()
+                        }>
+                        <svg
+                          className='fill-current w-4 h-4 mr-2'
+                          xmlns='http://www.w3.org/2000/svg'
+                          viewBox='0 0 20 20'>
+                          <path d='M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z' />
+                        </svg>
+                        <span>Upload CV</span>
+                      </button>
+                      <input
+                        type='file'
+                        id='fileInput'
+                        style={{ display: 'none' }}
+                        //onChange={aa} // Add a function to handle file selection
+                      />
+
+                      <button
+                        class='bg-yellow-500 hover:bg-yellow-300 text-red-700 font-bold py-2 px-4 rounded inline-flex items-center mb-6 ml-3'
+                        style={{ width: 'fit-content' }}>
+                        <svg
+                          class='fill-current w-4 h-4 mr-2'
+                          xmlns='http://www.w3.org/2000/svg'
+                          viewBox='0 0 20 20'>
+                          <path d='M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z' />
+                        </svg>
+                        <span>Upload Video Resume</span>
+                      </button>
+                    </div>
                     <div className='flex justify-between'>
                       <div className='flex flex-col break-words mr-5 w-full bg-white mb-10 shadow-xl rounded-lg'>
                         <div className='flex flex-col text-center mt-3'>
-                        <h2 className="text-2xl font-semibold leading-normal text-blueGray-700 mb-2">
+                          <h2 className='text-2xl font-semibold leading-normal text-blueGray-700 mb-2'>
                             Hard Skills
                           </h2>
                           {editModeHardSkill ? (
                             <div>
                               <label
-                                htmlFor="hardskills"
-                                className="block mb-1"
-                              >
+                                htmlFor='hardskills'
+                                className='block mb-1'>
                                 HardSkills
                               </label>
                               <input
-                                type="text"
-                                id="hardskills"
-                                name="hardskills"
+                                type='text'
+                                id='hardskills'
+                                name='hardskills'
                                 value={skillInput}
                                 onChange={handleSkillInputChange}
-                                className="w-full border rounded-md px-3 py-2 "
+                                className='w-full border rounded-md px-3 py-2 '
                               />
                               {skillInput ? (
-                                <div className="bg-gray-300 text-left mx-1 absolute z-10 rounded-md shadow-lg">
+                                <div className='bg-gray-300 text-left mx-1 absolute z-10 rounded-md shadow-lg'>
                                   {suggestedSkills.map((skill, index) => (
                                     <div
                                       key={index}
                                       onClick={() => handleSkillClick(skill)}
-                                      className="hover:bg-blue-200 px-4 cursor-pointer"
-                                    >
+                                      className='hover:bg-blue-200 px-4 cursor-pointer'>
                                       {skill}
                                     </div>
                                   ))}
                                 </div>
                               ) : null}
-                              <div className="mt-4">
+                              <div className='mt-4'>
                                 <button
                                   onClick={handleSaveHardSkill}
-                                  className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2"
-                                >
+                                  className='bg-blue-500 text-white px-4 py-2 rounded-md mr-2'>
                                   Save
                                 </button>
                                 <button
                                   onClick={() => setEditModeHardSkill(false)}
-                                  className="bg-transparent border border-gray-500 text-gray-500 px-4 py-2 rounded-md"
-                                >
+                                  className='bg-transparent border border-gray-500 text-gray-500 px-4 py-2 rounded-md'>
                                   Cancel
                                 </button>
                               </div>
@@ -660,12 +760,12 @@ export default function Profile() {
                                 )}
                               </ul>
                               <button onClick={handleEditHardSkill}>
-                                <i class="fa-solid fa-pen-to-square fa-xl ml-60 mt-6"></i>
+                                <i class='fa-solid fa-pen-to-square fa-xl ml-60 mt-6'></i>
                               </button>
                             </div>
                           )}
-                          </div>
-                          </div>
+                        </div>
+                      </div>
                       {/*-------------------SoftSkills------------------------- */}
                       <div className='flex flex-col break-words ml-5 w-full bg-white mb-10 shadow-xl rounded-lg'>
                         <div className='flex flex-col items-center justify-center align-middle w-full'>
@@ -778,6 +878,53 @@ export default function Profile() {
                                     </div>
                                   )
                                 )}
+                                {newExperienceVisible && (
+                                  <div className='mb-4'>
+                                    <label
+                                      htmlFor='title-new'
+                                      className='block mb-1'>
+                                      New Title
+                                    </label>
+                                    <input
+                                      type='text'
+                                      id='title-new'
+                                      name='title'
+                                      value={newExperience.title}
+                                      onChange={handleInputChange}
+                                      className='w-full border rounded-md px-3 py-2 mb-2'
+                                    />
+                                    <label
+                                      htmlFor='company-new'
+                                      className='block mb-1'>
+                                      New Company
+                                    </label>
+                                    <input
+                                      type='text'
+                                      id='company-new'
+                                      name='company'
+                                      value={newExperience.company}
+                                      onChange={handleInputChange}
+                                      className='w-full border rounded-md px-3 py-2 mb-2'
+                                    />
+                                    <label
+                                      htmlFor='duration-new'
+                                      className='block mb-1'>
+                                      New Duration
+                                    </label>
+                                    <input
+                                      type='text'
+                                      id='duration-new'
+                                      name='duration'
+                                      value={newExperience.duration}
+                                      onChange={handleInputChange}
+                                      className='w-full border rounded-md px-3 py-2 mb-2'
+                                    />
+                                  </div>
+                                )}
+                                <button onClick={handleAddExperience}>
+                                  <i className='fa-solid fa-plus-square fa-xl'></i>{' '}
+                                  Add Experience
+                                </button>
                                 <div className='mt-4'>
                                   <button
                                     onClick={handleSaveExperiences}
@@ -801,8 +948,10 @@ export default function Profile() {
                                       <li key={index} className='mb-4'>
                                         <div>
                                           <i
-                                            class='fa-solid fa-briefcase m-3 fa-xl'
-                                            style={{ color: '#9e0514' }}></i>
+                                            className='fa-solid fa-briefcase m-3 fa-xl'
+                                            style={{
+                                              color: '#9e0514',
+                                            }}></i>
                                           <strong>Title:</strong>{' '}
                                           {experience.title}
                                         </div>
@@ -827,9 +976,11 @@ export default function Profile() {
                             )}
                           </div>
                         </div>
+
                         {/* Add more experiences here */}
                       </div>
                     </div>
+                    {/*------------------------Education---------------------------------*/}
                     <div className='flex flex-col break-words w-full bg-white shadow-xl rounded-lg '>
                       <div className='flex flex-row justify-between align-middle'>
                         <div className='flex flex-col items-center justify-center align-middle w-full mb-10'>
@@ -888,12 +1039,14 @@ export default function Profile() {
                                           <div>
                                             <i
                                               class='fa-solid fa-user-graduate fa-xl m-3'
-                                              style={{ color: '#860909' }}></i>
+                                              style={{
+                                                color: '#860909',
+                                              }}></i>
                                             <strong>Title:</strong>{' '}
                                             {education.title}
                                           </div>
                                           <div>
-                                            <strong>Company:</strong>{' '}
+                                            <strong>School:</strong>{' '}
                                             {education.school}
                                           </div>
                                         </li>

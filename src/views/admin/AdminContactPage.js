@@ -14,12 +14,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 import Sidebar from 'components/Sidebar/Sidebar'
+import ReplyFormPopup from './ReplyFormPopup'
 
 export default function AdminContactPage({ color }) {
   const [contacts, setContacts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [selectedMessage, setSelectedMessage] = useState(null)
+  const [replyingTo, setReplyingTo] = useState(null)
   const messageContainerRef = useRef(null)
 
   useEffect(() => {
@@ -56,11 +58,44 @@ export default function AdminContactPage({ color }) {
     setSelectedMessage(null)
   }
 
+  const handleReply = (email) => {
+    setReplyingTo(email)
+  }
+
+  const handleSendReply = async (replyMessage) => {
+    try {
+      await axios.post('http://localhost:5000/contact-us/send-reply', {
+        email: replyingTo,
+        message: replyMessage,
+      })
+      alert('Reply sent successfully')
+      setReplyingTo(null)
+    } catch (error) {
+      console.error('Error sending reply:', error)
+      alert('Error sending reply. Please try again later.')
+    }
+  }
+
   const renderMessagePreview = (message) => {
     const maxLength = 50 // Max length for message preview
     return message.length > maxLength
       ? `${message.substring(0, maxLength)}...`
       : message
+  }
+
+  const handleDeleteContact = async (contactId) => {
+    try {
+      await axios.delete(
+        `http://localhost:5000/contact-us/delete-contact/${contactId}`
+      )
+      setContacts((prevContacts) =>
+        prevContacts.filter((contact) => contact._id !== contactId)
+      )
+      alert('Contact deleted successfully')
+    } catch (error) {
+      console.error('Error deleting contact:', error)
+      alert('Error deleting contact. Please try again later.')
+    }
   }
 
   if (loading) {
@@ -141,13 +176,17 @@ export default function AdminContactPage({ color }) {
                             className='text-purple-500 hover:text-purple-600 transition-all'
                           />
                         </button>
-                        <button className='mr-2 p-2'>
+                        <button
+                          className='mr-2 p-2'
+                          onClick={() => handleReply(contact.email)}>
                           <FontAwesomeIcon
                             icon={faReply}
                             className='text-blue-500 hover:text-blue-600 transition-all'
                           />
                         </button>
-                        <button className='mr-2 p-2'>
+                        <button
+                          className='mr-2 p-2'
+                          onClick={() => handleDeleteContact(contact._id)}>
                           <FontAwesomeIcon
                             icon={faTrashAlt}
                             className='text-red-500 hover:text-red-600 transition-all'
@@ -173,6 +212,13 @@ export default function AdminContactPage({ color }) {
                     </button>
                   </div>
                 </div>
+              )}
+              {replyingTo && (
+                <ReplyFormPopup
+                  contactEmail={replyingTo}
+                  onClose={() => setReplyingTo(null)}
+                  onSendReply={handleSendReply}
+                />
               )}
             </>
           )}

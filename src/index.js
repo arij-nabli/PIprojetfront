@@ -53,7 +53,7 @@ function MainApp() {
             }
           />
           <Route path='/landing' exact element={<Landing />} />
-          <Route path='/profile' exact element={<Profile />} />
+          {/*<Route path='/profile' exact element={<Profile />} />*/}
           <Route path='/AdminContacts' exact element={<AdminContactPage />} />
 
           <Route path='/profileCompany' exact element={<ProfileCompany />} />
