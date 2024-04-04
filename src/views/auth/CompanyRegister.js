@@ -64,8 +64,7 @@ export default function CompanyRegister() {
       setErrorMessage('Please fill in all fields');
       return;
     }
-   
-    const companyData = {
+  const companyData = {
       username: nomEntreprise,
       email: email,
       website: website,
@@ -343,15 +342,9 @@ export default function CompanyRegister() {
                           <IntlTelInput
                             containerClassName="intl-tel-input"
                             inputClassName="border-0 bg-gray-100 bg-gray-100 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
-                            
-                             
-                                type="tel"
-                               
-                                value={telephone}
+                             type="tel"
+                                onSelect={(e) => selectCountry(e)}
                                 onChange={handleTelephoneChange}
-                            
-
-                          
                             preferredCountries={[]}
                             defaultCountry="tn"
                             format

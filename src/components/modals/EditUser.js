@@ -16,10 +16,6 @@ export default function Modal({user}) {
 
    const editUser = async (userId, username, email, role) => {
   try {
-    // Validate input fields (optional but recommended)
-    // ... (implement validation as needed)
-
-    // Create a properly formatted request body
     const formData = {
       username,
       email,
