@@ -174,15 +174,20 @@ export default function DetailsOffer() {
                     <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">
                       {offer.category === "job" && offer.contrat ? offer.contrat : offer.payment}
                     </p>
-                    <h1
-                      className="mb-2 mt-2 text-lg leading-relaxed font-semibold text-blueGray-800"
-                      style={{ color: "#BD2C43" }}
-                    >
-                      Salary :
-                    </h1>
-                    <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">
-                      {offer.salary_range.min} - {offer.salary_range.max} TND 
-                    </p>
+                    {offer.category !== "internship" && (
+                      <>
+                        <h1
+                          className="mb-2 mt-2 text-lg leading-relaxed font-semibold text-blueGray-800"
+                          style={{ color: "#BD2C43" }}
+                        >
+                          Salary :
+                        </h1>
+                        <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">
+                          {offer.salary_range.min} - {offer.salary_range.max} TND 
+                        </p>
+                      </>
+                    )}
+                    
                   </div>
                 </div>
               </div>
