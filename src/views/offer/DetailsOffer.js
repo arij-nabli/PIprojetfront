@@ -1,7 +1,6 @@
 import Navbar from "components/Navbars/IndexNavbar.js";
 import React from "react";
 import axios from "axios";
-import companyphoto from "../../assets/img/mobiblanc.jpeg";
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Appli from "../application/Apply";
@@ -21,6 +20,7 @@ export default function DetailsOffer() {
   const { id } = useParams();
 
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const [companyphoto , setCompanyPhoto] = useState(null);
 
 
   useEffect(() => {
@@ -39,6 +39,7 @@ export default function DetailsOffer() {
           `http://localhost:5000/offers/get/${id}`
         );
         setOffer(response2.data);
+        getProfileImage(response2.data.provider._id);
         console.log(response2.data); 
         const app = response2.data.applications.find(app => app.candidate === response.data.user._id);
 
@@ -77,6 +78,20 @@ export default function DetailsOffer() {
 
 
   }, [token,id]);
+  const getProfileImage = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/user/get-image?id=${id}`,
+        { responseType: 'blob' } 
+      );
+      const imageUrl = URL.createObjectURL(response.data);
+     
+      setCompanyPhoto(imageUrl); 
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
 
   return (
     <>
@@ -200,7 +215,7 @@ export default function DetailsOffer() {
                   {offer.requirements.map(requirement => (
                     <div className="w-full" key={requirement._id}>
                       <h1
-                        className="p-3 text-white rounded-md mr-2 mb-3 mt-10"
+                        className="p-3 text-white rounded-md mr-2 mb-3 mt-6"
                         style={{ backgroundColor: "#BD2C43" }}
                       >
                         {requirement.name}
@@ -241,12 +256,12 @@ export default function DetailsOffer() {
               
               
               <hr className="mb-8 mt-8"></hr>
-              <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
+              <h6 className="mb-6 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
               Starting date for working with our team : {" "}
                 {new Date(offer.start_date).toISOString().split("T")[0]}
               </h6>
              
-              <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
+              <h6 className="mb-8 mt-6 text-lg font-semibold leading-relaxed text-blueGray-700">
                 Closing date for working with our team :{" "}
                 {new Date(offer.end_date).toISOString().split("T")[0]}
               </h6>

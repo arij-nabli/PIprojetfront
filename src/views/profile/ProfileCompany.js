@@ -33,9 +33,7 @@ export default function ProfileCompany() {
   const [description, setDescription] = useState(
     
   );
-  const [companyName, setCompanyName] = useState(
-    "Mobiblanc Tunisie"
-  );
+  
   const handleNewImage = (e) => {
     setState({ ...state, image: e.target.files[0] })
     setShowEditor(true) 
