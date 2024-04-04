@@ -21,11 +21,6 @@ export default function DetailsOffer() {
   };
   const { id } = useParams();
 
-  const [companyName, setCompanyName] = useState("Mobiblanc Tunisie");
-  const [companyLocalisation, setCompanyLocalisation] = useState(
-    "Tunisie - Tunis -Centre Urbain Nord"
-  );
-
   const [token, setToken] = useState(localStorage.getItem("token"));
 
 
@@ -127,6 +122,7 @@ export default function DetailsOffer() {
             <div className="text-center lg:text-left">
               <h6 className="text-2xl lg:text-4xl font-semibold leading-normal mb-2 text-blueGray-900">
                 {offer.title}
+               
               </h6>
 
               <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
@@ -217,32 +213,16 @@ export default function DetailsOffer() {
                   Key Words
                 </h6>
                 <div className="flex flex-wrap">
-                  <div className="w-full ">
-                    <h1
-                      className="p-3 text-white rounded-md mr-2 mb-3 mt-10"
-                      style={{ backgroundColor: "#BD2C43" }}
-                    >
-                      PHP
-                    </h1>
-                    <h1
-                      className="p-3 text-white rounded-md mr-2 mb-3 mt-10"
-                      style={{ backgroundColor: "#BD2C43" }}
-                    >
-                      iOS
-                    </h1>
-                    <h1
-                      className="p-3 text-white rounded-md mr-2 mb-3 mt-10"
-                      style={{ backgroundColor: "#BD2C43" }}
-                    >
-                      Android
-                    </h1>
-                    <h1
-                      className="p-3 text-white rounded-md mr-2 mb-3 mt-10"
-                      style={{ backgroundColor: "#BD2C43" }}
-                    >
-                      Data science
-                    </h1>
-                  </div>
+                  {offer.requirements.map(requirement => (
+                    <div className="w-full" key={requirement._id}>
+                      <h1
+                        className="p-3 text-white rounded-md mr-2 mb-3 mt-10"
+                        style={{ backgroundColor: "#BD2C43" }}
+                      >
+                        {requirement.name}
+                      </h1>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -253,27 +233,32 @@ export default function DetailsOffer() {
               </h6>
               <hr className="mb-8 mt-8"></hr>
 
-              <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
+              <h6 className="mb-6 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
                 About The Offer
               
               </h6>
-              <p>
-                Nous sommes la société Tunisie située au centre urbain
-                nord .Nous désirons avoir la possibilité de recruter des profils
-                ayant effectués leurs études au sein de votre établissement 
-              </p>
               <p>{offer.description}</p>
+              <p>
+              <h6 className="mb-6 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
+                Requirements :
+              
+              </h6>
+                <ul>
+                  {offer.requirements.map(requirement => (
+                    <li key={requirement._id}>{requirement.name}</li>
+                  ))}
+                </ul>
+              </p>
+              
+              
+              <hr className="mb-8 mt-8"></hr>
               <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
               Starting date for working with our team : {" "}
                 {new Date(offer.start_date).toISOString().split("T")[0]}
               </h6>
              
-           
-       
-
-              <hr className="mb-8 mt-8"></hr>
               <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
-                Closing date for applications : {" "}
+                Closing date for working with our team :{" "}
                 {new Date(offer.end_date).toISOString().split("T")[0]}
               </h6>
               <hr className="mb-8 mt-8"></hr>

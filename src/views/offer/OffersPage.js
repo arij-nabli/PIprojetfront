@@ -55,7 +55,6 @@ export default function OffersPage() {
         const response = await axios.get("http://localhost:5000/offers/getall");
         console.log(response.data);
         const sortedOffers = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-      
         setOffers(sortedOffers);
         setIsLoading(false);
       } catch (error) {
@@ -151,7 +150,7 @@ export default function OffersPage() {
     }
     
     // Filtrer par nom de l'entreprise
-    const companyNameFilter = searchCompanyName === '' || offer.companyName.toLowerCase().includes(searchCompanyName.toLowerCase());
+    const companyNameFilter = searchCompanyName === '' || offer.provider.toLowerCase().includes(searchCompanyName.toLowerCase());
     // Filtrer par secteur
     const sectorFilter = searchSector === '' || offer.sector.toLowerCase().includes(searchSector.toLowerCase());
 
@@ -251,13 +250,17 @@ export default function OffersPage() {
                 {filteredOffers.map((offer, index) => (
                   <OfferCard
                     key={index}
-                    //companyphoto={offer.photoofprovider}
+                    
                     companyphoto={companyphoto}
                     jobTitle={offer.title}
                     companyName={offer.companyName}
                     Category={offer.category}
-                    description={offer.description}
-
+                    location={offer.location}
+                    area={offer.area}
+                    type={offer.type}
+                    requirements={offer.requirements
+                    }
+                    
                     viewMoreLink={`/offer-details/${offer._id}`}
                   />
                 ))}
