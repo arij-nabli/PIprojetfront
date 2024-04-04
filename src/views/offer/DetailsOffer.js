@@ -1,5 +1,4 @@
 import Navbar from "components/Navbars/IndexNavbar.js";
-import HashLoader from "react-spinners/HashLoader";
 import React from "react";
 import axios from "axios";
 import companyphoto from "../../assets/img/mobiblanc.jpeg";
@@ -9,6 +8,7 @@ import Appli from "../application/Apply";
 import IndexNavbar from "components/Navbars/IndexNavbar";
 import AuthNavbar from "components/Navbars/AuthNavbar";
 import CompanyNavbar from "components/Navbars/CompanyNavbar";
+import LoadingScreen from "components/LoadingScreen";
 export default function DetailsOffer() {
   const [companyemail, setCompanyEmail] = useState("bouzayeni@mobiblanc.com");
   const [offer, setOffer] = useState(null);
@@ -82,27 +82,7 @@ export default function DetailsOffer() {
   return (
     <>
       {isLoading ? (
-        <div 
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "white",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <HashLoader
-            color={"#BD2C43"}
-            loading={isLoading}
-            size={150}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
-        </div>
+    <LoadingScreen isLoading={true} />
       ) : (
         <>
           {!user ? (

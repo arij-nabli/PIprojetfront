@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import HashLoader from "react-spinners/HashLoader";
 import { useParams } from "react-router-dom";
 import OfferCard from "components/Cards/OfferCard";
 import { Link } from "react-router-dom";
+import LoadingScreen from 'components/LoadingScreen';
 
 const CompanyOffers = () => {
   const [user, setUser] = useState(null);
@@ -45,27 +45,7 @@ const CompanyOffers = () => {
   return (
     <>
       {isLoading ? (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'white',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <HashLoader
-            color="#BD2C43"
-            height={80}
-            width={80}
-            ariaLabel="Loading Offers"
-            data-testid="loader"
-          />
-        </div>
+        <LoadingScreen isLoading={true} />
       ) : (
         <div className="container mx-auto py-4 px-4">
           <h1 className="text-4xl font-bold mb-6 text-center text-custom-red">

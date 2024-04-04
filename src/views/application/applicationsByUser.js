@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams,useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { HashLoader } from 'react-spinners';
 import IndexNavbar from 'components/Navbars/IndexNavbar';
+import LoadingScreen from 'components/LoadingScreen';
 import { In } from 'react-flags-select';
 const ApplicationsByUser = () => {
   const { candidateId } = useParams();
@@ -53,27 +53,7 @@ const ApplicationsByUser = () => {
   return (
     <>
     {isLoading ? (
-        <div
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: "white",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <HashLoader
-          color={"#BD2C43"}
-          loading={isLoading}
-          size={150}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-      </div>
+  <LoadingScreen isLoading={true} />
       ) : 
  (  <div>
   <IndexNavbar />

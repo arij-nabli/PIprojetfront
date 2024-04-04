@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { HashLoader } from 'react-spinners';
+import LoadingScreen from 'components/LoadingScreen';
 const ApplicationsByOffer = () => {
   const { offerId } = useParams();
   const [applications, setApplications] = useState([]);
@@ -64,27 +64,7 @@ const ApplicationsByOffer = () => {
   return (
     <>
     {isLoading ? (
-        <div
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: "white",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <HashLoader
-          color={"#BD2C43"}
-          loading={isLoading}
-          size={150}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-      </div>
+    <LoadingScreen  isLoading={true} />
       ) : 
  (   <div className="flex flex-col items-center mt-5">
       <h1 className="text-2xl font-bold mb-5">Applications</h1>

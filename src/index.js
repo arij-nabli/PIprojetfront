@@ -8,14 +8,17 @@ import Admin from 'layouts/Admin.js'
 import Auth from 'layouts/Auth.js'
 // views without layouts
 import Landing from 'views/Landing.js'
-import Profile from "views/profile/Profile.js";
+import Profile from 'views/profile/Profile.js'
+import Index from 'views/Index.js'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import AuthGuard from 'components/AuthGuard'
 import NoAuthGuard from 'components/NoAuthGuard'
 import Offer from 'views/offer/OffersPage'
-import DetailsOffer from "views/offer/DetailsOffer";
+import DetailsOffer from 'views/offer/DetailsOffer'
 import SetToken from 'components/SetToken'
 import ContactUs from 'views/ContactUs'
+import ProfileCompany from 'views/profile/ProfileCompany'
+import AdminContactPage from 'views/admin/AdminContactPage'
 import Company from 'layouts/Company'
 import ApplicationsByUser from 'views/application/applicationsByUser'
 function MainApp() {
@@ -51,6 +54,11 @@ function MainApp() {
           />
           <Route path='/company/*' element={<AuthGuard><Company /></AuthGuard>} />
           <Route path='/landing' exact element={<Landing />} />
+          {/*<Route path='/profile' exact element={<Profile />} />*/}
+          <Route path='/AdminContacts' exact element={<AdminContactPage />} />
+
+          <Route path='/profileCompany' exact element={<ProfileCompany />} />
+
           <Route path='/profile' exact element={<AuthGuard><Profile /></AuthGuard>} />
           <Route path='/applications/:candidateId' exact element={<AuthGuard> <ApplicationsByUser /> </AuthGuard>} />
           
@@ -64,6 +72,8 @@ function MainApp() {
               </AuthGuard>
             }
           />
+          <Route path='/AdminContacts' exact element={<AdminContactPage />} />
+
           <Route path='/set-token' exact element={<SetToken />} />
           <Route path='/offer-details/:id' exact element={<DetailsOffer />} />
           <Route path='/contactus' exact element={<ContactUs />} />

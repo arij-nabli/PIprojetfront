@@ -3,12 +3,12 @@ import axios from "axios";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import AuthNavbar from "components/Navbars/AuthNavbar.js";
 import OfferCard from "components/Cards/OfferCard";
-import HashLoader from "react-spinners/HashLoader";
 import feriel from "../../assets/img/feriel.jpg";
 import { Link } from "react-router-dom";
 import companyphoto from "../../assets/img/mobiblanc.jpeg";
 import CompanyNavbar from "components/Navbars/CompanyNavbar";
 import Auth from "layouts/Auth";
+import LoadingScreen from "components/LoadingScreen";
 export default function OffersPage() {
   const [searchLocation, setSearchLocation] = useState('');
   const [searchDate, setSearchDate] = useState("today");
@@ -163,27 +163,7 @@ export default function OffersPage() {
   return (
     <>
       {isLoading ? (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "white",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <HashLoader
-            color={"#BD2C43"}
-            loading={isLoading}
-            size={150}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
-        </div>
+      <LoadingScreen isLoading={isLoading} />
       ) : (
         <>
 {
@@ -207,13 +187,13 @@ export default function OffersPage() {
           <h3 className="text-4xl text-center font-semibold leading-normal mb-2 text-blueGray-700">
             {name}
           </h3>
-          <p className="mb-4 text-lg  leading-relaxed text-blueGray-700">
+          <p className="mb-4 text-lg text-center  leading-relaxed text-blueGray-700">
                 {description}
               </p>
           
         </div>
 
-        <div className="mt-10  py-10 border-t border-blueGray-200 text-center">
+        <div className=" border-t border-blueGray-200 text-center">
           <div className="flex flex-wrap justify-center ">
           <Link
                   className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
@@ -224,14 +204,14 @@ export default function OffersPage() {
                 </Link>
             
           </div>
-          <div className="flex flex-wrap  justify-center">
-            <div className="w-full font-bold lg:w-9/12 px-4 mb-6 flex">
+          <div className="flex justify-center">
+            <div className="w-full font-bold lg:w-9/12   mb-6 ">
             <Link
-                  className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
+                  className="text-blueGray-700 hover:text-blueGray-500 flex items-center text-xs uppercase py-3 font-bold "
                   to={`/applications/${user._id} `}
                 >
                 <i className="fas fa-clipboard-list text-blueGray-700 mr-2 text-sm"></i>{" "}
-                  My applications
+                 <span className=" text-nowrap">My applications</span>
                 </Link>            
                 </div>
             
@@ -293,12 +273,16 @@ export default function OffersPage() {
           </div>
           
             <div className="mb-4">
-              <label className="block mb-1" htmlFor="nom-entreprise">Company Name</label>
-              <input type="text" id="nom-entreprise" value={nomEntreprise} onChange={(e) => setNomEntreprise(e.target.value)} />
+              <label className="block " htmlFor="nom-entreprise">Company Name</label>
+              <input
+               className=" border-0 px-3 mb-3  text-sm border-b-2 focus:outline-none focus:border-b-2 focus:border-custom-red focus:ring-0  w-full ease-linear transition-all duration-150"
+              type="text" id="nom-entreprise" value={nomEntreprise} onChange={(e) => setNomEntreprise(e.target.value)} />
             </div>
             <div className="mb-4">
-              <label className="block mb-1" htmlFor="date-offre">Offer Date:</label>
-              <select id="date-filter" value={searchDate} onChange={handleDateChange}>
+              <label className="block " htmlFor="date-offre">Offer Date:</label>
+              <select 
+               className=" border-0 px-3 mb-3  text-sm border-b-2 focus:outline-none focus:border-b-2 focus:border-custom-red focus:ring-0  w-full ease-linear transition-all duration-150"
+              id="date-filter" value={searchDate} onChange={handleDateChange}>
                     <option value="">Select...</option>
                     <option value="This-day">Today</option>
                     <option value="This-week">This Week</option>
@@ -307,8 +291,10 @@ export default function OffersPage() {
             </div>
             
             <div className="mb-4">
-              <label className="block mb-1" htmlFor="secteur-activite">Activity Area:</label>
-              <select id="secteur-activite" value={secteurActivite} onChange={(e) => setSecteurActivite(e.target.value)}>
+              <label className="block" htmlFor="secteur-activite">Activity Area:</label>
+              <select
+               className=" border-0 px-3 mb-3  text-sm border-b-2 focus:outline-none focus:border-b-2 focus:border-custom-red focus:ring-0  w-full ease-linear transition-all duration-150"
+              id="secteur-activite" value={secteurActivite} onChange={(e) => setSecteurActivite(e.target.value)}>
                 <option value="">Select...</option>
                 <option value="IT">IT</option>
                 <option value="Business">Business</option>
@@ -317,9 +303,11 @@ export default function OffersPage() {
               </select>
             </div>
             <div className="mb-4">
-              <label className="block mb-1" htmlFor="lieu-offre">Location</label>
+              <label className="block " htmlFor="lieu-offre">Location</label>
               
-                  <input type="text" id="lieu-offre" value={searchLocation} onChange={handleLocationChange} />
+                  <input
+                   className=" border-0 px-3 mb-3 text-sm border-b-2 focus:outline-none focus:border-b-2 focus:border-custom-red focus:ring-0  w-full ease-linear transition-all duration-150"
+                  type="text" id="lieu-offre" value={searchLocation} onChange={handleLocationChange} />
                 </div>            
             <div>
               <button type="button" onClick={handleReset} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">Reset</button>

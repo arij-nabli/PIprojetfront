@@ -6,8 +6,8 @@ import ApplicationsByOffer from "views/application/ApplicationsByOffer";
 import CompanyOffers from "views/offer/CompanyOffers";
 import ProfileCompany from "views/profile/ProfileCompany";
 import AddOffer from "views/offer/addOffer";
-import HashLoader from "react-spinners/HashLoader";
 import Navbar from "components/Navbars/CompanyNavbar";
+import LoadingScreen from "components/LoadingScreen";
 export default function Company() {
   
   const [isLoading, setIsLoading] = useState(true);
@@ -51,15 +51,7 @@ export default function Company() {
   return (
     <>
     {isLoading ? (
-     <div style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-     <HashLoader
-       color={"#BD2C43"}
-       loading={isLoading}
-       size={150}
-       aria-label="Loading Spinner"
-       data-testid="loader"
-     />
-   </div>
+  <LoadingScreen  isLoading={true} />
     ) : (
       <div className="relative w-full h-full bg-gray-100   min-h-screen">
     
