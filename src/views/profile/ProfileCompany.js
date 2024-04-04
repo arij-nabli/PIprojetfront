@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import companyphoto from "../../../src/assets/img/companyphoto.png"
-
+import UpdateProfileCompany from "./UpdateProfileCompany";
 import ReactAvatarEditor from 'react-avatar-editor'
 export default function ProfileCompany() {
   const [processedImage, setProcessedImage] = useState(null)
@@ -16,7 +16,12 @@ export default function ProfileCompany() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [token, setToken] = useState(localStorage.getItem("token")); 
-
+  const Modif = (name, description, country, secteurActivite, adresse, telephone) => {
+    // Vous pouvez traiter les informations de l'entreprise ici
+    console.log("Les informations de l'entreprise sont :", name, description, country, secteurActivite, adresse, telephone);
+    // Par exemple, vous pouvez effectuer une requête axios pour envoyer les données au serveur
+    // axios.post('votre_url_de_mise_à_jour', { name, description, country, secteurActivite, adresse, telephone })
+  };
  
   const [showApplicationForm, setShowApplicationForm] = useState(false);
   const [country, setCountry] = useState();
@@ -24,7 +29,7 @@ export default function ProfileCompany() {
   const [adresse, setAdresse] = useState();
   const [name, setName] = useState();
   const [telephone, setTelephone] = useState();
- 
+
   const [description, setDescription] = useState(
     
   );
@@ -37,6 +42,7 @@ export default function ProfileCompany() {
   }
 
   const handleToggleForm = () => {
+   
     setShowApplicationForm(!showApplicationForm);
   };
 
@@ -112,9 +118,9 @@ useEffect(() => {
          setTelephone(companyData.phone);
           setSecteurActivite(companyData.industry);
           setUser(response.data.user);
+        
          
-         
-         
+          console.log(companyData._id);
        
           getProfileImage(response.data.user._id);
           console.log(response.data.company);
@@ -158,7 +164,7 @@ useEffect(() => {
                   </button>
           </h3>
       
-      
+ 
       </div>
       <div className="flex flex-col bg-white lg:flex-row items-start lg:items-center break-words bg-white shadow-xl rounded-lg ">
     
@@ -223,6 +229,24 @@ useEffect(() => {
     
 </div>
 </section>
+{showApplicationForm && (
+  <UpdateProfileCompany
+  onClose={handleToggleForm}
+  onSubmit={(companyData) => {
+    handleToggleForm(companyData);
+    window.location.reload(); 
+  }} 
+  companyData={{
+    _id: user._id,
+    username: name,
+    description: description,
+    country: country,
+    secteurActivite: secteurActivite,
+    adresse: adresse,
+    telephone: telephone,
+  }}
+/>
+  )}
       {showEditor && (
             <div className='fixed z-10 inset-0 overflow-y-auto'>
               <div className='flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0'>
