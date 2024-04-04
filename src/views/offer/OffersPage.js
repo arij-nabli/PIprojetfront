@@ -9,6 +9,7 @@ import companyphoto from "../../assets/img/mobiblanc.jpeg";
 import CompanyNavbar from "components/Navbars/CompanyNavbar";
 import Auth from "layouts/Auth";
 import LoadingScreen from "components/LoadingScreen";
+import { Select } from "@chakra-ui/react";
 export default function OffersPage() {
   const [searchLocation, setSearchLocation] = useState('');
   const [searchStatus , setSearchStatus] = useState('');
@@ -27,7 +28,7 @@ export default function OffersPage() {
   };
 
   const handleSectorChange = (e) => {
-    setSearchSector(e.target.value);
+    setSecteurActivite(e.target.value);
   };
 
   
@@ -147,8 +148,7 @@ export default function OffersPage() {
     
     const statusFilter = searchStatus === '' || offer.status.toLowerCase().includes(searchStatus.toLowerCase());
 
-    // Filtrer par secteur
-    const sectorFilter = searchSector === '' || offer.sector.toLowerCase().includes(searchSector.toLowerCase());
+    const sectorFilter = secteurActivite === '' || offer.area === secteurActivite;
 
     // Retourner vrai si toutes les conditions sont remplies
     return locationFilter && dateFilter && statusFilter && sectorFilter;
@@ -289,14 +289,15 @@ export default function OffersPage() {
             <div className="mb-4">
               <label className="block" htmlFor="secteur-activite">Activity Area:</label>
               <select
-               className=" border-0 px-3 mb-3  text-sm border-b-2 focus:outline-none focus:border-b-2 focus:border-custom-red focus:ring-0  w-full ease-linear transition-all duration-150"
-              id="secteur-activite" value={secteurActivite} onChange={(e) => setSecteurActivite(e.target.value)}>
-                <option value="">Select...</option>
-                <option value="IT">IT</option>
-                <option value="Business">Business</option>
-                <option value="Civil">Civil</option>
-                <option value="Electromecanique">Electromecanique</option>
-              </select>
+              className="border-0 px-3 mb-3 text-sm border-b-2 focus:outline-none focus:border-b-2 focus:border-custom-red focus:ring-0 w-full ease-linear transition-all duration-150"
+              id="secteur-activite" value={secteurActivite} onChange={handleSectorChange}
+            >
+              <option value="">Select...</option>
+              <option value="IT">IT</option>
+              <option value="Business">Business</option>
+              <option value="Civil">Civil</option>
+              <option value="Electromecanique">Electromecanique</option>
+            </select>
             </div>
             <div className="mb-4">
               <label className="block " htmlFor="lieu-offre">Location</label>
