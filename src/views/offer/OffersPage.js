@@ -16,7 +16,7 @@ export default function OffersPage() {
   const [searchDate, setSearchDate] = useState("today");
   const [searchSector, setSearchSector] = useState('');
   const [processedImage, setProcessedImage] = useState(null);
-
+  const [companyImages , setCompanyImages] = useState(null);
   const handleLocationChange = (e) => {
     setSearchLocation(e.target.value);
   };
@@ -36,9 +36,8 @@ export default function OffersPage() {
   const [name, setName] = useState("Feriel BHK");
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState({});
-  const [description, setDescription] = useState(
-    "Full-Stack web developer with 3 years of experience in building web applications."
-  );
+  const [description, setDescription] = useState("DevOps Student Engineering");
+ 
   
   const [email, setEmail] = useState("");
   const [offers, setOffers] = useState([]);
@@ -52,17 +51,25 @@ export default function OffersPage() {
       try {
         const response = await axios.get("http://localhost:5000/offers/getall");
         console.log(response.data);
-        const sortedOffers = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-        setOffers(sortedOffers);
+        // Fetch and store company images
+        const companyImages = {};
+        await Promise.all(response.data.map(async (offer) => {
+          const companyId = offer.provider._id;
+          const response = await axios.get(`http://localhost:5000/user/get-image?id=${companyId}`, { responseType: 'blob' });
+          companyImages[companyId] = URL.createObjectURL(response.data);
+        }));
+        setOffers(response.data);
+        setCompanyImages(companyImages);
         setIsLoading(false);
       } catch (error) {
         console.error(error);
         setIsLoading(false);
       }
     };
-
+  
     fetchOffers();
   }, []);
+  
  
   useEffect(() => {
     const fetchUserData = async () => {
@@ -80,6 +87,7 @@ export default function OffersPage() {
         setName(response.data.user.username);
         setEmail(response.data.user.email);
         getProfileImage(response.data.user._id);
+        //setDescription(response.user.description)
         setIsLoading(false);
       } catch (error) {
         console.error(error);
@@ -101,6 +109,9 @@ export default function OffersPage() {
       console.error(error);
     }
   };
+  
+  
+  
   const [nomEntreprise, setNomEntreprise] = useState('');
   const [typeOffre, setTypeOffre] = useState('');
   const [secteurActivite, setSecteurActivite] = useState('');
@@ -223,25 +234,25 @@ export default function OffersPage() {
 
     <div class="p-5 lg:col-span-2">
               <div>
-                {filteredOffers.map((offer, index) => (
-                  <OfferCard
-                    key={index}
-                    
-                    companyphoto={companyphoto}
-                    jobTitle={offer.title}
-                    companyName= {offer.provider.username}
-                    Category={offer.category}
-                    location={offer.location}
-                    area={offer.area}
-                    type={offer.type}
-                   status={offer.status}
-                    
-                    
-                    viewMoreLink={`/offer-details/${offer._id}`}
-                  />
-                ))}
-              </div>
-    </div>
+              {filteredOffers.map((offer, index) => (
+                <OfferCard
+                  key={index}
+                  companyphoto={companyImages[offer.provider._id]} // Pass company image
+                  jobTitle={offer.title}
+                  companyName={offer.provider.name}
+                  Category={offer.category}
+                  location={offer.location}
+                  area={offer.area}
+                  type={offer.type}
+                  status={offer.status}
+                  viewMoreLink={`/offer-details/${offer._id}`}
+                />
+              ))}</div>
+            </div>
+
+
+
+
 
 
 

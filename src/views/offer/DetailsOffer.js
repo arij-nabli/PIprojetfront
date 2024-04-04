@@ -39,7 +39,7 @@ export default function DetailsOffer() {
           `http://localhost:5000/offers/get/${id}`
         );
         setOffer(response2.data);
-        getProfileImage(response2.data.provider._id);
+        getProfileImage2(response2.data.provider._id);
         console.log(response2.data); 
         const app = response2.data.applications.find(app => app.candidate === response.data.user._id);
 
@@ -78,7 +78,7 @@ export default function DetailsOffer() {
 
 
   }, [token,id]);
-  const getProfileImage = async (id) => {
+  const getProfileImage2 = async (id) => {
     try {
       const response = await axios.get(
         `http://localhost:5000/user/get-image?id=${id}`,
