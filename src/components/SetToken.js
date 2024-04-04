@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation,useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { HashLoader } from 'react-spinners';
+import LoadingScreen from './LoadingScreen';
 export default function SetToken() {
   const location = useLocation();
     const navigate = useNavigate();
@@ -42,26 +42,6 @@ export default function SetToken() {
   }, [location]);
 
   return (
-    <div
-    style={{
-      position: "fixed",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: "white",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    }}
-  >
-    <HashLoader
-      color={"#BD2C43"}
-      loading={true}
-      size={150}
-      aria-label="Loading Spinner"
-      data-testid="loader"
-    />
-  </div>
+  <LoadingScreen isLoading={true} />
   ); // or a loading spinner, etc.
 }

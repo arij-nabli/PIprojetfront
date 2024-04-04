@@ -4,7 +4,7 @@ import axios from "axios";
 import Navbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footers/Footer.js";
 import { useNavigate } from "react-router-dom";
-import HashLoader from "react-spinners/HashLoader";
+import LoadingScreen from "components/LoadingScreen";
 
 export default function Profile() {
   const [state, setState] = useState({
@@ -272,27 +272,7 @@ export default function Profile() {
   return (
     <>
       {isLoading ? (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "white",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <HashLoader
-            color={"#BD2C43"}
-            loading={isLoading}
-            size={150}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
-        </div>
+       <LoadingScreen isLoading={true} />
       ) : (
         <>
           <Navbar  id={user._id}/>

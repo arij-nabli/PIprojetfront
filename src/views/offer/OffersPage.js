@@ -3,12 +3,12 @@ import axios from "axios";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import AuthNavbar from "components/Navbars/AuthNavbar.js";
 import OfferCard from "components/Cards/OfferCard";
-import HashLoader from "react-spinners/HashLoader";
 import feriel from "../../assets/img/feriel.jpg";
 import { Link } from "react-router-dom";
 import companyphoto from "../../assets/img/mobiblanc.jpeg";
 import CompanyNavbar from "components/Navbars/CompanyNavbar";
 import Auth from "layouts/Auth";
+import LoadingScreen from "components/LoadingScreen";
 export default function OffersPage() {
   const [searchLocation, setSearchLocation] = useState('');
   const [searchDate, setSearchDate] = useState("today");
@@ -164,27 +164,7 @@ export default function OffersPage() {
   return (
     <>
       {isLoading ? (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "white",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <HashLoader
-            color={"#BD2C43"}
-            loading={isLoading}
-            size={150}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
-        </div>
+      <LoadingScreen isLoading={isLoading} />
       ) : (
         <>
 {

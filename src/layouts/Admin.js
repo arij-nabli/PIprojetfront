@@ -10,10 +10,10 @@ import Dashboard from "views/admin/Dashboard.js";
 import Settings from "views/admin/Settings.js";
 import Tables from "views/admin/Tables.js";
 import AllUsersTable from "views/admin/AllUsersTable";
-import HashLoader from "react-spinners/HashLoader";
 import CompaniesTable from "views/admin/CompaniesTable";
 import SkillsTable from "views/admin/SkillsTable";
 import IndustriesTable from "views/admin/IndustriesTbale";
+import LoadingScreen from "components/LoadingScreen";
 export default function Admin() {
   
   const [isLoading, setIsLoading] = useState(true);
@@ -57,15 +57,7 @@ export default function Admin() {
   return (
     <>
     {isLoading ? (
-     <div style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-     <HashLoader
-       color={"#BD2C43"}
-       loading={isLoading}
-       size={150}
-       aria-label="Loading Spinner"
-       data-testid="loader"
-     />
-   </div>
+ <LoadingScreen isLoading={true} />
     ) : (
       <div className="relative w-full h-full py-8 min-h-screen pr-10"
       style={{
