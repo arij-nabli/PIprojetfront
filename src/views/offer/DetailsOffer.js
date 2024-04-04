@@ -94,11 +94,11 @@ export default function DetailsOffer() {
   
 
   return (
-    <>
-      {isLoading ? (
-    <LoadingScreen isLoading={true} />
-      ) : (
-        <>
+    <div className="bg-gray-100">
+        {isLoading ? (
+          <LoadingScreen isLoading={isLoading} />
+        ) : (
+          <>
           {!user ? (
             <AuthNavbar />
           ) : user.role === "company" ? (
@@ -106,7 +106,7 @@ export default function DetailsOffer() {
           ) : (
             <IndexNavbar id={user._id} />
           )}
-          <div className="shadow-lg mt-10 lg:col-span-2 px-8 lg:px-16 mx-4 lg:mx-16 py-4 flex flex-col lg:flex-row items-start lg:items-center">
+          <div className="bg-white shadow-lg mt-6 lg:col-span-2 px-8 lg:px-16 mx-4 lg:mx-16 py-4 flex flex-col lg:flex-row items-start lg:items-center">
             <img
               src={companyphoto}
               style={{ width: 200, height: 200 }}
@@ -120,7 +120,7 @@ export default function DetailsOffer() {
               </h6>
 
               <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
-                {offer.provider.username}
+                {offer.provider.name}
               </p>
             </div>
             {!user ? (
@@ -152,9 +152,9 @@ export default function DetailsOffer() {
               </div>
             )}
           </div>
-          <div class="grid lg:grid-cols-4 sm:grid-cols-1 gap-6 mt-4 ml-16 mr-16">
+          <div class="  grid lg:grid-cols-4 sm:grid-cols-1 gap-6 mt-4 ml-16 mr-16">
             <div>
-              <div className="shadow-lg p-5 lg:col-span-1 sm:col-span-full ml-4 sm:ml-0">
+              <div className="bg-white shadow-lg p-5 lg:col-span-1 sm:col-span-full ml-4 sm:ml-0">
                 <h6 className="mb-2 mt-2 text-lg font-semibold leading-relaxed text-blueGray-900">
                   Informations
                 </h6>
@@ -206,9 +206,10 @@ export default function DetailsOffer() {
                   </div>
                 </div>
               </div>
+              <div className="mt-2 mb-2 shadow-lg"></div>
 
-              <div className="shadow-lg p-5  sm:col-span-full ml-4 sm:ml-0">
-                <h6 className="mb-2 mt-2 text-lg font-semibold leading-relaxed text-blueGray-900">
+              <div className="bg-white shadow-lg p-5  sm:col-span-full ml-4 sm:ml-0">
+                <h6 className=" mb-2 mt-2 text-lg font-semibold leading-relaxed text-blueGray-900">
                   Key Words
                 </h6>
                 <div className="flex flex-wrap">
@@ -226,7 +227,7 @@ export default function DetailsOffer() {
               </div>
             </div>
 
-            <div className="shadow-lg p-5 lg:col-span-3 sm:col-span-full mb-8 mr-4 sm:mr-0">
+            <div className="bg-white shadow-lg p-5 lg:col-span-3 sm:col-span-full mb-8 mr-4 sm:mr-0">
               <h6 className="text-2xl lg:text-4xl font-semibold leading-normal mb-8 mt-8 text-blueGray-900">
               {offer.title.toUpperCase()}
               </h6>
@@ -280,17 +281,17 @@ export default function DetailsOffer() {
                 />
                 <div className="text-center lg:text-left">
                   <p className="mb-2 mt-5 text-lg font-semibold leading-relaxed text-blueGray-800">
-                    {offer.provider.username}
+                    {offer.provider.name}
                   </p>
                   <h3 className=" leading-normal mb-4 text-blueGray-700">
-                    {offer.provider.email}
+                    {offer.provider.website}
                   </h3>
                 </div>
               </div>
             </div>
           </div>
-        </>
+          </>
       )}
-    </>
-  );
-}
+      </div>
+    );
+  }

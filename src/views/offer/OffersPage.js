@@ -169,7 +169,7 @@ export default function OffersPage() {
 
   return (
     
-      <div className="bg-gray-100"> {/* Add this div with the background color */}
+      <div className="bg-gray-100">
         {isLoading ? (
           <LoadingScreen isLoading={isLoading} />
         ) : (
@@ -282,7 +282,7 @@ export default function OffersPage() {
               <input
                    className=" border-0 px-3 mb-3 text-sm border-b-2 focus:outline-none focus:border-b-2 focus:border-custom-red focus:ring-0  w-full ease-linear transition-all duration-150"
                   type="text" id="lieu-offre" value={searchStatus} onChange={handleStatusChange} />
-                </div>
+                </div> 
             <div className="mb-4">
               <label className="block " htmlFor="date-offre">Offer Date:</label>
               <select 
