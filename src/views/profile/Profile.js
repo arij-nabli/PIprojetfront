@@ -5,13 +5,7 @@ import Navbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footers/Footer.js";
 import { useNavigate } from "react-router-dom";
 import LoadingScreen from "components/LoadingScreen";
-import React, { useState, useRef, useEffect } from 'react'
-import ReactAvatarEditor from 'react-avatar-editor'
-import axios from 'axios'
-import Navbar from 'components/Navbars/IndexNavbar.js'
-import Footer from 'components/Footers/Footer.js'
-import { useNavigate } from 'react-router-dom'
-import HashLoader from 'react-spinners/HashLoader'
+
 
 export default function Profile() {
   const [state, setState] = useState({

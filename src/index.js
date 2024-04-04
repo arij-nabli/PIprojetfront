@@ -10,7 +10,6 @@ import Auth from 'layouts/Auth.js'
 import Landing from 'views/Landing.js'
 import Profile from 'views/profile/Profile.js'
 import Index from 'views/Index.js'
-import Profile from "views/profile/Profile.js";
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import AuthGuard from 'components/AuthGuard'
 import NoAuthGuard from 'components/NoAuthGuard'
