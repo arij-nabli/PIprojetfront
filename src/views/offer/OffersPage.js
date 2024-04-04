@@ -38,10 +38,7 @@ export default function OffersPage() {
   const [description, setDescription] = useState(
     "Full-Stack web developer with 3 years of experience in building web applications."
   );
-  //si role=student haka sinon alumni looking for job offer
-  const [status, setStatus] = useState(
-    "A student looking for an internship."
-  );
+  
   const [email, setEmail] = useState("");
   const [offers, setOffers] = useState([]);
   /*const filteredOffers = offers.filter(offer => {
@@ -104,10 +101,9 @@ export default function OffersPage() {
     }
   };
   const [nomEntreprise, setNomEntreprise] = useState('');
-  const [dateOffre, setDateOffre] = useState('');
   const [typeOffre, setTypeOffre] = useState('');
   const [secteurActivite, setSecteurActivite] = useState('');
-  const [lieuOffre, setLieuOffre] = useState('');
+  const [offerStatus, setOfferStatus] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -149,13 +145,13 @@ export default function OffersPage() {
         dateFilter = true;
     }
     
-    // Filtrer par nom de l'entreprise
-    const companyNameFilter = searchCompanyName === '' || offer.provider.toLowerCase().includes(searchCompanyName.toLowerCase());
+    const statusFilter = offerStatus === '' || offer.status.toLowerCase() === offerStatus.toLowerCase();
+
     // Filtrer par secteur
     const sectorFilter = searchSector === '' || offer.sector.toLowerCase().includes(searchSector.toLowerCase());
 
     // Retourner vrai si toutes les conditions sont remplies
-    return locationFilter && dateFilter && companyNameFilter && sectorFilter;
+    return locationFilter && dateFilter && statusFilter && sectorFilter;
   };
 
   const filteredOffers = offers.filter(filterOffers);
@@ -233,13 +229,13 @@ export default function OffersPage() {
                     
                     companyphoto={companyphoto}
                     jobTitle={offer.title}
-                    companyName={offer.companyName}
+                    companyName= {offer.provider.username}
                     Category={offer.category}
                     location={offer.location}
                     area={offer.area}
                     type={offer.type}
-                    requirements={offer.requirements
-                    }
+                   status={offer.status}
+                    
                     
                     viewMoreLink={`/offer-details/${offer._id}`}
                   />
@@ -273,7 +269,7 @@ export default function OffersPage() {
           </div>
           
             <div className="mb-4">
-              <label className="block " htmlFor="nom-entreprise">Company Name</label>
+              <label className="block " htmlFor="nom-entreprise">Offer Status</label>
               <input
                className=" border-0 px-3 mb-3  text-sm border-b-2 focus:outline-none focus:border-b-2 focus:border-custom-red focus:ring-0  w-full ease-linear transition-all duration-150"
               type="text" id="nom-entreprise" value={nomEntreprise} onChange={(e) => setNomEntreprise(e.target.value)} />

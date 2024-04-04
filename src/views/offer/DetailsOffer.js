@@ -10,7 +10,6 @@ import AuthNavbar from "components/Navbars/AuthNavbar";
 import CompanyNavbar from "components/Navbars/CompanyNavbar";
 import LoadingScreen from "components/LoadingScreen";
 export default function DetailsOffer() {
-  const [companyemail, setCompanyEmail] = useState("bouzayeni@mobiblanc.com");
   const [offer, setOffer] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showApplyForm, setShowApplyForm] = useState(false);
@@ -40,7 +39,7 @@ export default function DetailsOffer() {
           `http://localhost:5000/offers/get/${id}`
         );
         setOffer(response2.data);
-        console.log(response2.data,response.data.user); 
+        console.log(response2.data); 
         const app = response2.data.applications.find(app => app.candidate === response.data.user._id);
 
         if(app){
@@ -218,6 +217,7 @@ export default function DetailsOffer() {
               
               </h6>
               <p>{offer.description}</p>
+              
               <p>
               <h6 className="mb-6 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
                 Requirements :
@@ -229,6 +229,10 @@ export default function DetailsOffer() {
                   ))}
                 </ul>
               </p>
+              <h3 className="mb-6 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700" style={{ color: "#BD2C43" }}>
+                {offer.status}
+              
+              </h3>
               
               
               <hr className="mb-8 mt-8"></hr>
