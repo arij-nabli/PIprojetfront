@@ -10,6 +10,26 @@ import companyphoto from "../../assets/img/mobiblanc.jpeg";
 import CompanyNavbar from "components/Navbars/CompanyNavbar";
 import Auth from "layouts/Auth";
 export default function OffersPage() {
+  const [searchLocation, setSearchLocation] = useState('');
+  const [searchDate, setSearchDate] = useState("today");
+  const [searchCompanyName, setSearchCompanyName] = useState('');
+  const [searchSector, setSearchSector] = useState('');
+
+
+  const handleLocationChange = (e) => {
+    setSearchLocation(e.target.value);
+  };
+  const handleDateChange = (e) =>{
+    setSearchDate(e.target.value)
+  }
+  const handleCompanyNameChange = (e) => {
+    setSearchCompanyName(e.target.value);
+  };
+
+  const handleSectorChange = (e) => {
+    setSearchSector(e.target.value);
+  };
+
   
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [name, setName] = useState("Feriel BHK");
@@ -24,6 +44,10 @@ export default function OffersPage() {
   );
   const [email, setEmail] = useState("");
   const [offers, setOffers] = useState([]);
+  /*const filteredOffers = offers.filter(offer => {
+    return offer.location.toLowerCase().includes(searchLocation.toLowerCase());
+  });
+  */
 
   useEffect(() => {
     const fetchOffers = async () => {
@@ -73,17 +97,54 @@ export default function OffersPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Vous pouvez gérer la soumission du formulaire ici
-    // Par exemple, vous pouvez envoyer les données à un serveur ou les traiter localement
+   
   };
 
   const handleReset = () => {
     setNomEntreprise('');
-    setDateOffre('');
+    setSearchDate('');
     setTypeOffre('');
     setSecteurActivite('');
-    setLieuOffre('');
+    setSearchLocation('');
   };
+  const filterOffers = (offer) => {
+    // Filtrer par emplacement
+    const locationFilter = searchLocation === '' || offer.location.toLowerCase().includes(searchLocation.toLowerCase());
+    // Filtrer par date
+    const createdDate = new Date(offer.created_at);
+    const today = new Date();
+    console.log(today)
+    let dateFilter;
+    switch (searchDate) {
+      case "This-day":
+        dateFilter = createdDate.toDateString() === today.toDateString();
+        console.log(dateFilter)
+        break;
+      case "This-week":
+        const startOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
+        const endOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay() + 6);
+        dateFilter = createdDate >= startOfWeek && createdDate <= endOfWeek;
+        console.log(dateFilter)
+        break;
+        case "This-month":
+          dateFilter =createdDate.getFullYear()===today.getFullYear && createdDate.getMonth()===today.getMonth()
+          
+          break;
+        
+      default:
+        dateFilter = true;
+    }
+    
+    // Filtrer par nom de l'entreprise
+    const companyNameFilter = searchCompanyName === '' || offer.companyName.toLowerCase().includes(searchCompanyName.toLowerCase());
+    // Filtrer par secteur
+    const sectorFilter = searchSector === '' || offer.sector.toLowerCase().includes(searchSector.toLowerCase());
+
+    // Retourner vrai si toutes les conditions sont remplies
+    return locationFilter && dateFilter && companyNameFilter && sectorFilter;
+  };
+
+  const filteredOffers = offers.filter(filterOffers);
 
   return (
     <>
@@ -172,14 +233,16 @@ export default function OffersPage() {
 
     <div class="p-5 lg:col-span-2">
               <div>
-                {offers.map((offer, index) => (
+                {filteredOffers.map((offer, index) => (
                   <OfferCard
                     key={index}
                     //companyphoto={offer.photoofprovider}
                     companyphoto={companyphoto}
                     jobTitle={offer.title}
                     companyName={offer.companyName}
+                    Category={offer.category}
                     description={offer.description}
+
                     viewMoreLink={`/offer-details/${offer._id}`}
                   />
                 ))}
@@ -217,16 +280,14 @@ export default function OffersPage() {
             </div>
             <div className="mb-4">
               <label className="block mb-1" htmlFor="date-offre">Offer Date:</label>
-              <input type="date" id="date-offre" value={dateOffre} onChange={(e) => setDateOffre(e.target.value)} />
+              <select id="date-filter" value={searchDate} onChange={handleDateChange}>
+                    <option value="">Select...</option>
+                    <option value="This-day">Today</option>
+                    <option value="This-week">This Week</option>
+                    <option value="This-month">This Month</option>
+                  </select>
             </div>
-            <div className="mb-4">
-              <label className="block mb-1" htmlFor="type-offre">Type:</label>
-              <select id="type-offre" value={typeOffre} onChange={(e) => setTypeOffre(e.target.value)}>
-                <option value="">Select...</option>
-                <option value="offre">Job</option>
-                <option value="internship">Internship</option>
-              </select>
-            </div>
+            
             <div className="mb-4">
               <label className="block mb-1" htmlFor="secteur-activite">Activity Area:</label>
               <select id="secteur-activite" value={secteurActivite} onChange={(e) => setSecteurActivite(e.target.value)}>
@@ -239,8 +300,9 @@ export default function OffersPage() {
             </div>
             <div className="mb-4">
               <label className="block mb-1" htmlFor="lieu-offre">Location</label>
-              <input type="text" id="lieu-offre" value={lieuOffre} onChange={(e) => setLieuOffre(e.target.value)} />
-            </div>
+              
+                  <input type="text" id="lieu-offre" value={searchLocation} onChange={handleLocationChange} />
+                </div>            
             <div>
               <button type="button" onClick={handleReset} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">Reset</button>
             </div>
