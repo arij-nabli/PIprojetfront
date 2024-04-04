@@ -1,7 +1,6 @@
 import Navbar from "components/Navbars/IndexNavbar.js";
 import React from "react";
 import axios from "axios";
-import companyphoto from "../../assets/img/mobiblanc.jpeg";
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Appli from "../application/Apply";
@@ -10,7 +9,6 @@ import AuthNavbar from "components/Navbars/AuthNavbar";
 import CompanyNavbar from "components/Navbars/CompanyNavbar";
 import LoadingScreen from "components/LoadingScreen";
 export default function DetailsOffer() {
-  const [companyemail, setCompanyEmail] = useState("bouzayeni@mobiblanc.com");
   const [offer, setOffer] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showApplyForm, setShowApplyForm] = useState(false);
@@ -21,12 +19,8 @@ export default function DetailsOffer() {
   };
   const { id } = useParams();
 
-  const [companyName, setCompanyName] = useState("Mobiblanc Tunisie");
-  const [companyLocalisation, setCompanyLocalisation] = useState(
-    "Tunisie - Tunis -Centre Urbain Nord"
-  );
-
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const [companyphoto , setCompanyPhoto] = useState(null);
 
 
   useEffect(() => {
@@ -45,7 +39,8 @@ export default function DetailsOffer() {
           `http://localhost:5000/offers/get/${id}`
         );
         setOffer(response2.data);
-        console.log(response2.data,response.data.user); 
+        getProfileImage2(response2.data.provider._id);
+        console.log(response2.data); 
         const app = response2.data.applications.find(app => app.candidate === response.data.user._id);
 
         if(app){
@@ -83,6 +78,20 @@ export default function DetailsOffer() {
 
 
   }, [token,id]);
+  const getProfileImage2 = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/user/get-image?id=${id}`,
+        { responseType: 'blob' } 
+      );
+      const imageUrl = URL.createObjectURL(response.data);
+     
+      setCompanyPhoto(imageUrl); 
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
 
   return (
     <>
@@ -107,6 +116,7 @@ export default function DetailsOffer() {
             <div className="text-center lg:text-left">
               <h6 className="text-2xl lg:text-4xl font-semibold leading-normal mb-2 text-blueGray-900">
                 {offer.title}
+               
               </h6>
 
               <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
@@ -179,15 +189,20 @@ export default function DetailsOffer() {
                     <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">
                       {offer.category === "job" && offer.contrat ? offer.contrat : offer.payment}
                     </p>
-                    <h1
-                      className="mb-2 mt-2 text-lg leading-relaxed font-semibold text-blueGray-800"
-                      style={{ color: "#BD2C43" }}
-                    >
-                      Salary :
-                    </h1>
-                    <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">
-                      {offer.salary_range.min} - {offer.salary_range.max} TND 
-                    </p>
+                    {offer.category !== "internship" && (
+                      <>
+                        <h1
+                          className="mb-2 mt-2 text-lg leading-relaxed font-semibold text-blueGray-800"
+                          style={{ color: "#BD2C43" }}
+                        >
+                          Salary :
+                        </h1>
+                        <p className="mb-2 mt-2 text-lg leading-relaxed text-blueGray-600">
+                          {offer.salary_range.min} - {offer.salary_range.max} TND 
+                        </p>
+                      </>
+                    )}
+                    
                   </div>
                 </div>
               </div>
@@ -197,32 +212,16 @@ export default function DetailsOffer() {
                   Key Words
                 </h6>
                 <div className="flex flex-wrap">
-                  <div className="w-full ">
-                    <h1
-                      className="p-3 text-white rounded-md mr-2 mb-3 mt-10"
-                      style={{ backgroundColor: "#BD2C43" }}
-                    >
-                      PHP
-                    </h1>
-                    <h1
-                      className="p-3 text-white rounded-md mr-2 mb-3 mt-10"
-                      style={{ backgroundColor: "#BD2C43" }}
-                    >
-                      iOS
-                    </h1>
-                    <h1
-                      className="p-3 text-white rounded-md mr-2 mb-3 mt-10"
-                      style={{ backgroundColor: "#BD2C43" }}
-                    >
-                      Android
-                    </h1>
-                    <h1
-                      className="p-3 text-white rounded-md mr-2 mb-3 mt-10"
-                      style={{ backgroundColor: "#BD2C43" }}
-                    >
-                      Data science
-                    </h1>
-                  </div>
+                  {offer.requirements.map(requirement => (
+                    <div className="w-full" key={requirement._id}>
+                      <h1
+                        className="p-3 text-white rounded-md mr-2 mb-3 mt-6"
+                        style={{ backgroundColor: "#BD2C43" }}
+                      >
+                        {requirement.name}
+                      </h1>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -233,27 +232,38 @@ export default function DetailsOffer() {
               </h6>
               <hr className="mb-8 mt-8"></hr>
 
-              <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
+              <h6 className="mb-6 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
                 About The Offer
               
               </h6>
-              <p>
-                Nous sommes la société Tunisie située au centre urbain
-                nord .Nous désirons avoir la possibilité de recruter des profils
-                ayant effectués leurs études au sein de votre établissement 
-              </p>
               <p>{offer.description}</p>
-              <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
+              
+              <p>
+              <h6 className="mb-6 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
+                Requirements :
+              
+              </h6>
+                <ul>
+                  {offer.requirements.map(requirement => (
+                    <li key={requirement._id}>{requirement.name}</li>
+                  ))}
+                </ul>
+              </p>
+              <h3 className="mb-6 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700" style={{ color: "#BD2C43" }}>
+              <i class="fas fa-toggle-on mt-1 mr-2 "></i>
+                {offer.status}
+              
+              </h3>
+              
+              
+              <hr className="mb-8 mt-8"></hr>
+              <h6 className="mb-6 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
               Starting date for working with our team : {" "}
                 {new Date(offer.start_date).toISOString().split("T")[0]}
               </h6>
              
-           
-       
-
-              <hr className="mb-8 mt-8"></hr>
-              <h6 className="mb-8 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
-                Closing date for applications : {" "}
+              <h6 className="mb-8 mt-6 text-lg font-semibold leading-relaxed text-blueGray-700">
+                Closing date for working with our team :{" "}
                 {new Date(offer.end_date).toISOString().split("T")[0]}
               </h6>
               <hr className="mb-8 mt-8"></hr>

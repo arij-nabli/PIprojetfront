@@ -9,25 +9,26 @@ import companyphoto from "../../assets/img/mobiblanc.jpeg";
 import CompanyNavbar from "components/Navbars/CompanyNavbar";
 import Auth from "layouts/Auth";
 import LoadingScreen from "components/LoadingScreen";
+import { Select } from "@chakra-ui/react";
 export default function OffersPage() {
   const [searchLocation, setSearchLocation] = useState('');
+  const [searchStatus , setSearchStatus] = useState('');
   const [searchDate, setSearchDate] = useState("today");
-  const [searchCompanyName, setSearchCompanyName] = useState('');
   const [searchSector, setSearchSector] = useState('');
   const [processedImage, setProcessedImage] = useState(null);
-
+  const [companyImages , setCompanyImages] = useState(null);
   const handleLocationChange = (e) => {
     setSearchLocation(e.target.value);
   };
   const handleDateChange = (e) =>{
     setSearchDate(e.target.value)
   }
-  const handleCompanyNameChange = (e) => {
-    setSearchCompanyName(e.target.value);
+  const handleStatusChange = (e) => {
+    setSearchStatus(e.target.value);
   };
 
   const handleSectorChange = (e) => {
-    setSearchSector(e.target.value);
+    setSecteurActivite(e.target.value);
   };
 
   
@@ -35,13 +36,9 @@ export default function OffersPage() {
   const [name, setName] = useState("Feriel BHK");
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState({});
-  const [description, setDescription] = useState(
-    "Full-Stack web developer with 3 years of experience in building web applications."
-  );
-  //si role=student haka sinon alumni looking for job offer
-  const [status, setStatus] = useState(
-    "A student looking for an internship."
-  );
+  const [description, setDescription] = useState("DevOps Student Engineering");
+ 
+  
   const [email, setEmail] = useState("");
   const [offers, setOffers] = useState([]);
   /*const filteredOffers = offers.filter(offer => {
@@ -54,18 +51,25 @@ export default function OffersPage() {
       try {
         const response = await axios.get("http://localhost:5000/offers/getall");
         console.log(response.data);
-        const sortedOffers = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-      
-        setOffers(sortedOffers);
+        // Fetch and store company images
+        const companyImages = {};
+        await Promise.all(response.data.map(async (offer) => {
+          const companyId = offer.provider._id;
+          const response = await axios.get(`http://localhost:5000/user/get-image?id=${companyId}`, { responseType: 'blob' });
+          companyImages[companyId] = URL.createObjectURL(response.data);
+        }));
+        setOffers(response.data);
+        setCompanyImages(companyImages);
         setIsLoading(false);
       } catch (error) {
         console.error(error);
         setIsLoading(false);
       }
     };
-
+  
     fetchOffers();
   }, []);
+  
  
   useEffect(() => {
     const fetchUserData = async () => {
@@ -83,6 +87,7 @@ export default function OffersPage() {
         setName(response.data.user.username);
         setEmail(response.data.user.email);
         getProfileImage(response.data.user._id);
+        //setDescription(response.user.description)
         setIsLoading(false);
       } catch (error) {
         console.error(error);
@@ -104,11 +109,13 @@ export default function OffersPage() {
       console.error(error);
     }
   };
+  
+  
+  
   const [nomEntreprise, setNomEntreprise] = useState('');
-  const [dateOffre, setDateOffre] = useState('');
   const [typeOffre, setTypeOffre] = useState('');
   const [secteurActivite, setSecteurActivite] = useState('');
-  const [lieuOffre, setLieuOffre] = useState('');
+  const [offerStatus, setOfferStatus] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -116,15 +123,14 @@ export default function OffersPage() {
   };
 
   const handleReset = () => {
-    setNomEntreprise('');
+    setSearchStatus('');
     setSearchDate('');
     setTypeOffre('');
     setSecteurActivite('');
     setSearchLocation('');
   };
   const filterOffers = (offer) => {
-    // Filtrer par emplacement
-    const locationFilter = searchLocation === '' || offer.location.toLowerCase().includes(searchLocation.toLowerCase());
+    
     // Filtrer par date
     const createdDate = new Date(offer.created_at);
     const today = new Date();
@@ -149,14 +155,14 @@ export default function OffersPage() {
       default:
         dateFilter = true;
     }
+    const locationFilter = searchLocation === '' || offer.location.toLowerCase().includes(searchLocation.toLowerCase());
     
-    // Filtrer par nom de l'entreprise
-    const companyNameFilter = searchCompanyName === '' || offer.companyName.toLowerCase().includes(searchCompanyName.toLowerCase());
-    // Filtrer par secteur
-    const sectorFilter = searchSector === '' || offer.sector.toLowerCase().includes(searchSector.toLowerCase());
+    const statusFilter = searchStatus === '' || offer.status.toLowerCase().includes(searchStatus.toLowerCase());
+
+    const sectorFilter = secteurActivite === '' || offer.area === secteurActivite;
 
     // Retourner vrai si toutes les conditions sont remplies
-    return locationFilter && dateFilter && companyNameFilter && sectorFilter;
+    return locationFilter && dateFilter && statusFilter && sectorFilter;
   };
 
   const filteredOffers = offers.filter(filterOffers);
@@ -228,21 +234,25 @@ export default function OffersPage() {
 
     <div class="p-5 lg:col-span-2">
               <div>
-                {filteredOffers.map((offer, index) => (
-                  <OfferCard
-                    key={index}
-                    //companyphoto={offer.photoofprovider}
-                    companyphoto={companyphoto}
-                    jobTitle={offer.title}
-                    companyName={offer.companyName}
-                    Category={offer.category}
-                    description={offer.description}
+              {filteredOffers.map((offer, index) => (
+                <OfferCard
+                  key={index}
+                  companyphoto={companyImages[offer.provider._id]} // Pass company image
+                  jobTitle={offer.title}
+                  companyName={offer.provider.name}
+                  Category={offer.category}
+                  location={offer.location}
+                  area={offer.area}
+                  type={offer.type}
+                  status={offer.status}
+                  viewMoreLink={`/offer-details/${offer._id}`}
+                />
+              ))}</div>
+            </div>
 
-                    viewMoreLink={`/offer-details/${offer._id}`}
-                  />
-                ))}
-              </div>
-    </div>
+
+
+
 
 
 
@@ -270,11 +280,11 @@ export default function OffersPage() {
           </div>
           
             <div className="mb-4">
-              <label className="block " htmlFor="nom-entreprise">Company Name</label>
+              <label className="block " htmlFor="nom-entreprise">Offer Status</label>
               <input
-               className=" border-0 px-3 mb-3  text-sm border-b-2 focus:outline-none focus:border-b-2 focus:border-custom-red focus:ring-0  w-full ease-linear transition-all duration-150"
-              type="text" id="nom-entreprise" value={nomEntreprise} onChange={(e) => setNomEntreprise(e.target.value)} />
-            </div>
+                   className=" border-0 px-3 mb-3 text-sm border-b-2 focus:outline-none focus:border-b-2 focus:border-custom-red focus:ring-0  w-full ease-linear transition-all duration-150"
+                  type="text" id="lieu-offre" value={searchStatus} onChange={handleStatusChange} />
+                </div>
             <div className="mb-4">
               <label className="block " htmlFor="date-offre">Offer Date:</label>
               <select 
@@ -290,14 +300,15 @@ export default function OffersPage() {
             <div className="mb-4">
               <label className="block" htmlFor="secteur-activite">Activity Area:</label>
               <select
-               className=" border-0 px-3 mb-3  text-sm border-b-2 focus:outline-none focus:border-b-2 focus:border-custom-red focus:ring-0  w-full ease-linear transition-all duration-150"
-              id="secteur-activite" value={secteurActivite} onChange={(e) => setSecteurActivite(e.target.value)}>
-                <option value="">Select...</option>
-                <option value="IT">IT</option>
-                <option value="Business">Business</option>
-                <option value="Civil">Civil</option>
-                <option value="Electromecanique">Electromecanique</option>
-              </select>
+              className="border-0 px-3 mb-3 text-sm border-b-2 focus:outline-none focus:border-b-2 focus:border-custom-red focus:ring-0 w-full ease-linear transition-all duration-150"
+              id="secteur-activite" value={secteurActivite} onChange={handleSectorChange}
+            >
+              <option value="">Select...</option>
+              <option value="IT">IT</option>
+              <option value="Business">Business</option>
+              <option value="Civil">Civil</option>
+              <option value="Electromecanique">Electromecanique</option>
+            </select>
             </div>
             <div className="mb-4">
               <label className="block " htmlFor="lieu-offre">Location</label>
