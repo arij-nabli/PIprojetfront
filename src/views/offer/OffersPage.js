@@ -11,8 +11,8 @@ import Auth from "layouts/Auth";
 import LoadingScreen from "components/LoadingScreen";
 export default function OffersPage() {
   const [searchLocation, setSearchLocation] = useState('');
+  const [searchStatus , setSearchStatus] = useState('');
   const [searchDate, setSearchDate] = useState("today");
-  const [searchCompanyName, setSearchCompanyName] = useState('');
   const [searchSector, setSearchSector] = useState('');
   const [processedImage, setProcessedImage] = useState(null);
 
@@ -22,8 +22,8 @@ export default function OffersPage() {
   const handleDateChange = (e) =>{
     setSearchDate(e.target.value)
   }
-  const handleCompanyNameChange = (e) => {
-    setSearchCompanyName(e.target.value);
+  const handleStatusChange = (e) => {
+    setSearchStatus(e.target.value);
   };
 
   const handleSectorChange = (e) => {
@@ -111,15 +111,14 @@ export default function OffersPage() {
   };
 
   const handleReset = () => {
-    setNomEntreprise('');
+    setSearchStatus('');
     setSearchDate('');
     setTypeOffre('');
     setSecteurActivite('');
     setSearchLocation('');
   };
   const filterOffers = (offer) => {
-    // Filtrer par emplacement
-    const locationFilter = searchLocation === '' || offer.location.toLowerCase().includes(searchLocation.toLowerCase());
+    
     // Filtrer par date
     const createdDate = new Date(offer.created_at);
     const today = new Date();
@@ -144,8 +143,9 @@ export default function OffersPage() {
       default:
         dateFilter = true;
     }
+    const locationFilter = searchLocation === '' || offer.location.toLowerCase().includes(searchLocation.toLowerCase());
     
-    const statusFilter = offerStatus === '' || offer.status.toLowerCase() === offerStatus.toLowerCase();
+    const statusFilter = searchStatus === '' || offer.status.toLowerCase().includes(searchStatus.toLowerCase());
 
     // Filtrer par secteur
     const sectorFilter = searchSector === '' || offer.sector.toLowerCase().includes(searchSector.toLowerCase());
@@ -271,9 +271,9 @@ export default function OffersPage() {
             <div className="mb-4">
               <label className="block " htmlFor="nom-entreprise">Offer Status</label>
               <input
-               className=" border-0 px-3 mb-3  text-sm border-b-2 focus:outline-none focus:border-b-2 focus:border-custom-red focus:ring-0  w-full ease-linear transition-all duration-150"
-              type="text" id="nom-entreprise" value={nomEntreprise} onChange={(e) => setNomEntreprise(e.target.value)} />
-            </div>
+                   className=" border-0 px-3 mb-3 text-sm border-b-2 focus:outline-none focus:border-b-2 focus:border-custom-red focus:ring-0  w-full ease-linear transition-all duration-150"
+                  type="text" id="lieu-offre" value={searchStatus} onChange={handleStatusChange} />
+                </div>
             <div className="mb-4">
               <label className="block " htmlFor="date-offre">Offer Date:</label>
               <select 
