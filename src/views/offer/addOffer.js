@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const AddOffer = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [provider, setProvider] = useState("");
@@ -12,6 +15,7 @@ const AddOffer = () => {
   const [endDate, setEndDate] = useState("");
   const [location, setLocation] = useState("");
   const [type, setType] = useState("");
+  const [area, setArea] = useState("");
   const [category, setCategory] = useState("");
   const [benefits, setBenefits] = useState([]);
   const [isActive, setIsActive] = useState(true);
@@ -19,6 +23,11 @@ const AddOffer = () => {
   const [errors, setErrors] = useState({});
   const [skillInput, setSkillInput] = useState("");
   const [suggestedSkills, setSuggestedSkills] = useState([]);
+  const [payment, setPayment] = useState("unpaid"); // New state for Payment
+  const [contrat, setContrat] = useState(""); // New state for Contrat
+  const [user, setUser] = useState(null);
+  const [offers, setOffers] = useState([]);
+
   const handleSkillInputChange = async (event) => {
     setSkillInput(event.target.value);
     if (event.target.value.length > 0) {
@@ -40,6 +49,37 @@ const AddOffer = () => {
   const handleSkillDelete = (skillToDelete) => {
     setSkills(skills.filter((skill) => skill !== skillToDelete));
   };
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.get(
+          'http://localhost:5000/auth/getUserDataFromToken',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(response.data);
+        setUser(response.data.user);
+
+        if (response.data.user && response.data.user._id) {
+          const offersResponse = await axios.get(
+            `http://localhost:5000/offers/getByCompany/${response.data.user._id}`
+          );
+          console.log(offersResponse.data);
+          setOffers(offersResponse.data);
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,16 +92,7 @@ const AddOffer = () => {
     if (!description) {
       validationErrors.description = "Description is required";
     }
-    if (!minSalary) {
-      validationErrors.minSalary = "Minimum Salary is required";
-    }
-    if (!maxSalary) {
-      validationErrors.maxSalary = "Maximum Salary is required";
-    }
-    if (minSalary >= maxSalary) {
-      validationErrors.minSalary =
-        "Minimum Salary must be smaller than Maximum Salary";
-    }
+   
     if (!startDate) {
       validationErrors.startDate = "Start Date is required";
     }
@@ -77,6 +108,9 @@ const AddOffer = () => {
     if (!type) {
       validationErrors.type = "Type is required";
     }
+    if (!area) {
+      validationErrors.area = "Area is required";
+    }
     if (!category) {
       validationErrors.category = "Category is required";
     }
@@ -88,11 +122,13 @@ const AddOffer = () => {
       setErrors(validationErrors);
       return;
     }
+    
+  
 
     const offerData = {
       title,
       description,
-      provider: "6608f7f8ac60ba2adcd178d1",
+      provider : user._id,
       salary_range: { min: minSalary, max: maxSalary },
       start_date: startDate,
       end_date: endDate,
@@ -100,8 +136,11 @@ const AddOffer = () => {
       type,
       category,
       benefits,
+      area,
       is_active: isActive,
       requirements: skills,
+      payment, // Include payment in offer data
+      contrat,
     };
 
     try {
@@ -175,50 +214,8 @@ const AddOffer = () => {
             )}
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                htmlFor="minSalary"
-              >
-                Minimum Salary:
-              </label>
-              <input
-                className={`appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
-                  errors.minSalary ? "border-red-500" : ""
-                }`}
-                type="number"
-                id="minSalary"
-                value={minSalary}
-                onChange={(e) => setMinSalary(e.target.value)}
-              />
-              {errors.minSalary && (
-                <p className="text-red-500 text-xs italic">
-                  {errors.minSalary}
-                </p>
-              )}
-            </div>
-            <div>
-              <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                htmlFor="maxSalary"
-              >
-                Maximum Salary:
-              </label>
-              <input
-                className={`appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
-                  errors.maxSalary ? "border-red-500" : ""
-                }`}
-                type="number"
-                id="maxSalary"
-                value={maxSalary}
-                onChange={(e) => setMaxSalary(e.target.value)}
-              />
-              {errors.maxSalary && (
-                <p className="text-red-500 text-xs italic">
-                  {errors.maxSalary}
-                </p>
-              )}
-            </div>
+            
+           
             <div>
               <label
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -305,27 +302,32 @@ const AddOffer = () => {
                 <p className="text-red-500 text-xs italic">{errors.type}</p>
               )}
             </div>
+
+
+
             <div>
               <label
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                htmlFor="category"
+                htmlFor="type"
               >
-                Category:
+                Area:
               </label>
               <select
                 className={`appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
-                  errors.category ? "border-red-500" : ""
+                  errors.type ? "border-red-500" : ""
                 }`}
-                id="category"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                id="area"
+                value={area}
+                onChange={(e) => setArea(e.target.value)}
               >
-                <option value="">Select Category</option>
-                <option value="internship">Internship</option>
-                <option value="job">Job</option>
+                <option value="">Select Area</option>
+                <option value="IT">IT</option>
+                <option value="Civil">Civil</option>
+                <option value="Business">Business</option>
+                <option value="Electromecanique">Electromecanique</option>
               </select>
-              {errors.category && (
-                <p className="text-red-500 text-xs italic">{errors.category}</p>
+              {errors.area && (
+                <p className="text-red-500 text-xs italic">{errors.area}</p>
               )}
             </div>
             <div >
@@ -380,7 +382,123 @@ const AddOffer = () => {
                 <p className="text-red-500 text-xs italic">{errors.skills}</p>
               )}
             </div>
-          </div>
+       
+
+
+
+
+            <div>
+              <label
+                className="flex  uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                htmlFor="category"
+              >
+                Category:
+              </label>
+              <select
+                className={`appearance-none block w-full bg-gray-200 text-gray-700 border row rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
+                  errors.category ? "border-red-500" : ""
+                }`}
+                id="category"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option value="">Select Category</option>
+                <option value="internship">internship</option>
+                <option value="job">job</option>
+              </select>
+              {category === "internship" && (
+            <div>
+              <label
+                className="flex uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                htmlFor="payment"
+              >
+                Payment:
+              </label>
+              
+              <select
+                className="appearance-none flex w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                id="payment"
+                value={payment}
+                onChange={(e) => setPayment(e.target.value)}
+              >
+                <option value="paid">Paid</option>
+                <option value="unpaid">Unpaid</option>
+              </select>
+            </div>
+          )}
+          {category === "job" && (
+  <div>
+    <div>
+      <label
+        className="flex uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+        htmlFor="minSalary"
+      >
+        Minimum Salary:
+      </label>
+      <input
+        className={`appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
+          errors.minSalary ? "border-red-500" : ""
+        }`}
+        type="number"
+        id="minSalary"
+        value={minSalary}
+        onChange={(e) => setMinSalary(e.target.value)}
+      />
+      {errors.minSalary && (
+        <p className="text-red-500 text-xs italic">
+          {errors.minSalary}
+        </p>
+      )}
+    </div>
+    <div>
+      <label
+        className="flex uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+        htmlFor="maxSalary"
+      >
+        Maximum Salary:
+      </label>
+      <input
+        className={`appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
+          errors.maxSalary ? "border-red-500" : ""
+        }`}
+        type="number"
+        id="maxSalary"
+        value={maxSalary}
+        onChange={(e) => setMaxSalary(e.target.value)}
+      />
+      {errors.maxSalary && (
+        <p className="text-red-500 text-xs italic">
+          {errors.maxSalary}
+        </p>
+      )}
+    </div>
+    <div>
+      <label
+        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+        htmlFor="contrat"
+      >
+        Contrat:
+      </label>
+      <input
+        className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        type="text"
+        id="contrat"
+        value={contrat}
+        onChange={(e) => setContrat(e.target.value)}
+      />
+    </div>
+  </div>
+)}
+
+  
+              {errors.category && (
+                <p className="text-red-500 text-xs italic">{errors.category}</p>
+              )}
+            </div>
+           
+            </div>
+          
+
           <div className="mt-6">
             <button
               className="w-full shadow bg-custom-red hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"

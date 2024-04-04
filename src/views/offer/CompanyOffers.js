@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { HashLoader } from 'react-spinners';
+import HashLoader from "react-spinners/HashLoader";
+import { useParams } from "react-router-dom";
+import OfferCard from "components/Cards/OfferCard";
+import { Link } from "react-router-dom";
+
 const CompanyOffers = () => {
   const [user, setUser] = useState(null);
   const [offers, setOffers] = useState([]);
@@ -68,7 +71,7 @@ const CompanyOffers = () => {
           <h1 className="text-4xl font-bold mb-6 text-center text-custom-red">
             Company Offers
           </h1>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {offers.map((offer) => (
               <div
                 key={offer._id}
@@ -120,11 +123,9 @@ const CompanyOffers = () => {
                     </li>
                   ))}
                 </ul>
-                {/* Add edit/delete buttons if applicable */}
               </div>
             ))}
           </div>
-          {/* Add pagination controls if there are many offers */}
         </div>
       )}
     </>
