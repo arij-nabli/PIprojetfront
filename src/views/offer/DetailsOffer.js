@@ -250,6 +250,7 @@ export default function DetailsOffer() {
                 </ul>
               </p>
               <h3 className="mb-6 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700" style={{ color: "#BD2C43" }}>
+              <i class="fas fa-toggle-on mt-1 mr-2 "></i>
                 {offer.status}
               
               </h3>
