@@ -22,18 +22,29 @@ const OfferCard = ({ companyphoto, jobTitle, companyName , Category ,type ,locat
             <div className="px-6 py-2 justify-center text-center">
             
 
-              <div className=" flex mt-2 text-sm leading-relaxed justify-center text-center  font-semibold ">
-            <h3  style={{ color: "#BD2C43" }}>Location : </h3>
-            <h3 className=" text-gray-900  " >{ location}</h3></div>  
+              <div className=" flex mt-2 text-sm  leading-relaxed justify-center text-center  font-semibold ">
+              <i class="fas fa-street-view mr-2 mt-1"></i>
+                <h3  style={{ color: "#BD2C43" }}>Location : </h3>
+                <h3 className=" text-gray-900 mr-2 ml-2 " >{ location}</h3>
+             </div>  
+
             <div className=" flex mt-2 text-sm leading-relaxed justify-center text-center font-semibold ">
-            <h3  style={{ color: "#BD2C43" }}>Sector : </h3>
-            <h3 className=" text-gray-900  " >{ area}</h3></div> 
+                <i class="fas fa-chart-bar mr-2 mt-1"></i>
+                <h3  style={{ color: "#BD2C43" }}>Sector : </h3>
+                <h3 className=" text-gray-900 mr-2 ml-2 " >{ area}</h3>
+            </div> 
+
             <div className=" flex mt-2 text-sm leading-relaxed justify-center text-center font-semibold ">
-            <h3  style={{ color: "#BD2C43" }}>Type : </h3>
-            <h3 className=" text-gray-900  " >{ type}</h3></div> 
+                <i class="fas fa-hourglass-half mt-1 mr-2"></i>
+                <h3  style={{ color: "#BD2C43" }}>Type : </h3>
+                <h3 className=" text-gray-900 mr-2 ml-2 " >{ type}</h3>
+            </div> 
+
             <div className=" flex mt-2 text-sm leading-relaxed justify-center text-center font-semibold ">
-            <h3  style={{ color: "#BD2C43" }}>Status : </h3>
-            <h3 className=" text-gray-900  " >{ status}</h3></div> 
+                <i class="fas fa-toggle-on mt-1 mr-2 "></i>
+                <h3  style={{ color: "#BD2C43" }}>Status : </h3>
+                <h3 className=" text-gray-900 mr-2 ml-2 " >{ status}</h3>
+            </div> 
             </div>
             <div class="flex justify-center py-4 mb-4 ">
             <Link
