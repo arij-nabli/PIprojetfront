@@ -6,7 +6,6 @@ const AuthGuard = ({ children }) => {
   const token = localStorage.getItem('token');
   const isAuthenticated = token; // Convert token to boolean. If token exists, user is authenticated
  useEffect(() => {
-    console.log('token',token)
     if (!isAuthenticated) {
       navigate('/auth/login');
     }

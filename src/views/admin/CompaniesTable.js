@@ -26,7 +26,6 @@ export default function CompaniesTable({ color, searchQuery }) {
         const response = await axios.get("http://localhost:5000/admin/companiespending");
         setTableData(response.data.pendingCompanies);
         setUserTable(response.data.users);
-        console.log(response.data.users);
     };
 
     const acceptCompany = async (companyId) => {
