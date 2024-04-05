@@ -184,12 +184,13 @@ export default function OffersPage() {
 
       <div className="flex flex-col items-center bg-white">
       <>
-                         <img
-                              src={processedImage}
-                              style={{ width: 230, height: 230 }}
-                              className="mt-5 border-1 shadow rounded-full  border-black"
-                              alt="Profile"
-                            />
+              <img
+            src={processedImage}
+            style={{ width: 230, height: 230 }}
+            className="mt-5 border-1 shadow-xl rounded-full border-black" // Modifiez la classe shadow-lg
+            alt="Profile"
+        />
+
                           </>
 
         <div className="mx-auto mt-2">
@@ -247,16 +248,6 @@ export default function OffersPage() {
                 />
               ))}</div>
             </div>
-
-
-
-
-
-
-
-
-
-
 
 
 
