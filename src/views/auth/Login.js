@@ -33,7 +33,6 @@ export default function Login() {
     }
     const userData = {
       email,
-      email,
       password,
     };
     try {

@@ -4,10 +4,25 @@ const AdminProfile = () => {
   // Replace the following variables with actual admin profile data
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-
+    const [editPhone, setEditPhone] = useState(false);
+    const [phone, setPhone] = useState("Initial Phone");
+    const [newPhone, setNewPhone] = useState("");
+  const [editName, setEditName] = useState(false);
+  const [newName, setNewName] = useState("");
+  const [user,setUser]=useState("");
   const [processedImage, setProcessedImage] = useState(null);
 
+
+  const handleEditClick = () => {
+    setEditName(!editName);
+  };
+
+  const handleNameChange = (event) => {
+    setNewName(event.target.value);
+  };
+  const handleNameSubmit = (event) => {
+ updateUsername(user._id, newName);
+  }
   useEffect(() => {
     const token = localStorage.getItem("token");
     const fetchUserData = async () => {
@@ -20,31 +35,76 @@ const AdminProfile = () => {
             },
           }
         );
+        setUser(response.data.user);
         setEmail(response.data.user.email);
         setName(response.data.user.username);
         setPhone(response.data.user.phone);
         getProfileImage(response.data.user._id);
+        
       } catch (error) {
         console.error(error);
       }
     };
     fetchUserData();
-},[]);
-const getProfileImage = async (id) => {
+  }, []);
+  const getProfileImage = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/user/get-image?id=${id}`,
+        { responseType: "blob" }
+      );
+      const imageUrl = URL.createObjectURL(response.data);
+      setProcessedImage(imageUrl);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+const updateUsername = async (id) => {
   try {
-    const response = await axios.get(
-      `http://localhost:5000/user/get-image?id=${id}`,
-      { responseType: "blob" }
-    );
-    const imageUrl = URL.createObjectURL(response.data);
-    setProcessedImage(imageUrl);
+    // Call your backend API to update the username using Axios
+    const response = await axios.put("http://localhost:5000/admin/updateUsername", { newName,id});
+    if (response.status === 200) {
+      setName(newName); // Update the name displayed
+      setEditName(false); // Exit edit mode
+    } else {
+      console.error("Failed to update username");
+    }
   } catch (error) {
-    console.error(error);
+    console.error("Error updating username:", error);
   }
 };
 
+ const handleEditPhoneClick = () => {
+   setNewPhone(phone); // Reset newPhone to current phone
+   setEditPhone(!editPhone); // Toggle editPhone state
+ };
 
-   
+ const handlePhoneChange = (event) => {
+   setNewPhone(event.target.value);
+ };
+
+ const handlePhoneSubmit = async () => {
+   editPhoneNumber(user._id, newPhone);
+   setEditPhone(!editPhone);
+   setPhone(newPhone) // Toggle editPhone state
+ };
+
+ const editPhoneNumber = async (id, newPhone) => {
+  try {
+    // Call your backend API to update the username using Axios
+    const response = await axios.put(
+      "http://localhost:5000/admin/updatePhoneNumber",
+      { newPhone, id }
+    );
+    if (response.status === 200) {
+      setPhone(newPhone); // Update the name displayed
+    } else {
+      console.error("Failed to update phone");
+    }
+  } catch (error) {
+    console.error("Error updating phone:", error);
+  }
+ }
   return (
     <main className="profile-page">
       <section className="relative block h-500-px">
@@ -94,31 +154,59 @@ const getProfileImage = async (id) => {
               </div>
               <div className="text-center mt-12">
                 <h3 className="text-4xl font-semibold leading-normal text-blueGray-700 mb-2">
-                  {name}
-                  <span className="text-blueGray-500 text-lg pl-1">
-                    {" "}
-                    <button>
-                      <i className="fas fa-edit"></i>
-                    </button>
-                  </span>
+                  {editName ? (
+                    <span className="text-blueGray-500 text-lg pl-1">
+                      <input
+                        type="text"
+                        defaultValue={name}
+                        onChange={handleNameChange}
+                        onBlur={handleNameSubmit}
+                        className="border border-gray-300 rounded px-3 py-2 text-gray-700 focus:outline-none transition-colors duration-200"
+                        autoFocus
+                      />
+                      <button onClick={handleNameSubmit}>
+                        <i className="fas fa-check"></i>
+                      </button>
+                    </span>
+                  ) : (
+                    <>
+                      <span>{name}</span>
+                      <span className="text-blueGray-500 text-lg pl-1">
+                        <button onClick={handleEditClick}>
+                          <i className="fas fa-edit"></i>
+                        </button>
+                      </span>
+                    </>
+                  )}
                 </h3>
                 <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-medium">
                   {email}
-                  <span className="pl-1">
-                    {" "}
-                    <button>
-                      <i className="fas fa-edit"></i>
-                    </button>
-                  </span>
                 </div>
                 <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-medium">
-                  {phone}
-                  <span className="pl-1">
-                    {" "}
-                    <button>
-                      <i className="fas fa-edit"></i>
-                    </button>
-                  </span>
+                  {editPhone ? (
+                    <span className="text-blueGray-500 text-lg pl-1">
+                      <input
+                        type="text"
+                        defaultValue={phone}
+                        onChange={handlePhoneChange}
+                        onBlur={handlePhoneSubmit}
+                        className="border border-gray-300 rounded px-3 py-2 text-gray-700 focus:outline-none transition-colors duration-200"
+                        autoFocus
+                      />
+                      <button onClick={handlePhoneSubmit}>
+                        <i className="fas fa-check"></i>
+                      </button>
+                    </span>
+                  ) : (
+                    <>
+                      <span>{phone}</span>
+                      <span className="text-blueGray-500 text-lg pl-1">
+                        <button onClick={handleEditPhoneClick}>
+                          <i className="fas fa-edit"></i>
+                        </button>
+                      </span>
+                    </>
+                  )}
                 </div>
                 <div className="mb-2 text-blueGray-600 mt-10">
                   <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
