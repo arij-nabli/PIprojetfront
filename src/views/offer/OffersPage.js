@@ -168,26 +168,29 @@ export default function OffersPage() {
   const filteredOffers = offers.filter(filterOffers);
 
   return (
-    <>
-      {isLoading ? (
-      <LoadingScreen isLoading={isLoading} />
-      ) : (
-        <>
+    
+      <div className="bg-gray-100">
+        {isLoading ? (
+          <LoadingScreen isLoading={isLoading} />
+        ) : (
+          <>
+        
 {
   !user.role ?<AuthNavbar /> : 
   (user.role === 'company' ? <CompanyNavbar /> :  <IndexNavbar id={user._id}/>)
 }
   <div class="mx-auto grid lg:grid-cols-4 sm:grid-cols-2 gap-6 mt-4">
-    <div className="shadow-lg p-5 lg:col-span-1 ">
+    <div className="bg-white shadow-lg p-5 lg:col-span-1 ">
 
       <div className="flex flex-col items-center bg-white">
       <>
-                         <img
-                              src={processedImage}
-                              style={{ width: 230, height: 230 }}
-                              className="mt-5 border-1 shadow rounded-full  border-black"
-                              alt="Profile"
-                            />
+              <img
+            src={processedImage}
+            style={{ width: 230, height: 230 }}
+            className="mt-5 border-1 shadow-xl rounded-full border-black" // Modifiez la classe shadow-lg
+            alt="Profile"
+        />
+
                           </>
 
         <div className="mx-auto mt-2">
@@ -228,10 +231,6 @@ export default function OffersPage() {
       </div>
     </div>
 
-
-
-            
-
     <div class="p-5 lg:col-span-2">
               <div>
               {filteredOffers.map((offer, index) => (
@@ -255,17 +254,7 @@ export default function OffersPage() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-    <div class="shadow-lg p-5 lg:col-span-1 ">
+    <div class="bg-white shadow-lg p-5 lg:col-span-1 ">
     <form onSubmit={handleSubmit}>
       <div class="px-6 mx-6  my-4 py-4">
       
@@ -284,7 +273,7 @@ export default function OffersPage() {
               <input
                    className=" border-0 px-3 mb-3 text-sm border-b-2 focus:outline-none focus:border-b-2 focus:border-custom-red focus:ring-0  w-full ease-linear transition-all duration-150"
                   type="text" id="lieu-offre" value={searchStatus} onChange={handleStatusChange} />
-                </div>
+                </div> 
             <div className="mb-4">
               <label className="block " htmlFor="date-offre">Offer Date:</label>
               <select 
@@ -325,8 +314,8 @@ export default function OffersPage() {
           </div>
         </div>
         
-
       </>
-    )}
-  </>
-);}
+      )}
+      </div>
+    );
+  }
