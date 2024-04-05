@@ -7,6 +7,11 @@ import 'react-intl-tel-input/dist/main.css';
 export default function UpdateProfileCompany({ onClose, onSubmit, companyData }) {
   const [showModal, setShowModal] = React.useState(true);
   const [token, setToken] = useState(localStorage.getItem("token")); 
+  const [location, setlocation] = useState(companyData.location);
+  const [secteurActivite, SetsecteurActivite] = useState(companyData.secteurActivite);
+  const [descreption, setDescreption] = useState(companyData.descreption);
+
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const param = useParams();
  
@@ -15,7 +20,12 @@ export default function UpdateProfileCompany({ onClose, onSubmit, companyData })
   const [user, setUser] = useState(companyData);
 console.log(companyData);
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+  
   try {
     const response = await axios.put(`http://localhost:5000/user/update-user/${companyData._id}`, user);
     console.log(response);
@@ -37,12 +47,107 @@ const handleInputChange = (e) => {
     ...user,
     [e.target.name]: e.target.value,
   });
+  setErrors({
+    ...errors,
+    [e.target.name]: "",
+  });
 };
-useEffect(() => {
-  setUser(companyData);
-}, [companyData]);
-     
-   
+
+const handleLocationChange = (e) => {
+  const { value } = e.target;
+  setUser({
+    ...user,
+    location: value,
+  });
+  setErrors({
+    ...errors,
+    location: "",
+  });
+};
+
+const handleEmailChange = (e) => {
+  const { value } = e.target;
+  setUser({
+    ...user,
+    email: value,
+  });
+
+  // Validation de l'e-mail
+  const emailPattern = /\S+@\S+\.\S+/;
+  if (!emailPattern.test(value)) {
+    setErrors({
+      ...errors,
+      email: "Invalid email address",
+    });
+  } else {
+    setErrors({
+      ...errors,
+      email: "",
+    });
+  }
+};
+
+const handleSelectChange = (e) => {
+  const { value } = e.target;
+  setUser({
+    ...user,
+    industry: value,
+  });
+  setErrors({
+    ...errors,
+    industry: "",
+  });
+};
+
+const handlePhoneChange = (value) => {
+  setUser({
+    ...user,
+    phone: value,
+  });
+  setErrors({
+    ...errors,
+    phone: "",
+  });
+};
+
+const validateForm = () => {
+  let errors = {};
+  let isValid = true;
+
+  if (!user.username.trim()) {
+    errors.username = "Company name is required";
+    isValid = false;
+  }
+
+  if (!user.email.trim()) {
+    errors.email = "Email is required";
+    isValid = false;
+  } else if (!/\S+@\S+\.\S+/.test(user.email)) {
+    errors.email = "Invalid email address";
+    isValid = false;
+  }
+
+  if (!user.industry) {
+    errors.industry = "Sector of activity is required";
+    isValid = false;
+  }
+
+  if (!user.location.trim()) {
+    errors.location = "Location is required";
+    isValid = false;
+  }
+
+  if (!user.description.trim()) {
+    errors.description = "Description is required";
+    isValid = false;
+  }
+
+  setErrors(errors);
+  return isValid;
+};
+
+  // Continue with form submission
+
     const handleCancel = () => {
       onClose();
     };
@@ -61,22 +166,46 @@ useEffect(() => {
  
     
     <form onSubmit={handleSubmit}>
-    <div className="px-6 mx-6 my-4 py-4 text-left">
-          <div className="relative">
-            
-            <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="companyName">
-              <i className="fa-solid fa-building"></i>
-              {"  "} Company name
-            </label>
-            <input
+    <div className="px-6 mx-6  py-4 text-left">
+    <div className="relative">
+              <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="companyName">
+                <i className="fa-solid fa-building"></i> Company name
+              </label>
+              <input
                 name="username"
                 value={user.username}
                 onChange={handleInputChange}
-                className="border-0 bg-gray-100 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
+                className={`border-0 bg-gray-100 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150 ${
+                  errors.username ? "border-red-500" : ""
+                }`}
               />
+              {errors.username && <p className="text-red-500 text-xs italic">{errors.username}</p>}
+            </div>
           </div>
-          </div>
-          <div className="px-6 mx-6 my-4 py-4 text-left">
+          <div className="px-6 mx-6  py-4 text-left">
+  <div className="relative">
+    <label
+      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+      htmlFor="grid-password"
+    >
+      <i className="fa-solid fa-envelope"></i>
+      {"  "} Email
+    </label>
+    <input
+      type="email"
+      value={user.email}
+      onChange={handleEmailChange}
+      className={`border-0 bg-gray-100 bg-gray-100 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150 ${
+        errors.email ? "border-red-500" : ""
+      }`}
+    />
+    {errors.email && (
+      <p className="text-red-500 text-xs italic">{errors.email}</p>
+    )}
+  </div>
+</div>
+
+          <div className="px-6 mx-6  py-4 text-left">
           <div className="relative">
             
             <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="secteurActivite">
@@ -84,8 +213,8 @@ useEffect(() => {
               {"  "} Sector of activity
             </label>
             <select
-             defaultValue={user.secteurActivite}
-               onChange={handleInputChange}
+             defaultValue={user.industry}
+               onChange={ handleSelectChange}
               id="secteurActivite"
               name="secteurActivite"
               className="border-0 px-3 bg"
@@ -100,35 +229,39 @@ useEffect(() => {
             </select>
           </div>
        </div>  
-       <div className="px-6 mx-6 my-4 py-4 text-left">
+       <div className="px-6 mx-6 py-4 text-left">
   <div className="relative">
     <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="adresse">
       <i className="fa-solid fa-location-dot"></i>
       {"  "} Location (Address)
     </label>
     <input
-    defaultValue={user.adresse}
-    onChange={handleInputChange}
+    defaultValue={user.location}
+    onChange={handleLocationChange}
       type="adresse"
       className="border-0 bg-gray-100 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
     />
   </div>
 </div>
-<div className="px-6 mx-6 my-4 py-4 text-left">
+<div className="px-6 mx-6  py-4 text-left">
   <div className="relative">
     <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="description">
       <i className="fa-solid fa-earth-africa"></i> Description
     </label>
-    <input
+    
+    <textarea
+              className={`appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
+                errors.descreption ? "border-red-500" : ""
+              }`}
       name="description"
       value={user.description}
       onChange={handleInputChange}
       placeholder="Describe your company"
-      className="border-0 bg-gray-100 mb-3 mt-2 px-3 py-3 mr-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150 "
+      
     />
   </div>
 </div>
-<div className="px-6 mx-6 my-4 py-4 text-left">
+<div className="px-6 mx-6 py-4 text-left">
     <div className="relative">
       <label
         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -148,8 +281,8 @@ useEffect(() => {
       className="border-0 bg-gray-100 px-3 py-3 rounded text-sm shadow focus:outline-none focus:border-0 focus:ring-custom-red focus:ring w-full ease-linear transition-all duration-150"
     />
   )}
-  onChange={handleInputChange}
-  defaultValue={user.telephone}
+  onChange={handlePhoneChange}
+  defaultValue={user.phone}
   preferredCountries={[]}
   defaultCountry="tn"
   format
