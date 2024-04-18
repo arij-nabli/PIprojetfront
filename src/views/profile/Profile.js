@@ -6,6 +6,8 @@ import Footer from 'components/Footers/Footer.js'
 import { useNavigate } from 'react-router-dom'
 import HashLoader from 'react-spinners/HashLoader'
 import Experiences from './Experiences'
+import Educations from './Educations'
+import Softskills from './Softskills'
 
 export default function Profile() {
   const [state, setState] = useState({
@@ -68,67 +70,25 @@ export default function Profile() {
     document.getElementById('dropzone-file').click()
   }
   const [editModeHardSkill, setEditModeHardSkill] = useState(false)
-  const [editModeSoftSkill, setEditModeSoftSkill] = useState(false)
-  const [editModeEducation, setEditModeEducation] = useState(false)
 
   const [hardSkillInfo, setHardSkillInfo] = useState({
     hardSkills: [''],
   })
-  const [softSkillInfo, setSoftSkillInfo] = useState({
-    softSkills: ['communication', 'leader', 'pacient'],
-  })
-
-  const [educationeInfo, setEducationInfo] = useState({
-    educations: [
-      {
-        title: 'Licence Informatique de Gestion',
-        school: 'Essect',
-      },
-      {
-        title: 'Ingenieurie en Informatique',
-        company: 'Esprit',
-      },
-    ],
-  })
 
   const handleEditHardSkill = () => {
     setEditModeHardSkill(true)
-  }
-  const handleEditSoftSkill = () => {
-    setEditModeSoftSkill(true)
-  }
-
-  const handleEditEducation = () => {
-    setEditModeEducation(true)
   }
 
   const handleSaveHardSkill = () => {
     // Save the updated contact information
     setEditModeHardSkill(false)
   }
-  const handleSaveSoftSkill = () => {
-    // Save the updated contact information
-    setEditModeSoftSkill(false)
-  }
-
-  const handleSaveEducation = () => {
-    // Save the updated contact information
-    setEditModeEducation(false)
-  }
 
   const handleChangeHardSkill = (e) => {
     const { name, value } = e.target
     setEditModeHardSkill({ ...hardSkillInfo, [name]: value })
   }
-  const handleChangeSoftSkill = (e) => {
-    const { name, value } = e.target
-    setEditModeSoftSkill({ ...softSkillInfo, [name]: value })
-  }
 
-  const handleChangeEducation = (e) => {
-    const { name, value } = e.target
-    setEditModeEducation({ ...educationeInfo, [name]: value })
-  }
   const handleScale = (e) => {
     const scale = parseFloat(e.target.value)
     setState({ ...state, scale })
@@ -236,8 +196,6 @@ export default function Profile() {
       // Handle error
     }
   }
-  //--------------------------Experiences------------------------//
-  //-------------------------------------------------------------//
 
   //----------------------English-------------------------------//
   const [englishLevel, setEnglishLevel] = useState(
@@ -372,7 +330,7 @@ export default function Profile() {
       [name]: value,
     }))
   }
-  
+
   return (
     <>
       {isLoading ? (
@@ -852,52 +810,7 @@ export default function Profile() {
                       <div className='flex flex-col break-words ml-5 w-full bg-white mb-10 shadow-xl rounded-lg'>
                         <div className='flex flex-col items-center justify-center align-middle w-full'>
                           <div className='flex flex-col text-center mt-3'>
-                            <h2 className='text-2xl font-semibold leading-normal text-blueGray-700 mb-2'>
-                              Soft Skills
-                            </h2>
-                            {editModeSoftSkill ? (
-                              <div>
-                                <label
-                                  htmlFor='softSkills'
-                                  className='block mb-1'>
-                                  SoftSkills
-                                </label>
-                                <input
-                                  type='text'
-                                  id='softskills'
-                                  name='softskills'
-                                  value={softSkillInfo.softSkills}
-                                  onChange={handleChangeSoftSkill}
-                                  className='w-full border rounded-md px-3 py-2 mb-2'
-                                />
-                                <div className='mt-4'>
-                                  <button
-                                    onClick={handleSaveSoftSkill}
-                                    className='bg-blue-500 text-white px-4 py-2 rounded-md mr-2'>
-                                    Save
-                                  </button>
-                                  <button
-                                    onClick={() => setEditModeSoftSkill(false)}
-                                    className='bg-transparent border border-gray-500 text-gray-500 px-4 py-2 rounded-md'>
-                                    Cancel
-                                  </button>
-                                </div>
-                              </div>
-                            ) : (
-                              <div>
-                                <ul>
-                                  {softSkillInfo.softSkills.map(
-                                    (skill, index) => (
-                                      <li key={index}>{skill}</li>
-                                    )
-                                  )}
-                                </ul>
-                                <button onClick={handleEditSoftSkill}>
-                                  <i class='fa-solid fa-pen-to-square fa-xl ml-60 mt-6 mb-6'></i>
-                                </button>
-                              </div>
-                            )}
-                            {/* Add more soft skills here */}
+                            <Softskills />
                           </div>
                         </div>
                       </div>
@@ -910,90 +823,11 @@ export default function Profile() {
                       <Experiences />
                     </div>
                     {/*------------------------Education---------------------------------*/}
-                    <div className='flex flex-col break-words w-full bg-white shadow-xl rounded-lg '>
+                    <div className='flex flex-col break-words w-full bg-white mb-10 shadow-xl rounded-lg'>
                       <div className='flex flex-row justify-between align-middle'>
-                        <div className='flex flex-col items-center justify-center align-middle w-full mb-10'>
-                          <h2 className='text-2xl font-semibold leading-normal mt-4 mb-2 text-blueGray-700 mb-2'>
-                            Education
-                          </h2>
-                          <div className='mx-auto'>
-                            <div className='mb-2 text-blueGray-600'>
-                              {editModeEducation ? (
-                                <div>
-                                  {educationeInfo.educations.map(
-                                    (education, index) => (
-                                      <div key={index} className='mb-4'>
-                                        <label
-                                          htmlFor={`title-${index}`}
-                                          className='block mb-1'>
-                                          Title
-                                        </label>
-                                        <input
-                                          type='text'
-                                          id={`title-${index}`}
-                                          name={index}
-                                          value={education.title}
-                                          onChange={handleChangeEducation}
-                                          className='w-full border rounded-md px-3 py-2 mb-2'
-                                        />
-                                        <label
-                                          htmlFor={`school-${index}`}
-                                          className='block mb-1'>
-                                          School
-                                        </label>
-                                      </div>
-                                    )
-                                  )}
-                                  <div className='mt-4'>
-                                    <button
-                                      onClick={handleSaveEducation}
-                                      className='bg-blue-500 text-white px-4 py-2 rounded-md mr-2'>
-                                      Save
-                                    </button>
-                                    <button
-                                      onClick={() =>
-                                        setEditModeEducation(false)
-                                      }
-                                      className='bg-transparent border border-gray-500 text-gray-500 px-4 py-2 rounded-md'>
-                                      Cancel
-                                    </button>
-                                  </div>
-                                </div>
-                              ) : (
-                                <div className='mt-6 ml-6'>
-                                  <ul>
-                                    {educationeInfo.educations.map(
-                                      (education, index) => (
-                                        <li key={index} className='mb-4'>
-                                          <div>
-                                            <i
-                                              class='fa-solid fa-user-graduate fa-xl m-3'
-                                              style={{
-                                                color: '#860909',
-                                              }}></i>
-                                            <strong>Title:</strong>{' '}
-                                            {education.title}
-                                          </div>
-                                          <div>
-                                            <strong>School:</strong>{' '}
-                                            {education.school}
-                                          </div>
-                                        </li>
-                                      )
-                                    )}
-                                  </ul>
-                                  <button
-                                    onClick={handleEditEducation}
-                                    className='mt-6'>
-                                    <i className='fa-solid fa-pen-to-square fa-xl ml-48'></i>
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                          {/* Add more education here */}
-                        </div>
+                        {/* Any content you want to place in this flex row */}
                       </div>
+                      <Educations />
                     </div>
                   </div>
                 </div>
