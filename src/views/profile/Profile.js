@@ -8,6 +8,7 @@ import HashLoader from 'react-spinners/HashLoader'
 import Experiences from './Experiences'
 import Educations from './Educations'
 import Softskills from './Softskills'
+import Cv from './Cv'
 
 export default function Profile() {
   const [state, setState] = useState({
@@ -30,7 +31,6 @@ export default function Profile() {
   const [country, setCountry] = useState('Tunisia')
   const [suggestedSkills, setSuggestedSkills] = useState([])
   const [user, setUser] = useState({})
-  // const [jobTitle, setJobTitle] = useState('Software Engineer')
   const [isLoading, setIsLoading] = useState(true)
 
   const [name, setName] = useState('')
@@ -704,46 +704,10 @@ export default function Profile() {
                     </div>
                   </div>
 
-                  {/*-------------------------------HardSkills------------------------------ */}
-
-                  {/*-------------------------------HardSkills------------------------------ */}
                   <div
                     className='w-full ml-10 flex flex-col justify-center '
                     style={{ height: '100%' }}>
-                    <div className='flex ml-48'>
-                      <button
-                        className='bg-yellow-500 hover:bg-yellow-300 text-red-700 font-bold py-2 px-4 rounded inline-flex items-center mb-6'
-                        style={{ width: 'fit-content' }}
-                        onClick={() =>
-                          document.getElementById('fileInput').click()
-                        }>
-                        <svg
-                          className='fill-current w-4 h-4 mr-2'
-                          xmlns='http://www.w3.org/2000/svg'
-                          viewBox='0 0 20 20'>
-                          <path d='M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z' />
-                        </svg>
-                        <span>Upload CV</span>
-                      </button>
-                      <input
-                        type='file'
-                        id='fileInput'
-                        style={{ display: 'none' }}
-                        //onChange={aa} // Add a function to handle file selection
-                      />
-
-                      <button
-                        class='bg-yellow-500 hover:bg-yellow-300 text-red-700 font-bold py-2 px-4 rounded inline-flex items-center mb-6 ml-3'
-                        style={{ width: 'fit-content' }}>
-                        <svg
-                          class='fill-current w-4 h-4 mr-2'
-                          xmlns='http://www.w3.org/2000/svg'
-                          viewBox='0 0 20 20'>
-                          <path d='M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z' />
-                        </svg>
-                        <span>Upload Video Resume</span>
-                      </button>
-                    </div>
+                    {/*<Cv/>*/} 
                     <div className='flex justify-between'>
                       <div className='flex flex-col break-words mr-5 w-full bg-white mb-10 shadow-xl rounded-lg'>
                         <div className='flex flex-col text-center mt-3'>

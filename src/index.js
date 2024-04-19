@@ -22,7 +22,7 @@ import ContactUs from 'views/ContactUs'
 import ProfileCompany from 'views/profile/ProfileCompany'
 import AdminContactPage from 'views/admin/AdminContactPage'
 import Experiences from 'views/profile/Experiences'
-
+import Cv from 'views/profile/Cv'
 
 function MainApp() {
   const [isLoading, setIsLoading] = useState(true)
@@ -58,9 +58,10 @@ function MainApp() {
           <Route path='/landing' exact element={<Landing />} />
           {/*<Route path='/profile' exact element={<Profile />} />*/}
           <Route path='/AdminContacts' exact element={<AdminContactPage />} />
+          <Route path='/trycv' exact element={<Cv />} />
+
           <Route path='/Experiences' exact element={<Experiences />} />
 
-         
           <Route path='/profileCompany' exact element={<ProfileCompany />} />
 
           <Route
