@@ -13,6 +13,7 @@ export default function DetailsOffer() {
   const [isLoading, setIsLoading] = useState(true);
   const [showApplyForm, setShowApplyForm] = useState(false);
   const [user, setUser] = useState(null);
+  const [closeDate, setCloseDate] = useState(new Date());
   const [applied, setApplied] = useState(null);
   const handleApplyClick = () => {
     setShowApplyForm(!showApplyForm); // Inversion de l'état lors du clic sur le bouton "Apply"
@@ -258,21 +259,26 @@ export default function DetailsOffer() {
               
               
               <hr className="mb-8 mt-8"></hr>
+              
+              <h6 className="mb-6 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
+              Closing date for applying : {" "}
+                {new Date(offer.close_date).toISOString().split("T")[0]}
+              </h6>
+             
+
+              
               <h6 className="mb-6 mt-8 text-lg font-semibold leading-relaxed text-blueGray-700">
               Starting date for working with our team : {" "}
                 {new Date(offer.start_date).toISOString().split("T")[0]}
               </h6>
              
-              <h6 className="mb-8 mt-6 text-lg font-semibold leading-relaxed text-blueGray-700">
-                Closing date for working with our team :{" "}
-                {new Date(offer.end_date).toISOString().split("T")[0]}
-              </h6>
+              
               <hr className="mb-8 mt-8"></hr>
               <div></div>
               <h6 className="mb-4 mt-6 text-lg font-semibold leading-relaxed text-blueGray-700">
                 Added By :
               </h6>
-              <div className="lg:col-span-2  py-2 flex flex-col lg:flex-row items-start lg:items-center">
+              <div className="lg:col-span-2  py-2 flex flex-col lg:flex-row items-start lg:items-center ">
                 <img
                   src={companyphoto}
                   style={{ width: 75, height: 75 }}
@@ -287,7 +293,15 @@ export default function DetailsOffer() {
                     {offer.provider.website}
                   </h3>
                 </div>
-              </div>
+                <div className="flex lg:text-right">  <Link
+                    class="justify-end px-4 ml-80  py-2  text-sm text-white bg-red-500 rounded-md "
+                    style={{ backgroundColor: "#BD2C43" }}
+                    to='/offer'
+                  >
+                    Back To Offers
+                  </Link>
+                </div>
+</div>
             </div>
           </div>
           </>
