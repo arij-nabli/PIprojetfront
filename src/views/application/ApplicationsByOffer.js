@@ -60,7 +60,8 @@ const ApplicationsByOffer = () => {
       console.error("Error updating interview date:", error);
     }
   };
-  const handleDecision = async (id, decision) => {
+  const handleDecision = async (e,id, decision) => {
+    e.preventDefault();
     try {
         const response = await axios.put(`http://localhost:5000/applications/${id}`, {
           status: decision
