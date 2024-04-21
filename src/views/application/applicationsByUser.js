@@ -102,7 +102,8 @@ const ApplicationsByUser = () => {
                <div className="mt-5">
                  <p className="text-sm mb-2">Cover Letter:</p>
                  <p>{application.cover_letter}</p>
-           
+                <p>interview Date</p>
+                <p>{application.interviewDate}</p>
                </div>
              )}
            </div>
