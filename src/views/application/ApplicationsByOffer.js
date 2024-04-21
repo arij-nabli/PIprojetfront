@@ -36,16 +36,15 @@ const ApplicationsByOffer = () => {
     downloadLink.click();
   };
 
-  const handleInterviewDate = async ( id, date) => {
-    console.log(date);
+  const handleInterviewDate = async (id, date,email) => {
     try {
       const response = await axios.put(
         `http://localhost:5000/applications/setInterviewDate/${id}`,
         {
           interviewDate: date,
+          userEmail: email
         }
       );
-
       if (response.status === 200) {
         // Update the application in the state
         setApplications(
@@ -193,6 +192,7 @@ const ApplicationsByOffer = () => {
                           onClick={() =>
                             handleInterviewDate(
                               application._id,
+                              application.candidate.email,
                               interviewDate
                             )
                           }
@@ -200,7 +200,7 @@ const ApplicationsByOffer = () => {
                           Schedule Video Interview
                         </button>
                         <input
-                          type="date"
+                          type="datetime-local"
                           value={interviewDate}
                           onChange={(e) => setInterviewDate(e.target.value)}
                           inline
