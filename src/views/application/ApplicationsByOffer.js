@@ -37,6 +37,7 @@ const ApplicationsByOffer = () => {
   };
 
   const handleInterviewDate = async (id, date,email) => {
+    console.log(email)
     try {
       const response = await axios.put(
         `http://localhost:5000/applications/setInterviewDate/${id}`,
@@ -192,8 +193,8 @@ const ApplicationsByOffer = () => {
                           onClick={() =>
                             handleInterviewDate(
                               application._id,
+                              interviewDate,
                               application.candidate.email,
-                              interviewDate
                             )
                           }
                         >
