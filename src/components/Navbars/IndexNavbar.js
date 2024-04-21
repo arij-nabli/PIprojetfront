@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/img/logo.jpg";
 import { useNavigate } from "react-router-dom";
 import PagesDropdown from "components/Dropdowns/PagesDropdown.js";
+import NotificationDropdown from "components/Dropdowns/NotificationDropdown";
 
 /*eslint-disable*/
 // components
 
 export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
+  const [displayNotification, setDisplayNotification] = React.useState(false);
   const navigate = useNavigate();
   const logout = () => {
     localStorage.removeItem('token');
@@ -41,14 +43,8 @@ export default function Navbar(props) {
             id="example-navbar-warning"
           >
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
-              <li className="flex items-center">
-                <a
-                  onClick={() => logout()}
-                  className="text-gray-700  hover:text-sm rounded hover:bg-custom-pink hover:text-black  transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                >
-                  Logout
-                </a>
-              </li>
+            <NotificationDropdown userId={props.id}/>
+              
 
               <li className="flex items-center">
                 <Link
@@ -74,21 +70,20 @@ export default function Navbar(props) {
                   applications
                 </Link>
               </li>
-              <li className="flex items-center">
-                <div className="relative">
-                  <button
-                    className="text-gray-700 hover:text-sm rounded  hover:text-black transition duration-200 ease-in-out lg:py-2 flex items-center text-xs uppercase font-bold"
-                    onClick={() => {/* Add your notification dropdown logic here */}}
-                  >
-                    <i className="fa-solid fa-bell fa-xl"></i>
-                  </button>
-                  {/* Add your notification dropdown component here */}
-                </div>
-              </li>
+             
+             
+
               <li className="flex items-center ">
                 <PagesDropdown />
               </li>
-            
+              <li className="flex items-center">
+                <a
+                  onClick={() => logout()}
+                  className="text-gray-700  hover:text-sm rounded hover:bg-custom-pink hover:text-black  transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                >
+                  Logout
+                </a>
+              </li>
             </ul>
           </div>
         </div>
