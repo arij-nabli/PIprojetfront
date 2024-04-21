@@ -707,7 +707,7 @@ export default function Profile() {
                   <div
                     className='w-full ml-10 flex flex-col justify-center '
                     style={{ height: '100%' }}>
-                    {/*<Cv/>*/} 
+                    <Cv/>
                     <div className='flex justify-between'>
                       <div className='flex flex-col break-words mr-5 w-full bg-white mb-10 shadow-xl rounded-lg'>
                         <div className='flex flex-col text-center mt-3'>
