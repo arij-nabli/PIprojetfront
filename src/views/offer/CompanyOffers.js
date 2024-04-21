@@ -55,7 +55,7 @@ const CompanyOffers = () => {
             {offers.map((offer) => (
               <div
                 key={offer._id}
-                className={`bg-gray-100 shadow-md rounded-lg p-6 mb-6 relative hover:shadow-lg`}
+                className={`bg-white shadow-md rounded-lg p-6 mb-6 relative hover:shadow-lg`}
               >
                 <div className="absolute top-0 right-0 bg-purple-700 text-white px-2 py-1 rounded-bl-lg rounded-tr-lg">
                   <i className="fas fa-briefcase"></i>
