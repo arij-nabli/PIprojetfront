@@ -46,29 +46,44 @@ export default function OffersPage() {
   });
   */
 
-  useEffect(() => {
-    const fetchOffers = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/offers/getall");
-        console.log(response.data);
-        // Fetch and store company images
-        const companyImages = {};
-        await Promise.all(response.data.map(async (offer) => {
-          const companyId = offer.provider._id;
-          const response = await axios.get(`http://localhost:5000/user/get-image?id=${companyId}`, { responseType: 'blob' });
-          companyImages[companyId] = URL.createObjectURL(response.data);
-        }));
-        setOffers(response.data);
-        setCompanyImages(companyImages);
-        setIsLoading(false);
-      } catch (error) {
-        console.error(error);
-        setIsLoading(false);
-      }
-    };
-  
-    fetchOffers();
-  }, []);
+  const fetchOffers = async () => {
+  try {
+    const response = await axios.get("http://localhost:5000/offers/getall");
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
+const fetchCompanyImage = async (companyId) => {
+  try {
+    const response = await axios.get(`http://localhost:5000/user/get-image?id=${companyId}`, { responseType: 'blob' });
+    return URL.createObjectURL(response.data);
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+useEffect(() => {
+  const initializeOffers = async () => {
+    setIsLoading(true);
+    const offers = await fetchOffers();
+    const companyImages = {};
+
+    for (let offer of offers) {
+      const companyId = offer.provider._id;
+      companyImages[companyId] = await fetchCompanyImage(companyId);
+    }
+
+    setOffers(offers);
+    setCompanyImages(companyImages);
+    setIsLoading(false);
+  };
+
+  initializeOffers();
+}, []);
   
  
   useEffect(() => {

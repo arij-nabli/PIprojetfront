@@ -12,6 +12,7 @@ const AddOffer = () => {
   const [minSalary, setMinSalary] = useState(0);
   const [maxSalary, setMaxSalary] = useState(0);
   const [startDate, setStartDate] = useState("");
+  const [closeDate, setCloseDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [location, setLocation] = useState("");
   const [type, setType] = useState("");
@@ -96,6 +97,9 @@ const AddOffer = () => {
     if (!startDate) {
       validationErrors.startDate = "Start Date is required";
     }
+    if (!closeDate) {
+      validationErrors.closeDate = "Close Date is required";
+    }
     if (!endDate) {
       validationErrors.endDate = "End Date is required";
     }
@@ -130,6 +134,7 @@ const AddOffer = () => {
       description,
       provider : user._id,
       salary_range: { min: minSalary, max: maxSalary },
+      close_date : closeDate,
       start_date: startDate,
       end_date: endDate,
       location,
@@ -213,6 +218,28 @@ const AddOffer = () => {
               </p>
             )}
           </div>
+          <div>
+              <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                htmlFor="closeDate"
+              >
+                Close Date For Applying:
+              </label>
+              <input
+                className={`appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
+                  errors.closeDate ? "border-red-500" : ""
+                }`}
+                type="date"
+                id="closeDate"
+                value={closeDate}
+                onChange={(e) => setCloseDate(e.target.value)}
+              />
+              {errors.closeDate && (
+                <p className="text-red-500 text-xs italic">
+                  {errors.closeDate}
+                </p>
+              )}
+            </div>
           <div className="grid grid-cols-2 gap-4">
             
            
