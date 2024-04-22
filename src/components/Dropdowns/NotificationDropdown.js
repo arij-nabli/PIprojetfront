@@ -39,12 +39,15 @@ const NotificationDropdown = (props) => {
     getNotifications()
     const socket = io('http://localhost:5000');
     socket.on("connect", () => {
-      console.log(socket.id); 
     });
     socket.on('notification', (data) => {
       console.log(data);
       setNotifications((prevNotifications) => [...prevNotifications, data.notification]);
       setUnseenNotificationsNumber((prevNumber) => prevNumber + 1);
+    });
+    socket.on('newOfferSkills', (data) => {
+      console.log("skills",data);
+     
     });
   }, []);
   const clickNotification = async (notification) => {
