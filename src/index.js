@@ -73,7 +73,6 @@ function MainApp() {
             }
           />
           <Route path='/AdminContacts' exact element={<AdminContactPage />} />
-
           <Route path='/set-token' exact element={<SetToken />} />
           <Route path='/offer-details/:id' exact element={<DetailsOffer />} />
           <Route path='/contactus' exact element={<ContactUs />} />
