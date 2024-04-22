@@ -55,7 +55,7 @@ const ApplicationsByUser = () => {
   <LoadingScreen isLoading={true} />
       ) : 
  (  <div>
-  <IndexNavbar />
+  <IndexNavbar  id={candidateId}/>
   <div className="flex flex-col items-center mt-5">
       <h1 className="text-2xl font-bold mb-5">Applications</h1>
       {sortedApplications.map((application) => (
