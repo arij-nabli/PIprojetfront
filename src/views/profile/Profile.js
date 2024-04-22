@@ -1,11 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
-import ReactAvatarEditor from "react-avatar-editor";
-import axios from "axios";
-import Navbar from "components/Navbars/IndexNavbar.js";
-import Footer from "components/Footers/Footer.js";
-import { useNavigate } from "react-router-dom";
-import LoadingScreen from "components/LoadingScreen";
-
+import React, { useState, useRef, useEffect } from 'react'
+import ReactAvatarEditor from 'react-avatar-editor'
+import axios from 'axios'
+import Navbar from 'components/Navbars/IndexNavbar.js'
+import Footer from 'components/Footers/Footer.js'
+import { useNavigate } from 'react-router-dom'
+import HashLoader from 'react-spinners/HashLoader'
+import Experiences from './Experiences'
+import Educations from './Educations'
+import Softskills from './Softskills'
+import Cv from './Cv'
+import LoadingScreen from 'components/LoadingScreen'
 
 export default function Profile() {
   const [state, setState] = useState({
@@ -28,7 +32,6 @@ export default function Profile() {
   const [country, setCountry] = useState('Tunisia')
   const [suggestedSkills, setSuggestedSkills] = useState([])
   const [user, setUser] = useState({})
-  // const [jobTitle, setJobTitle] = useState('Software Engineer')
   const [isLoading, setIsLoading] = useState(true)
 
   const [name, setName] = useState('')
@@ -68,131 +71,25 @@ export default function Profile() {
     document.getElementById('dropzone-file').click()
   }
   const [editModeHardSkill, setEditModeHardSkill] = useState(false)
-  const [editModeSoftSkill, setEditModeSoftSkill] = useState(false)
-  const [editModeEducation, setEditModeEducation] = useState(false)
-  const [editModeExperiences, setEditModeExperiences] = useState(false)
-  const [experienceInfo, setExperienceInfo] = useState({
-    experiences: [
-      {
-        title: 'Summer Internship',
-        company: 'Médis',
-        duration: '3 months',
-      },
-      {
-        title: 'End Of Year Internship',
-        company: 'Médis',
-        duration: '6 months',
-      },
-    ],
-  })
-  const [newExperienceVisible, setNewExperienceVisible] = useState(false)
-  const [newExperience, setNewExperience] = useState({
-    title: '',
-    company: '',
-    duration: '',
-  })
-
-  const handleEditExperiences = () => {
-    setEditModeExperiences(true)
-  }
-
-  const handleAddExperience = () => {
-    setNewExperience({
-      title: '',
-      company: '',
-      duration: '',
-    })
-    setNewExperienceVisible(true) // Show the form for adding a new experience
-  }
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setNewExperience((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }))
-  }
-
-  const handleSaveExperiences = () => {
-    // Save the updated contact information
-    setEditModeExperiences(false)
-    setNewExperienceVisible(false) // Hide the form for adding a new experience after saving
-  }
-
-  const handleChangeExperiences = (e) => {
-    const { name, value } = e.target
-    setExperienceInfo({
-      ...experienceInfo,
-      experiences: experienceInfo.experiences.map((experience, index) => {
-        if (index.toString() === name) {
-          return {
-            ...experience,
-            [value]: value,
-          }
-        }
-        return experience
-      }),
-    })
-  }
 
   const [hardSkillInfo, setHardSkillInfo] = useState({
     hardSkills: [''],
   })
-  const [softSkillInfo, setSoftSkillInfo] = useState({
-    softSkills: ['communication', 'leader', 'pacient'],
-  })
-
-  const [educationeInfo, setEducationInfo] = useState({
-    educations: [
-      {
-        title: 'Licence Informatique de Gestion',
-        school: 'Essect',
-      },
-      {
-        title: 'Ingenieurie en Informatique',
-        company: 'Esprit',
-      },
-    ],
-  })
 
   const handleEditHardSkill = () => {
     setEditModeHardSkill(true)
-  }
-  const handleEditSoftSkill = () => {
-    setEditModeSoftSkill(true)
-  }
-
-  const handleEditEducation = () => {
-    setEditModeEducation(true)
   }
 
   const handleSaveHardSkill = () => {
     // Save the updated contact information
     setEditModeHardSkill(false)
   }
-  const handleSaveSoftSkill = () => {
-    // Save the updated contact information
-    setEditModeSoftSkill(false)
-  }
-
-  const handleSaveEducation = () => {
-    // Save the updated contact information
-    setEditModeEducation(false)
-  }
 
   const handleChangeHardSkill = (e) => {
     const { name, value } = e.target
     setEditModeHardSkill({ ...hardSkillInfo, [name]: value })
   }
-  const handleChangeSoftSkill = (e) => {
-    const { name, value } = e.target
-    setEditModeSoftSkill({ ...softSkillInfo, [name]: value })
-  }
 
-  const handleChangeEducation = (e) => {
-    const { name, value } = e.target
-    setEditModeEducation({ ...experienceInfo, [name]: value })
-  }
   const handleScale = (e) => {
     const scale = parseFloat(e.target.value)
     setState({ ...state, scale })
@@ -301,8 +198,107 @@ export default function Profile() {
     }
   }
 
-  //--------------------------------------------------------------//
+  //----------------------English-------------------------------//
+  const [englishLevel, setEnglishLevel] = useState(
+    localStorage.getItem('englishLevel') || 0
+  )
+  const [editModeEnglish, setEditModeEnglish] = useState(false)
 
+  useEffect(() => {
+    localStorage.setItem('englishLevel', englishLevel)
+  }, [englishLevel])
+
+  const handleEditEnglish = () => {
+    setEditModeEnglish(true)
+  }
+
+  const handleSaveEnglish = async () => {
+    try {
+      await axios.put('http://localhost:5000/user/updateUserEnglish', {
+        id: user._id,
+        english: englishLevel,
+      })
+      // Update user state with the new english level
+      setUser((prevUser) => ({
+        ...prevUser,
+        english: englishLevel,
+      }))
+      setEditModeEnglish(false)
+    } catch (error) {
+      console.error(error)
+      // Handle error
+    }
+  }
+
+  // Calculate the background color based on the english level
+  const progressBarColorE = `linear-gradient(to right, red 0%, red ${englishLevel}%, #e5e7eb ${englishLevel}%, #e5e7eb 100%)`
+  //--------------------------Arabic--------------------------------//
+  const [arabicLevel, setArabicLevel] = useState(
+    localStorage.getItem('arabicLevel') || 0
+  )
+  const [editModeArabic, setEditModeArabic] = useState(false)
+
+  useEffect(() => {
+    localStorage.setItem('arabicLevel', arabicLevel)
+  }, [arabicLevel])
+
+  const handleEditArabic = () => {
+    setEditModeArabic(true)
+  }
+
+  const handleSaveArabic = async () => {
+    try {
+      await axios.put('http://localhost:5000/user/updateUserArabic', {
+        id: user._id,
+        arabic: arabicLevel,
+      })
+      // Update user state with the new arabic level
+      setUser((prevUser) => ({
+        ...prevUser,
+        arabic: arabicLevel,
+      }))
+      setEditModeArabic(false)
+    } catch (error) {
+      console.error(error)
+      // Handle error
+    }
+  }
+
+  // Calculate the background color based on the arabic level
+  const progressBarColorA = `linear-gradient(to right, red 0%, red ${arabicLevel}%, #e5e7eb ${arabicLevel}%, #e5e7eb 100%)`
+  //--------------------------French--------------------------------//
+  const [frenchLevel, setFrenchLevel] = useState(
+    localStorage.getItem('frenchLevel') || 0
+  )
+  const [editModeFrench, setEditModeFrench] = useState(false)
+
+  useEffect(() => {
+    localStorage.setItem('frenchLevel', frenchLevel)
+  }, [frenchLevel])
+
+  const handleEditFrench = () => {
+    setEditModeFrench(true)
+  }
+
+  const handleSaveFrench = async () => {
+    try {
+      await axios.put('http://localhost:5000/user/updateUserFrench', {
+        id: user._id,
+        french: frenchLevel,
+      })
+      // Update user state with the new french level
+      setUser((prevUser) => ({
+        ...prevUser,
+        french: frenchLevel,
+      }))
+      setEditModeFrench(false)
+    } catch (error) {
+      console.error(error)
+      // Handle error
+    }
+  }
+  // Calculate the background color based on the french level
+  const progressBarColor = `linear-gradient(to right, red 0%, red ${frenchLevel}%, #e5e7eb ${frenchLevel}%, #e5e7eb 100%)`
   //------------------Contact Information Logic---------------------------//
   const [contactInfo, setContactInfo] = useState({
     fullName: user.username, // Set initial value to user's username
@@ -334,63 +330,6 @@ export default function Profile() {
       ...prevInfo,
       [name]: value,
     }))
-  }
-  //---------------------------------------------------------------------//
-  //------------------Languages Part---------------------------//
-  const [langData, setLangData] = useState({
-    french: 0,
-    english: 0,
-    arabic: 0,
-  })
-
-  const [editModeLang, setEditModeLang] = useState(false)
-
-  useEffect(() => {
-    const fetchLangData = async () => {
-      try {
-        const response = await axios.get(
-          'http://localhost:5000/getUserLanguages',
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        setLangData(response.data.languages)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    fetchLangData()
-  }, [token])
-
-  const handleEditLang = () => {
-    setEditModeLang(true)
-  }
-
-  const handleSaveLang = async () => {
-    try {
-      await axios.put('http://localhost:5000/updateUserLanguages', langData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      setEditModeLang(false)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  const handleChangelang = (e) => {
-    const { name, value } = e.target
-    setLangData((prevLangData) => ({
-      ...prevLangData,
-      [name]: parseInt(value) || 0,
-    }))
-
-    //---------------------------------------------------------------------//
-    //-----------------------UploadCV-------------------------------------------//
   }
 
   return (
@@ -582,40 +521,37 @@ export default function Profile() {
                         </div>
                       </div>
 
-                      {/*------------------------------Languages-----------------------------------*/}
+                      {/*------------------------------French-----------------------------------*/}
                       <div className='mt-2'>
                         <div className='p-4 rounded-md'>
-                          <h2 className='text-lg font-semibold mb-4'>
-                            Languages Level
-                          </h2>
-                          {editModeLang ? (
+                          <h2 className='text-lg font-semibold mb-4'>French</h2>
+                          {editModeFrench ? (
                             <div>
-                              {Object.keys(langData).map((lang) => (
-                                <div key={lang}>
-                                  <label htmlFor={lang} className='block mb-1'>
-                                    <strong>
-                                      {lang.charAt(0).toUpperCase() +
-                                        lang.slice(1)}
-                                    </strong>
-                                  </label>
-                                  <input
-                                    type='number'
-                                    id={lang}
-                                    name={lang}
-                                    value={langData[lang]}
-                                    onChange={handleChangelang}
-                                    className='w-full border rounded-md px-3 py-2 mb-2'
-                                  />
-                                </div>
-                              ))}
+                              <label
+                                htmlFor='frenchLevel'
+                                className='block mb-1'>
+                                French Level
+                              </label>
+                              <input
+                                type='range'
+                                id='frenchLevel'
+                                name='frenchLevel'
+                                min='0'
+                                max='100'
+                                value={frenchLevel}
+                                onChange={(e) =>
+                                  setFrenchLevel(Number(e.target.value))
+                                }
+                                className='w-full border rounded-md px-3 py-2 mb-2'
+                              />
                               <div className='mt-4'>
                                 <button
-                                  onClick={() => setEditModeLang(false)}
+                                  onClick={handleSaveFrench}
                                   className='bg-blue-500 text-white px-4 py-2 rounded-md mr-2'>
                                   Save
                                 </button>
                                 <button
-                                  onClick={() => setEditModeLang(false)}
+                                  onClick={() => setEditModeFrench(false)}
                                   className='bg-transparent border border-gray-500 text-gray-500 px-4 py-2 rounded-md'>
                                   Cancel
                                 </button>
@@ -623,24 +559,126 @@ export default function Profile() {
                             </div>
                           ) : (
                             <div>
-                              {Object.keys(langData).map((lang) => (
-                                <div key={lang} className='language-container'>
-                                  <p className='flex items-center'>
-                                    <strong>
-                                      {lang.charAt(0).toUpperCase() +
-                                        lang.slice(1)}
-                                    </strong>
-                                  </p>
-                                  <div className='progress-bar-container bg-gray-200 h-2 rounded-lg overflow-hidden'>
-                                    <div
-                                      className='progress-bar bg-red-600 h-full'
-                                      style={{
-                                        width: `${langData[lang]}%`,
-                                      }}></div>
-                                  </div>
+                              <div
+                                className='h-4 rounded-md overflow-hidden'
+                                style={{ background: progressBarColor }}>
+                                <div
+                                  className='h-full bg-red-500'
+                                  style={{ width: `${frenchLevel}%` }}>
+                                  <div className='h-4 w-4 bg-red-500 rounded-full' />
                                 </div>
-                              ))}
-                              <button onClick={handleEditLang}>
+                              </div>
+                              <button onClick={handleEditFrench}>
+                                <i className='fa-solid fa-pen-to-square fa-xl ml-60 mt-6'></i>
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      {/*-------------------------------English----------------------------------*/}
+                      <div className='mt-2'>
+                        <div className='p-4 rounded-md'>
+                          <h2 className='text-lg font-semibold mb-4'>
+                            English
+                          </h2>
+                          {editModeEnglish ? (
+                            <div>
+                              <label
+                                htmlFor='englishLevel'
+                                className='block mb-1'>
+                                English Level
+                              </label>
+                              <input
+                                type='range'
+                                id='englishLevel'
+                                name='englishLevel'
+                                min='0'
+                                max='100'
+                                value={englishLevel}
+                                onChange={(e) =>
+                                  setEnglishLevel(Number(e.target.value))
+                                }
+                                className='w-full border rounded-md px-3 py-2 mb-2'
+                              />
+                              <div className='mt-4'>
+                                <button
+                                  onClick={handleSaveEnglish}
+                                  className='bg-blue-500 text-white px-4 py-2 rounded-md mr-2'>
+                                  Save
+                                </button>
+                                <button
+                                  onClick={() => setEditModeEnglish(false)}
+                                  className='bg-transparent border border-gray-500 text-gray-500 px-4 py-2 rounded-md'>
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <div>
+                              <div
+                                className='h-4 rounded-md overflow-hidden'
+                                style={{ background: progressBarColorE }}>
+                                <div
+                                  className='h-full bg-red-500'
+                                  style={{ width: `${englishLevel}%` }}>
+                                  <div className='h-4 w-4 bg-red-500 rounded-full' />
+                                </div>
+                              </div>
+                              <button onClick={handleEditEnglish}>
+                                <i className='fa-solid fa-pen-to-square fa-xl ml-60 mt-6'></i>
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      {/*-------------------------Arabic------------------------------------ */}
+                      <div className='mt-2'>
+                        <div className='p-4 rounded-md'>
+                          <h2 className='text-lg font-semibold mb-4'>Arabic</h2>
+                          {editModeArabic ? (
+                            <div>
+                              <label
+                                htmlFor='arabicLevel'
+                                className='block mb-1'>
+                                Arabic Level
+                              </label>
+                              <input
+                                type='range'
+                                id='arabicLevel'
+                                name='arabicLevel'
+                                min='0'
+                                max='100'
+                                value={arabicLevel}
+                                onChange={(e) =>
+                                  setArabicLevel(Number(e.target.value))
+                                }
+                                className='w-full border rounded-md px-3 py-2 mb-2'
+                              />
+                              <div className='mt-4'>
+                                <button
+                                  onClick={handleSaveArabic}
+                                  className='bg-blue-500 text-white px-4 py-2 rounded-md mr-2'>
+                                  Save
+                                </button>
+                                <button
+                                  onClick={() => setEditModeArabic(false)}
+                                  className='bg-transparent border border-gray-500 text-gray-500 px-4 py-2 rounded-md'>
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <div>
+                              <div
+                                className='h-4 rounded-md overflow-hidden'
+                                style={{ background: progressBarColorA }}>
+                                <div
+                                  className='h-full bg-red-500'
+                                  style={{ width: `${arabicLevel}%` }}>
+                                  <div className='h-4 w-4 bg-red-500 rounded-full' />
+                                </div>
+                              </div>
+                              <button onClick={handleEditArabic}>
                                 <i className='fa-solid fa-pen-to-square fa-xl ml-60 mt-6'></i>
                               </button>
                             </div>
@@ -650,44 +688,10 @@ export default function Profile() {
                     </div>
                   </div>
 
-                  {/*-------------------------------HardSkills------------------------------ */}
                   <div
                     className='w-full ml-10 flex flex-col justify-center '
                     style={{ height: '100%' }}>
-                    <div className='flex ml-48'>
-                      <button
-                        className='bg-yellow-500 hover:bg-yellow-300 text-red-700 font-bold py-2 px-4 rounded inline-flex items-center mb-6'
-                        style={{ width: 'fit-content' }}
-                        onClick={() =>
-                          document.getElementById('fileInput').click()
-                        }>
-                        <svg
-                          className='fill-current w-4 h-4 mr-2'
-                          xmlns='http://www.w3.org/2000/svg'
-                          viewBox='0 0 20 20'>
-                          <path d='M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z' />
-                        </svg>
-                        <span>Upload CV</span>
-                      </button>
-                      <input
-                        type='file'
-                        id='fileInput'
-                        style={{ display: 'none' }}
-                        //onChange={aa} // Add a function to handle file selection
-                      />
-
-                      <button
-                        class='bg-yellow-500 hover:bg-yellow-300 text-red-700 font-bold py-2 px-4 rounded inline-flex items-center mb-6 ml-3'
-                        style={{ width: 'fit-content' }}>
-                        <svg
-                          class='fill-current w-4 h-4 mr-2'
-                          xmlns='http://www.w3.org/2000/svg'
-                          viewBox='0 0 20 20'>
-                          <path d='M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z' />
-                        </svg>
-                        <span>Upload Video Resume</span>
-                      </button>
-                    </div>
+                    <Cv/>
                     <div className='flex justify-between'>
                       <div className='flex flex-col break-words mr-5 w-full bg-white mb-10 shadow-xl rounded-lg'>
                         <div className='flex flex-col text-center mt-3'>
@@ -754,52 +758,7 @@ export default function Profile() {
                       <div className='flex flex-col break-words ml-5 w-full bg-white mb-10 shadow-xl rounded-lg'>
                         <div className='flex flex-col items-center justify-center align-middle w-full'>
                           <div className='flex flex-col text-center mt-3'>
-                            <h2 className='text-2xl font-semibold leading-normal text-blueGray-700 mb-2'>
-                              Soft Skills
-                            </h2>
-                            {editModeSoftSkill ? (
-                              <div>
-                                <label
-                                  htmlFor='softSkills'
-                                  className='block mb-1'>
-                                  SoftSkills
-                                </label>
-                                <input
-                                  type='text'
-                                  id='softskills'
-                                  name='softskills'
-                                  value={softSkillInfo.softSkills}
-                                  onChange={handleChangeSoftSkill}
-                                  className='w-full border rounded-md px-3 py-2 mb-2'
-                                />
-                                <div className='mt-4'>
-                                  <button
-                                    onClick={handleSaveSoftSkill}
-                                    className='bg-blue-500 text-white px-4 py-2 rounded-md mr-2'>
-                                    Save
-                                  </button>
-                                  <button
-                                    onClick={() => setEditModeSoftSkill(false)}
-                                    className='bg-transparent border border-gray-500 text-gray-500 px-4 py-2 rounded-md'>
-                                    Cancel
-                                  </button>
-                                </div>
-                              </div>
-                            ) : (
-                              <div>
-                                <ul>
-                                  {softSkillInfo.softSkills.map(
-                                    (skill, index) => (
-                                      <li key={index}>{skill}</li>
-                                    )
-                                  )}
-                                </ul>
-                                <button onClick={handleEditSoftSkill}>
-                                  <i class='fa-solid fa-pen-to-square fa-xl ml-60 mt-6 mb-6'></i>
-                                </button>
-                              </div>
-                            )}
-                            {/* Add more soft skills here */}
+                            <Softskills />
                           </div>
                         </div>
                       </div>
@@ -809,246 +768,14 @@ export default function Profile() {
                       <div className='flex flex-row justify-between align-middle'>
                         {/* Any content you want to place in this flex row */}
                       </div>
-                      <div className='flex flex-col items-center justify-center w-full mb-10'>
-                        <h2 className='text-2xl font-semibold leading-normal mt-4 mb-2 text-blueGray-700 mb-2'>
-                          Experiences
-                        </h2>
-                        <div className='mx-auto'>
-                          <div className='mb-2 text-blueGray-600'>
-                            {editModeExperiences ? (
-                              <div>
-                                {experienceInfo.experiences.map(
-                                  (experience, index) => (
-                                    <div key={index} className='mb-4'>
-                                      <label
-                                        htmlFor={`title-${index}`}
-                                        className='block mb-1'>
-                                        Title
-                                      </label>
-                                      <input
-                                        type='text'
-                                        id={`title-${index}`}
-                                        name={index}
-                                        value={experience.title}
-                                        onChange={handleChangeExperiences}
-                                        className='w-full border rounded-md px-3 py-2 mb-2'
-                                      />
-                                      <label
-                                        htmlFor={`company-${index}`}
-                                        className='block mb-1'>
-                                        Company
-                                      </label>
-                                      <input
-                                        type='text'
-                                        id={`company-${index}`}
-                                        name={index}
-                                        value={experience.company}
-                                        onChange={handleChangeExperiences}
-                                        className='w-full border rounded-md px-3 py-2 mb-2'
-                                      />
-                                      <label
-                                        htmlFor={`duration-${index}`}
-                                        className='block mb-1'>
-                                        Duration
-                                      </label>
-                                      <input
-                                        type='text'
-                                        id={`duration-${index}`}
-                                        name={index}
-                                        value={experience.duration}
-                                        onChange={handleChangeExperiences}
-                                        className='w-full border rounded-md px-3 py-2 mb-2'
-                                      />
-                                    </div>
-                                  )
-                                )}
-                                {newExperienceVisible && (
-                                  <div className='mb-4'>
-                                    <label
-                                      htmlFor='title-new'
-                                      className='block mb-1'>
-                                      New Title
-                                    </label>
-                                    <input
-                                      type='text'
-                                      id='title-new'
-                                      name='title'
-                                      value={newExperience.title}
-                                      onChange={handleInputChange}
-                                      className='w-full border rounded-md px-3 py-2 mb-2'
-                                    />
-                                    <label
-                                      htmlFor='company-new'
-                                      className='block mb-1'>
-                                      New Company
-                                    </label>
-                                    <input
-                                      type='text'
-                                      id='company-new'
-                                      name='company'
-                                      value={newExperience.company}
-                                      onChange={handleInputChange}
-                                      className='w-full border rounded-md px-3 py-2 mb-2'
-                                    />
-                                    <label
-                                      htmlFor='duration-new'
-                                      className='block mb-1'>
-                                      New Duration
-                                    </label>
-                                    <input
-                                      type='text'
-                                      id='duration-new'
-                                      name='duration'
-                                      value={newExperience.duration}
-                                      onChange={handleInputChange}
-                                      className='w-full border rounded-md px-3 py-2 mb-2'
-                                    />
-                                  </div>
-                                )}
-                                <button onClick={handleAddExperience}>
-                                  <i className='fa-solid fa-plus-square fa-xl'></i>{' '}
-                                  Add Experience
-                                </button>
-                                <div className='mt-4'>
-                                  <button
-                                    onClick={handleSaveExperiences}
-                                    className='bg-blue-500 text-white px-4 py-2 rounded-md mr-2'>
-                                    Save
-                                  </button>
-                                  <button
-                                    onClick={() =>
-                                      setEditModeExperiences(false)
-                                    }
-                                    className='bg-transparent border border-gray-500 text-gray-500 px-4 py-2 rounded-md'>
-                                    Cancel
-                                  </button>
-                                </div>
-                              </div>
-                            ) : (
-                              <div className='mt-6 ml-6'>
-                                <ul>
-                                  {experienceInfo.experiences.map(
-                                    (experience, index) => (
-                                      <li key={index} className='mb-4'>
-                                        <div>
-                                          <i
-                                            className='fa-solid fa-briefcase m-3 fa-xl'
-                                            style={{
-                                              color: '#9e0514',
-                                            }}></i>
-                                          <strong>Title:</strong>{' '}
-                                          {experience.title}
-                                        </div>
-                                        <div>
-                                          <strong>Company:</strong>{' '}
-                                          {experience.company}
-                                        </div>
-                                        <div>
-                                          <strong>Duration:</strong>{' '}
-                                          {experience.duration}
-                                        </div>
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                                <button
-                                  onClick={handleEditExperiences}
-                                  className='mt-6'>
-                                  <i className='fa-solid fa-pen-to-square fa-xl ml-48'></i>
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Add more experiences here */}
-                      </div>
+                      <Experiences />
                     </div>
                     {/*------------------------Education---------------------------------*/}
-                    <div className='flex flex-col break-words w-full bg-white shadow-xl rounded-lg '>
+                    <div className='flex flex-col break-words w-full bg-white mb-10 shadow-xl rounded-lg'>
                       <div className='flex flex-row justify-between align-middle'>
-                        <div className='flex flex-col items-center justify-center align-middle w-full mb-10'>
-                          <h2 className='text-2xl font-semibold leading-normal mt-4 mb-2 text-blueGray-700 mb-2'>
-                            Education
-                          </h2>
-                          <div className='mx-auto'>
-                            <div className='mb-2 text-blueGray-600'>
-                              {editModeEducation ? (
-                                <div>
-                                  {educationeInfo.educations.map(
-                                    (education, index) => (
-                                      <div key={index} className='mb-4'>
-                                        <label
-                                          htmlFor={`title-${index}`}
-                                          className='block mb-1'>
-                                          Title
-                                        </label>
-                                        <input
-                                          type='text'
-                                          id={`title-${index}`}
-                                          name={index}
-                                          value={education.title}
-                                          onChange={handleChangeEducation}
-                                          className='w-full border rounded-md px-3 py-2 mb-2'
-                                        />
-                                        <label
-                                          htmlFor={`school-${index}`}
-                                          className='block mb-1'>
-                                          School
-                                        </label>
-                                      </div>
-                                    )
-                                  )}
-                                  <div className='mt-4'>
-                                    <button
-                                      onClick={handleSaveEducation}
-                                      className='bg-blue-500 text-white px-4 py-2 rounded-md mr-2'>
-                                      Save
-                                    </button>
-                                    <button
-                                      onClick={() =>
-                                        setEditModeEducation(false)
-                                      }
-                                      className='bg-transparent border border-gray-500 text-gray-500 px-4 py-2 rounded-md'>
-                                      Cancel
-                                    </button>
-                                  </div>
-                                </div>
-                              ) : (
-                                <div className='mt-6 ml-6'>
-                                  <ul>
-                                    {educationeInfo.educations.map(
-                                      (education, index) => (
-                                        <li key={index} className='mb-4'>
-                                          <div>
-                                            <i
-                                              class='fa-solid fa-user-graduate fa-xl m-3'
-                                              style={{
-                                                color: '#860909',
-                                              }}></i>
-                                            <strong>Title:</strong>{' '}
-                                            {education.title}
-                                          </div>
-                                          <div>
-                                            <strong>School:</strong>{' '}
-                                            {education.school}
-                                          </div>
-                                        </li>
-                                      )
-                                    )}
-                                  </ul>
-                                  <button
-                                    onClick={handleEditEducation}
-                                    className='mt-6'>
-                                    <i className='fa-solid fa-pen-to-square fa-xl ml-48'></i>
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                          {/* Add more education here */}
-                        </div>
+                        {/* Any content you want to place in this flex row */}
                       </div>
+                      <Educations />
                     </div>
                   </div>
                 </div>

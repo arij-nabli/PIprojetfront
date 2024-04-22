@@ -15,7 +15,6 @@ const ApplicationsByUser = () => {
       try {
         const response = await axios.get(`http://localhost:5000/applications/getBycandidate/${candidateId}`);
         setApplications(response.data);
-        console.log(response.data)
         setIsLoading(false);
       } catch (error) {
         console.error('Error fetching applications:', error);
@@ -56,7 +55,7 @@ const ApplicationsByUser = () => {
   <LoadingScreen isLoading={true} />
       ) : 
  (  <div>
-  <IndexNavbar />
+  <IndexNavbar  id={candidateId}/>
   <div className="flex flex-col items-center mt-5">
       <h1 className="text-2xl font-bold mb-5">Applications</h1>
       {sortedApplications.map((application) => (
@@ -102,7 +101,14 @@ const ApplicationsByUser = () => {
                <div className="mt-5">
                  <p className="text-sm mb-2">Cover Letter:</p>
                  <p>{application.cover_letter}</p>
-           
+                                {
+                    application.status === "Accepted" && (
+                      <div className='mt-5'>
+                        <p>Interview Date</p>
+                        <p>{new Date(application.interviewDate).toLocaleString()}</p>
+                      </div>
+                    )
+                  }
                </div>
              )}
            </div>
