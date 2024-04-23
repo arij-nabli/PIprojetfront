@@ -8,7 +8,8 @@ import Experiences from './Experiences'
 import Educations from './Educations'
 import Softskills from './Softskills'
 import Cv from './Cv'
-import LoadingScreen from 'components/LoadingScreen'
+import LoadingScreen from "components/LoadingScreen";
+
 
 export default function Profile() {
   const [state, setState] = useState({

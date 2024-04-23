@@ -113,15 +113,14 @@ const ApplicationsByUser = () => {
                         <p>Interview Date</p>
                         <p>{new Date(application.interviewDate).toLocaleString()}</p>
                       </div>
-                    )
-                  }
-               </div>
-             )}
-           </div>
-          ))}
-   
-    </div>
- </div>)}
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </>
   );
 };
