@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import OfferCard from "components/Cards/OfferCard";
 import { Link } from "react-router-dom";
 import LoadingScreen from 'components/LoadingScreen';
-
+import noData from '../../assets/img/no-data.png';
 const CompanyOffers = () => {
   const [user, setUser] = useState(null);
   const [offers, setOffers] = useState([]);
@@ -51,6 +51,14 @@ const CompanyOffers = () => {
           <h1 className="text-4xl font-bold mb-6 text-center text-custom-red">
             Company Offers
           </h1>
+          {! offers.length > 0 ?  <div className="flex justify-center items-center">
+            <img 
+              className="max-w-lg h-auto mx-auto object-contain" 
+              src={noData} 
+              alt='nodata'  
+            />
+          </div>
+          :
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {offers.map((offer) => (
               <div
@@ -105,7 +113,7 @@ const CompanyOffers = () => {
                 </ul>
               </div>
             ))}
-          </div>
+          </div>}
         </div>
       )}
     </>

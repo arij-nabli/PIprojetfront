@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import LoadingScreen from 'components/LoadingScreen';
+import noData from '../../assets/img/no-data.png';
 const ApplicationsByOffer = () => {
   const { offerId } = useParams();
   const [applications, setApplications] = useState([]);
@@ -93,7 +94,13 @@ const ApplicationsByOffer = () => {
       ) : (
         <div className="flex flex-col items-center mt-5">
           <h1 className="text-2xl font-bold mb-5">Applications</h1>
-          {sortedApplications.map((application) => (
+          {!(applications.length) > 0 ? <div className="flex justify-center">
+    <img 
+      className="max-w-lg h-auto mx-auto object-contain" 
+      src={noData} 
+      alt='nodata'  
+    />
+  </div> :  sortedApplications.map((application) => (
             <div
               key={application._id}
               className={`flex flex-col bg-white shadow-md rounded-lg p-6 mb-5 w-full sm:w-4/5 cursor-pointer hover:bg-gray-100`}

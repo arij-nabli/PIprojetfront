@@ -3,7 +3,7 @@ import { useParams,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import IndexNavbar from 'components/Navbars/IndexNavbar';
 import LoadingScreen from 'components/LoadingScreen';
-import { In } from 'react-flags-select';
+import noData from '../../assets/img/no-data.png';
 const ApplicationsByUser = () => {
   const { candidateId } = useParams();
   const [applications, setApplications] = useState([]);
@@ -56,9 +56,15 @@ const ApplicationsByUser = () => {
       ) : 
  (  <div>
   <IndexNavbar  id={candidateId}/>
-  <div className="flex flex-col items-center mt-5">
-      <h1 className="text-2xl font-bold mb-5">Applications</h1>
-      {sortedApplications.map((application) => (
+  <div className="flex   flex-col items-center ">
+      <h1 className="text-2xl font-bold my-5">Applications</h1>
+      {!(applications.length > 0) ?  <div className="flex justify-center">
+    <img 
+      className="max-w-lg h-auto mx-auto object-contain" 
+      src={noData} 
+      alt='nodata'  
+    />
+  </div>: sortedApplications.map((application) => (
              <div
              key={application._id}
              className={`flex flex-col bg-white shadow-md rounded-lg p-6 mb-5 w-full sm:w-4/5  hover:bg-gray-100`}
