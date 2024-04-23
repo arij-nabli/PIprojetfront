@@ -63,7 +63,6 @@ function MainApp() {
           <Route path='/Experiences' exact element={<Experiences />} />
 
           <Route path='/profileCompany' exact element={<ProfileCompany />} />
-
           <Route path='/profile' exact element={<AuthGuard><Profile /></AuthGuard>} />
           <Route path='/applications/:candidateId' exact element={<AuthGuard> <ApplicationsByUser /> </AuthGuard>} />
           
