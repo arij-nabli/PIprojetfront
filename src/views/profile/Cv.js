@@ -92,7 +92,29 @@ export default function Cv() {
   useEffect(() => {
     fetchUserData(formData.token)
   }, [formData.token])
+  const [pdfText, setPdfText] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+/*
+  useEffect(() => {
+    const fetchPdfText = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/pdf/parse-pdf'); // Update the URL with your Express.js server URL
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const text = await response.text();
+        setPdfText(text);
+        setLoading(false);
+      } catch (error) {
+        setError('An error occurred while fetching the PDF text.');
+        setLoading(false);
+      }
+    };
 
+    fetchPdfText();
+  }, []);
+*/
   return (
     <div className='container mx-auto px-4 h-full flex justify-center items-center'>
       <div className='max-w-md w-full bg-white p-8 rounded-lg shadow-md mb-6'>

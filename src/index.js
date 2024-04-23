@@ -23,6 +23,7 @@ import Company from 'layouts/Company'
 import ApplicationsByUser from 'views/application/applicationsByUser'
 import Experiences from 'views/profile/Experiences'
 import Cv from 'views/profile/Cv'
+import Resume from 'views/profile/Resume'
 function MainApp() {
   const [isLoading, setIsLoading] = useState(true)
 
@@ -80,6 +81,7 @@ function MainApp() {
           <Route path='/set-token' exact element={<SetToken />} />
           <Route path='/offer-details/:id' exact element={<DetailsOffer />} />
           <Route path='/contactus' exact element={<ContactUs />} />
+          <Route path='/cv' exact element={<Resume/>} />
           <Route path='/' exact element={<Auth />} />
           <Route path='*' element={<Navigate to='/' />} />
         </Routes>
