@@ -1,49 +1,53 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import LoadingScreen from 'components/LoadingScreen';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import LoadingScreen from "components/LoadingScreen";
 const ApplicationsByOffer = () => {
   const { offerId } = useParams();
   const [applications, setApplications] = useState([]);
-  const [expandedApp, setExpandedApp] = useState(null); 
+  const [expandedApp, setExpandedApp] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [interviewDate, setInterviewDate] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/applications/getByOffer/${offerId}`);
+        const response = await axios.get(
+          `http://localhost:5000/applications/getByOffer/${offerId}`
+        );
         setApplications(response.data);
         setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching applications:', error);
+        console.error("Error fetching applications:", error);
         setIsLoading(false);
       }
     };
-  
+
     fetchData();
   }, [offerId]);
 
   const toggleDetails = (id) => {
-           setExpandedApp(id);
+    setExpandedApp(id);
   };
 
-  const handleDownload = (e,id) => {
+  const handleDownload = (e, id) => {
     e.stopPropagation();
     // Download logic (trigger download without collapsing)
-    const downloadLink = document.createElement('a');
-    downloadLink.href = `http://localhost:5000/${applications.find(app => app._id === id).resume}`;
-    downloadLink.download = 'resume.pdf'; // Adjust file type based on actual resume format
+    const downloadLink = document.createElement("a");
+    downloadLink.href = `http://localhost:5000/${
+      applications.find((app) => app._id === id).resume
+    }`;
+    downloadLink.download = "resume.pdf"; // Adjust file type based on actual resume format
     downloadLink.click();
   };
 
-  const handleInterviewDate = async (id, date,email) => {
-    console.log(email)
+  const handleInterviewDate = async (id, date, email) => {
+    console.log(email);
     try {
       const response = await axios.put(
         `http://localhost:5000/applications/setInterviewDate/${id}`,
         {
           interviewDate: date,
-          userEmail: email
+          userEmail: email,
         }
       );
       if (response.status === 200) {
@@ -60,30 +64,35 @@ const ApplicationsByOffer = () => {
       console.error("Error updating interview date:", error);
     }
   };
-  const handleDecision = async (e,id, decision) => {
+  const handleDecision = async (e, id, decision) => {
     e.preventDefault();
     try {
-        const response = await axios.put(`http://localhost:5000/applications/${id}`, {
-          status: decision
-        });
-    
-        if (response.status === 200) {
-          // Update the application in the state
-          setApplications(applications.map(app => 
-            app._id === id ? { ...app, status: decision } : app
-          ));
-        } else {
-          throw new Error('Failed to update application status');
+      const response = await axios.put(
+        `http://localhost:5000/applications/${id}`,
+        {
+          status: decision,
         }
-      } catch (error) {
-        console.error('Error updating application status:', error);
+      );
+
+      if (response.status === 200) {
+        // Update the application in the state
+        setApplications(
+          applications.map((app) =>
+            app._id === id ? { ...app, status: decision } : app
+          )
+        );
+      } else {
+        throw new Error("Failed to update application status");
       }
+    } catch (error) {
+      console.error("Error updating application status:", error);
+    }
   };
   const sortedApplications = [...applications].sort((a, b) => {
-    if (a.status === 'Pending') return -1;
-    if (b.status === 'Pending') return 1;
-    if (a.status === 'Accepted') return -1;
-    if (b.status === 'Accepted') return 1;
+    if (a.status === "Pending") return -1;
+    if (b.status === "Pending") return 1;
+    if (a.status === "Accepted") return -1;
+    if (b.status === "Accepted") return 1;
     return 0;
   });
   return (
@@ -185,30 +194,53 @@ const ApplicationsByOffer = () => {
                       </button>
                     </div>
                   )}
-                  {
-                    (application.status === "Accepted" && (
-                      <div className="flex justify-center mt-4">
-                        <button
-                          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2"
-                          onClick={() =>
-                            handleInterviewDate(
-                              application._id,
-                              interviewDate,
-                              application.candidate.email,
-                            )
-                          }
-                        >
-                          Schedule Video Interview
-                        </button>
-                        <input
-                          type="datetime-local"
-                          value={interviewDate}
-                          onChange={(e) => setInterviewDate(e.target.value)}
-                          inline
-                        />
-                      </div>
-                    ))
-                  }
+                  {application.status === "Accepted" && (
+                    <div className="flex justify-center mt-4">
+                      {application.interviewDate ? (
+                        <>
+                          <button
+                            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 mr-2"
+                            onClick={() =>
+                              handleInterviewDate(
+                                application._id,
+                                interviewDate,
+                                application.candidate.email
+                              )
+                            }
+                          >
+                            Edit Video Interview Date
+                          </button>
+                          <button
+                            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2"
+                            // onClick={() => joinInterviewRoom(application._id)}
+                          >
+                            Join Video Interview Room
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 mr-2"
+                            onClick={() =>
+                              handleInterviewDate(
+                                application._id,
+                                interviewDate,
+                                application.candidate.email
+                              )
+                            }
+                          >
+                            Schedule Video Interview
+                          </button>
+                          <input
+                            type="datetime-local"
+                            value={interviewDate}
+                            onChange={(e) => setInterviewDate(e.target.value)}
+                            inline
+                          />
+                        </>
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
