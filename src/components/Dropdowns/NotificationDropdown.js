@@ -8,6 +8,7 @@ const NotificationDropdown = (props) => {
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
   const [notifications,setNotifications]=React.useState([]);
   const [unseenNotificationsNumber,setUnseenNotificationsNumber]=React.useState(0);
+  const [hardSkills,setHardSkills]=React.useState([]);
   const navigate = useNavigate();
   const btnDropdownRef = React.createRef();
   const popoverDropdownRef = React.createRef();
@@ -35,21 +36,60 @@ const NotificationDropdown = (props) => {
     setUnseenNotificationsNumber(sortedNotifications.filter((notification) => !notification.seen).length);
     setNotifications(sortedNotifications);
   }
+  const getHardSkills = async()=>{
+    const response = await axios.get(`http://localhost:5000/user/getUserHardSkills/${props.userId}`);
+  
+    setHardSkills(response.data.hardskills);
+    console.log("getting hard skills",response.data.hardskills)
+  };
   useEffect(() => {
-    getNotifications()
+    getNotifications();
+    getHardSkills();
+  }, []);
+  
+  useEffect(() => {
+   
+   
     const socket = io('http://localhost:5000');
     socket.on("connect", () => {
     });
+
     socket.on('notification', (data) => {
       console.log(data);
       setNotifications((prevNotifications) => [...prevNotifications, data.notification]);
       setUnseenNotificationsNumber((prevNumber) => prevNumber + 1);
     });
     socket.on('newOfferSkills', (data) => {
-      console.log("skills",data);
-     
+      console.log("data from offer",data)
+      console.log("hard skills from io",hardSkills);
+      
+      const commonSkills = hardSkills.filter(skill => {
+        return Array.isArray(data.requirements) && data.requirements.includes(skill._id);
+      });
+ 
+      if (commonSkills.length > 0) {
+        console.log('There are common skills:', commonSkills);
+        const notification = {
+          sender: data.provider,
+          receiver: props.userId,
+          title: 'New offer with common skills',
+          text: `There is a new offer that requires skills you have: ${commonSkills.map((skill) => skill.name).join(', ')}`,
+          seen: false,
+          offer: data._id,
+        
+        }
+        saveNotification(notification);
+        setNotifications((prevNotifications) => [...prevNotifications, notification]);
+        setUnseenNotificationsNumber((prevNumber) => prevNumber + 1);
+      } else {
+        console.log('There are no common skills.');
+      }
     });
-  }, []);
+  },[hardSkills]);
+  const saveNotification = async (notification) => {
+    await axios.post('http://localhost:5000/notifications', notification);
+
+  }
   const clickNotification = async (notification) => {
     console.log(notification);
     const id = notification._id
@@ -59,7 +99,7 @@ const NotificationDropdown = (props) => {
   return (
     <>
       <a
-        className="text-gray-700 block  hover:text-lg"
+        className={"text-gray-700 block  hover:text-lg" + (dropdownPopoverShow ? " text-red-600" : "text-gray-700")}
         href="#pablo"
         ref={btnDropdownRef}
         onClick={(e) => {

@@ -54,24 +54,33 @@ export default function Navbar(props) {
               <li className="flex items-center">
                 <Link
                 to={"/company/Myoffers"}
-                className="text-gray-700  hover:text-sm rounded hover:bg-custom-pink hover:text-black  transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                >
+                className={
+                  window.location.href.endsWith("/Myoffers")
+                    ? " text-red-600 hover:text-sm rounded  transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-md uppercase font-bold"
+                    : "hover:text-sm rounded hover:bg-red-200 hover:text-black transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                }                 >
                   My Offers
                 </Link>
               </li>
               <li className="flex items-center">
                 <Link
                 to={"/company/profile"}
-                className="text-gray-700  hover:text-sm rounded hover:bg-custom-pink hover:text-black  transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                >
+                className={
+                  window.location.href.endsWith("/profile")
+                    ? " text-red-600 hover:text-sm rounded  transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-md uppercase font-bold"
+                    : "hover:text-sm rounded hover:bg-red-200 hover:text-black transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                }                 >
                   profile
                 </Link>
               </li>
               <li className="flex items-center">
                 <Link
                 to={"/company/add-offer"}
-                className="text-gray-700  hover:text-sm rounded hover:bg-custom-pink hover:text-black  transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                >
+                className={
+                  window.location.href.endsWith("/add-offer")
+                    ? " text-red-600 hover:text-sm rounded  transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-md uppercase font-bold"
+                    : "hover:text-sm rounded hover:bg-red-200 hover:text-black transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                }                  >
                   Add Offer
                 </Link>
               </li>

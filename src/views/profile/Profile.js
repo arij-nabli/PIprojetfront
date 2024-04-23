@@ -4,7 +4,7 @@ import axios from 'axios'
 import Navbar from 'components/Navbars/IndexNavbar.js'
 import Footer from 'components/Footers/Footer.js'
 import { useNavigate } from 'react-router-dom'
-import HashLoader from 'react-spinners/HashLoader'
+import LoadingScreen from 'components/LoadingScreen'
 import Experiences from './Experiences'
 import Educations from './Educations'
 import Softskills from './Softskills'
@@ -40,6 +40,7 @@ export default function Profile() {
 
   const editorRef = useRef(null)
   const [skillInput, setSkillInput] = useState('')
+  const [skills, setSkills] = useState([])
   const handleSkillInputChange = async (event) => {
     setSkillInput(event.target.value)
     if (event.target.value.length > 0) {
@@ -47,22 +48,23 @@ export default function Profile() {
         `http://localhost:5000/skills/search?start=${event.target.value}`
       )
       const skills = await response.json()
-      setSuggestedSkills(skills.map((skill) => skill.name))
+      setSuggestedSkills(skills.map((skill) => skill))
       // Now `skills` contains the skills starting with the input value.
       // You can set them in the state and display them as suggestions.
     } else setSuggestedSkills([]) // Clear the suggestions when the input is empty
   }
   const handleSkillClick = async (skill) => {
-    setSkillInput(skill)
-    setHardSkillInfo({
-      ...hardSkillInfo,
-      hardSkills: [...hardSkillInfo.hardSkills, skill],
-    })
+    
+    setSkills([...skills,skill])
     setSuggestedSkills([])
   }
   const handleNewImage = async (e) => {
     setState({ ...state, image: e.target.files[0] })
     setShowEditor(true) // Show the editor when a new image is selected
+  }
+  const handleSkillDelete = (skill) => {
+    setSkills(skills.filter((s) => s !== skill))
+
   }
   const handleReplaceImage = () => {
     // Reset the processed image state and show the file input
@@ -72,23 +74,25 @@ export default function Profile() {
   }
   const [editModeHardSkill, setEditModeHardSkill] = useState(false)
 
-  const [hardSkillInfo, setHardSkillInfo] = useState({
-    hardSkills: [''],
-  })
+  
 
   const handleEditHardSkill = () => {
     setEditModeHardSkill(true)
   }
 
-  const handleSaveHardSkill = () => {
+  const handleSaveHardSkill = async  () => {
     // Save the updated contact information
     setEditModeHardSkill(false)
+    const response = await axios.post(`http://localhost:5000/user/updateHardSkills/${user._id}`, skills).
+    then((response) => {
+      console.log(response.data)
+    }).catch((error) => {
+      console.error(error)
+    })
+
   }
 
-  const handleChangeHardSkill = (e) => {
-    const { name, value } = e.target
-    setEditModeHardSkill({ ...hardSkillInfo, [name]: value })
-  }
+  
 
   const handleScale = (e) => {
     const scale = parseFloat(e.target.value)
@@ -149,11 +153,13 @@ export default function Profile() {
         getProfileImage(userData._id)
         setName(userData.username)
         setEmail(response.data.user.email)
+        getHardSkills(response.data.user._id)
         setIsLoading(false)
       } catch (error) {
         console.error(error)
         setIsLoading(false)
       }
+
     }
 
     const getProfileImage = async (id) => {
@@ -204,10 +210,18 @@ export default function Profile() {
   )
   const [editModeEnglish, setEditModeEnglish] = useState(false)
 
-  useEffect(() => {
-    localStorage.setItem('englishLevel', englishLevel)
-  }, [englishLevel])
-
+ 
+  const getHardSkills = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/user/getUserHardSkills/${id}`
+      )
+      console.log("skills",response.data.hardskills)
+      setSkills(response.data.hardskills)
+    } catch (error) {
+      console.error(error)
+    }
+  }
   const handleEditEnglish = () => {
     setEditModeEnglish(true)
   }
@@ -711,20 +725,39 @@ export default function Profile() {
                                 name='hardskills'
                                 value={skillInput}
                                 onChange={handleSkillInputChange}
-                                className='w-full border rounded-md px-3 py-2 '
+                                className='w-1/2 border rounded-md px-3 py-2 '
                               />
                               {skillInput ? (
-                                <div className='bg-gray-300 text-left mx-1 absolute z-10 rounded-md shadow-lg'>
+                                <div className='bg-gray-100 w-1/2 text-left mx-1 absolute z-10 rounded-md shadow-lg'>
                                   {suggestedSkills.map((skill, index) => (
                                     <div
-                                      key={index}
+                                      key={index}s
                                       onClick={() => handleSkillClick(skill)}
                                       className='hover:bg-blue-200 px-4 cursor-pointer'>
-                                      {skill}
+                                      {skill.name}
                                     </div>
                                   ))}
                                 </div>
                               ) : null}
+                              {skills.map((skill, index) => (
+                <div
+                  key={index}
+                  className="rounded-md bg-gray-300 text-left px-4 py-2 my-1 flex justify-between"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    border: "1px solid",
+                    padding: "10px",
+                    margin: "10px",
+                  }}
+                >
+                  <span>{skill.name}</span>
+                  <button onClick={() => handleSkillDelete(skill)}>
+                    <i class="fa-solid fa-xmark p-1 hover:text-red-600 rounded-full "></i>
+                  </button>
+                </div>
+              ))}
                               <div className='mt-4'>
                                 <button
                                   onClick={handleSaveHardSkill}
@@ -741,9 +774,9 @@ export default function Profile() {
                           ) : (
                             <div>
                               <ul>
-                                {hardSkillInfo.hardSkills.map(
+                                {skills.map(
                                   (skill, index) => (
-                                    <li key={index}>{skill}</li>
+                                    <li key={index}>{skill.name}</li>
                                   )
                                 )}
                               </ul>
