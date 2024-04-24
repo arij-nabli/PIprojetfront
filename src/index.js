@@ -23,6 +23,9 @@ import ProfileCompany from 'views/profile/ProfileCompany'
 import AdminContactPage from 'views/admin/AdminContactPage'
 import Experiences from 'views/profile/Experiences'
 import Cv from 'views/profile/Cv'
+import VideoCv from 'views/profile/VideoCv'
+import Record from 'views/profile/Rcord'
+
 
 function MainApp() {
   const [isLoading, setIsLoading] = useState(true)
@@ -34,9 +37,10 @@ function MainApp() {
 
     return () => window.removeEventListener('load', handleLoad)
   }, [])
-
+ 
   return (
     <GoogleOAuthProvider clientId='305919606485-hj7u2mmjvcoaa7blqet64uglmpu3e6aa.apps.googleusercontent.com'>
+      
       <BrowserRouter>
         <Routes>
           <Route
@@ -56,6 +60,11 @@ function MainApp() {
             }
           />
           <Route path='/landing' exact element={<Landing />} />
+          <Route path='/videocv' exact element={<VideoCv />} />
+          <Route path='/record' exact element={<Record />} />
+
+
+
           {/*<Route path='/profile' exact element={<Profile />} />*/}
           <Route path='/AdminContacts' exact element={<AdminContactPage />} />
           <Route path='/trycv' exact element={<Cv />} />
