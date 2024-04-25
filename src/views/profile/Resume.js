@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function ResumeParser() {
+function Resume() {
   const [resumeData, setResumeData] = useState(null);
   const [error, setError] = useState(null);
 
@@ -52,4 +52,4 @@ function ResumeParser() {
   );
 }
 
-export default ResumeParser;
+export default Resume;
