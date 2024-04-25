@@ -1,39 +1,42 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function Resume() {
-  const [pdfText, setPdfText] = useState('');
+  const [resumeData, setResumeData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
 
   useEffect(() => {
-    const fetchPdfText = async () => {
+    const fetchResumeData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/pdf/parse-pdf');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setPdfText(data.text);
+        const response = await axios.get('http://localhost:5000/pdf/parse-pdf'); // Assuming your Express server is running on localhost:3001
+        setResumeData(response.data.sections);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching PDF text:', error);
-        setError('An error occurred while fetching the PDF text.');
-        setLoading(false);
+        console.error('Error fetching resume data:', error);
       }
     };
 
-    fetchPdfText();
+    fetchResumeData();
   }, []);
 
   return (
     <div>
-      <h1>PDF Text</h1>
+      <h1>Resume Sections</h1>
       {loading ? (
         <p>Loading...</p>
-      ) : error ? (
-        <p>{error}</p>
       ) : (
-        <p>{pdfText}</p>
+        <div>
+          {resumeData.map((section, index) => (
+            <div key={index}>
+              <h2>Section {index + 1}</h2>
+              <ul>
+                {section.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
