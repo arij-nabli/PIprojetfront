@@ -224,7 +224,7 @@ const NotificationDropdown = (props) => {
               src={companyImages[notification.sender._id]}
               className="w-16 h-16 rounded-full"
               alt="Notification Image"
-             
+
             />
             <div>
               <h3 className="text-lg font-semibold ml-10">
