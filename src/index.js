@@ -24,6 +24,8 @@ import ApplicationsByUser from "views/application/applicationsByUser";
 import Experiences from "views/profile/Experiences";
 import Cv from "views/profile/Cv";
 import InterviewRoom from "views/InterviewRoom/InterviewRoom";
+import { ContextProvider } from "views/InterviewRoom/socketContext";
+import VideoPlayer from "views/InterviewRoom/VideoPlayer";
 function MainApp() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -112,9 +114,9 @@ function MainApp() {
             path="/interview-room"
             exact
             element={
-              <AuthGuard>
+                <ContextProvider>
                 <InterviewRoom />
-              </AuthGuard>
+              </ContextProvider>
             }
           />
         </Routes>
