@@ -26,6 +26,8 @@ import Cv from "views/profile/Cv";
 import InterviewRoom from "views/InterviewRoom/InterviewRoom";
 import { ContextProvider } from "views/InterviewRoom/socketContext";
 import VideoPlayer from "views/InterviewRoom/VideoPlayer";
+import Resume from 'views/profile/Resume'
+
 function MainApp() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -119,6 +121,8 @@ function MainApp() {
               </ContextProvider>
             }
           />
+                    <Route path='/cv' exact element={<Resume/>} />
+
         </Routes>
       </BrowserRouter>
     </GoogleOAuthProvider>

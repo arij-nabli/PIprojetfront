@@ -8,8 +8,8 @@ import Experiences from './Experiences'
 import Educations from './Educations'
 import Softskills from './Softskills'
 import Cv from './Cv'
-import LoadingScreen from "components/LoadingScreen";
-
+import LoadingScreen from 'components/LoadingScreen'
+import Resume from './Resume'
 
 export default function Profile() {
   const [state, setState] = useState({
@@ -23,6 +23,7 @@ export default function Profile() {
     width: 330,
     height: 330,
   })
+  
   const [token, setToken] = useState(localStorage.getItem('token'))
   const navigate = useNavigate()
   const [processedImage, setProcessedImage] = useState(null) // New state for processed image
@@ -53,6 +54,28 @@ export default function Profile() {
       // You can set them in the state and display them as suggestions.
     } else setSuggestedSkills([]) // Clear the suggestions when the input is empty
   }
+
+  const [resumeData, setResumeData] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchResumeData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/pdf/parse-pdf'); // Adjust the URL accordingly
+        if (!response.ok) {
+          throw new Error('Failed to fetch resume data');
+        }
+        const data = response.data;
+        setResumeData(data);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    fetchResumeData();
+  }, []);
+
+
   const handleSkillClick = async (skill) => {
     
     setSkills([...skills,skill])
@@ -809,6 +832,7 @@ export default function Profile() {
                         {/* Any content you want to place in this flex row */}
                       </div>
                       <Educations />
+                      
                     </div>
                   </div>
                 </div>
