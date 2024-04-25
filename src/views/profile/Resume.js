@@ -1,45 +1,55 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
-function Resume() {
+function ResumeParser() {
   const [resumeData, setResumeData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchResumeData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/pdf/parse-pdf'); // Assuming your Express server is running on localhost:3001
-        setResumeData(response.data.sections);
-        setLoading(false);
+        const response = await fetch('http://localhost:5000/pdf/parse-pdf');  // Assuming your Express server is running on the same host
+        if (!response.ok) {
+          throw new Error('Failed to fetch resume data');
+        }
+        const data = await response.json();
+        setResumeData(data);
       } catch (error) {
-        console.error('Error fetching resume data:', error);
+        setError(error.message);
       }
     };
 
     fetchResumeData();
   }, []);
 
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!resumeData) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
-      <h1>Resume Sections</h1>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div>
-          {resumeData.map((section, index) => (
-            <div key={index}>
-              <h2>Section {index + 1}</h2>
+      <h1>Resume Data</h1>
+      <ul>
+        {Object.entries(resumeData).map(([keyword, lines]) => (
+          <li key={keyword}>
+            <strong>{keyword}</strong>
+            {Array.isArray(lines) ? (
               <ul>
-                {section.map((item, idx) => (
-                  <li key={idx}>{item}</li>
+                {lines.map((line, index) => (
+                  <li key={index}>{line}</li>
                 ))}
               </ul>
-            </div>
-          ))}
-        </div>
-      )}
+            ) : (
+              <p>{lines}</p>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
 
-export default Resume;
+export default ResumeParser;
