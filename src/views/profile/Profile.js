@@ -10,7 +10,7 @@ import Educations from './Educations'
 import Softskills from './Softskills'
 import Cv from './Cv'
 import LoadingScreen from 'components/LoadingScreen'
-
+import Chat from 'views/chatbot/Chat'
 export default function Profile() {
   const [state, setState] = useState({
     image: '',
@@ -23,6 +23,11 @@ export default function Profile() {
     width: 330,
     height: 330,
   })
+  const [isChatVisible, setChatVisible] = useState(false);
+
+  const handleButtonClick = () => {
+    setChatVisible(!isChatVisible);
+  };
   const [token, setToken] = useState(localStorage.getItem('token'))
   const navigate = useNavigate()
   const [processedImage, setProcessedImage] = useState(null) // New state for processed image
@@ -777,6 +782,17 @@ export default function Profile() {
                       </div>
                       <Educations />
                     </div>
+                    <div className="flex justify-end">
+      {!isChatVisible && (
+        <button
+          className="relative bottom-3 w-fit p-[.50rem] rounded-full bg-white border border-gray-700"
+          onClick={handleButtonClick}
+        >
+          <i style={{ color: "#BD2C43" }} className="fa-brands fa-rocketchat text-white"></i>
+        </button>
+      )}
+      {isChatVisible && <Chat />}
+    </div>
                   </div>
                 </div>
               </div>

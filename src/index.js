@@ -23,6 +23,7 @@ import Company from 'layouts/Company'
 import ApplicationsByUser from 'views/application/applicationsByUser'
 import Experiences from 'views/profile/Experiences'
 import Cv from 'views/profile/Cv'
+import Chat from 'views/chatbot/Chat'
 function MainApp() {
   const [isLoading, setIsLoading] = useState(true)
 
@@ -63,8 +64,9 @@ function MainApp() {
           <Route path='/Experiences' exact element={<Experiences />} />
 
           <Route path='/profileCompany' exact element={<ProfileCompany />} />
-
-          <Route path='/profile' exact element={<AuthGuard><Profile /></AuthGuard>} />
+           
+          <Route path='/profil' exact element={<AuthGuard><Chat /> </AuthGuard>} />
+          <Route path='/profile' exact element={<AuthGuard><Profile /> </AuthGuard>} />
           <Route path='/applications/:candidateId' exact element={<AuthGuard> <ApplicationsByUser /> </AuthGuard>} />
           
           <Route
