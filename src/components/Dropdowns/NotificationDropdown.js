@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useRef } from "react";
 import { createPopper } from "@popperjs/core";
 import axios from "axios";
 import io from 'socket.io-client';
@@ -14,6 +14,7 @@ const NotificationDropdown = (props) => {
   const navigate = useNavigate();
   const btnDropdownRef = React.createRef();
   const popoverDropdownRef = React.createRef();
+
   const openDropdownPopover = () => {
  
     createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
@@ -61,44 +62,62 @@ const NotificationDropdown = (props) => {
     });
   
     console.log("company images", companyImages);
-    setCompanyImages(companyImages); // Update the state with the fetched images
+    setCompanyImages(companyImages); 
     setUnseenNotificationsNumber(sortedNotifications.filter((notification) => !notification.seen).length);
     setNotifications(sortedNotifications);
     
    
   }
   const getHardSkills = async()=>{
-    const response = await axios.get(`http://localhost:5000/user/getUserHardSkills/${props.userId}`);
-  
-    setHardSkills(response.data.hardskills);
+    const response = await axios.get(`http://localhost:5000/user/getUserHardSkills/${props.userId}`).then((response) => {
+      setHardSkills(response.data.hardskills);
     console.log("getting hard skills",response.data.hardskills)
+    return response.data.hardskills;
+    });
+  
+  
+
   };
   useEffect(() => {
     getNotifications();
     getHardSkills();
+    setLoading(false);
   }, [dropdownPopoverShow]);
-  const socket = io('http://localhost:5000');
-  useEffect(() => {
-   
-   
- 
-    socket.on("connect", () => {
-    });
 
+  
+  const hardSkillsRef = useRef(hardSkills); // Create a reference to hardSkills
+  useEffect(() => {
+  
+
+    hardSkillsRef.current = hardSkills; // Update the reference whenever hardSkills changes
+  }, [hardSkills]);
+  useEffect(() => {
+    const socket = io('http://localhost:5000');
+    socket.on("connect", () => {
+      console.log("Connected to the server");
+    });
+    socket.disconnect()
     socket.on('notification', (data) => {
       console.log(data);
+      if( data.receiver !== props.userId){
+        console.log("not for me");
+        return;
+      };
       setNotifications((prevNotifications) => [...prevNotifications, data.notification]);
       setUnseenNotificationsNumber((prevNumber) => prevNumber + 1);
+      socket.disconnect();
     });
     socket.on('newOfferSkills', (data) => {
       console.log("data from offer",data)
-      console.log("hard skills from io",hardSkills);
+      
+      console.log("hard skills from io",hardSkillsRef.current); // Use the reference instead of the state variable
 
-      const commonSkills = hardSkills.filter(skill => {
+      const commonSkills = hardSkillsRef.current.filter(skill => {
         return Array.isArray(data.requirements) && data.requirements.includes(skill._id);
       });
  
-      if (commonSkills.length > 0) {
+      if (commonSkills.length > 0 ) {
+
         console.log('There are common skills:', commonSkills);
         const notification = {
           sender: data.provider,
@@ -109,14 +128,27 @@ const NotificationDropdown = (props) => {
           offer: data._id,
         
         }
-        saveNotification(notification);
-        setNotifications((prevNotifications) => [...prevNotifications, notification]);
+        notification.id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
+        setNotifications((prevNotifications) => {
+          // Check if notification with the same ID already exists
+          const existingNotification = prevNotifications.find(n => n.id === notification.id);
+          return existingNotification ? prevNotifications : [...prevNotifications, notification];
+        });
         setUnseenNotificationsNumber((prevNumber) => prevNumber + 1);
+        saveNotification(notification);
       } else {
         console.log('There are no common skills.');
       }
+      socket.disconnect();
     });
- 
+    socket.on("newApplication", (data) => {
+      console.log("new application",data);})
+   
+
+  
+      socket.disconnect();
+   
   },[]);
   const saveNotification = async (notification) => {
     await axios.post('http://localhost:5000/notifications', notification);
@@ -127,7 +159,12 @@ const NotificationDropdown = (props) => {
     console.log(notification);
     const id = notification._id
     await axios.put(`http://localhost:5000/notifications/${id}`);
-    navigate(`/offer-details/${notification.offer}`)
+    console.log(props);
+    if(props.role === "company")
+    {
+      console.log("company")
+      navigate(`/company/applications/${notification.offer}`)}
+    else {navigate(`/offer-details/${notification.offer}`)}
   }
   return (
     <>

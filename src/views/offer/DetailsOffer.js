@@ -103,7 +103,7 @@ export default function DetailsOffer() {
           {!user ? (
             <AuthNavbar />
           ) : user.role === "company" ? (
-            <CompanyNavbar />
+            <CompanyNavbar  id={user._id}/>
           ) : (
             <IndexNavbar id={user._id} />
           )}

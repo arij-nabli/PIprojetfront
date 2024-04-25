@@ -36,7 +36,7 @@ export default function OffersPage() {
   const [name, setName] = useState("Feriel BHK");
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState({});
-  const [description, setDescription] = useState("DevOps Student Engineering");
+  const [description, setDescription] = useState("");
 
   const [email, setEmail] = useState("");
   const [offers, setOffers] = useState([]);
@@ -204,7 +204,7 @@ export default function OffersPage() {
           {!user.role ? (
             <AuthNavbar />
           ) : user.role === "company" ? (
-            <CompanyNavbar />
+            <CompanyNavbar id={user._id}/>
           ) : (
             <IndexNavbar id={user._id} />
           )}

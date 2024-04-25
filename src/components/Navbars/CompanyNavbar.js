@@ -5,7 +5,7 @@ import logo from "../../assets/img/logo.jpg";
 // components
 import { useNavigate } from "react-router-dom";
 import PagesDropdown from "components/Dropdowns/PagesDropdown.js";
-
+import NotificationDropdown from "components/Dropdowns/NotificationDropdown";
 export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const navigate = useNavigate();
@@ -42,6 +42,8 @@ export default function Navbar(props) {
           >
           
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
+            <NotificationDropdown userId={props.id} role={"company"}/>
+
             <li className="flex items-center">
                 <a
                   onClick={()=>logout()}
@@ -82,6 +84,17 @@ export default function Navbar(props) {
                     : "hover:text-sm rounded hover:bg-red-200 hover:text-black transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 }                  >
                   Add Offer
+                </Link>
+              </li>
+              <li className="flex items-center">
+                <Link
+                to={"/offer"}
+                className={
+                  window.location.href.endsWith("/add-offer")
+                    ? " text-red-600 hover:text-sm rounded  transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-md uppercase font-bold"
+                    : "hover:text-sm rounded hover:bg-red-200 hover:text-black transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                }                  >
+                  All Offers
                 </Link>
               </li>
               <li className="flex items-center ">
