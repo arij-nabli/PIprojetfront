@@ -806,11 +806,12 @@ export default function Profile() {
                               </div>
                             </div>
                           ) : (
-                            <div>
-                              <ul>
+                            <div  className='w-75 px-10'>
+                              <ul className='flex flex-col text-start '>
                                 {skills.map(
                                   (skill, index) => (
-                                    <li key={index}>{skill.name}</li>
+                                  
+                                    <li key={index}>  <i class='fa-solid fa-check-square text-custom-red mr-3'></i>{skill.name}</li>
                                   )
                                 )}
                               </ul>
