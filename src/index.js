@@ -28,7 +28,8 @@ import { ContextProvider } from "views/InterviewRoom/socketContext";
 import VideoPlayer from "views/InterviewRoom/VideoPlayer";
 import Resume from 'views/profile/Resume'
 import Chat from 'views/chatbot/Chat'
-
+import VideoCv from 'views/profile/VideoCv'
+import Record from 'views/profile/Rcord'
 function MainApp() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -74,6 +75,8 @@ function MainApp() {
           <Route path="/trycv" exact element={<Cv />} />
 
           <Route path="/Experiences" exact element={<Experiences />} />
+          <Route path='/videocv' exact element={<VideoCv />} />
+          <Route path='/record' exact element={<Record />} />
 
           <Route path="/profileCompany" exact element={<ProfileCompany />} />
 
