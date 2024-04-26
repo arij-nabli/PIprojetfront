@@ -8,6 +8,8 @@ import Experiences from './Experiences'
 import Educations from './Educations'
 import Softskills from './Softskills'
 import Cv from './Cv'
+import Chat from 'views/chatbot/Chat'
+import VideoCv from './VideoCv'
 import LoadingScreen from 'components/LoadingScreen'
 import Resume from './Resume'
 
@@ -29,7 +31,11 @@ export default function Profile() {
   const [processedImage, setProcessedImage] = useState(null) // New state for processed image
   const [showEditor, setShowEditor] = useState(false) // New state for showing the editor
   const [showMore, setShowMore] = useState(false) // New state variable
+  const [isChatVisible, setChatVisible] = useState(false);
 
+  const handleButtonClick = () => {
+    setChatVisible(!isChatVisible);
+  };
   const [country, setCountry] = useState('Tunisia')
   const [suggestedSkills, setSuggestedSkills] = useState([])
   const [user, setUser] = useState({})
@@ -728,7 +734,12 @@ export default function Profile() {
                   <div
                     className='w-full ml-10 flex flex-col justify-center '
                     style={{ height: '100%' }}>
-                    <Cv/>
+                    <div className='flex flex-col break-words w-full bg-white mb-10 shadow-xl rounded-lg'>
+                      <div className='flex flex-row justify-between align-middle'>
+                        <Cv />
+                        <VideoCv />
+                      </div>
+                    </div>
                     <div className='flex justify-between'>
                       <div className='flex flex-col break-words mr-5 w-full bg-white mb-10 shadow-xl rounded-lg'>
                         <div className='flex flex-col text-center mt-3'>
@@ -834,6 +845,17 @@ export default function Profile() {
                       <Educations />
                       
                     </div>
+                    <div className="flex justify-end">
+      {!isChatVisible && (
+        <button
+          className="relative bottom-3 w-fit p-[.50rem] rounded-full bg-white border border-gray-700"
+          onClick={handleButtonClick}
+        >
+          <i style={{ color: "#BD2C43" }} className="fa-brands fa-rocketchat text-white"></i>
+        </button>
+      )}
+      {isChatVisible && <Chat />}
+    </div>
                   </div>
                 </div>
               </div>

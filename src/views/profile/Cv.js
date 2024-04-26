@@ -116,8 +116,7 @@ export default function Cv() {
   }, []);
 */
   return (
-    <div className='container mx-auto px-4 h-full flex justify-center items-center'>
-      <div className='max-w-md w-full bg-white p-8 rounded-lg shadow-md mb-6'>
+    <div className='container mx-auto px-4 h-full flex justify-center items-center m-3'>
         <form onSubmit={handleSubmit} className='space-y-4'>
           <div className='flex items-center'>
             <label className='cursor-pointer border-2 border-dashed border-gray-300 rounded-md p-4 w-full'>
@@ -145,6 +144,6 @@ export default function Cv() {
           </div>
         </form>
       </div>
-    </div>
+    
   )
 }
