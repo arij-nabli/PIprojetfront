@@ -27,6 +27,7 @@ import InterviewRoom from "views/InterviewRoom/InterviewRoom";
 import { ContextProvider } from "views/InterviewRoom/socketContext";
 import VideoPlayer from "views/InterviewRoom/VideoPlayer";
 import Resume from 'views/profile/Resume'
+import Chat from 'views/chatbot/Chat'
 
 function MainApp() {
   const [isLoading, setIsLoading] = useState(true);
@@ -105,6 +106,8 @@ function MainApp() {
               </AuthGuard>
             }
           />
+                    <Route path='/profil' exact element={<AuthGuard><Chat /> </AuthGuard>} />
+
           <Route path="/AdminContacts" exact element={<AdminContactPage />} />
 
           <Route path="/set-token" exact element={<SetToken />} />
