@@ -811,7 +811,7 @@ export default function Profile() {
                                 {skills.map(
                                   (skill, index) => (
                                   
-                                    <li key={index}>  <i class='fa-solid fa-check-square text-custom-red mr-3'></i>{skill.name}</li>
+                                    <li key={index}>  <i class='fa-solid fa-desktop text-xl text-custom-red mr-3'></i>{skill.name}</li>
                                   )
                                 )}
                               </ul>
