@@ -14,12 +14,12 @@ const VideoPlayer = () => {
         name,
     } = useContext(socketContext);
 
-   const handleCameraToggle = () => {
-    navigator.mediaDevices.getUserMedia({ video: !cameraOn, audio: true }).then((currentStream) => {
-        setCameraOn(!cameraOn);
-        stream.getVideoTracks()[0].enabled = !cameraOn;
-    })
-};
+    const handleCameraToggle = () => {
+        navigator.mediaDevices.getUserMedia({ video: !cameraOn, audio: true }).then((currentStream) => {
+            setCameraOn(!cameraOn);
+            stream.getVideoTracks()[0].enabled = !cameraOn;
+        })
+    };
 
     const handleMicToggle = () => {
         setMicOn(prevMicOn => !prevMicOn);
@@ -55,47 +55,35 @@ const VideoPlayer = () => {
             />
             {stream && (
                 <div
-                    className="relative group bottom-4 right-4 m-4 p-4 rounded"
+                    className="bottom-4 right-4 m-4 p-4 rounded"
                     onMouseEnter={() => setShowControls(true)}
                     onMouseLeave={() => setShowControls(false)}
                 >
-                    <div className="relative w-64 h-36 rounded overflow-hidden">
+                    <div className="relative rounded">
                         <video
                             title={name}
-                            className="w-full h-full object-cover"
                             playsInline
                             muted
                             ref={myVideo}
-                            autoPlay
+                            autoPlay    
                         />
+                        
                         {showControls && (
-                            <div className="absolute bottom-0 left-0 flex space-x-2 opacity-0 transition-opacity duration-300 group-hover:opacity-50">
-                                <div className="relative group bottom-4 right-4 m-4 p-4 rounded">
-                                    <video
-                                        title={name}
-                                        className="w-64 h-36 rounded"
-                                        playsInline
-                                        muted
-                                        ref={myVideo}
-                                        autoPlay
-                                    />
-                                    <div className="absolute bottom-0 left-0 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <button onClick={handleMicToggle} className="p-2 bg-gray-700 text-white rounded">
-                                            {micOn ? (
-                                                <i class="fa-solid fa-microphone text-white"></i>
-                                            ) : (
-                                                    <i class="fa-solid fa-microphone-slash text-white"></i>
-                                            )}
-                                        </button>
-                                        <button onClick={handleCameraToggle} className="p-2 bg-gray-700 text-white rounded">
-                                            {cameraOn ? (   
-                                                <i class="fa-solid fa-video text-white"></i>
-                                            ) : (
-                                                    <i class="fa-solid fa-video-slash text-white"></i>
-                                            )}
-                                        </button>
-                                    </div>
-                                </div>
+                            <div className="bottom-0 left-0 space-x-2 opacity-0 transition-opacity duration-300 group-hover:opacity-50">
+                                <button onClick={handleMicToggle} className="p-2 bg-gray-700 text-white rounded">
+                                    {micOn ? (
+                                        <i class="fa-solid fa-microphone text-white"></i>
+                                    ) : (
+                                        <i class="fa-solid fa-microphone-slash text-white"></i>
+                                    )}
+                                </button>
+                                <button onClick={handleCameraToggle} className="p-2 bg-gray-700 text-white rounded">
+                                    {cameraOn ? (
+                                        <i class="fa-solid fa-video text-white"></i>
+                                    ) : (
+                                        <i class="fa-solid fa-video-slash text-white"></i>
+                                    )}
+                                </button>
                             </div>
                         )}
                     </div>
