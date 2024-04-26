@@ -32,7 +32,7 @@ const Options = ({ children }) => {
                         <h2 className="block text-white text-sm font-semibold mb-2">Make a Call</h2>
                         <input
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline mb-3"
-                            type="text"
+                            type="password"
                             value={idToCall}
                             onChange={(e) => setIdToCall(e.target.value)}
                             placeholder="Enter ID to Call"
