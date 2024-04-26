@@ -9,7 +9,7 @@ import Educations from './Educations'
 import Softskills from './Softskills'
 import Cv from './Cv'
 import Chat from 'views/chatbot/Chat'
-
+import VideoCv from './VideoCv'
 import LoadingScreen from 'components/LoadingScreen'
 import Resume from './Resume'
 

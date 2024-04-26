@@ -223,8 +223,9 @@ const NotificationDropdown = (props) => {
             />
             <div>
               <h3 className="text-lg font-semibold ml-10">
-                {companyImages.length}
+                {notification.title}
               </h3>
+              
               <p className="text-sm w-1/2 ml-10">{notification.text}</p>
             </div>
           </div>
