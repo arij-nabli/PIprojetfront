@@ -8,30 +8,30 @@ export default class Quiz extends Component {
     // initiating the local state
     state = {
         quiestions: {
-            1: 'What is the difference between null and undefined in JavaScript?',
-            2: 'What is the capital of Greece?',
-            3: 'What planet gave birth to Superman?'
+            1: 'Which method is used to convert a string to an integer in JavaScript?',
+            2: 'How do you add an element to the end of an array in JavaScript?',
+            3: 'What is the syntax for declaring a variable in JavaScript?'
         },
         answers: {
             1: {
-              1: 'A-null and undefined represent absence of value.',
-              2: 'B-null indicates empty or non-existent value, while undefined indicates uninitialized or missing value.',
-              3: 'C-null is a primitive, while undefined is an object.'
+              1: 'parseInt()',
+              2: ' parseFloat()',
+              3: 'toInteger()'
             },
             2: {
-                1: 'Athens',
-                2: 'Patras',
-                3: 'Kalamata'
+                1: 'array.add(element)',
+                2: 'array.push(element)',
+                3: ' array.append(element)'
             },
             3: {
-                1: 'Krypton',
-                2: 'Mars',
-                3: 'Saturn'
+                1: 'var myVar',
+                2: 'variable myVar',
+                3: 'let myVar'
             }
         },
         correctAnswers: {
-            1: '2',
-            2: '1',
+            1: '1',
+            2: '2',
             3: '1'
         },
         correctAnswer: 0,
