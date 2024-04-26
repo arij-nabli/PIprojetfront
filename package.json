@@ -26,6 +26,7 @@
     "gulp-append-prepend": "1.0.9",
     "inflight": "^1.0.6",
     "intl-tel-input": "^19.5.3",
+    "jspdf": "^2.5.1",
     "libphonenumber-js": "^1.10.57",
     "mapbox-gl": "^3.2.0",
     "peerjs": "^1.5.2",

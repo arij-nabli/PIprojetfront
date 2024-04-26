@@ -90,7 +90,7 @@ export default function Navbar(props) {
                 <Link
                 to={"/offer"}
                 className={
-                  window.location.href.endsWith("/add-offer")
+                  window.location.href.endsWith("/offer")
                     ? " text-red-600 hover:text-sm rounded  transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-md uppercase font-bold"
                     : "hover:text-sm rounded hover:bg-red-200 hover:text-black transition duration-200 ease-in-out px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 }                  >
