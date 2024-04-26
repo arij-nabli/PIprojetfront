@@ -45,9 +45,9 @@ const VideoPlayer = () => {
     }, []);
 
     return (
-        <div className="relative w-full h-screen overflow-hidden">
+        <div className="w-full h-screen overflow-hidden">
             <video
-                className="absolute top-0 left-0 min-w-full min-h-full object-cover"
+                className=" min-w-full min-h-full object-cover"
                 playsInline
                 muted
                 ref={userVideo}
@@ -59,11 +59,14 @@ const VideoPlayer = () => {
                     onMouseEnter={() => setShowControls(true)}
                     onMouseLeave={() => setShowControls(false)}
                 >
-                    <div className="relative rounded">
+                    <div className=" p-4 absolute z-50 top-0 left-0 ">
                         <video
+                            className="rounded"
                             title={name}
                             playsInline
                             muted
+                            width={350}
+                            height={350}
                             ref={myVideo}
                             autoPlay    
                         />
