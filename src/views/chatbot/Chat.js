@@ -1,23 +1,28 @@
+import React, { useEffect } from "react";
 
-import React from "react";
-import Chatbot from "react-chatbot-kit";
-import Config from "./Config";
-import ActionProvider from "./ActionProvider";
-import LearningOptions from "./LearningOptions";
-import MessageParser from "./MessageParser";
-import 'react-chatbot-kit/build/main.css';
 export default function Chat() {
-  return (
-    <>
-    <div style ={{maxWidth: "300px"}}>
-      <Chatbot
-        config={Config}
-        actionProvider={ActionProvider}
-        messageParser={MessageParser}
-        LearningOptions={LearningOptions}
-      />
-      </div>
-    </>
-  );
-};
+  useEffect(() => {
+    const embeddedChatbotConfig = {
+      chatbotId: "fGYTLr-2s9l4WGUoy8eT1",
+      domain: "www.chatbase.co"
+    };
 
+    const script = document.createElement("script");
+    script.src = "https://www.chatbase.co/embed.min.js";
+    script.defer = true;
+    script.setAttribute("chatbotId", embeddedChatbotConfig.chatbotId);
+    script.setAttribute("domain", embeddedChatbotConfig.domain);
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  return (
+    <div>
+    
+    </div>
+  );
+}

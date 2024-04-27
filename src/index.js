@@ -65,7 +65,7 @@ function MainApp() {
 
           <Route path='/profileCompany' exact element={<ProfileCompany />} />
            
-          <Route path='/profil' exact element={<AuthGuard><Chat /> </AuthGuard>} />
+       
           <Route path='/profile' exact element={<AuthGuard><Profile /> </AuthGuard>} />
           <Route path='/applications/:candidateId' exact element={<AuthGuard> <ApplicationsByUser /> </AuthGuard>} />
           
