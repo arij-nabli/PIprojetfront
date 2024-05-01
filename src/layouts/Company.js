@@ -12,7 +12,7 @@ export default function Company() {
   
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState(""); 
-
+  const [user, setUser] = useState({});
   const navigate = useNavigate();
 
 
@@ -29,7 +29,7 @@ export default function Company() {
               },
             }
           );
-         
+          setUser(response.data.user);
             if (response.data.user.role !== "company"){
               navigate("/auth/login")
             }
@@ -55,7 +55,7 @@ export default function Company() {
     ) : (
       <div className="relative w-full h-full bg-gray-100   min-h-screen">
     
-   <Navbar />
+   <Navbar id={user._id}/>
       
         {/* Header */}
           <Routes>

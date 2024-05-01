@@ -103,7 +103,7 @@ export default function DetailsOffer() {
           {!user ? (
             <AuthNavbar />
           ) : user.role === "company" ? (
-            <CompanyNavbar />
+            <CompanyNavbar  id={user._id}/>
           ) : (
             <IndexNavbar id={user._id} />
           )}
@@ -111,7 +111,7 @@ export default function DetailsOffer() {
             <img
               src={companyphoto}
               style={{ width: 200, height: 200 }}
-              className="border-1 px-4 border-black mb-4 lg:mb-0 lg:mr-8"
+              className="border-1 px-4 border-black mb-4 lg:mb-0 lg:mr-8 rounded-full"
               alt="logo company"
             />
             <div className="text-center lg:text-left">

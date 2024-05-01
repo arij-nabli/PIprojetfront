@@ -4,11 +4,12 @@ import axios from 'axios'
 import Navbar from 'components/Navbars/IndexNavbar.js'
 import Footer from 'components/Footers/Footer.js'
 import { useNavigate } from 'react-router-dom'
-import HashLoader from 'react-spinners/HashLoader'
 import Experiences from './Experiences'
 import Educations from './Educations'
 import Softskills from './Softskills'
 import Cv from './Cv'
+import Chat from 'views/chatbot/Chat'
+import VideoCv from './VideoCv'
 import LoadingScreen from 'components/LoadingScreen'
 import Resume from './Resume'
 
@@ -32,7 +33,11 @@ export default function Profile() {
   const [processedImage, setProcessedImage] = useState(null) // New state for processed image
   const [showEditor, setShowEditor] = useState(false) // New state for showing the editor
   const [showMore, setShowMore] = useState(false) // New state variable
+  const [isChatVisible, setChatVisible] = useState(false);
 
+  const handleButtonClick = () => {
+    setChatVisible(!isChatVisible);
+  };
   const [country, setCountry] = useState('Tunisia')
   const [suggestedSkills, setSuggestedSkills] = useState([])
   const [user, setUser] = useState({})
@@ -44,6 +49,7 @@ export default function Profile() {
 
   const editorRef = useRef(null)
   const [skillInput, setSkillInput] = useState('')
+  const [skills, setSkills] = useState([])
   const handleSkillInputChange = async (event) => {
     setSkillInput(event.target.value)
     if (event.target.value.length > 0) {
@@ -51,7 +57,7 @@ export default function Profile() {
         `http://localhost:5000/skills/search?start=${event.target.value}`
       )
       const skills = await response.json()
-      setSuggestedSkills(skills.map((skill) => skill.name))
+      setSuggestedSkills(skills.map((skill) => skill))
       // Now `skills` contains the skills starting with the input value.
       // You can set them in the state and display them as suggestions.
     } else setSuggestedSkills([]) // Clear the suggestions when the input is empty
@@ -77,16 +83,17 @@ export default function Profile() {
 
 
   const handleSkillClick = async (skill) => {
-    setSkillInput(skill)
-    setHardSkillInfo({
-      ...hardSkillInfo,
-      hardSkills: [...hardSkillInfo.hardSkills, skill],
-    })
+    
+    setSkills([...skills,skill])
     setSuggestedSkills([])
   }
   const handleNewImage = async (e) => {
     setState({ ...state, image: e.target.files[0] })
     setShowEditor(true) // Show the editor when a new image is selected
+  }
+  const handleSkillDelete = (skill) => {
+    setSkills(skills.filter((s) => s !== skill))
+
   }
   const handleReplaceImage = () => {
     // Reset the processed image state and show the file input
@@ -96,23 +103,25 @@ export default function Profile() {
   }
   const [editModeHardSkill, setEditModeHardSkill] = useState(false)
 
-  const [hardSkillInfo, setHardSkillInfo] = useState({
-    hardSkills: [''],
-  })
+  
 
   const handleEditHardSkill = () => {
     setEditModeHardSkill(true)
   }
 
-  const handleSaveHardSkill = () => {
+  const handleSaveHardSkill = async  () => {
     // Save the updated contact information
     setEditModeHardSkill(false)
+    const response = await axios.post(`http://localhost:5000/user/updateHardSkills/${user._id}`, skills).
+    then((response) => {
+      console.log(response.data)
+    }).catch((error) => {
+      console.error(error)
+    })
+
   }
 
-  const handleChangeHardSkill = (e) => {
-    const { name, value } = e.target
-    setEditModeHardSkill({ ...hardSkillInfo, [name]: value })
-  }
+  
 
   const handleScale = (e) => {
     const scale = parseFloat(e.target.value)
@@ -173,11 +182,13 @@ export default function Profile() {
         getProfileImage(userData._id)
         setName(userData.username)
         setEmail(response.data.user.email)
+        getHardSkills(response.data.user._id)
         setIsLoading(false)
       } catch (error) {
         console.error(error)
         setIsLoading(false)
       }
+
     }
 
     const getProfileImage = async (id) => {
@@ -228,10 +239,18 @@ export default function Profile() {
   )
   const [editModeEnglish, setEditModeEnglish] = useState(false)
 
-  useEffect(() => {
-    localStorage.setItem('englishLevel', englishLevel)
-  }, [englishLevel])
-
+ 
+  const getHardSkills = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/user/getUserHardSkills/${id}`
+      )
+      console.log("skills",response.data.hardskills)
+      setSkills(response.data.hardskills)
+    } catch (error) {
+      console.error(error)
+    }
+  }
   const handleEditEnglish = () => {
     setEditModeEnglish(true)
   }
@@ -715,7 +734,12 @@ export default function Profile() {
                   <div
                     className='w-full ml-10 flex flex-col justify-center '
                     style={{ height: '100%' }}>
-                    <Cv/>
+                    <div className='flex flex-col break-words w-full bg-white mb-10 shadow-xl rounded-lg'>
+                      <div className='flex flex-row justify-between align-middle'>
+                        <Cv />
+                        <VideoCv />
+                      </div>
+                    </div>
                     <div className='flex justify-between'>
                       <div className='flex flex-col break-words mr-5 w-full bg-white mb-10 shadow-xl rounded-lg'>
                         <div className='flex flex-col text-center mt-3'>
@@ -735,20 +759,39 @@ export default function Profile() {
                                 name='hardskills'
                                 value={skillInput}
                                 onChange={handleSkillInputChange}
-                                className='w-full border rounded-md px-3 py-2 '
+                                className='w-1/2 border rounded-md px-3 py-2 '
                               />
                               {skillInput ? (
-                                <div className='bg-gray-300 text-left mx-1 absolute z-10 rounded-md shadow-lg'>
+                                <div className='bg-gray-100 w-1/2 text-left mx-1 absolute z-10 rounded-md shadow-lg'>
                                   {suggestedSkills.map((skill, index) => (
                                     <div
-                                      key={index}
+                                      key={index}s
                                       onClick={() => handleSkillClick(skill)}
                                       className='hover:bg-blue-200 px-4 cursor-pointer'>
-                                      {skill}
+                                      {skill.name}
                                     </div>
                                   ))}
                                 </div>
                               ) : null}
+                              {skills.map((skill, index) => (
+                <div
+                  key={index}
+                  className="rounded-md bg-gray-300 text-left px-4 py-2 my-1 flex justify-between"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    border: "1px solid",
+                    padding: "10px",
+                    margin: "10px",
+                  }}
+                >
+                  <span>{skill.name}</span>
+                  <button onClick={() => handleSkillDelete(skill)}>
+                    <i class="fa-solid fa-xmark p-1 hover:text-red-600 rounded-full "></i>
+                  </button>
+                </div>
+              ))}
                               <div className='mt-4'>
                                 <button
                                   onClick={handleSaveHardSkill}
@@ -763,11 +806,12 @@ export default function Profile() {
                               </div>
                             </div>
                           ) : (
-                            <div>
-                              <ul>
-                                {hardSkillInfo.hardSkills.map(
+                            <div  className='w-75 px-10'>
+                              <ul className='flex flex-col text-start '>
+                                {skills.map(
                                   (skill, index) => (
-                                    <li key={index}>{skill}</li>
+                                  
+                                    <li key={index}>  <i class='fa-solid fa-desktop text-xl text-custom-red mr-3'></i>{skill.name}</li>
                                   )
                                 )}
                               </ul>
@@ -802,6 +846,17 @@ export default function Profile() {
                       <Educations />
              
                     </div>
+                    <div className="flex justify-end">
+      {!isChatVisible && (
+        <button
+          className="relative bottom-3 w-fit p-[.50rem] rounded-full bg-white border border-gray-700"
+          onClick={handleButtonClick}
+        >
+          <i style={{ color: "#BD2C43" }} className="fa-brands fa-rocketchat text-white"></i>
+        </button>
+      )}
+      {isChatVisible && <Chat />}
+    </div>
                   </div>
                 </div>
               </div>
