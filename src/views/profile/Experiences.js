@@ -15,6 +15,7 @@ export default function Experiences() {
   const [newExperienceVisible, setNewExperienceVisible] = useState(false)
   const [newExperience, setNewExperience] = useState('')
   const [isSaving, setIsSaving] = useState(false)
+  const [cvData, setCvData] = useState(null); // State to store CV data
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -39,6 +40,17 @@ export default function Experiences() {
     fetchUserData()
   }, [token])
 
+  useEffect(() => {
+    const fetchCvData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/pdf/parse-pdf');
+        setCvData(response.data);
+      } catch (error) {
+        console.error('Error fetching CV data:', error);
+      }
+    };
+    fetchCvData();
+  }, []);
   const handleEditExperiences = () => {
     setEditModeExperiences(true)
   }
@@ -87,13 +99,9 @@ export default function Experiences() {
     setExperiences(updatedExperiences)
     setNewExperience('')
   }
-
   return (
     <>
       <div className='flex flex-col items-center justify-center w-full mb-10'>
-        <h2 className='text-2xl font-semibold leading-normal mt-4 mb-2 text-blueGray-700 mb-2'>
-          Experiences
-        </h2>
         <div className='mx-auto'>
           <div className='mb-2 text-blueGray-600'>
             {editModeExperiences ? (
@@ -129,8 +137,7 @@ export default function Experiences() {
                   </div>
                 )}
                 <button onClick={handleAddExperience}>
-                  <i className='fa-solid fa-plus-square fa-xl'></i> Add
-                  Experience
+                  <i className='fa-solid fa-plus-square fa-xl'></i> 
                 </button>
                 <div className='mt-4'>
                   <button
@@ -147,27 +154,58 @@ export default function Experiences() {
                 </div>
               </div>
             ) : (
-              <div className='mt-6 ml-6'>
-                <ul>
-                  {experiences.map((experience, index) => (
-                    <li key={index} className='mb-4'>
-                      <div>
-                        <i
-                          className='fa-solid fa-briefcase m-3 fa-xl'
-                          style={{ color: '#9e0514' }}></i>
-                        {experience}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-                <button onClick={handleEditExperiences} className='mt-6'>
-                  <i className='fa-solid fa-pen-to-square fa-xl ml-48'></i>
-                </button>
-              </div>
-            )}
-          </div>
+              <div className="mt-6 ml-6">
+              <ul>
+                {experiences.map((experience, index) => (
+                  <li key={index} className="mb-4">
+                    <div>
+                      <i
+                        className="fa-solid fa-graduation-cap m-3 fa-xl"
+                        style={{ color: '#9e0514' }}
+                      ></i>
+                      {experience}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              
+            </div>
+          )}
         </div>
       </div>
-    </>
-  )
+    </div>
+
+    {/* Display Formation section from CV */}
+    <div className="flex flex-col items-center justify-center w-full mb-10">
+      <h2 className="text-2xl font-semibold leading-normal mt-4 mb-2 text-blueGray-700 ">
+        EXPERIENCES
+      </h2>
+      <div className="mx-auto">
+        <div className="mb-2 text-blueGray-600">
+          {cvData && cvData['EXPÉRIENCE PROFESSIONELLE'] && (
+            <div className="mt-6 ml-6">
+              <ul>
+                {cvData['EXPÉRIENCE PROFESSIONELLE'].map((experience, index) => (
+                  <li key={index} className="mb-4">
+                    <div>
+                      <i
+                        className="fa-solid fa-graduation-cap m-3 fa-xl"
+                        style={{ color: '#9e0514' }}
+                      ></i>
+                      {experience}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <button onClick={handleEditExperiences} className="mt-6">
+                <i className="fa-solid fa-pen-to-square fa-xl ml-48"></i>
+              </button>
+            </div>
+            
+          )}
+        </div>
+      </div>
+    </div>
+  </>
+);
 }
