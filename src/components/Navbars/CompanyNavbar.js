@@ -6,6 +6,7 @@ import logo from "../../assets/img/logo.jpg";
 import { useNavigate } from "react-router-dom";
 import PagesDropdown from "components/Dropdowns/PagesDropdown.js";
 import NotificationDropdown from "components/Dropdowns/NotificationDropdown";
+import UserSearch from "components/SearchUser";
 export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ export default function Navbar(props) {
       <nav style={{ height:"10%"}} className=" shadow flex flex-wrap items-center justify-between px-2  navbar-expand-lg bg-white">
         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
+           
             <Link
               className="text-white text-sm font-bold leading-relaxed inline-block mr-4 py-0 whitespace-nowrap uppercase"
               to="/"
@@ -32,7 +34,9 @@ export default function Navbar(props) {
             >
               <i className="text-white fas fa-bars"></i>
             </button>
+          
           </div>
+          <UserSearch />
           <div
             className={
               "lg:flex flex-grow items-center bg-white lg:bg-opacity-0 lg:shadow-none" +

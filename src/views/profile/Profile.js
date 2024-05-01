@@ -3,7 +3,7 @@ import ReactAvatarEditor from 'react-avatar-editor'
 import axios from 'axios'
 import Navbar from 'components/Navbars/IndexNavbar.js'
 import Footer from 'components/Footers/Footer.js'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,useLocation } from 'react-router-dom'
 import Experiences from './Experiences'
 import Educations from './Educations'
 import Softskills from './Softskills'
@@ -32,7 +32,8 @@ export default function Profile() {
   const [showEditor, setShowEditor] = useState(false) // New state for showing the editor
   const [showMore, setShowMore] = useState(false) // New state variable
   const [isChatVisible, setChatVisible] = useState(false);
-
+  const [connectedUser, setConnectedUser] = useState(null)
+  const location = useLocation()
   const handleButtonClick = () => {
     setChatVisible(!isChatVisible);
   };
@@ -40,11 +41,11 @@ export default function Profile() {
   const [suggestedSkills, setSuggestedSkills] = useState([])
   const [user, setUser] = useState({})
   const [isLoading, setIsLoading] = useState(true)
-
+  const [isMyProfile, setIsMyProfile] = useState(false)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
-
+  
   const editorRef = useRef(null)
   const [skillInput, setSkillInput] = useState('')
   const [skills, setSkills] = useState([])
@@ -160,18 +161,26 @@ export default function Profile() {
   }
   useEffect(() => {
     // Inside fetchUserData function:
+    console.log("location",location.pathname.split('/')[2])
+    setProcessedImage(null)
+    setIsMyProfile(false)
     const fetchUserData = async () => {
+      setIsLoading(true);
+
       try {
         const response = await axios.get(
-          'http://localhost:5000/auth/getUserDataFromToken',
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          `http://localhost:5000/user/getUserById/${location.pathname.split('/')[2]}`,
+        
         )
-        console.log(response.data)
-        const userData = response.data.user
+
+        const response2 = await axios.get(  `http://localhost:5000/auth/getUserDataFromToken`,  { headers: { Authorization: `Bearer ${token}` } }) 
+        console.log("response2",response2.data)
+        setConnectedUser(response2.data.user)
+        if (response2.data.user._id === response.data._id) {
+          setIsMyProfile(true)
+        }
+        console.log("vvvvvvvvvvv",response.data)
+        const userData = response.data
         setUser(userData)
         setContactInfo({
           // Set contactInfo state with fetched user data
@@ -181,17 +190,22 @@ export default function Profile() {
         })
         getProfileImage(userData._id)
         setName(userData.username)
-        setEmail(response.data.user.email)
-        getHardSkills(response.data.user._id)
+        setEmail(userData.email)
+        getHardSkills(userData._id)
         setIsLoading(false)
       } catch (error) {
         console.error(error)
+        setIsLoading(false)
+      }
+      finally {
         setIsLoading(false)
       }
 
     }
 
     const getProfileImage = async (id) => {
+      setIsLoading(true);
+
       try {
         const response = await axios.get(
           `http://localhost:5000/user/get-image?id=${id}`,
@@ -202,9 +216,12 @@ export default function Profile() {
       } catch (error) {
         console.error(error)
       }
+      finally {
+        setIsLoading(false)
+      }
     }
     fetchUserData()
-  }, [token])
+  }, [token,location])
 
   //------------------Description Logic---------------------------//
   const [description, setDescription] = useState('')
@@ -385,7 +402,7 @@ export default function Profile() {
         <>
           <Navbar  id={user._id}/>
           <main
-            className='profile-pagerelative w-full h-full py-10 text-center'
+            className={'profile-pagerelative w-full h-full py-10 text-center' }
             style={{
               'background-color': '#DFDBE5',
             }}>
@@ -403,7 +420,7 @@ export default function Profile() {
                     style={{ width: '35%' }}>
                     <div className='flex flex-col'>
                       <div class='flex items-center justify-center w-full '>
-                        {processedImage ? (
+                        {processedImage  ? (
                           <>
                             <img
                               src={processedImage}
@@ -412,7 +429,7 @@ export default function Profile() {
                               alt='Processed'
                             />
                           </>
-                        ) : (
+                        ) : isMyProfile && (
                           <label
                             for='dropzone-file'
                             class='flex flex-col items-center justify-center  border-2 border-gray-300 border-dashed cursor-pointer bg-gray-50 dark:hover:bg-bray-800 hover:bg-blue-200 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 mt-5 rounded-full '>
@@ -442,11 +459,11 @@ export default function Profile() {
                           </label>
                         )}
                       </div>
-                      <button
+                   { isMyProfile &&    <button
                         onClick={handleReplaceImage}
                         className='bg-transparent border-none cursor-pointer ml-48'>
                         <i class='fa-solid fa-camera-retro'></i>
-                      </button>
+                      </button>}
                       {/*----------------------Description-------------------------------- */}
                       <div className=' mt-2'>
                         <div className=' p-4 rounded-md '>
@@ -485,9 +502,9 @@ export default function Profile() {
                             <div>
                               <p>{user.description}</p>{' '}
                               {/* Access description from user state */}
-                              <button onClick={handleEditDescription}>
+                          {isMyProfile &&    <button onClick={handleEditDescription}>
                                 <i className='fa-solid fa-pen-to-square fa-xl ml-60 mt-6'></i>
-                              </button>
+                              </button>}
                             </div>
                           )}
                         </div>
@@ -556,9 +573,9 @@ export default function Profile() {
                                   style={{ color: '#BD2C43' }}></i>
                                 {contactInfo.phone}
                               </p>
-                              <button onClick={handleEditContactInfo}>
+                         {isMyProfile &&     <button onClick={handleEditContactInfo}>
                                 <i className='fa-solid fa-pen-to-square fa-xl ml-60 mt-6'></i>
-                              </button>
+                              </button>}
                             </div>
                           )}
                         </div>
@@ -611,9 +628,9 @@ export default function Profile() {
                                   <div className='h-4 w-4 bg-red-500 rounded-full' />
                                 </div>
                               </div>
-                              <button onClick={handleEditFrench}>
+                           { isMyProfile &&  <button onClick={handleEditFrench}>
                                 <i className='fa-solid fa-pen-to-square fa-xl ml-60 mt-6'></i>
-                              </button>
+                              </button>}
                             </div>
                           )}
                         </div>
@@ -667,9 +684,9 @@ export default function Profile() {
                                   <div className='h-4 w-4 bg-red-500 rounded-full' />
                                 </div>
                               </div>
-                              <button onClick={handleEditEnglish}>
+                             {isMyProfile && <button onClick={handleEditEnglish}>
                                 <i className='fa-solid fa-pen-to-square fa-xl ml-60 mt-6'></i>
-                              </button>
+                              </button>}
                             </div>
                           )}
                         </div>
@@ -721,9 +738,9 @@ export default function Profile() {
                                   <div className='h-4 w-4 bg-red-500 rounded-full' />
                                 </div>
                               </div>
-                              <button onClick={handleEditArabic}>
+                             {isMyProfile && <button onClick={handleEditArabic}>
                                 <i className='fa-solid fa-pen-to-square fa-xl ml-60 mt-6'></i>
-                              </button>
+                              </button>}
                             </div>
                           )}
                         </div>
@@ -736,12 +753,12 @@ export default function Profile() {
                     style={{ height: '100%' }}>
                     <div className='flex flex-col break-words w-full bg-white mb-10 shadow-xl rounded-lg'>
                       <div className='flex flex-row justify-between align-middle'>
-                        <Cv />
-                        <VideoCv />
+                        <Cv isMyProfile={isMyProfile}/>
+                       {isMyProfile && <VideoCv />}
                       </div>
                     </div>
                     <div className='flex justify-between'>
-                      <div className='flex flex-col break-words mr-5 w-full bg-white mb-10 shadow-xl rounded-lg'>
+                      <div className='flex flex-col break-words mr-5 w-full bg-white mb-10 pb-3 shadow-xl rounded-lg'>
                         <div className='flex flex-col text-center mt-3'>
                           <h2 className='text-2xl font-semibold leading-normal text-blueGray-700 mb-2'>
                             Hard Skills
@@ -815,9 +832,9 @@ export default function Profile() {
                                   )
                                 )}
                               </ul>
-                              <button onClick={handleEditHardSkill}>
+                     { isMyProfile &&         <button onClick={handleEditHardSkill}>
                                 <i class='fa-solid fa-pen-to-square fa-xl ml-60 mt-6'></i>
-                              </button>
+                              </button>}
                             </div>
                           )}
                         </div>
@@ -826,7 +843,7 @@ export default function Profile() {
                       <div className='flex flex-col break-words ml-5 w-full bg-white mb-10 shadow-xl rounded-lg'>
                         <div className='flex flex-col items-center justify-center align-middle w-full'>
                           <div className='flex flex-col text-center mt-3'>
-                            <Softskills />
+                            <Softskills isMyProfile={isMyProfile}/>
                           </div>
                         </div>
                       </div>
@@ -836,14 +853,14 @@ export default function Profile() {
                       <div className='flex flex-row justify-between align-middle'>
                         {/* Any content you want to place in this flex row */}
                       </div>
-                      <Experiences />
+                      <Experiences  isMyProfile={isMyProfile}/>
                     </div>
                     {/*------------------------Education---------------------------------*/}
                     <div className='flex flex-col break-words w-full bg-white mb-10 shadow-xl rounded-lg'>
                       <div className='flex flex-row justify-between align-middle'>
                         {/* Any content you want to place in this flex row */}
                       </div>
-                      <Educations />
+                      <Educations  isMyProfile={isMyProfile}/>
                       
                     </div>
                     <div className="flex justify-end">

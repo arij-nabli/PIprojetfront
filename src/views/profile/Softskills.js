@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import { useNavigate } from 'react-router-dom'
 
-export default function Softskills() {
+export default function Softskills(props) {
   const [token, setToken] = useState(localStorage.getItem('token'))
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(true)
@@ -156,9 +156,9 @@ export default function Softskills() {
                   </li>
                 ))}
               </ul>
-              <button onClick={handleEditSoftskills} className='mt-6'>
+         {  props.isMyProfile &&   <button onClick={handleEditSoftskills} className='mt-6'>
                 <i className='fa-solid fa-pen-to-square fa-xl ml-48'></i>
-              </button>
+              </button>}
             </div>
           )}
         </div>

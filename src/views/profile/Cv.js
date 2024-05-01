@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
-export default function Cv() {
+export default function Cv(props) {
   const [formData, setFormData] = useState({
     cvFile: null,
     cvFileName: '',
@@ -131,11 +131,11 @@ export default function Cv() {
                 {formData.cvFileName ? formData.cvFileName : 'Upload your CV'}
               </span>
             </label>
-            <button
+          {props.isMyProfile &&  <button
               type='submit'
               className='bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 transition duration-300 ml-3'>
               <i className='fa-solid fa-floppy-disk'></i>
-            </button>
+            </button>}
             <button
               onClick={handleViewCV}
               className='bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 transition duration-300 ml-3'>

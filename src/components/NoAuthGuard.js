@@ -26,7 +26,7 @@ const NoAuthGuard = ({ children }) => {
           }
           
           else {
-              navigate('/profile');
+              navigate(`/profile/${response.data.user._id}`);
           }
 
       } catch (error) {

@@ -81,8 +81,9 @@ function MainApp() {
           <Route path="/profileCompany" exact element={<ProfileCompany />} />
 
           <Route
-            path="/profile"
+            path="/profile/:userId"
             exact
+            key="profile"
             element={
               <AuthGuard>
                 <Profile />

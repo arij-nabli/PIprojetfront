@@ -5,7 +5,7 @@ import Footer from 'components/Footers/Footer.js'
 import HashLoader from 'react-spinners/HashLoader'
 import { useNavigate } from 'react-router-dom'
 
-export default function Experiences() {
+export default function Experiences(props) {
   const [token, setToken] = useState(localStorage.getItem('token'))
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(true)
@@ -160,9 +160,9 @@ export default function Experiences() {
                     </li>
                   ))}
                 </ul>
-                <button onClick={handleEditExperiences} className='mt-6'>
+             {props.isMyProfile &&  <button onClick={handleEditExperiences} className='mt-6'>
                   <i className='fa-solid fa-pen-to-square fa-xl ml-48'></i>
-                </button>
+                </button>}
               </div>
             )}
           </div>
