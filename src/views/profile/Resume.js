@@ -1,55 +1,73 @@
 import React, { useState, useEffect } from 'react';
-
+import axios from 'axios';
 function Resume() {
   const [resumeData, setResumeData] = useState(null);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchResumeData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/pdf/parse-pdf');  // Assuming your Express server is running on the same host
-        if (!response.ok) {
-          throw new Error('Failed to fetch resume data');
-        }
-        const data = await response.json();
-        setResumeData(data);
+        const response = await axios.get('http://localhost:5000/pdf/parse-pdf'); // Adjust the URL if your backend is running on a different port or domain
+        setResumeData(response.data);
       } catch (error) {
-        setError(error.message);
+        console.error('Error fetching resume data:', error);
       }
     };
 
     fetchResumeData();
   }, []);
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  if (!resumeData) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div>
-      <h1>Resume Data</h1>
-      <ul>
-        {Object.entries(resumeData).map(([keyword, lines]) => (
-          <li key={keyword}>
-            <strong>{keyword}</strong>
-            {Array.isArray(lines) ? (
+      <h1>Resume</h1>
+      {resumeData && (
+        <div>
+          {resumeData['FORMATION'] && (
+            <div>
+              <h2>Formation</h2>
               <ul>
-                {lines.map((line, index) => (
-                  <li key={index}>{line}</li>
+                {resumeData['FORMATION'].map((item, index) => (
+                  <li key={index}>{item}</li>
                 ))}
               </ul>
-            ) : (
-              <p>{lines}</p>
-            )}
-          </li>
-        ))}
-      </ul>
+            </div>
+          )}
+          {resumeData['EXPÉRIENCE PROFESSIONELLE'] && (
+            <div>
+              <h2>Expérience Professionnelle</h2>
+              <ul>
+                {resumeData['EXPÉRIENCE PROFESSIONELLE'].map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {/* Add more sections like this */}
+          {/* Example: */}
+          {resumeData['Email'] && (
+            <div>
+              <h2>Email</h2>
+              <p>{resumeData['Email']}</p>
+            </div>
+          )}
+          {/* Add more sections like this */}
+          {/* Example: */}
+          {resumeData['GitHub'] && (
+            <div>
+              <h2>GitHub</h2>
+              <p>{resumeData['GitHub']}</p>
+            </div>
+          )}
+          {/* Add more sections like this */}
+          {/* Example: */}
+          {resumeData['LinkedIn'] && (
+            <div>
+              <h2>LinkedIn</h2>
+              <p>{resumeData['LinkedIn']}</p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
-
 export default Resume;

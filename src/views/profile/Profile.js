@@ -25,6 +25,8 @@ export default function Profile() {
     width: 330,
     height: 330,
   })
+  const [formation, setFormation] = useState([]);
+
   
   const [token, setToken] = useState(localStorage.getItem('token'))
   const navigate = useNavigate()
@@ -68,14 +70,12 @@ export default function Profile() {
   useEffect(() => {
     const fetchResumeData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/pdf/parse-pdf'); // Adjust the URL accordingly
-        if (!response.ok) {
-          throw new Error('Failed to fetch resume data');
+        const response = await axios.get('http://localhost:5000/pdf/parse-pdf'); // Adjust the URL if your backend is running on a different port or domain
+        if (response.data['FORMATION']) {
+          setFormation(response.data['FORMATION']);
         }
-        const data = response.data;
-        setResumeData(data);
       } catch (error) {
-        setError(error.message);
+        console.error('Error fetching resume data:', error);
       }
     };
 
