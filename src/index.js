@@ -27,7 +27,7 @@ import InterviewRoom from "views/InterviewRoom/InterviewRoom";
 import { ContextProvider } from "views/InterviewRoom/socketContext";
 import VideoPlayer from "views/InterviewRoom/VideoPlayer";
 import Resume from 'views/profile/Resume'
-import Chat from 'views/chatbot/Chat'
+import Chat from 'views/realtime-chat/Chat'
 import VideoCv from 'views/profile/VideoCv'
 import Record from 'views/profile/Rcord'
 function MainApp() {
@@ -79,7 +79,7 @@ function MainApp() {
           <Route path='/record' exact element={<Record />} />
 
           <Route path="/profileCompany" exact element={<ProfileCompany />} />
-
+          <Route path="/chat" exact element={<Chat />} />
           <Route
             path="/profile/:userId"
             exact

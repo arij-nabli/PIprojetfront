@@ -8,7 +8,7 @@ import Experiences from './Experiences'
 import Educations from './Educations'
 import Softskills from './Softskills'
 import Cv from './Cv'
-import Chat from 'views/chatbot/Chat'
+
 import VideoCv from './VideoCv'
 import LoadingScreen from 'components/LoadingScreen'
 import Resume from './Resume'
@@ -464,6 +464,11 @@ export default function Profile() {
                         className='bg-transparent border-none cursor-pointer ml-48'>
                         <i class='fa-solid fa-camera-retro'></i>
                       </button>}
+                      { isMyProfile && <button
+                      
+                      class="px-2 py-2 text-sm text-white bg-red-500 rounded-md mx-3 mr-3"style={{ backgroundColor: "#BD2C43" }}>
+                           Send Message
+                           </button>}
                       {/*----------------------Description-------------------------------- */}
                       <div className=' mt-2'>
                         <div className=' p-4 rounded-md '>
@@ -863,17 +868,8 @@ export default function Profile() {
                       <Educations  isMyProfile={isMyProfile}/>
                       
                     </div>
-                    <div className="flex justify-end">
-      {!isChatVisible && (
-        <button
-          className="relative bottom-3 w-fit p-[.50rem] rounded-full bg-white border border-gray-700"
-          onClick={handleButtonClick}
-        >
-          <i style={{ color: "#BD2C43" }} className="fa-brands fa-rocketchat text-white"></i>
-        </button>
-      )}
-      {isChatVisible && <Chat />}
-    </div>
+          
+
                   </div>
                 </div>
               </div>
