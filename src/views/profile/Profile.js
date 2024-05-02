@@ -753,7 +753,7 @@ export default function Profile() {
                     style={{ height: '100%' }}>
                     <div className='flex flex-col break-words w-full bg-white mb-10 shadow-xl rounded-lg'>
                       <div className='flex flex-row justify-between align-middle'>
-                        <Cv isMyProfile={isMyProfile}/>
+                        <Cv isMyProfile={isMyProfile} id={user._id}/>
                        {isMyProfile && <VideoCv />}
                       </div>
                     </div>
@@ -843,7 +843,7 @@ export default function Profile() {
                       <div className='flex flex-col break-words ml-5 w-full bg-white mb-10 shadow-xl rounded-lg'>
                         <div className='flex flex-col items-center justify-center align-middle w-full'>
                           <div className='flex flex-col text-center mt-3'>
-                            <Softskills isMyProfile={isMyProfile}/>
+                            <Softskills isMyProfile={isMyProfile} id={user._id}/>
                           </div>
                         </div>
                       </div>
@@ -853,14 +853,14 @@ export default function Profile() {
                       <div className='flex flex-row justify-between align-middle'>
                         {/* Any content you want to place in this flex row */}
                       </div>
-                      <Experiences  isMyProfile={isMyProfile}/>
+                      <Experiences  isMyProfile={isMyProfile} id={user._id}/>
                     </div>
                     {/*------------------------Education---------------------------------*/}
                     <div className='flex flex-col break-words w-full bg-white mb-10 shadow-xl rounded-lg'>
                       <div className='flex flex-row justify-between align-middle'>
                         {/* Any content you want to place in this flex row */}
                       </div>
-                      <Educations  isMyProfile={isMyProfile}/>
+                      <Educations  isMyProfile={isMyProfile} id={user._id}/>
                       
                     </div>
                     <div className="flex justify-end">

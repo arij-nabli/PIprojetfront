@@ -74,15 +74,11 @@ export default function Cv(props) {
   const fetchUserData = async (token) => {
     try {
       const response = await axios.get(
-        'http://localhost:5000/auth/getUserDataFromToken',
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `http://localhost:5000/user/getUserById/${props.id}`,
+      
       )
       console.log(response.data)
-      const userData = response.data.user
+      const userData = response.data
       setFormData({ ...formData, user: userData, cvFileName: userData.cv || '' })
     } catch (error) {
       console.error(error)
@@ -90,6 +86,7 @@ export default function Cv(props) {
   }
 
   useEffect(() => {
+    console.log('IDDDDDDDDD',props.id)
     fetchUserData(formData.token)
   }, [formData.token])
   const [pdfText, setPdfText] = useState('');

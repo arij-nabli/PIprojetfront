@@ -18,14 +18,10 @@ export default function Softskills(props) {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/auth/getUserDataFromToken',
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          `http://localhost:5000/user/getUserById/${props.id}`,
+        
         )
-        const userData = response.data.user
+        const userData = response.data
         setUser(userData)
         setSoftskills(userData.softskills)
         setIsLoading(false)

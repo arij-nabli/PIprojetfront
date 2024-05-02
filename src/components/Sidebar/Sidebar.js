@@ -1,17 +1,32 @@
 /*eslint-disable*/
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/img/logo-bg-tr.png";
+import io from "socket.io-client";
 
-import NotificationDropdown from "components/Dropdowns/NotificationDropdown.js";
-import UserDropdown from "components/Dropdowns/UserDropdown.js";
 
-export default function Sidebar() {
+export default function Sidebar(props) {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
+  const [notificationNumber, setNotificationNumber] = React.useState(0);
   const logout = () => {
     localStorage.removeItem('token');
     window.location.href = '/auth/login';
   }
+
+  useEffect(() => {
+    console.log(props.pendingCompaniesNbr)
+    setNotificationNumber(props.pendingCompaniesNbr)
+    const socket = io('http://localhost:5000');
+    socket.on('connect', () => {
+      console.log('connected to socket server');
+    });
+    socket.on('newCompany', (message) => {
+      console.log('new message', message);
+      console.log("nbr",notificationNumber)
+      setNotificationNumber(prevNumber => prevNumber + 1);
+    }
+  )
+},[props.pendingCompaniesNbr])
   return (
     <>
       <nav className="md:left-0 my-8 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden  bg-gray-100 flex flex-wrap items-center mr-10 justify-between relative md:w-64 z-10 py-4 px-6">
@@ -120,7 +135,7 @@ export default function Sidebar() {
                 </Link>
               </li>
 
-              <li className="items-center mb-1">
+              <li className="flex justify-between items-center mb-1">
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
@@ -140,7 +155,19 @@ export default function Sidebar() {
                   ></i>{" "}
                   Companies
                 </Link>
-              </li>
+    {notificationNumber >0 &&            <div style={{ position: 'relative' }}>
+  <i className="fa-solid fa-circle text-xl text-red-500"></i>
+  <span style={{
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    fontSize: '0.75rem',
+    color: 'white'
+  }}>
+    {notificationNumber}
+  </span>
+</div>}              </li>
 
               <li className="items-center mb-1">
                 <Link
