@@ -1,8 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import Navbar from 'components/Navbars/IndexNavbar.js'
-import Footer from 'components/Footers/Footer.js'
-import HashLoader from 'react-spinners/HashLoader'
 import { useNavigate } from 'react-router-dom'
 
 export default function Educations(props) {
@@ -84,6 +81,12 @@ export default function Educations(props) {
     setNewEducation('')
   }
 
+  const handleDeleteEducation = (index) => {
+    const updatedEducations = [...educations]
+    updatedEducations.splice(index, 1)
+    setEducations(updatedEducations)
+  }
+
   return (
     <>
       <div className='flex flex-col items-center justify-center w-full mb-10'>
@@ -95,10 +98,7 @@ export default function Educations(props) {
             {editModeEducations ? (
               <div>
                 {educations.map((education, index) => (
-                  <div key={index} className='mb-4'>
-                    <label
-                      htmlFor={`education-${index}`}
-                      className='block mb-1'></label>
+                  <div key={index} className='mb-4 flex items-center'>
                     <input
                       type='text'
                       id={`education-${index}`}
@@ -106,8 +106,11 @@ export default function Educations(props) {
                       onChange={(e) =>
                         handleChangeEducation(index, e.target.value)
                       }
-                      className='w-full border rounded-md px-3 py-2 mb-2'
+                      className='w-full border rounded-md px-3 py-2 mb-2 mr-2'
                     />
+                    <button onClick={() => handleDeleteEducation(index)}>
+                      <i className='fa-solid fa-trash fa-xl'></i>
+                    </button>
                   </div>
                 ))}
                 {newEducationVisible && (

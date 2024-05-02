@@ -76,26 +76,23 @@ export default function AdminContactPage({ color }) {
     }
   }
 
-  const renderMessagePreview = (message) => {
-    const maxLength = 50 // Max length for message preview
-    return message.length > maxLength
-      ? `${message.substring(0, maxLength)}...`
-      : message
-  }
-
   const handleDeleteContact = async (contactId) => {
     try {
       await axios.delete(
         `http://localhost:5000/contact-us/delete-contact/${contactId}`
       )
-      setContacts((prevContacts) =>
-        prevContacts.filter((contact) => contact._id !== contactId)
-      )
-      alert('Contact deleted successfully')
+      setContacts(contacts.filter((contact) => contact._id !== contactId))
     } catch (error) {
       console.error('Error deleting contact:', error)
       alert('Error deleting contact. Please try again later.')
     }
+  }
+
+  const renderMessagePreview = (message) => {
+    const maxLength = 50 // Max length for message preview
+    return message.length > maxLength
+      ? `${message.substring(0, maxLength)}...`
+      : message
   }
 
   if (loading) {
@@ -185,7 +182,7 @@ export default function AdminContactPage({ color }) {
                           />
                         </button>
                         <button
-                          className='mr-2 p-2'
+                          className='p-2'
                           onClick={() => handleDeleteContact(contact._id)}>
                           <FontAwesomeIcon
                             icon={faTrashAlt}
