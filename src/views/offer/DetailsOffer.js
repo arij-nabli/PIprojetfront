@@ -126,7 +126,7 @@ export default function DetailsOffer() {
             </div>
             {!user ? (
               "Sign in to apply "
-            ) : user.role == "company" ? (
+            ) : user.role == "company" || "admin" ? (
               <div className="ml-auto">
   <Link className=" text-custom-red hover:text-custom-darkred font-bold" to={`/company/applications/${offer._id}`}>
                 View Applications

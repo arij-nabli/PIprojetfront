@@ -9,9 +9,9 @@ import UserDropdown from "components/Dropdowns/UserDropdown.js";
 export default function Sidebar() {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
   const logout = () => {
-    localStorage.removeItem('token');
-    window.location.href = '/auth/login';
-  }
+    localStorage.removeItem("token");
+    window.location.href = "/auth/login";
+  };
   return (
     <>
       <nav className="md:left-0 my-8 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden  bg-gray-100 flex flex-wrap items-center mr-10 justify-between relative md:w-64 z-10 py-4 px-6">
@@ -27,15 +27,16 @@ export default function Sidebar() {
           {/* Brand */}
           <Link
             className="md:block text-center md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-            to="/admin"  
+            to="/admin"
           >
-            <div className="flex items-center">  <img src={logo} alt="compass" border="0" width="50" height="50" />
-
-          ESPRIT COMPASS</div>
-        
+            <div className="flex items-center">
+              {" "}
+              <img src={logo} alt="compass" border="0" width="50" height="50" />
+              ESPRIT COMPASS
+            </div>
           </Link>
           {/* User */}
-       
+
           <div
             className={
               "md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded " +
@@ -50,7 +51,13 @@ export default function Sidebar() {
                     className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
                     to="/admin"
                   >
-                    <img src={logo} alt="compass" border="0" width="50" height="50" />
+                    <img
+                      src={logo}
+                      alt="compass"
+                      border="0"
+                      width="50"
+                      height="50"
+                    />
                     ESPRIT COMPASS
                   </Link>
                 </div>
@@ -66,39 +73,37 @@ export default function Sidebar() {
               </div>
             </div>
             {/* Form */}
-           
 
             {/* Divider */}
-            <hr className="md:min-w-full border-1 border-gray-400 mb-5" />         
+            <hr className="md:min-w-full border-1 border-gray-400 mb-5" />
             <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
               Admin Layout Pages
             </h6>
             {/* Navigation */}
 
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
-            <li className="items-center mb-1">
-    <Link
-      className={
-        "text-xs uppercase py-3 font-bold block " +
-        (location.pathname === "/admin"
-          ? "text-lightBlue-500 hover:text-lightBlue-600"
-          : "text-blueGray-700 hover:text-blueGray-500")
-      }
-      to="/admin"
-    >
-      <i
-        className={
-          "fa-solid fa-chart-line mr-2 text-sm " +
-          (location.pathname === "/admin"
-            ? "opacity-75"
-            : "text-blueGray-300")
-        }
-      ></i>{" "}
-      Dashboard
-    </Link>
-  </li>
               <li className="items-center mb-1">
-                
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block " +
+                    (location.pathname === "/admin"
+                      ? "text-lightBlue-500 hover:text-lightBlue-600"
+                      : "text-blueGray-700 hover:text-blueGray-500")
+                  }
+                  to="/admin"
+                >
+                  <i
+                    className={
+                      "fa-solid fa-chart-line mr-2 text-sm " +
+                      (location.pathname === "/admin"
+                        ? "opacity-75"
+                        : "text-blueGray-300")
+                    }
+                  ></i>{" "}
+                  Dashboard
+                </Link>
+              </li>
+              <li className="items-center mb-1">
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
@@ -186,38 +191,59 @@ export default function Sidebar() {
               </li>
               <li className="items-center mb-1">
                 <Link
-  className={
-    "text-xs uppercase py-3 font-bold block " +
-    (window.location.href.indexOf("/admin/profile") !== -1
-      ? "text-lightBlue-500 hover:text-lightBlue-600"
-      : "text-blueGray-700 hover:text-blueGray-500")
-  }
-  to="/admin/profile"
->
-  <i
-    className={
-      "fa-solid fa-user mr-2 text-sm " +
-      (window.location.href.indexOf("/admin/profile") !== -1
-        ? "opacity-75"
-        : "text-blueGray-300")
-    }
-  ></i>{" "}
-  Admin profile
-</Link>
+                  className={
+                    "text-xs uppercase py-3 font-bold block " +
+                    (window.location.href.indexOf("/admin/offers") !== -1
+                      ? "text-lightBlue-500 hover:text-lightBlue-600"
+                      : "text-blueGray-700 hover:text-blueGray-500")
+                  }
+                  to="/admin/offers"
+                >
+                  <i
+                    className={
+                      "fa-solid fa-briefcase mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/offers") !== -1
+                        ? "opacity-75"
+                        : "text-blueGray-300")
+                    }
+                  ></i>{" "}
+                  Offers
+                </Link>
               </li>
-              <button className="items-center mb-1 bg-red-500 flex justify-center w-full bottom-0 absolute text-xs uppercase py-3 font-bold  text-white" onClick={logout}>
-               
-                  <i class="fa-solid fa-arrow-right-from-bracket  mr-2 text-sm  opacity-75 text-blueGray-300" style={{color:"white"}}></i>
-                 {" "}
-                  Logout
-                </button>
-            
-
+              <li className="items-center mb-1">
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block " +
+                    (window.location.href.indexOf("/admin/profile") !== -1
+                      ? "text-lightBlue-500 hover:text-lightBlue-600"
+                      : "text-blueGray-700 hover:text-blueGray-500")
+                  }
+                  to="/admin/profile"
+                >
+                  <i
+                    className={
+                      "fa-solid fa-user mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/profile") !== -1
+                        ? "opacity-75"
+                        : "text-blueGray-300")
+                    }
+                  ></i>{" "}
+                  Admin profile
+                </Link>
+              </li>
+              <button
+                className="items-center mb-1 bg-red-500 flex justify-center w-full bottom-0 absolute text-xs uppercase py-3 font-bold  text-white"
+                onClick={logout}
+              >
+                <i
+                  class="fa-solid fa-arrow-right-from-bracket  mr-2 text-sm  opacity-75 text-blueGray-300"
+                  style={{ color: "white" }}
+                ></i>{" "}
+                Logout
+              </button>
             </ul>
 
             {/* Divider */}
-           
-            
           </div>
         </div>
       </nav>

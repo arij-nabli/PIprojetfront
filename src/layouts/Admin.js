@@ -15,6 +15,7 @@ import SkillsTable from "views/admin/SkillsTable";
 import IndustriesTable from "views/admin/IndustriesTbale";
 import LoadingScreen from "components/LoadingScreen";
 import AdminProfile from "views/admin/admin Profile";
+import Offers from "views/admin/Offers";
 export default function Admin() {
   
   const [isLoading, setIsLoading] = useState(true);
@@ -90,6 +91,8 @@ export default function Admin() {
                   element={<IndustriesTable color={"light"} />}
                 />
                 <Route path="/profile" element={<AdminProfile />} />
+                <Route path="/offers" element={<Offers />} />
+
                 <Route path="/all-users" element={<AllUsersTable />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/" element={<Dashboard />} />
