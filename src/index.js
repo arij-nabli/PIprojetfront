@@ -79,7 +79,7 @@ function MainApp() {
           <Route path='/record' exact element={<Record />} />
 
           <Route path="/profileCompany" exact element={<ProfileCompany />} />
-          <Route path="/chat" exact element={<Chat />} />
+          <Route path="/chat/:senderId/:receiverId" exact element={<Chat />} />
           <Route
             path="/profile/:userId"
             exact

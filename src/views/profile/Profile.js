@@ -464,9 +464,14 @@ export default function Profile() {
                         className='bg-transparent border-none cursor-pointer ml-48'>
                         <i class='fa-solid fa-camera-retro'></i>
                       </button>}
-                      { isMyProfile && <button
+                      { !isMyProfile && <button
                       
-                      class="px-2 py-2 text-sm text-white bg-red-500 rounded-md mx-3 mr-3"style={{ backgroundColor: "#BD2C43" }}>
+                      class="px-2 py-2 text-sm text-white bg-red-500 rounded-md mx-3 mr-3"style={{ backgroundColor: "#BD2C43" }}
+                      onClick={()=>{
+                        navigate(`/chat/${user._id}/${connectedUser._id}`)
+                      
+                      }}>
+                        
                            Send Message
                            </button>}
                       {/*----------------------Description-------------------------------- */}
@@ -869,7 +874,7 @@ export default function Profile() {
                       
                     </div>
           
-                    <Chatbot />
+                    {/* <Chatbot /> */}
                   </div>
                 </div>
               </div>
