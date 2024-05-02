@@ -5,7 +5,7 @@ import CompanyDetailsModal from "components/modals/CompanyDetailsModal";
 import HeaderStats from "components/Headers/HeaderStats";
 import Swal from "sweetalert2";
 
-export default function CompaniesTable({ color, searchQuery }) {
+export default function CompaniesTable({ color, searchQuery,onNumCompaniesChange}) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenUser, setIsModalOpenUser] = useState(false);
     const [selectedCompany, setSelectedCompany] = useState(null);
@@ -26,6 +26,8 @@ export default function CompaniesTable({ color, searchQuery }) {
         const response = await axios.get("http://localhost:5000/admin/companiespending");
         setTableData(response.data.pendingCompanies);
         setUserTable(response.data.users);
+        onNumCompaniesChange(response.data.pendingCompanies.length);
+
     };
 
     const acceptCompany = async (companyId) => {
@@ -42,6 +44,8 @@ export default function CompaniesTable({ color, searchQuery }) {
               timer: 1000
             });
            fetchData()
+           onNumCompaniesChange(tableData.length-1)
+
         } catch (err) {
             console.error(err.message);
         }
@@ -61,6 +65,7 @@ export default function CompaniesTable({ color, searchQuery }) {
               timer: 1000
             });
             fetchData()
+            onNumCompaniesChange(tableData.length-1)
         } catch (err) {
             console.error(err.message);
         }

@@ -8,7 +8,7 @@ import Experiences from './Experiences'
 import Educations from './Educations'
 import Softskills from './Softskills'
 import Cv from './Cv'
-import Chat from 'views/chatbot/Chat'
+import Chatbot from 'views/chatbot/chatbot'
 import VideoCv from './VideoCv'
 import LoadingScreen from 'components/LoadingScreen'
 import Resume from './Resume'
@@ -25,6 +25,8 @@ export default function Profile() {
     width: 330,
     height: 330,
   })
+  const [formation, setFormation] = useState([]);
+
   
   const [token, setToken] = useState(localStorage.getItem('token'))
   const navigate = useNavigate()
@@ -68,14 +70,12 @@ export default function Profile() {
   useEffect(() => {
     const fetchResumeData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/pdf/parse-pdf'); // Adjust the URL accordingly
-        if (!response.ok) {
-          throw new Error('Failed to fetch resume data');
+        const response = await axios.get('http://localhost:5000/pdf/parse-pdf'); // Adjust the URL if your backend is running on a different port or domain
+        if (response.data['FORMATION']) {
+          setFormation(response.data['FORMATION']);
         }
-        const data = response.data;
-        setResumeData(data);
       } catch (error) {
-        setError(error.message);
+        console.error('Error fetching resume data:', error);
       }
     };
 
@@ -464,6 +464,16 @@ export default function Profile() {
                         className='bg-transparent border-none cursor-pointer ml-48'>
                         <i class='fa-solid fa-camera-retro'></i>
                       </button>}
+                      { !isMyProfile && <button
+                      
+                      class="px-2 py-2 text-sm text-white bg-red-500 rounded-md mx-3 mr-3"style={{ backgroundColor: "#BD2C43" }}
+                      onClick={()=>{
+                        navigate(`/chat/${user._id}/${connectedUser._id}`)
+                      
+                      }}>
+                        
+                           Send Message
+                           </button>}
                       {/*----------------------Description-------------------------------- */}
                       <div className=' mt-2'>
                         <div className=' p-4 rounded-md '>
@@ -753,7 +763,7 @@ export default function Profile() {
                     style={{ height: '100%' }}>
                     <div className='flex flex-col break-words w-full bg-white mb-10 shadow-xl rounded-lg'>
                       <div className='flex flex-row justify-between align-middle'>
-                        <Cv isMyProfile={isMyProfile}/>
+                        <Cv isMyProfile={isMyProfile} id={user._id}/>
                        {isMyProfile && <VideoCv />}
                       </div>
                     </div>
@@ -843,7 +853,7 @@ export default function Profile() {
                       <div className='flex flex-col break-words ml-5 w-full bg-white mb-10 shadow-xl rounded-lg'>
                         <div className='flex flex-col items-center justify-center align-middle w-full'>
                           <div className='flex flex-col text-center mt-3'>
-                            <Softskills isMyProfile={isMyProfile}/>
+                            <Softskills isMyProfile={isMyProfile} id={user._id}/>
                           </div>
                         </div>
                       </div>
@@ -853,27 +863,18 @@ export default function Profile() {
                       <div className='flex flex-row justify-between align-middle'>
                         {/* Any content you want to place in this flex row */}
                       </div>
-                      <Experiences  isMyProfile={isMyProfile}/>
+                      <Experiences  isMyProfile={isMyProfile} id={user._id}/>
                     </div>
                     {/*------------------------Education---------------------------------*/}
                     <div className='flex flex-col break-words w-full bg-white mb-10 shadow-xl rounded-lg'>
                       <div className='flex flex-row justify-between align-middle'>
                         {/* Any content you want to place in this flex row */}
                       </div>
-                      <Educations  isMyProfile={isMyProfile}/>
+                      <Educations  isMyProfile={isMyProfile} id={user._id}/>
                       
                     </div>
-                    <div className="flex justify-end">
-      {!isChatVisible && (
-        <button
-          className="relative bottom-3 w-fit p-[.50rem] rounded-full bg-white border border-gray-700"
-          onClick={handleButtonClick}
-        >
-          <i style={{ color: "#BD2C43" }} className="fa-brands fa-rocketchat text-white"></i>
-        </button>
-      )}
-      {isChatVisible && <Chat />}
-    </div>
+          
+                    {/* <Chatbot /> */}
                   </div>
                 </div>
               </div>

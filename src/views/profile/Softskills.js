@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-
 import { useNavigate } from 'react-router-dom'
 
 export default function Softskills(props) {
@@ -9,7 +8,7 @@ export default function Softskills(props) {
   const [isLoading, setIsLoading] = useState(true)
   const [user, setUser] = useState({})
   const [softskills, setSoftskills] = useState([])
-  const [editModeSofetskills, setEditModeSofetskills] = useState(false)
+  const [editModeSoftskills, setEditModeSoftskills] = useState(false)
   const [newSoftskillVisible, setNewSoftskillVisible] = useState(false)
   const [newSoftskill, setNewSoftskill] = useState('')
   const [isSaving, setIsSaving] = useState(false)
@@ -18,14 +17,10 @@ export default function Softskills(props) {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/auth/getUserDataFromToken',
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          `http://localhost:5000/user/getUserById/${props.id}`,
+        
         )
-        const userData = response.data.user
+        const userData = response.data
         setUser(userData)
         setSoftskills(userData.softskills)
         setIsLoading(false)
@@ -38,7 +33,7 @@ export default function Softskills(props) {
   }, [token])
 
   const handleEditSoftskills = () => {
-    setEditModeSofetskills(true)
+    setEditModeSoftskills(true)
   }
 
   const handleAddSoftskill = () => {
@@ -51,7 +46,7 @@ export default function Softskills(props) {
     try {
       let updatedSoftskills = [...softskills]
 
-      // Add new experience only if it is not empty
+      // Add new softskill only if it is not empty
       if (newSoftskill.trim() !== '') {
         updatedSoftskills.push(newSoftskill.trim())
       }
@@ -67,7 +62,7 @@ export default function Softskills(props) {
       setUser(updatedUser.data.user)
       setSoftskills(updatedUser.data.user.softskills)
       setIsSaving(false)
-      setEditModeSofetskills(false)
+      setEditModeSoftskills(false)
       setNewSoftskillVisible(false)
     } catch (error) {
       console.error(error)
@@ -79,11 +74,17 @@ export default function Softskills(props) {
     setNewSoftskill(e.target.value)
   }
 
-  const handleChangeSoftSkill = (index, newValue) => {
+  const handleChangeSoftskill = (index, newValue) => {
     const updatedSoftskills = [...softskills]
     updatedSoftskills[index] = newValue
     setSoftskills(updatedSoftskills)
     setNewSoftskill('')
+  }
+
+  const handleDeleteSoftskill = (index) => {
+    const updatedSoftskills = [...softskills]
+    updatedSoftskills.splice(index, 1)
+    setSoftskills(updatedSoftskills)
   }
 
   return (
@@ -93,28 +94,28 @@ export default function Softskills(props) {
       </h2>
       <div className='mx-auto'>
         <div className='mb-2 text-blueGray-600'>
-          {editModeSofetskills ? (
+          {editModeSoftskills ? (
             <div>
               {softskills.map((softskill, index) => (
-                <div key={index} className='mb-4'>
-                  <label
-                    htmlFor={`softskill-${index}`}
-                    className='block mb-1'></label>
+                <div key={index} className='mb-4 flex items-center'>
                   <input
                     type='text'
                     id={`softskill-${index}`}
                     value={softskill}
                     onChange={(e) =>
-                      handleChangeSoftSkill(index, e.target.value)
+                      handleChangeSoftskill(index, e.target.value)
                     }
-                    className='w-full border rounded-md px-3 py-2 mb-2'
+                    className='w-full border rounded-md px-3 py-2 mb-2 mr-2'
                   />
+                  <button onClick={() => handleDeleteSoftskill(index)}>
+                    <i className='fa-solid fa-trash fa-xl'></i>
+                  </button>
                 </div>
               ))}
               {newSoftskillVisible && (
                 <div className='mb-4'>
                   <label htmlFor='title-new' className='block mb-1'>
-                    New SoftSkills
+                    New SoftSkill
                   </label>
                   <input
                     type='text'
@@ -136,7 +137,7 @@ export default function Softskills(props) {
                   {isSaving ? 'Saving...' : 'Save'}
                 </button>
                 <button
-                  onClick={() => setEditModeSofetskills(false)}
+                  onClick={() => setEditModeSoftskills(false)}
                   className='bg-transparent border border-gray-500 text-gray-500 px-4 py-2 rounded-md'>
                   Cancel
                 </button>
