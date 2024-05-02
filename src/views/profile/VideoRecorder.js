@@ -90,7 +90,7 @@ export default function VideoRecorder() {
 
       // Make a POST request to your backend endpoint
       const response = await axios.post(
-        'http://localhost:5000/user/save-video',
+        'http://localhost:5000/user/save-recorded-video',
         formData,
         {
           headers: {
@@ -99,9 +99,9 @@ export default function VideoRecorder() {
         }
       )
 
-      console.log('Video saved:', response.data)
+      console.log('Recorded Video Saved:', response.data)
     } catch (error) {
-      console.error('Error saving video:', error)
+      console.error('Error saving recorded video:', error)
     }
   }
 
