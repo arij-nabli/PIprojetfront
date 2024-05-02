@@ -88,6 +88,12 @@ export default function Experiences() {
     setNewExperience('')
   }
 
+  const handleDeleteExperience = (index) => {
+    const updatedExperiences = [...experiences]
+    updatedExperiences.splice(index, 1)
+    setExperiences(updatedExperiences)
+  }
+
   return (
     <>
       <div className='flex flex-col items-center justify-center w-full mb-10'>
@@ -99,10 +105,7 @@ export default function Experiences() {
             {editModeExperiences ? (
               <div>
                 {experiences.map((experience, index) => (
-                  <div key={index} className='mb-4'>
-                    <label
-                      htmlFor={`experience-${index}`}
-                      className='block mb-1'></label>
+                  <div key={index} className='mb-4 flex items-center'>
                     <input
                       type='text'
                       id={`experience-${index}`}
@@ -110,8 +113,11 @@ export default function Experiences() {
                       onChange={(e) =>
                         handleChangeExperience(index, e.target.value)
                       }
-                      className='w-full border rounded-md px-3 py-2 mb-2'
+                      className='w-full border rounded-md px-3 py-2 mb-2 mr-2'
                     />
+                    <button onClick={() => handleDeleteExperience(index)}>
+                      <i className='fa-solid fa-trash fa-xl'></i>
+                    </button>
                   </div>
                 ))}
                 {newExperienceVisible && (

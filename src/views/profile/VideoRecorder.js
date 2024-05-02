@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import axios from 'axios'
 
 export default function VideoRecorder() {
   const mimeType = 'video/webm'
@@ -10,6 +11,7 @@ export default function VideoRecorder() {
   const [videoChunks, setVideoChunks] = useState([])
   const [recordedVideo, setRecordedVideo] = useState(null)
   const [isRecordingStopped, setIsRecordingStopped] = useState(false)
+  const [videoFile, setVideoFile] = useState(null) // New state to temporarily store recorded video file
 
   const getCameraPermission = async () => {
     setRecordedVideo(null)
@@ -74,6 +76,32 @@ export default function VideoRecorder() {
       const videoUrl = URL.createObjectURL(videoBlob)
       setRecordedVideo(videoUrl)
       setVideoChunks([])
+      console.log('Recorded Video:', videoBlob)
+
+      // Save recorded video to the backend
+      saveRecordedVideo(videoBlob)
+    }
+  }
+
+  const saveRecordedVideo = async (videoBlob) => {
+    try {
+      const formData = new FormData()
+      formData.append('video', videoBlob)
+
+      // Make a POST request to your backend endpoint
+      const response = await axios.post(
+        'http://localhost:5000/user/save-video',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      )
+
+      console.log('Video saved:', response.data)
+    } catch (error) {
+      console.error('Error saving video:', error)
     }
   }
 
@@ -106,12 +134,16 @@ export default function VideoRecorder() {
             </button>
           ) : null}
           {recordingStatus === 'recording' ? (
-            <button onClick={stopRecording} className='btn-danger mb-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+            <button
+              onClick={stopRecording}
+              className='btn-danger mb-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>
               Stop Recording
             </button>
           ) : null}
           {recordedVideo && (
-            <button onClick={handleNewRecord} className='btn-primary mb-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'>
+            <button
+              onClick={handleNewRecord}
+              className='btn-primary mb-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'>
               New Record
             </button>
           )}
@@ -130,6 +162,11 @@ export default function VideoRecorder() {
               className='text-blue-500 block mt-2'>
               Download Recorded Video
             </a>
+            <button
+              onClick={() => saveRecordedVideo(recordedVideo)}
+              className='btn-primary mb-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded'>
+              Save Record
+            </button>
           </div>
         )}
         <video
