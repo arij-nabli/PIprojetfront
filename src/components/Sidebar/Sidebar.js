@@ -1,10 +1,8 @@
 /*eslint-disable*/
-import React from 'react'
+import React,{useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../../assets/img/logo-bg-tr.png'
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import logo from "../../assets/img/logo-bg-tr.png";
+
 import io from "socket.io-client";
 
 
@@ -186,22 +184,22 @@ export default function Sidebar(props) {
                 </Link>
               </li>
               <li className='items-center mb-1'>
-                <Link
+              <Link
                   className={
                     'text-xs uppercase py-3 font-bold block ' +
-                    (window.location.href.indexOf('/admin/industries') !== -1
+                    (window.location.href.indexOf('/AdminContacts') !== -1
                       ? 'text-lightBlue-500 hover:text-lightBlue-600'
                       : 'text-blueGray-700 hover:text-blueGray-500')
                   }
-                  to='/admin/industries'>
+                  to='/AdminContacts'>
                   <i
                     className={
-                      'fa-solid fa-industry mr-2 text-sm ' +
-                      (window.location.href.indexOf('/admin/industries') !== -1
+                      'fa-solid fa-envelope mr-2 text-sm ' +
+                      (window.location.href.indexOf('/AdminContacts') !== -1
                         ? 'opacity-75'
                         : 'text-blueGray-300')
                     }></i>{' '}
-                  Industries
+                  Contacts
                 </Link>
           
               </li>
