@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from 'components/Navbars/IndexNavbar.js';
-import Footer from 'components/Footers/Footer.js';
-import HashLoader from 'react-spinners/HashLoader';
-import { useNavigate } from 'react-router-dom';
 
-export default function Educations() {
+function Educations() {
   const [token, setToken] = useState(localStorage.getItem('token'));
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState({});
   const [educations, setEducations] = useState([]);
@@ -16,6 +11,7 @@ export default function Educations() {
   const [newEducation, setNewEducation] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [cvData, setCvData] = useState(null); // State to store CV data
+  const [cvEducations, setCvEducations] = useState([]); // State to store CV educations
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -44,7 +40,11 @@ export default function Educations() {
     const fetchCvData = async () => {
       try {
         const response = await axios.get('http://localhost:5000/pdf/parse-pdf');
+        console.log(response.data);
         setCvData(response.data);
+        if (response.data['FORMATION']) {
+          setCvEducations(response.data['FORMATION']);
+        }
       } catch (error) {
         console.error('Error fetching CV data:', error);
       }
@@ -65,12 +65,12 @@ export default function Educations() {
     setIsSaving(true);
     try {
       let updatedEducations = [...educations];
-
-      // Add new education only if it is not empty
-      if (newEducation.trim() !== '') {
-        updatedEducations.push(newEducation.trim());
+  
+      // Add new education only if it is not empty and not already included
+      if (newEducation.trim() !== '' && !educations.includes(newEducation.trim())) {
+        updatedEducations.unshift(newEducation.trim());
       }
-
+  
       const updatedUser = await axios.post(
         'http://localhost:5000/user/updateUserEducations',
         {
@@ -78,7 +78,47 @@ export default function Educations() {
           educations: updatedEducations,
         }
       );
+  
+      setUser(updatedUser.data.user);
+      setEducations(updatedUser.data.user.educations);
+      setIsSaving(false);
+      setEditModeEducations(false);
+      setNewEducationVisible(false);
+  
+      setNewEducation('');
+    } catch (error) {
+      console.error(error);
+      setIsSaving(false);
+    }
+  };
+  
 
+  const handleInputChange = (e) => {
+    setNewEducation(e.target.value);
+  };
+
+  const handleChangeEducation = (index, newValue) => {
+    const updatedEducations = [...educations];
+    updatedEducations[index] = newValue;
+    setEducations(updatedEducations);
+  };
+
+  const handleDeleteEducation = (index) => {
+    const updatedEducations = [...educations];
+    updatedEducations.splice(index, 1);
+    setEducations(updatedEducations);
+  };
+
+  const handleSaveCvEducations = async () => {
+    setIsSaving(true);
+    try {
+      const updatedUser = await axios.post(
+        'http://localhost:5000/user/updateUserEducations',
+        {
+          userId: user._id,
+          educations: [...educations, ...cvEducations],
+        }
+      );
       setUser(updatedUser.data.user);
       setEducations(updatedUser.data.user.educations);
       setIsSaving(false);
@@ -90,129 +130,109 @@ export default function Educations() {
     }
   };
 
-  const handleInputChange = (e) => {
-    setNewEducation(e.target.value);
-  };
-
-  const handleChangeEducation = (index, newValue) => {
-    const updatedEducations = [...educations];
-    updatedEducations[index] = newValue;
-    setEducations(updatedEducations);
-    setNewEducation('');
-  };
-
   return (
     <>
-      <div className="flex flex-col items-center justify-center w-full mb-10">
-
-        <div className="mx-auto">
-          <div className="mb-2 text-blueGray-600">
-            {editModeEducations ? (
-              <div>
+      <div className='flex flex-col items-center justify-center w-full mb-10'>
+        <h2 className='text-2xl font-semibold leading-normal mt-4 mb-2 text-blueGray-700 '>
+          Education
+        </h2>
+        <div>
+          <div className='mx-auto'>
+            <div className='mb-2 text-blueGray-600'>
+              {editModeEducations ? (
+                <div>
+                  <div>
+                    {educations.map((education, index) => (
+                      <div key={index} className='mb-4'>
+                        <div className="flex items-center">
+                          
+                            <i
+                              className='fa-solid fa-briefcase m-3 fa-xl'
+                              style={{ color: '#9e0514' }}></i>
+                        
+                          <input
+                            type='text'
+                            value={education}
+                            onChange={(e) =>
+                              handleChangeEducation(index, e.target.value)
+                            }
+                            className='w-full border rounded-md px-3 py-2 mb-2'
+                          />
+                          <button onClick={() => handleDeleteEducation(index)}>
+                            <i className='fa-solid fa-trash fa-xl'></i>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {newEducationVisible && (
+                    <div className='mb-4'>
+                      <div className="flex items-center">
+                        
+                          <i
+                            className='fa-solid fa-briefcase m-3 fa-xl'
+                            style={{ color: '#9e0514' }}></i>
+                    
+                        <input
+                          type='text'
+                          value={newEducation}
+                          onChange={handleInputChange}
+                          className='w-full border rounded-md px-3 py-2 mb-2'
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <button onClick={handleAddEducation}>
+                    <i className='fa-solid fa-plus-square fa-xl'></i> Add
+                    Education
+                  </button>
+                  <div className='mt-4'>
+                    <button
+                      onClick={handleSaveEducations}
+                      disabled={isSaving}
+                      className='bg-blue-500 text-white px-4 py-2 rounded-md mr-2'>
+                      {isSaving ? 'Saving...' : 'Save'}
+                    </button>
+                    <button
+                      onClick={handleSaveCvEducations}
+                      disabled={isSaving}
+                      className='bg-blue-500 text-white px-4 py-2 rounded-md mr-2'>
+                      {isSaving ? 'Saving CV Educations...' : 'Save CV Educations'}
+                    </button>
+                    <button
+                      onClick={() => setEditModeEducations(false)}
+                      className='bg-transparent border border-gray-500 text-gray-500 px-4 py-2 rounded-md'>
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div>
+ 
                 {educations.map((education, index) => (
-                  <div key={index} className="mb-4">
-                    <label
-                      htmlFor={`education-${index}`}
-                      className="block mb-1"
-                    ></label>
-                    <input
-                      type="text"
-                      id={`education-${index}`}
-                      value={education}
-                      onChange={(e) =>
-                        handleChangeEducation(index, e.target.value)
-                      }
-                      className="w-full border rounded-md px-3 py-2 mb-2"
-                    />
+                  <div key={index} className='mb-4'>
+                    <div className="flex items-center">
+                     
+                        <i
+                          className='fa-solid fa-briefcase m-3 fa-xl'
+                          style={{ color: '#9e0514' }}></i>
+                    
+                      {education}
+                    </div>
                   </div>
                 ))}
-                {newEducationVisible && (
-                  <div className="mb-4">
-                    <label htmlFor="title-new" className="block mb-1">
-                      New Education
-                    </label>
-                    <input
-                      type="text"
-                      id="title-new"
-                      value={newEducation}
-                      onChange={handleInputChange}
-                      className="w-full border rounded-md px-3 py-2 mb-2"
-                    />
-                  </div>
-                )}
-                <button onClick={handleAddEducation}>
-                  <i className="fa-solid fa-plus-square fa-xl"></i> Add
-                  Education
-                </button>
-                <div className="mt-4">
-                  <button
-                    onClick={handleSaveEducations}
-                    disabled={isSaving}
-                    className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2"
-                  >
-                    {isSaving ? 'Saving...' : 'Save'}
-                  </button>
-                  <button
-                    onClick={() => setEditModeEducations(false)}
-                    className="bg-transparent border border-gray-500 text-gray-500 px-4 py-2 rounded-md"
-                  >
-                    Cancel
+           
+                  <button onClick={handleEditEducations} className='mt-6'>
+                    <i className='fa-solid fa-pen-to-square fa-xl ml-48'></i> Edit
                   </button>
                 </div>
-              </div>
-            ) : (
-              <div className="mt-6 ml-6">
-                <ul>
-                  {educations.map((education, index) => (
-                    <li key={index} className="mb-4">
-                      <div>
-                        <i
-                          className="fa-solid fa-graduation-cap m-3 fa-xl"
-                          style={{ color: '#9e0514' }}
-                        ></i>
-                        {education}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-                
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Display Formation section from CV */}
-      <div className="flex flex-col items-center justify-center w-full mb-10">
-        <h2 className="text-2xl font-semibold leading-normal mt-4 mb-2 text-blueGray-700 ">
-          EDUCATION
-        </h2>
-        <div className="mx-auto">
-          <div className="mb-2 text-blueGray-600">
-            {cvData && cvData['FORMATION'] && (
-              <div className="mt-6 ml-6">
-                <ul>
-                  {cvData['FORMATION'].map((formation, index) => (
-                    <li key={index} className="mb-4">
-                      <div>
-                        <i
-                          className="fa-solid fa-graduation-cap m-3 fa-xl"
-                          style={{ color: '#9e0514' }}
-                        ></i>
-                        {formation}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-                <button onClick={handleEditEducations} className="mt-6">
-                  <i className="fa-solid fa-pen-to-square fa-xl ml-48"></i>
-                </button>
-              </div>
-              
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
     </>
-  );
+  )
 }
+
+export default Educations;

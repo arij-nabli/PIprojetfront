@@ -60,29 +60,29 @@ function Experiences() {
     setNewExperience('');
     setNewExperienceVisible(true);
   }
-
   const handleSaveExperiences = async () => {
-    setIsSaving(true)
+    setIsSaving(true);
     try {
       const updatedUser = await axios.post(
         'http://localhost:5000/user/updateUserExperiences',
         {
           userId: user._id,
-          experiences: [...experiences, newExperience],
+          experiences: [newExperience, ...experiences], // Ajoute la nouvelle expérience en haut de la liste
         }
-      )
-
-      setUser(updatedUser.data.user)
-      setExperiences(updatedUser.data.user.experiences)
-      setIsSaving(false)
-      setEditModeExperiences(false)
-      setNewExperienceVisible(false)
+      );
+  
+      setUser(updatedUser.data.user);
+      setExperiences(updatedUser.data.user.experiences);
+      setIsSaving(false);
+      setEditModeExperiences(false);
+      setNewExperienceVisible(false);
       setNewExperience('');
     } catch (error) {
-      console.error(error)
-      setIsSaving(false)
+      console.error(error);
+      setIsSaving(false);
     }
-  }
+  };
+  
 
   const handleInputChange = (e) => {
     setNewExperience(e.target.value)
@@ -135,9 +135,11 @@ function Experiences() {
                     {experiences.map((experience, index) => (
                       <div key={index} className='mb-4'>
                         <div className="flex items-center">
-                          <i
-                            className='fa-solid fa-briefcase m-3 fa-xl'
-                            style={{ color: '#9e0514' }}></i>
+                          {experience.includes('Stage') && (
+                            <i
+                              className='fa-solid fa-briefcase m-3 fa-xl'
+                              style={{ color: '#9e0514' }}></i>
+                          )}
                           <input
                             type='text'
                             value={experience}
@@ -156,9 +158,11 @@ function Experiences() {
                   {newExperienceVisible && (
                     <div className='mb-4'>
                       <div className="flex items-center">
-                        <i
-                          className='fa-solid fa-briefcase m-3 fa-xl'
-                          style={{ color: '#9e0514' }}></i>
+                        {newExperience.includes('Stage') && (
+                          <i
+                            className='fa-solid fa-briefcase m-3 fa-xl'
+                            style={{ color: '#9e0514' }}></i>
+                        )}
                         <input
                           type='text'
                           value={newExperience}
@@ -198,13 +202,12 @@ function Experiences() {
                 {experiences.map((experience, index) => (
                   <div key={index} className='mb-4'>
                     <div className="flex items-center">
-                      <i
-                        className='fa-solid fa-briefcase m-3 fa-xl'
-                        style={{ color: '#9e0514' }}></i>
-                     
-                        {experience}
-      
-                      
+                      {experience.includes('Stage') && (
+                        <i
+                          className='fa-solid fa-briefcase m-3 fa-xl'
+                          style={{ color: '#9e0514' }}></i>
+                      )}
+                      {experience}
                     </div>
                   </div>
                 ))}
