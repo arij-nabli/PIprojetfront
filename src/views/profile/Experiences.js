@@ -5,20 +5,9 @@ import Footer from 'components/Footers/Footer.js'
 import HashLoader from 'react-spinners/HashLoader'
 import { useNavigate } from 'react-router-dom'
 
-export default function Experiences(props) {
-  const [token, setToken] = useState(localStorage.getItem('token'))
-  const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState(true)
-  const [user, setUser] = useState({})
-  const [experiences, setExperiences] = useState([])
-  const [editModeExperiences, setEditModeExperiences] = useState(false)
-  const [newExperienceVisible, setNewExperienceVisible] = useState(false)
-  const [newExperience, setNewExperience] = useState('')
-  const [isSaving, setIsSaving] = useState(false)
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
-function Experiences() {
+
+function Experiences(props) {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState({});

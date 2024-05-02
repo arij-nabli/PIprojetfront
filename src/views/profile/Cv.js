@@ -117,22 +117,22 @@ export default function Cv(props) {
       <form onSubmit={handleSubmit} className='space-y-4'>
         <div className='flex items-center'>
           <label className='cursor-pointer border-2 border-dashed border-gray-300 rounded-md p-4 w-full'>
-            <input
+      {   props.isMyProfile &&   <input
               type='file'
               onChange={(e) =>
                 setFormData({ ...formData, cvFile: e.target.files[0] })
               }
               className='hidden'
-            />
+            />}
             <span className='text-lg'>
               {formData.cvFile ? formData.cvFile.name : 'Upload your CV'}
             </span>
           </label>
-          <button
+      { props.isMyProfile &&   <button
             type='submit'
             className='bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 transition duration-300 ml-3'>
             <i class='fa-solid fa-floppy-disk'></i>
-          </button>
+          </button>}
           <button
             onClick={handleViewCV}
             className='bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 transition duration-300 ml-3'>
