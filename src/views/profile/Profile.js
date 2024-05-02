@@ -8,7 +8,7 @@ import Experiences from './Experiences'
 import Educations from './Educations'
 import Softskills from './Softskills'
 import Cv from './Cv'
-
+import Chatbot from 'views/chatbot/chatbot'
 import VideoCv from './VideoCv'
 import LoadingScreen from 'components/LoadingScreen'
 import Resume from './Resume'
@@ -869,7 +869,7 @@ export default function Profile() {
                       
                     </div>
           
-
+                    <Chatbot />
                   </div>
                 </div>
               </div>
