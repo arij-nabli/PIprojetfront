@@ -74,15 +74,11 @@ export default function Cv(props) {
   const fetchUserData = async (token) => {
     try {
       const response = await axios.get(
-        'http://localhost:5000/auth/getUserDataFromToken',
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `http://localhost:5000/user/getUserById/${props.id}`,
+      
       )
       console.log(response.data)
-      const userData = response.data.user
+      const userData = response.data
       setFormData({ ...formData, user: userData, cvFileName: userData.cv || '' })
     } catch (error) {
       console.error(error)
@@ -90,6 +86,7 @@ export default function Cv(props) {
   }
 
   useEffect(() => {
+    console.log('IDDDDDDDDD',props.id)
     fetchUserData(formData.token)
   }, [formData.token])
   const [pdfText, setPdfText] = useState('');
@@ -117,33 +114,32 @@ export default function Cv(props) {
 */
   return (
     <div className='container mx-auto px-4 h-full flex justify-center items-center m-3'>
-        <form onSubmit={handleSubmit} className='space-y-4'>
-          <div className='flex items-center'>
-            <label className='cursor-pointer border-2 border-dashed border-gray-300 rounded-md p-4 w-full'>
-              <input
-                type='file'
-                onChange={(e) => {
-                  setFormData({ ...formData, cvFile: e.target.files[0], cvFileName: e.target.files[0].name })
-                }}
-                className='hidden'
-              />
-              <span className='text-lg'>
-                {formData.cvFileName ? formData.cvFileName : 'Upload your CV'}
-              </span>
-            </label>
-          {props.isMyProfile &&  <button
-              type='submit'
-              className='bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 transition duration-300 ml-3'>
-              <i className='fa-solid fa-floppy-disk'></i>
-            </button>}
-            <button
-              onClick={handleViewCV}
-              className='bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 transition duration-300 ml-3'>
-              <i className='fa-solid fa-file-pdf'></i>{' '}
-            </button>
-          </div>
-        </form>
-      </div>
-    
+      <form onSubmit={handleSubmit} className='space-y-4'>
+        <div className='flex items-center'>
+          <label className='cursor-pointer border-2 border-dashed border-gray-300 rounded-md p-4 w-full'>
+      {   props.isMyProfile &&   <input
+              type='file'
+              onChange={(e) =>
+                setFormData({ ...formData, cvFile: e.target.files[0] })
+              }
+              className='hidden'
+            />}
+            <span className='text-lg'>
+              {formData.cvFile ? formData.cvFile.name : 'Upload your CV'}
+            </span>
+          </label>
+      { props.isMyProfile &&   <button
+            type='submit'
+            className='bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 transition duration-300 ml-3'>
+            <i class='fa-solid fa-floppy-disk'></i>
+          </button>}
+          <button
+            onClick={handleViewCV}
+            className='bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 transition duration-300 ml-3'>
+            <i class='fa-solid fa-file-pdf'></i>{' '}
+          </button>
+        </div>
+      </form>
+    </div>
   )
 }
