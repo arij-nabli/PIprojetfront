@@ -90,7 +90,7 @@ export default function Login() {
 
     try {
       const response = await axios.post(
-        "esprit-compass-backend.vercel.app/auth/forgot-password",
+        "https://esprit-compass-backend.vercel.app/auth/forgot-password",
         { email: email }
       );
       console.log(response.data);
@@ -148,7 +148,7 @@ export default function Login() {
                     type="button"
                     onClick={() =>
                       window.open(
-                        "esprit-compass-backend.vercel.app/auth/facebook",
+                        "https://esprit-compass-backend.vercel.app/auth/facebook",
                         "_self"
                       )
                     }
@@ -164,7 +164,7 @@ export default function Login() {
                     type="button"
                     onClick={() =>
                       window.open(
-                        "esprit-compass-backend.vercel.app/auth/linkedin",
+                        "https://esprit-compass-backend.vercel.app/auth/linkedin",
                         "_self"
                       )
                     }

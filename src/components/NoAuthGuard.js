@@ -11,7 +11,7 @@ const NoAuthGuard = ({ children }) => {
       const token = localStorage.getItem('token');
       try {
           const response = await axios.get(
-              'http://esprit-compass-backend.vercel.app/auth/getUserDataFromToken',
+              'https://esprit-compass-backend.vercel.app/auth/getUserDataFromToken',
               {
                   headers: {
                       Authorization: `Bearer ${token}`,
