@@ -1,17 +1,12 @@
 import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import axios from 'axios';
-import { useLocation ,useParams} from 'react-router-dom';
-const Chat = () => {
-  const params = useParams();
 
+const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const token = localStorage.getItem('token')
   const [user,setUser]=useState(null)
-  const [receiverId, setReceiverId] = useState(0);
-  const [senderId, setSenderId] = useState(0);
-  const location = useLocation();
   const fetchUserData = async ()=>{
     const response = await axios.get(
       'http://localhost:5000/auth/getUserDataFromToken',
@@ -24,9 +19,9 @@ const Chat = () => {
     console.log(response.data)
     setUser(response.data.user)
   }
-  const fetchMessages = async () => {
+  const fetchMessages = async (userid) => {
     try {
-      const response = await axios.get('http://localhost:5000/api/messages/get-all');
+      const response = await axios.get('http://localhost:5000/api/messages/get-all/${user._id}');
       const sortedMessages = response.data.map(message => ({
         ...message,
         timestamp: new Date(message.timestamp) // Convert timestamp to Date object
@@ -36,16 +31,9 @@ const Chat = () => {
       console.error('Error fetching messages:', error);
     }
   };
+  
   useEffect(() => {
-    console.log(location.pathname)
-    console.log(params)
-    setSenderId(params.senderId)
-    setReceiverId(params.receiverId)
-  },[
-    params,senderId,receiverId
-  ])
-  useEffect(() => {
-
+     
     fetchUserData()
     fetchMessages();
     try
@@ -60,7 +48,6 @@ socket.on('message', (message) => {
     ...message,
     timestamp: new Date(message.timestamp) // Convert timestamp to Date object
   }]);
-  console.log(params)
   console.log(message)
 
       
@@ -73,8 +60,8 @@ console.log("connected")
       // Remplacez par l'ID du destinataire souhaité
     
       const newMessage = {
-        senderId: senderId,
-        receiverId: receiverId,
+        senderId: "662237d36ac6898d4578ba8c",
+        receiverId: '663385e710873381f3446120',
         content: input,
       };
     
@@ -116,7 +103,6 @@ console.log("connected")
       }}
     >
 {user && (
-
   <div 
     style={{
       width: '400px',
@@ -129,8 +115,6 @@ console.log("connected")
       background: '#fff',
     }}
   >
-       <div style={{ marginBottom: '20px' }}>
-    <h2>Chat with {receiverId}</h2></div>
     {messages.map((message, index) => (
       <div 
         key={index}
@@ -140,7 +124,6 @@ console.log("connected")
           marginBottom: '10px',
         }}
       >
-       
         <div 
           className={message.receiverId === user._id ? "flex justify-end" : "flex justify-start"}
         >
@@ -151,7 +134,7 @@ console.log("connected")
               marginBottom: '5px',
               wordWrap: 'break-word',
             }}
-            className={message.receiverId === user._id ? " bg-blue-500" : " bg-green-200"}
+            className={message.receiverId === user._id ? "bg-black" : "bg-red-500"}
           >
             {message.content}
           </div>
@@ -161,8 +144,6 @@ console.log("connected")
             color: '#888',
             fontSize: '12px',
           }}
-          className={message.receiverId === user._id ? "flex justify-end" : "flex justify-start"}
-
         >
           {formatDate(message.timestamp)}
         </div>

@@ -873,8 +873,8 @@ export default function Profile() {
                       <Educations  isMyProfile={isMyProfile} id={user._id}/>
                       
                     </div>
-          
-                    {/* <Chatbot /> */}
+              
+                    <Chatbot /> 
                   </div>
                 </div>
               </div>

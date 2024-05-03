@@ -1,28 +1,32 @@
-import React, { useEffect } from "react";
+import React from 'react';
 
-export default function Chatbot() {
-  useEffect(() => {
-    const embeddedChatbotConfig = {
-      chatbotId: "fGYTLr-2s9l4WGUoy8eT1",
-      domain: "www.chatbase.co"
-    };
-
-    const script = document.createElement("script");
-    script.src = "https://www.chatbase.co/embed.min.js";
-    script.defer = true;
-    script.setAttribute("chatbotId", embeddedChatbotConfig.chatbotId);
-    script.setAttribute("domain", embeddedChatbotConfig.domain);
-
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
+const Chatbot = () => {
   return (
-    <div>
-    
-    </div>
+    <iframe 
+      srcDoc={`
+        <html>
+        
+          <script>
+          window.embeddedChatbotConfig = {
+          chatbotId: "fGYTLr-2s9l4WGUoy8eT1",
+          domain: "www.chatbase.co"
+          }
+          </script>
+          <script
+          src="https://www.chatbase.co/embed.min.js"
+          chatbotId="fGYTLr-2s9l4WGUoy8eT1"
+          domain="www.chatbase.co"
+          defer>
+          </script>
+          
+        </html>
+      `}
+      width="300"
+      height="400"
+      frameBorder="0"
+     
+    ></iframe>
   );
-}
+};
+
+export default Chatbot;
