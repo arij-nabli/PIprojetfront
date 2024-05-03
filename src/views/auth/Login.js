@@ -134,7 +134,7 @@ export default function Login() {
                     className="bg-gray-100 mr-4 active:bg-blueGray-50 text-blueGray-700 font-normal px-2 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase  hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
                     onClick={() =>
-                      window.open("esprit-compass-backend.vercel.app/auth/github", "_self")
+                      window.open("http://esprit-compass-backend.vercel.app/auth/github", "_self")
                     }
                   >
                     <img
