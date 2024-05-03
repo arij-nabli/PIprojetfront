@@ -92,7 +92,7 @@ const NotificationDropdown = (props) => {
     hardSkillsRef.current = hardSkills; // Update the reference whenever hardSkills changes
   }, [hardSkills]);
   useEffect(() => {
-    const socket = io('https://-compass-backend.vercel.app');
+    const socket = io('https://esprit-compass-backend.vercel.app');
     socket.on("connect", () => {
       console.log("Connected to the server");
     });

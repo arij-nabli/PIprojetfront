@@ -33,7 +33,7 @@ export default function CardTable({ color, searchQuery }) {
     console.log(userId);
     try {
       const res = await axios.delete(
-        `https://-compass-backend.vercel.app/admin/deleteuser/${userId}`
+        `https://esprit-compass-backend.vercel.app/admin/deleteuser/${userId}`
       );
       console.log(res.data);
       window.location.reload();
