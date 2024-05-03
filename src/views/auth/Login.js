@@ -38,7 +38,7 @@ export default function Login() {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "esprit-compass-backend.vercel.app/auth/login",
+        "https://esprit-compass-backend.vercel.app/auth/login",
         userData
       );
 
