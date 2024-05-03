@@ -187,7 +187,7 @@ export default function Register() {
   };
   const { linkedInLogin } = useLinkedIn({
     clientId: "78e3zjnwmivy4i",
-    redirectUri: `http://localhost:3000/auth/register/user`,
+    redirectUri: `https://espritcompass.vercel.app/auth/register/user`,
     onSuccess: (code) => {
       console.log(code);
     },
