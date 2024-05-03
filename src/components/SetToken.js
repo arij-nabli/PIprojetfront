@@ -14,7 +14,7 @@ export default function SetToken() {
     
       try {
           const response = await axios.get(
-              'esprit-compass-backend.vercel.app/auth/getUserDataFromToken',
+              'http://esprit-compass-backend.vercel.app/auth/getUserDataFromToken',
               {
                   headers: {
                       Authorization: `Bearer ${token}`,

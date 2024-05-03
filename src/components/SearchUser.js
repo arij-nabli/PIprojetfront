@@ -10,7 +10,7 @@ const UserSearch = () => {
         setUsernameInput(event.target.value);
         if (event.target.value.length > 0) {
             const response = await fetch(
-                `esprit-compass-backend.vercel.app/user/searchUser?start=${event.target.value}`
+                `http://esprit-compass-backend.vercel.app/user/searchUser?start=${event.target.value}`
             );
             console.log(response);
             const users = await response.json();
@@ -27,7 +27,7 @@ const UserSearch = () => {
         let images = []
         try {
             const response = await axios.get(
-                `esprit-compass-backend.vercel.app/user/get-image?id=${id}`,
+                `http://esprit-compass-backend.vercel.app/user/get-image?id=${id}`,
                 { responseType: 'blob' }
             );
             const imageUrl = URL.createObjectURL(response.data);
