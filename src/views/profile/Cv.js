@@ -34,7 +34,7 @@ export default function Cv(props) {
     formData.append('cv', cvFile)
 
     return await axios.post(
-      `esprit-compass-backend.vercel.app/user/update-cv?id=${userId}`,
+      `https://esprit-compass-backend.vercel.app/user/update-cv?id=${userId}`,
       formData,
       {
         headers: {
@@ -48,7 +48,7 @@ export default function Cv(props) {
   const handleViewCV = async () => {
     try {
       const response = await axios.get(
-        `esprit-compass-backend.vercel.app/user/cv/${formData.user._id}`,
+        `https://esprit-compass-backend.vercel.app/user/cv/${formData.user._id}`,
         {
           responseType: 'arraybuffer',
         }
@@ -74,7 +74,7 @@ export default function Cv(props) {
   const fetchUserData = async (token) => {
     try {
       const response = await axios.get(
-        `esprit-compass-backend.vercel.app/user/getUserById/${props.id}`,
+        `https://esprit-compass-backend.vercel.app/user/getUserById/${props.id}`,
       
       )
       console.log(response.data)

@@ -24,7 +24,7 @@ Chart.register(
 export default function CardLineChart() {
 
   const getChartData = async () => {
-    const data = await axios.get("http://esprit-compass-backend.vercel.app/admin/chartData");
+    const data = await axios.get("https://esprit-compass-backend.vercel.app/admin/chartData");
      var config = {
        type: "line",
        data: {

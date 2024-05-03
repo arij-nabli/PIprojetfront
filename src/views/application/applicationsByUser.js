@@ -14,7 +14,7 @@ const ApplicationsByUser = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`esprit-compass-backend.vercel.app/applications/getBycandidate/${candidateId}`);
+        const response = await axios.get(`https://esprit-compass-backend.vercel.app/applications/getBycandidate/${candidateId}`);
         setApplications(response.data);
         setIsLoading(false);
       } catch (error) {

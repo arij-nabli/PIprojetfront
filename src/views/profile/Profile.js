@@ -55,7 +55,7 @@ export default function Profile() {
     setSkillInput(event.target.value)
     if (event.target.value.length > 0) {
       const response = await fetch(
-        `esprit-compass-backend.vercel.app/skills/search?start=${event.target.value}`
+        `https://esprit-compass-backend.vercel.app/skills/search?start=${event.target.value}`
       )
       const skills = await response.json()
       setSuggestedSkills(skills.map((skill) => skill))
@@ -70,7 +70,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchResumeData = async () => {
       try {
-        const response = await axios.get('esprit-compass-backend.vercel.app/pdf/parse-pdf'); // Adjust the URL if your backend is running on a different port or domain
+        const response = await axios.get('https://esprit-compass-backend.vercel.app/pdf/parse-pdf'); // Adjust the URL if your backend is running on a different port or domain
         if (response.data['FORMATION']) {
           setFormation(response.data['FORMATION']);
         }
@@ -113,7 +113,7 @@ export default function Profile() {
   const handleSaveHardSkill = async  () => {
     // Save the updated contact information
     setEditModeHardSkill(false)
-    const response = await axios.post(`esprit-compass-backend.vercel.app/user/updateHardSkills/${user._id}`, skills).
+    const response = await axios.post(`https://esprit-compass-backend.vercel.app/user/updateHardSkills/${user._id}`, skills).
     then((response) => {
       console.log(response.data)
     }).catch((error) => {
@@ -146,7 +146,7 @@ export default function Profile() {
       // Send the image to the server
       const response = await axios
         .post(
-          `esprit-compass-backend.vercel.app/user/update-image?id=${user._id}`,
+          `https://esprit-compass-backend.vercel.app/user/update-image?id=${user._id}`,
           formData
         )
         .then((response) => {
@@ -169,11 +169,11 @@ export default function Profile() {
 
       try {
         const response = await axios.get(
-          `esprit-compass-backend.vercel.app/user/getUserById/${location.pathname.split('/')[2]}`,
+          `https://esprit-compass-backend.vercel.app/user/getUserById/${location.pathname.split('/')[2]}`,
         
         )
 
-        const response2 = await axios.get(  `esprit-compass-backend.vercel.app/auth/getUserDataFromToken`,  { headers: { Authorization: `Bearer ${token}` } }) 
+        const response2 = await axios.get(  `https://esprit-compass-backend.vercel.app/auth/getUserDataFromToken`,  { headers: { Authorization: `Bearer ${token}` } }) 
         console.log("response2",response2.data)
         setConnectedUser(response2.data.user)
         if (response2.data.user._id === response.data._id) {
@@ -208,7 +208,7 @@ export default function Profile() {
 
       try {
         const response = await axios.get(
-          `esprit-compass-backend.vercel.app/user/get-image?id=${id}`,
+          `https://esprit-compass-backend.vercel.app/user/get-image?id=${id}`,
           { responseType: 'blob' }
         )
         const imageUrl = URL.createObjectURL(response.data)
@@ -234,7 +234,7 @@ export default function Profile() {
 
   const handleSaveDescription = async () => {
     try {
-      await axios.put('esprit-compass-backend.vercel.app/user/updateDescription', {
+      await axios.put('https://esprit-compass-backend.vercel.app/user/updateDescription', {
         id: user._id,
         description,
       })
@@ -260,7 +260,7 @@ export default function Profile() {
   const getHardSkills = async (id) => {
     try {
       const response = await axios.get(
-        `esprit-compass-backend.vercel.app/user/getUserHardSkills/${id}`
+        `https://esprit-compass-backend.vercel.app/user/getUserHardSkills/${id}`
       )
       console.log("skills",response.data.hardskills)
       setSkills(response.data.hardskills)
@@ -274,7 +274,7 @@ export default function Profile() {
 
   const handleSaveEnglish = async () => {
     try {
-      await axios.put('esprit-compass-backend.vercel.app/user/updateUserEnglish', {
+      await axios.put('https://esprit-compass-backend.vercel.app/user/updateUserEnglish', {
         id: user._id,
         english: englishLevel,
       })
@@ -308,7 +308,7 @@ export default function Profile() {
 
   const handleSaveArabic = async () => {
     try {
-      await axios.put('esprit-compass-backend.vercel.app/user/updateUserArabic', {
+      await axios.put('https://esprit-compass-backend.vercel.app/user/updateUserArabic', {
         id: user._id,
         arabic: arabicLevel,
       })
@@ -342,7 +342,7 @@ export default function Profile() {
 
   const handleSaveFrench = async () => {
     try {
-      await axios.put('esprit-compass-backend.vercel.app/user/updateUserFrench', {
+      await axios.put('https://esprit-compass-backend.vercel.app/user/updateUserFrench', {
         id: user._id,
         french: frenchLevel,
       })
@@ -373,7 +373,7 @@ export default function Profile() {
 
   const handleSaveContactInfo = async () => {
     try {
-      await axios.put('esprit-compass-backend.vercel.app/user/updateContactInfo', {
+      await axios.put('https://esprit-compass-backend.vercel.app/user/updateContactInfo', {
         id: user._id,
         username: contactInfo.fullName, // Send updated username
         phone: contactInfo.phone, // Send updated phone

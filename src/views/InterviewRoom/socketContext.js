@@ -10,7 +10,7 @@ import Peer from "simple-peer";
 
 const socketContext = createContext();
 
-const socket = io("esprit-compass-backend.vercel.app");
+const socket = io("https://esprit-compass-backend.vercel.app");
 
 const ContextProvider = ({ children }) => {
     const myVideo = useRef(); // Make sure myVideo ref is initialized correctly

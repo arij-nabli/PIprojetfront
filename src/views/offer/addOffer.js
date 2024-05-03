@@ -33,7 +33,7 @@ const AddOffer = () => {
     setSkillInput(event.target.value);
     if (event.target.value.length > 0) {
       const response = await fetch(
-        `esprit-compass-backend.vercel.app/skills/search?start=${event.target.value}`
+        `https://esprit-compass-backend.vercel.app/skills/search?start=${event.target.value}`
       );
       const skills = await response.json();
       setSuggestedSkills(skills.map((skill) => skill));
@@ -55,7 +55,7 @@ const AddOffer = () => {
       const token = localStorage.getItem('token');
       try {
         const response = await axios.get(
-          'esprit-compass-backend.vercel.app/auth/getUserDataFromToken',
+          'https://esprit-compass-backend.vercel.app/auth/getUserDataFromToken',
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -67,7 +67,7 @@ const AddOffer = () => {
 
         if (response.data.user && response.data.user._id) {
           const offersResponse = await axios.get(
-            `esprit-compass-backend.vercel.app/offers/getByCompany/${response.data.user._id}`
+            `https://esprit-compass-backend.vercel.app/offers/getByCompany/${response.data.user._id}`
           );
           console.log(offersResponse.data);
           setOffers(offersResponse.data);
@@ -150,7 +150,7 @@ const AddOffer = () => {
 
     try {
       const response = await axios.post(
-        "esprit-compass-backend.vercel.app/offers",
+        "https://esprit-compass-backend.vercel.app/offers",
         offerData
       );
       console.log(response.data);

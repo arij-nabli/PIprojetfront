@@ -38,7 +38,7 @@ const ForgotPassword = () => {
     }
   
     // Make a POST request to the auth/reset-password route
-    axios.post('esprit-compass-backend.vercel.app/auth/reset-password', { newPassword,token })
+    axios.post('https://esprit-compass-backend.vercel.app/auth/reset-password', { newPassword,token })
       .then(response => {
         console.log(response.data);
         setserverSuccess("Your password has been reset successfully.");

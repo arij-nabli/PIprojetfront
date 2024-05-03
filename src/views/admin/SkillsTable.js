@@ -25,7 +25,7 @@ export default function SkillsTable({ color, searchQuery }) {
 
   const addSkill = async () => {
     try {
-      const response = await axios.post("esprit-compass-backend.vercel.app/skills", {
+      const response = await axios.post("https://esprit-compass-backend.vercel.app/skills", {
         name: newSkill,
         description: description,
       });
@@ -48,7 +48,7 @@ export default function SkillsTable({ color, searchQuery }) {
   const deleteSkill = async (skillId) => {
     try {
       const response = await axios.delete(
-        `esprit-compass-backend.vercel.app/skills/deleteskill/${skillId}`
+        `https://esprit-compass-backend.vercel.app/skills/deleteskill/${skillId}`
       );
       console.log("Skill Deleted");
       Swal.fire({

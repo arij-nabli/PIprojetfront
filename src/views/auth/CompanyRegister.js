@@ -76,7 +76,7 @@ export default function CompanyRegister() {
       location: adresse,
     };
     console.log("Company Data:", companyData);
-    axios.post('esprit-compass-backend.vercel.app/auth/register', JSON.stringify(companyData), {
+    axios.post('https://esprit-compass-backend.vercel.app/auth/register', JSON.stringify(companyData), {
       headers: {
         'Content-Type': 'application/json',
       },

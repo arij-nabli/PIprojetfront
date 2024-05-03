@@ -9,7 +9,7 @@ export default function Offers() {
   useEffect(() => {
     const fetchOffers = async () => {
       try {
-        const response = await fetch("esprit-compass-backend.vercel.app/offers/getall");
+        const response = await fetch("https://esprit-compass-backend.vercel.app/offers/getall");
         const offers = await response.json();
         setOffers(offers);
       } catch (error) {

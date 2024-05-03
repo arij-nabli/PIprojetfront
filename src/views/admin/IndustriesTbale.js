@@ -12,7 +12,7 @@ export default function IndustriesTable({ color, searchQuery }) {
     const [showForm, setShowForm] = useState(false);
  
     const fetchData = async () => {
-        const response = await axios.get("esprit-compass-backend.vercel.app/industries");
+        const response = await axios.get("https://esprit-compass-backend.vercel.app/industries");
         console.log(response.data);
         if (response.data) {
             setIndustries(response.data);
@@ -25,7 +25,7 @@ export default function IndustriesTable({ color, searchQuery }) {
 
     const addIndustry = async () => {
         try {
-            const response = await axios.post("esprit-compass-backend.vercel.app/industries", {
+            const response = await axios.post("https://esprit-compass-backend.vercel.app/industries", {
                 name: newIndustry,
                 companies: [],
             });
@@ -47,7 +47,7 @@ export default function IndustriesTable({ color, searchQuery }) {
     const deleteIndustry = async (industryId) => {
         try {
             const response = await axios.delete(
-                `esprit-compass-backend.vercel.app/industries/${industryId}`
+                `https://esprit-compass-backend.vercel.app/industries/${industryId}`
             );
             console.log("Industry Deleted");
             Swal.fire({

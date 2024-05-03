@@ -10,7 +10,7 @@ export default function HeaderStats() {
   const [cardsData, SetCardsData] = useState([]);
 
   const fetchData = async () => {
-    const response = await axios.get("esprit-compass-backend.vercel.app/admin/allusers");
+    const response = await axios.get("https://esprit-compass-backend.vercel.app/admin/allusers");
     SetCardsData(response.data);
   };
  useEffect(() => {

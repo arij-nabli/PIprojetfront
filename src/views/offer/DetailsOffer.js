@@ -28,7 +28,7 @@ export default function DetailsOffer() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "esprit-compass-backend.vercel.app/auth/getUserDataFromToken",
+          "https://esprit-compass-backend.vercel.app/auth/getUserDataFromToken",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -37,7 +37,7 @@ export default function DetailsOffer() {
         );
         setUser(response.data.user);
         const response2 = await axios.get(
-          `esprit-compass-backend.vercel.app/offers/get/${id}`
+          `https://esprit-compass-backend.vercel.app/offers/get/${id}`
         );
         setOffer(response2.data);
         getProfileImage2(response2.data.provider._id);
@@ -82,7 +82,7 @@ export default function DetailsOffer() {
   const getProfileImage2 = async (id) => {
     try {
       const response = await axios.get(
-        `esprit-compass-backend.vercel.app/user/get-image?id=${id}`,
+        `https://esprit-compass-backend.vercel.app/user/get-image?id=${id}`,
         { responseType: 'blob' } 
       );
       const imageUrl = URL.createObjectURL(response.data);

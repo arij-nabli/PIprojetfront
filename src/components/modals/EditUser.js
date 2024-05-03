@@ -22,7 +22,7 @@ export default function Modal({user}) {
       role,
     };
 
-    const response = await axios.put(`esprit-compass-backend.vercel.app/admin/edituser/${userId}`, formData, {
+    const response = await axios.put(`https://esprit-compass-backend.vercel.app/admin/edituser/${userId}`, formData, {
       headers: { 'Content-Type': 'application/json' },
     });
 

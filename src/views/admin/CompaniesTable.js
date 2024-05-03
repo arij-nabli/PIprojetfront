@@ -23,7 +23,7 @@ export default function CompaniesTable({ color, searchQuery,onNumCompaniesChange
     };
 
     const fetchData = async () => {
-        const response = await axios.get("esprit-compass-backend.vercel.app/admin/companiespending");
+        const response = await axios.get("https://esprit-compass-backend.vercel.app/admin/companiespending");
         setTableData(response.data.pendingCompanies);
         setUserTable(response.data.users);
         onNumCompaniesChange(response.data.pendingCompanies.length);
@@ -33,7 +33,7 @@ export default function CompaniesTable({ color, searchQuery,onNumCompaniesChange
     const acceptCompany = async (companyId) => {
         try {
             const res = await axios.put(
-                `esprit-compass-backend.vercel.app/admin/acceptcompany/${companyId}`
+                `https://esprit-compass-backend.vercel.app/admin/acceptcompany/${companyId}`
             );
             console.log("Company Accepted");
             Swal.fire({
@@ -54,7 +54,7 @@ export default function CompaniesTable({ color, searchQuery,onNumCompaniesChange
     const refuseCompany = async (companyId) => {
         try {
             const res = await axios.put(
-                `esprit-compass-backend.vercel.app/admin/refusecompany/${companyId}`
+                `https://esprit-compass-backend.vercel.app/admin/refusecompany/${companyId}`
             );
             console.log("Company Refused");
             Swal.fire({

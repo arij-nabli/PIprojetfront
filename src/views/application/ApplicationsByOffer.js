@@ -17,7 +17,7 @@ const ApplicationsByOffer = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `esprit-compass-backend.vercel.app/applications/getByOffer/${offerId}`
+          `https://esprit-compass-backend.vercel.app/applications/getByOffer/${offerId}`
         );
         setApplications(response.data);
         setIsLoading(false);
@@ -38,7 +38,7 @@ const ApplicationsByOffer = () => {
     e.stopPropagation();
     // Download logic (trigger download without collapsing)
     const downloadLink = document.createElement("a");
-    downloadLink.href = `esprit-compass-backend.vercel.app/${
+    downloadLink.href = `https://esprit-compass-backend.vercel.app/${
       applications.find((app) => app._id === id).resume
     }`;
     downloadLink.download = "resume.pdf"; // Adjust file type based on actual resume format
@@ -48,7 +48,7 @@ const ApplicationsByOffer = () => {
   const handleInterviewDate = async (id, date, email) => {
     try {
       const response = await axios.put(
-        `esprit-compass-backend.vercel.app/applications/setInterviewDate/${id}`,
+        `https://esprit-compass-backend.vercel.app/applications/setInterviewDate/${id}`,
         {
           interviewDate: date,
           userEmail: email,
@@ -80,7 +80,7 @@ const ApplicationsByOffer = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `esprit-compass-backend.vercel.app/applications/${id}`,
+        `https://esprit-compass-backend.vercel.app/applications/${id}`,
         {
           status: decision,
         }

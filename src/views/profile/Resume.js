@@ -6,7 +6,7 @@ function Resume() {
   useEffect(() => {
     const fetchResumeData = async () => {
       try {
-        const response = await axios.get('esprit-compass-backend.vercel.app/pdf/parse-pdf'); // Adjust the URL if your backend is running on a different port or domain
+        const response = await axios.get('https://esprit-compass-backend.vercel.app/pdf/parse-pdf'); // Adjust the URL if your backend is running on a different port or domain
         setResumeData(response.data);
       } catch (error) {
         console.error('Error fetching resume data:', error);

@@ -8,7 +8,7 @@ export default function CardPieChart() {
 
   const getPieChartData = async ()=>{
     const data = await axios.get(
-      "http://esprit-compass-backend.vercel.app/admin/application-status-count")
+      "https://esprit-compass-backend.vercel.app/admin/application-status-count")
       let config = {
         type: "pie",
         data: {

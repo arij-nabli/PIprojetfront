@@ -106,7 +106,7 @@ export default function Login() {
     return email && !emailError && password;
   };
   const googleSignIn = async () => {
-    window.open("http://esprit-compass-backend.vercel.app/auth/google", "_self");
+    window.open("https://esprit-compass-backend.vercel.app/auth/google", "_self");
   };
   return (
     <>

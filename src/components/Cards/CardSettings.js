@@ -20,7 +20,7 @@ export default function CardSettings({ onAdminAdded }) {
       password,
     };
     axios
-      .post("esprit-compass-backend.vercel.app/admin/addAdmin", data)
+      .post("https://esprit-compass-backend.vercel.app/admin/addAdmin", data)
       .then((response) => {
         console.log(response);
          if (onAdminAdded) {
