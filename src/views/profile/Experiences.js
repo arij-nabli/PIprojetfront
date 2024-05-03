@@ -23,7 +23,7 @@ function Experiences(props) {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/user/getUserById/${props.id}`,
+          `esprit-compass-backend.vercel.app/user/getUserById/${props.id}`,
         
         )
         const userData = response.data
@@ -41,7 +41,7 @@ function Experiences(props) {
   useEffect(() => {
     const fetchCvData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/pdf/parse-pdf');
+        const response = await axios.get('esprit-compass-backend.vercel.app/pdf/parse-pdf');
         console.log(response.data);
         setCvData(response.data);
         if (response.data['EXPÉRIENCE PROFESSIONELLE']) {
@@ -66,7 +66,7 @@ function Experiences(props) {
     setIsSaving(true);
     try {
       const updatedUser = await axios.post(
-        'http://localhost:5000/user/updateUserExperiences',
+        'esprit-compass-backend.vercel.app/user/updateUserExperiences',
         {
           userId: user._id,
           experiences: [newExperience, ...experiences], // Ajoute la nouvelle expérience en haut de la liste
@@ -105,7 +105,7 @@ function Experiences(props) {
   const handleSaveCvExperiences = async () => {
     try {
       const updatedUser = await axios.post(
-        'http://localhost:5000/user/updateUserExperiences',
+        'esprit-compass-backend.vercel.app/user/updateUserExperiences',
         {
           userId: user._id,
           experiences: [...experiences, ...cvExperiences],

@@ -8,7 +8,7 @@ export default function UserDetails({ user }) {
   const fetchData = async () => {
     try {
       const id = user._id;
-      let res = await axios.post("http://localhost:5000/admin/getAllInfo", { id });
+      let res = await axios.post("esprit-compass-backend.vercel.app/admin/getAllInfo", { id });
       setCardData(res.data);
     } catch (err) {
       console.log(err.message);

@@ -27,7 +27,7 @@ export default function SignUpOther(route) {
       password:"Aa123456**",
       verified:"accepted"
     };
-    axios.post('http://localhost:5000/auth/register', userData)
+    axios.post('esprit-compass-backend.vercel.app/auth/register', userData)
       .then(response => {
         console.log(response.data);
         setErrorMessage("User registered successfully!")

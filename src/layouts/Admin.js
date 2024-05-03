@@ -36,7 +36,7 @@ export default function Admin() {
       const fetchUserData = async () => {
         try {
           const response = await axios.get(
-            "http://localhost:5000/auth/getUserDataFromToken",
+            "esprit-compass-backend.vercel.app/auth/getUserDataFromToken",
             {
               headers: {
                 Authorization: `Bearer ${token}`,

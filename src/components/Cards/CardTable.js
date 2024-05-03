@@ -25,7 +25,7 @@ export default function CardTable({ color, searchQuery }) {
   };
 
   const fetchData = async () => {
-    const response = await axios.get("http://localhost:5000/admin/allusers");
+    const response = await axios.get("esprit-compass-backend.vercel.app/admin/allusers");
     setTableData(response.data);
   };
 
@@ -33,7 +33,7 @@ export default function CardTable({ color, searchQuery }) {
     console.log(userId);
     try {
       const res = await axios.delete(
-        `http://localhost:5000/admin/deleteuser/${userId}`
+        `esprit-compass-backend.vercel.app/admin/deleteuser/${userId}`
       );
       console.log(res.data);
       window.location.reload();
@@ -44,7 +44,7 @@ export default function CardTable({ color, searchQuery }) {
 
   const banUser = async (userId) => {
     try {
-     await axios.put(`http://localhost:5000/admin/ban/${userId}`);
+     await axios.put(`esprit-compass-backend.vercel.app/admin/ban/${userId}`);
       console.log("User Banned");
       Swal.fire({
         position: "top",

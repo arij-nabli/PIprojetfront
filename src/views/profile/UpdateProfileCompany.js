@@ -27,7 +27,7 @@ console.log(companyData);
     }
   
   try {
-    const response = await axios.put(`http://localhost:5000/user/update-user/${companyData._id}`, user);
+    const response = await axios.put(`esprit-compass-backend.vercel.app/user/update-user/${companyData._id}`, user);
     console.log(response);
     if (response.status === 200) {
       setShowModal(false);

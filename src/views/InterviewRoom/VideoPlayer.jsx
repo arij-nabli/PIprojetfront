@@ -3,7 +3,7 @@ import { socketContext } from "./socketContext";
 import { io } from "socket.io-client";
 
 const VideoPlayer = () => {
-    const socket = io("http://localhost:5000");
+    const socket = io("esprit-compass-backend.vercel.app");
     const [micOn, setMicOn] = useState(true);
     const [cameraOn, setCameraOn] = useState(true);
     const [showControls, setShowControls] = useState(false);

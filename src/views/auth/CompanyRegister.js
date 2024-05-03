@@ -48,7 +48,7 @@ export default function CompanyRegister() {
     if (value) {
       // Send reCAPTCHA value to backend for validation
       axios
-        .post("http://localhost:5000/auth/submit", { recaptchaToken: value })
+        .post("esprit-compass-backend.vercel.app/auth/submit", { recaptchaToken: value })
         .then((response) => {
           console.log(response.data);
           // Handle response from backend (optional)
@@ -76,7 +76,7 @@ export default function CompanyRegister() {
       location: adresse,
     };
     console.log("Company Data:", companyData);
-    axios.post('http://localhost:5000/auth/register', JSON.stringify(companyData), {
+    axios.post('esprit-compass-backend.vercel.app/auth/register', JSON.stringify(companyData), {
       headers: {
         'Content-Type': 'application/json',
       },

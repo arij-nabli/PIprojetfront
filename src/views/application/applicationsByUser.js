@@ -14,7 +14,7 @@ const ApplicationsByUser = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/applications/getBycandidate/${candidateId}`);
+        const response = await axios.get(`esprit-compass-backend.vercel.app/applications/getBycandidate/${candidateId}`);
         setApplications(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -34,7 +34,7 @@ const ApplicationsByUser = () => {
     e.stopPropagation();
     // Download logic (trigger download without collapsing)
     const downloadLink = document.createElement('a');
-    downloadLink.href = `http://localhost:5000/${applications.find(app => app._id === id).resume}`;
+    downloadLink.href = `esprit-compass-backend.vercel.app/${applications.find(app => app._id === id).resume}`;
     downloadLink.download = 'resume.pdf'; // Adjust file type based on actual resume format
     downloadLink.click();
   };

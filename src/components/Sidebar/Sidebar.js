@@ -17,7 +17,7 @@ export default function Sidebar(props) {
   useEffect(() => {
     console.log(props.pendingCompaniesNbr)
     setNotificationNumber(props.pendingCompaniesNbr)
-    const socket = io('http://localhost:5000');
+    const socket = io('esprit-compass-backend.vercel.app');
     socket.on('connect', () => {
       console.log('connected to socket server');
     });

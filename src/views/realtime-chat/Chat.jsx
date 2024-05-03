@@ -9,7 +9,7 @@ const Chat = () => {
   const [user,setUser]=useState(null)
   const fetchUserData = async ()=>{
     const response = await axios.get(
-      'http://localhost:5000/auth/getUserDataFromToken',
+      'esprit-compass-backend.vercel.app/auth/getUserDataFromToken',
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -21,7 +21,7 @@ const Chat = () => {
   }
   const fetchMessages = async (userid) => {
     try {
-      const response = await axios.get('http://localhost:5000/api/messages/get-all/${user._id}');
+      const response = await axios.get('esprit-compass-backend.vercel.app/api/messages/get-all/${user._id}');
       const sortedMessages = response.data.map(message => ({
         ...message,
         timestamp: new Date(message.timestamp) // Convert timestamp to Date object
@@ -38,7 +38,7 @@ const Chat = () => {
     fetchMessages();
     try
 {   
-   const socket = io('http://localhost:5000'); 
+   const socket = io('esprit-compass-backend.vercel.app'); 
 socket.on('connect',(socket)=>{
   console.log("socket connected",socket)
   console.log("aaaaaaa")
@@ -66,9 +66,9 @@ console.log("connected")
       };
     
     console.log(newMessage);
-    await axios.post('http://localhost:5000/api/messages/send-message', newMessage);
+    await axios.post('esprit-compass-backend.vercel.app/api/messages/send-message', newMessage);
 
-    const response = await axios.get('http://localhost:5000/api/messages/get-all');
+    const response = await axios.get('esprit-compass-backend.vercel.app/api/messages/get-all');
     const sortedMessages = response.data.map(message => ({
       ...message,
       timestamp: new Date(message.timestamp) // Convert timestamp to Date object

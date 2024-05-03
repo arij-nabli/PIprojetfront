@@ -7,7 +7,7 @@ export default function CardPageVisits() {
 const [users,setUsers] = useState([]);
   const getRecentlyJoinedUsers = async () => {
     try {
-      const users = await axios.get("http://localhost:5000/admin/recently-joined");
+      const users = await axios.get("esprit-compass-backend.vercel.app/admin/recently-joined");
       setUsers(users.data);
     } catch (error) {
       console.error('Error fetching recently joined users:', error);

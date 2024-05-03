@@ -17,7 +17,7 @@ function Educations(props) {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/user/getUserById/${props.id}`,
+          `esprit-compass-backend.vercel.app/user/getUserById/${props.id}`,
         
         )
         const userData = response.data
@@ -35,7 +35,7 @@ function Educations(props) {
   useEffect(() => {
     const fetchCvData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/pdf/parse-pdf');
+        const response = await axios.get('esprit-compass-backend.vercel.app/pdf/parse-pdf');
         console.log(response.data);
         setCvData(response.data);
         if (response.data['FORMATION']) {
@@ -68,7 +68,7 @@ function Educations(props) {
       }
   
       const updatedUser = await axios.post(
-        'http://localhost:5000/user/updateUserEducations',
+        'esprit-compass-backend.vercel.app/user/updateUserEducations',
         {
           userId: user._id,
           educations: updatedEducations,
@@ -109,7 +109,7 @@ function Educations(props) {
     setIsSaving(true);
     try {
       const updatedUser = await axios.post(
-        'http://localhost:5000/user/updateUserEducations',
+        'esprit-compass-backend.vercel.app/user/updateUserEducations',
         {
           userId: user._id,
           educations: [...educations, ...cvEducations],

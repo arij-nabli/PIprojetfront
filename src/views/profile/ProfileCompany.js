@@ -73,7 +73,7 @@ import ReactAvatarEditor from 'react-avatar-editor'
       const blob = await response1.blob();
        const formData = new FormData();
        formData.append('image', blob, 'companyphoto'); // append the blob with a filename
-      const response = await axios.post(`http://localhost:5000/user/update-image?id=${user._id}`, formData)
+      const response = await axios.post(`esprit-compass-backend.vercel.app/user/update-image?id=${user._id}`, formData)
       .then((response) => {
          console.log(response.data);
          
@@ -97,7 +97,7 @@ import ReactAvatarEditor from 'react-avatar-editor'
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/auth/getUserDataFromToken",
+          "esprit-compass-backend.vercel.app/auth/getUserDataFromToken",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -137,7 +137,7 @@ import ReactAvatarEditor from 'react-avatar-editor'
     const getProfileImage = async (id) => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/user/get-image?id=${id}`,
+          `esprit-compass-backend.vercel.app/user/get-image?id=${id}`,
           { responseType: 'blob' } 
         );
         const imageUrl = URL.createObjectURL(response.data);

@@ -9,7 +9,7 @@ export default function Offers() {
   useEffect(() => {
     const fetchOffers = async () => {
       try {
-        const response = await fetch("http://localhost:5000/offers/getall");
+        const response = await fetch("esprit-compass-backend.vercel.app/offers/getall");
         const offers = await response.json();
         setOffers(offers);
       } catch (error) {
@@ -24,7 +24,7 @@ export default function Offers() {
     console.log(offerId)
     try {
       const response = await axios.delete(
-        `http://localhost:5000/offers/${offerId}`
+        `esprit-compass-backend.vercel.app/offers/${offerId}`
       );
       console.log(response.data);
       setOffers(offers.filter((offer) => offer._id !== offerId));

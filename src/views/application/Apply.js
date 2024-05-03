@@ -36,7 +36,7 @@ export default function Appli({ onClose,offer,user }) {
     formData.append('salary_expectation',JSON.stringify(salary));
   
     try {
-      const response = await axios.post('http://localhost:5000/applications', formData, {
+      const response = await axios.post('esprit-compass-backend.vercel.app/applications', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

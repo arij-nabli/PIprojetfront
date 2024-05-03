@@ -31,7 +31,7 @@ export default function ContactUs() {
 
     console.log(formData)
     try {
-      await axios.post('http://localhost:5000/contact-us/submit-form', formData)
+      await axios.post('esprit-compass-backend.vercel.app/contact-us/submit-form', formData)
       alert('Formulaire soumis avec succès !')
       setFormData({
         name: '',

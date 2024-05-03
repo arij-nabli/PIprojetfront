@@ -47,7 +47,7 @@ export default function OffersPage() {
 
   const fetchOffers = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/offers/getall");
+      const response = await axios.get("esprit-compass-backend.vercel.app/offers/getall");
       return response.data;
     } catch (error) {
       console.error(error);
@@ -58,7 +58,7 @@ export default function OffersPage() {
   const fetchCompanyImage = async (companyId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/user/get-image?id=${companyId}`,
+        `esprit-compass-backend.vercel.app/user/get-image?id=${companyId}`,
         { responseType: "blob" }
       );
       return URL.createObjectURL(response.data);
@@ -92,7 +92,7 @@ export default function OffersPage() {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/auth/getUserDataFromToken",
+          "esprit-compass-backend.vercel.app/auth/getUserDataFromToken",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -117,7 +117,7 @@ export default function OffersPage() {
   const getProfileImage = async (id) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/user/get-image?id=${id}`,
+        `esprit-compass-backend.vercel.app/user/get-image?id=${id}`,
         { responseType: "blob" }
       );
       const imageUrl = URL.createObjectURL(response.data);

@@ -15,7 +15,7 @@ const CompanyOffers = () => {
       const token = localStorage.getItem('token');
       try {
         const response = await axios.get(
-          'http://localhost:5000/auth/getUserDataFromToken',
+          'esprit-compass-backend.vercel.app/auth/getUserDataFromToken',
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -27,7 +27,7 @@ const CompanyOffers = () => {
 
         if (response.data.user && response.data.user._id) {
           const offersResponse = await axios.get(
-            `http://localhost:5000/offers/getByCompany/${response.data.user._id}`
+            `esprit-compass-backend.vercel.app/offers/getByCompany/${response.data.user._id}`
           );
           console.log(offersResponse.data);
           setOffers(offersResponse.data);

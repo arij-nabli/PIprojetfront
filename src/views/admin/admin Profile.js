@@ -28,7 +28,7 @@ const AdminProfile = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/auth/getUserDataFromToken",
+          "esprit-compass-backend.vercel.app/auth/getUserDataFromToken",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -50,7 +50,7 @@ const AdminProfile = () => {
   const getProfileImage = async (id) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/user/get-image?id=${id}`,
+        `esprit-compass-backend.vercel.app/user/get-image?id=${id}`,
         { responseType: "blob" }
       );
       const imageUrl = URL.createObjectURL(response.data);
@@ -62,7 +62,7 @@ const AdminProfile = () => {
 const updateUsername = async (id) => {
   try {
     // Call your backend API to update the username using Axios
-    const response = await axios.put("http://localhost:5000/admin/updateUsername", { newName,id});
+    const response = await axios.put("esprit-compass-backend.vercel.app/admin/updateUsername", { newName,id});
     if (response.status === 200) {
       setName(newName); // Update the name displayed
       setEditName(false); // Exit edit mode
@@ -93,7 +93,7 @@ const updateUsername = async (id) => {
   try {
     // Call your backend API to update the username using Axios
     const response = await axios.put(
-      "http://localhost:5000/admin/updatePhoneNumber",
+      "esprit-compass-backend.vercel.app/admin/updatePhoneNumber",
       { newPhone, id }
     );
     if (response.status === 200) {

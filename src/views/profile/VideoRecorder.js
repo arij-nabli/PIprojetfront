@@ -90,7 +90,7 @@ export default function VideoRecorder() {
 
       // Make a POST request to your backend endpoint
       const response = await axios.post(
-        'http://localhost:5000/user/save-recorded-video',
+        'esprit-compass-backend.vercel.app/user/save-recorded-video',
         formData,
         {
           headers: {

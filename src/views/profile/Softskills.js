@@ -17,7 +17,7 @@ export default function Softskills(props) {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/user/getUserById/${props.id}`,
+          `esprit-compass-backend.vercel.app/user/getUserById/${props.id}`,
         
         )
         const userData = response.data
@@ -52,7 +52,7 @@ export default function Softskills(props) {
       }
 
       const updatedUser = await axios.post(
-        'http://localhost:5000/user/updateUserSoftskills',
+        'esprit-compass-backend.vercel.app/user/updateUserSoftskills',
         {
           userId: user._id,
           softskills: updatedSoftskills,

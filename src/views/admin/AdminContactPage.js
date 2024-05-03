@@ -28,7 +28,7 @@ export default function AdminContactPage({ color }) {
     const fetchContacts = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/contact-us/get-contacts'
+          'esprit-compass-backend.vercel.app/contact-us/get-contacts'
         )
         setContacts(response.data)
         setLoading(false)
@@ -64,7 +64,7 @@ export default function AdminContactPage({ color }) {
 
   const handleSendReply = async (replyMessage) => {
     try {
-      await axios.post('http://localhost:5000/contact-us/send-reply', {
+      await axios.post('esprit-compass-backend.vercel.app/contact-us/send-reply', {
         email: replyingTo,
         message: replyMessage,
       })
@@ -79,7 +79,7 @@ export default function AdminContactPage({ color }) {
   const handleDeleteContact = async (contactId) => {
     try {
       await axios.delete(
-        `http://localhost:5000/contact-us/delete-contact/${contactId}`
+        `esprit-compass-backend.vercel.app/contact-us/delete-contact/${contactId}`
       )
       setContacts(contacts.filter((contact) => contact._id !== contactId))
     } catch (error) {

@@ -34,7 +34,7 @@ export default function Cv(props) {
     formData.append('cv', cvFile)
 
     return await axios.post(
-      `http://localhost:5000/user/update-cv?id=${userId}`,
+      `esprit-compass-backend.vercel.app/user/update-cv?id=${userId}`,
       formData,
       {
         headers: {
@@ -48,7 +48,7 @@ export default function Cv(props) {
   const handleViewCV = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/user/cv/${formData.user._id}`,
+        `esprit-compass-backend.vercel.app/user/cv/${formData.user._id}`,
         {
           responseType: 'arraybuffer',
         }
@@ -74,7 +74,7 @@ export default function Cv(props) {
   const fetchUserData = async (token) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/user/getUserById/${props.id}`,
+        `esprit-compass-backend.vercel.app/user/getUserById/${props.id}`,
       
       )
       console.log(response.data)
@@ -96,7 +96,7 @@ export default function Cv(props) {
   useEffect(() => {
     const fetchPdfText = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/pdf/parse-pdf'); // Update the URL with your Express.js server URL
+        const response = await axios.get('esprit-compass-backend.vercel.app/pdf/parse-pdf'); // Update the URL with your Express.js server URL
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

@@ -28,7 +28,7 @@ const NotificationDropdown = (props) => {
   const fetchCompanyImage = async (companyId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/user/get-image?id=${companyId}`,
+        `esprit-compass-backend.vercel.app/user/get-image?id=${companyId}`,
         { responseType: "blob" }
       );
       return URL.createObjectURL(response.data);
@@ -39,7 +39,7 @@ const NotificationDropdown = (props) => {
     }
   };
   const getNotifications = async () => {
-    const response = await axios.get(`http://localhost:5000/notifications/student/${props.userId}`);
+    const response = await axios.get(`esprit-compass-backend.vercel.app/notifications/student/${props.userId}`);
     const sortedNotifications = response.data.sort((a, b) => {
       if (a.seen === b.seen) {
         return 0;
@@ -69,7 +69,7 @@ const NotificationDropdown = (props) => {
    
   }
   const getHardSkills = async()=>{
-    const response = await axios.get(`http://localhost:5000/user/getUserHardSkills/${props.userId}`).then((response) => {
+    const response = await axios.get(`esprit-compass-backend.vercel.app/user/getUserHardSkills/${props.userId}`).then((response) => {
       setHardSkills(response.data.hardskills);
     console.log("getting hard skills",response.data.hardskills)
     return response.data.hardskills;
@@ -92,7 +92,7 @@ const NotificationDropdown = (props) => {
     hardSkillsRef.current = hardSkills; // Update the reference whenever hardSkills changes
   }, [hardSkills]);
   useEffect(() => {
-    const socket = io('http://localhost:5000');
+    const socket = io('esprit-compass-backend.vercel.app');
     socket.on("connect", () => {
       console.log("Connected to the server");
     });
@@ -146,14 +146,14 @@ const NotificationDropdown = (props) => {
    
   },[]);
   const saveNotification = async (notification) => {
-    await axios.post('http://localhost:5000/notifications', notification);
+    await axios.post('esprit-compass-backend.vercel.app/notifications', notification);
     console.log('Notification saved');
 
   }
   const clickNotification = async (notification) => {
     console.log(notification);
     const id = notification._id
-    await axios.put(`http://localhost:5000/notifications/${id}`);
+    await axios.put(`esprit-compass-backend.vercel.app/notifications/${id}`);
     console.log(props);
     if(props.role === "company")
     {

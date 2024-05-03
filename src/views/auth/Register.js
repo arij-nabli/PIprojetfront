@@ -48,7 +48,7 @@ export default function Register() {
     if (value) { 
       
       axios
-        .post("http://localhost:5000/auth/submit", { recaptchaToken: value }) 
+        .post("esprit-compass-backend.vercel.app/auth/submit", { recaptchaToken: value }) 
         .then((response) => {
           console.log(response.data); 
         })
@@ -74,7 +74,7 @@ export default function Register() {
       password,
     };
     axios
-      .post("http://localhost:5000/auth/register", userData)
+      .post("esprit-compass-backend.vercel.app/auth/register", userData)
       .then((response) => {
         console.log(response.data);
         setErrorMessage(
@@ -165,7 +165,7 @@ export default function Register() {
   const loginGithub = async (code) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/auth/github-cors-by-pass",
+        "esprit-compass-backend.vercel.app/auth/github-cors-by-pass",
         { code }
       );
       console.log(response.data);
@@ -200,7 +200,7 @@ export default function Register() {
     setSelectRoleError("");
     if(role) {
         // After the role has been sent, start the GitHub authentication process
-        window.location.href = `http://localhost:5000/auth/github?role=${role}`;
+        window.location.href = `esprit-compass-backend.vercel.app/auth/github?role=${role}`;
       }
      else {
       setSelectRoleError("Please select a role");
@@ -210,7 +210,7 @@ export default function Register() {
     setSelectRoleError("");
     if(role) {
         // After the role has been sent, start the Google authentication process
-        window.location.href = `http://localhost:5000/auth/google?role=${role}`;
+        window.location.href = `esprit-compass-backend.vercel.app/auth/google?role=${role}`;
       }
      else {
       setSelectRoleError("Please select a role");
