@@ -4,6 +4,9 @@ import axios from 'axios';
 import LoadingScreen from 'components/LoadingScreen';
 import noData from '../../assets/img/no-data.png';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
+
 const ApplicationsByOffer = () => {
   const { offerId } = useParams();
   const [applications, setApplications] = useState([]);
@@ -43,15 +46,22 @@ const ApplicationsByOffer = () => {
   };
 
   const handleInterviewDate = async (id, date, email) => {
-    console.log(email);
     try {
       const response = await axios.put(
         `http://localhost:5000/applications/setInterviewDate/${id}`,
         {
           interviewDate: date,
           userEmail: email,
+          id:id
         }
+        
       );
+      Swal.fire({
+        title: "Success!",
+        text: "Interview date has been set!",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
       if (response.status === 200) {
         // Update the application in the state
         setApplications(
@@ -210,7 +220,7 @@ const ApplicationsByOffer = () => {
                         {application.interviewDate ? (
                           <>
                             <button
-                              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 mr-2"
+                              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 mr-2 rounded-lg"
                               onClick={() =>
                                 handleInterviewDate(
                                   application._id,
@@ -221,8 +231,15 @@ const ApplicationsByOffer = () => {
                             >
                               Edit Video Interview Date
                             </button>
+                            <input
+                              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 mr-2 rounded-lg border-none"
+                              type="datetime-local"
+                              value={interviewDate}
+                              onChange={(e) => setInterviewDate(e.target.value)}
+                              inline
+                            />
                             <Link to="/interview-room">
-                              <button className="mt-3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 ease-in-out">
+                              <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 mr-2 rounded-lg border-none">
                                 Join Interview room now
                               </button>
                             </Link>
@@ -230,7 +247,7 @@ const ApplicationsByOffer = () => {
                         ) : (
                           <>
                             <button
-                              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 mr-2"
+                              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 mr-2 rounded-lg"
                               onClick={() =>
                                 handleInterviewDate(
                                   application._id,
@@ -242,6 +259,7 @@ const ApplicationsByOffer = () => {
                               Schedule Video Interview
                             </button>
                             <input
+                              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 mr-2 rounded-lg border-none"
                               type="datetime-local"
                               value={interviewDate}
                               onChange={(e) => setInterviewDate(e.target.value)}
