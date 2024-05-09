@@ -176,7 +176,7 @@ const AddOffer = () => {
       formData.append("file", file);
       try {
         const response = await axios.post(
-          "http://localhost:5000/offers/getByPDF",
+          "https://esprit-compass-backend.vercel.app/offers/getByPDF",
           formData
         );
      
